@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="转载from: https://blog.csdn.net/raojunyang/article/details/79962665 前言本文主要深入介绍深度学习中的梯度消失和梯度爆炸的问题以及解决方案。本文分为三部分，第一部分主要直观的介绍深度学习中为什么使用梯度更新，第二部分主要介绍深度学习中梯度消失及爆炸的原因，第三部分对提出梯度消失及爆炸的解决方案。有基础的同鞋可以跳着阅读。其中，梯度消失爆">
+<meta property="og:type" content="article">
+<meta property="og:title" content="梯度消失与梯度爆炸的原因以及解决方案">
+<meta property="og:url" content="http://yoursite.com/2019/03/22/梯度消失与梯度爆炸的原因以及解决方案/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="转载from: https://blog.csdn.net/raojunyang/article/details/79962665 前言本文主要深入介绍深度学习中的梯度消失和梯度爆炸的问题以及解决方案。本文分为三部分，第一部分主要直观的介绍深度学习中为什么使用梯度更新，第二部分主要介绍深度学习中梯度消失及爆炸的原因，第三部分对提出梯度消失及爆炸的解决方案。有基础的同鞋可以跳着阅读。其中，梯度消失爆">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1baz0q65tj30e809edj1.jpg">
+<meta property="og:image" content="https://img-blog.csdn.net/20171219215626301?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20171220110058983?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20171220110732927?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20171220113129230?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20171220113422675?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20171220114016270?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20171220115642365?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20171220115719332?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20170702211001517?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2FpY2FpYXRuYnU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20171220134603079?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20171220134614121?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://img-blog.csdn.net/20171220144105760?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Cfrac%7B%5Cpartial%20loss%7D%7B%5Cpartial%20%7B%7Bx%7D_%7Bl%7D%7D%7D=%5Cfrac%7B%5Cpartial%20loss%7D%7B%5Cpartial%20%7B%7Bx%7D_%7BL%7D%7D%7D%5Ccdot%20%5Cfrac%7B%5Cpartial%20%7B%7Bx%7D_%7BL%7D%7D%7D%7B%5Cpartial%20%7B%7Bx%7D_%7Bl%7D%7D%7D=%5Cfrac%7B%5Cpartial%20loss%7D%7B%5Cpartial%20%7B%7Bx%7D_%7BL%7D%7D%7D%5Ccdot%20%5Cleft%28%201%2B%5Cfrac%7B%5Cpartial%20%7D%7B%5Cpartial%20%7B%7Bx%7D_%7BL%7D%7D%7D%5Csum%5Climits_%7Bi=l%7D%5E%7BL-1%7D%7BF%28%7B%7Bx%7D_%7Bi%7D%7D,%7B%7BW%7D_%7Bi%7D%7D%29%7D%20%5Cright%29">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/42741-b9a16a53d58ca2b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700">
+<meta property="og:updated_time" content="2019-03-22T01:17:00.952Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="梯度消失与梯度爆炸的原因以及解决方案">
+<meta name="twitter:description" content="转载from: https://blog.csdn.net/raojunyang/article/details/79962665 前言本文主要深入介绍深度学习中的梯度消失和梯度爆炸的问题以及解决方案。本文分为三部分，第一部分主要直观的介绍深度学习中为什么使用梯度更新，第二部分主要介绍深度学习中梯度消失及爆炸的原因，第三部分对提出梯度消失及爆炸的解决方案。有基础的同鞋可以跳着阅读。其中，梯度消失爆">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1baz0q65tj30e809edj1.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/22/梯度消失与梯度爆炸的原因以及解决方案/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>梯度消失与梯度爆炸的原因以及解决方案 | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">27</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">21</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">79</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/22/梯度消失与梯度爆炸的原因以及解决方案/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">梯度消失与梯度爆炸的原因以及解决方案
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-22 09:16:20 / 修改时间：09:17:00" itemprop="dateCreated datePublished" datetime="2019-03-22T09:16:20+08:00">2019-03-22</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/22/梯度消失与梯度爆炸的原因以及解决方案/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/03/22/梯度消失与梯度爆炸的原因以及解决方案/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>转载from: <a href="https://blog.csdn.net/raojunyang/article/details/79962665" target="_blank" rel="noopener">https://blog.csdn.net/raojunyang/article/details/79962665</a></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文主要深入介绍深度学习中的梯度消失和梯度爆炸的问题以及解决方案。本文分为三部分，第一部分主要直观的介绍深度学习中为什么使用梯度更新，第二部分主要介绍深度学习中梯度消失及爆炸的原因，第三部分对提出梯度消失及爆炸的解决方案。有基础的同鞋可以跳着阅读。<br>其中，梯度消失爆炸的解决方案主要包括以下几个部分。</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">- </span>预训练加微调</span><br><span class="line"><span class="bullet">- </span>梯度剪切、权重正则（针对梯度爆炸）</span><br><span class="line"><span class="bullet">- </span>使用不同的激活函数</span><br><span class="line"><span class="bullet">- </span>使用batchnorm</span><br><span class="line"><span class="bullet">- </span>使用残差结构</span><br><span class="line"><span class="bullet">- </span>使用LSTM网络</span><br></pre></td></tr></table></figure>
+
+<h1 id="第一部分：为什么要使用梯度更新规则"><a href="#第一部分：为什么要使用梯度更新规则" class="headerlink" title="第一部分：为什么要使用梯度更新规则"></a>第一部分：为什么要使用梯度更新规则</h1><hr>
+<ul>
+<li><p>在介绍梯度消失以及爆炸之前，先简单说一说梯度消失的根源—–深度神经网络和反向传播。目前深度学习方法中，深度神经网络的发展造就了我们可以构建更深层的网络完成更复杂的任务，深层网络比如深度卷积网络，LSTM等等，而且最终结果表明，在处理复杂任务上，深度网络比浅层的网络具有更好的效果。但是，目前优化神经网络的方法都是基于反向传播的思想，即根据损失函数计算的误差通过梯度反向传播的方式，指导深度网络权值的更新优化。这样做是有一定原因的，首先，深层网络由许多非线性层堆叠而来，每一层非线性层都可以视为是一个非线性函数 (非线性来自于非线性激活函数），因此整个深度网络可以视为是一个复合的非线性多元函数 </p>
+</li>
+<li><p>我们最终的目的是希望这个多元函数可以很好的完成输入到输出之间的映射，那么，优化深度网络就是为了寻找到合适的权值，满足取得极小值点，比如最简单的损失函数 </p>
+</li>
+<li><p>假设损失函数的数据空间是下图这样的，我们最优的权值就是为了寻找下图中的最小值点，对于这种数学寻找最小值问题，采用梯度下降的方法再适合不过了。 </p>
+</li>
+</ul>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1baz0q65tj30e809edj1.jpg">
+
+
+
+<h1 id="第二部分：梯度消失、爆炸"><a href="#第二部分：梯度消失、爆炸" class="headerlink" title="第二部分：梯度消失、爆炸"></a>第二部分：梯度消失、爆炸</h1><p>梯度消失与梯度爆炸其实是一种情况，看接下来的文章就知道了。两种情况下梯度消失经常出现，一是在<strong>深层网络</strong>中，二是采用了<strong>不合适的损失函数</strong>，比如sigmoid。梯度爆炸一般出现在深层网络和<strong>权值初始化值太大</strong>的情况下，下面分别从这两个角度分析梯度消失和爆炸的原因。</p>
+<h3 id="1-深层网络角度"><a href="#1-深层网络角度" class="headerlink" title="1.深层网络角度"></a>1.深层网络角度</h3><p>比较简单的深层网络如下：<br><img src="https://img-blog.csdn.net/20171219215626301?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>图中是一个四层的全连接网络，假设每一层网络激活后的输出为,其中为第层, 代表第层的输入，也就是第层的输出，是激活函数，那么，得出，简单记为。<br>BP算法基于梯度下降策略，以目标的负梯度方向对参数进行调整，参数的更新为，给定学习率，得出。如果要更新第二隐藏层的权值信息，根据链式求导法则，更新梯度信息：<br>，很容易看出来，即第二隐藏层的输入。<br>所以说，就是对激活函数进行求导，如果此部分大于1，那么层数增多的时候，最终的求出的梯度更新将以指数形式增加，即发生<strong>梯度爆炸</strong>，如果此部分小于1，那么随着层数增多，求出的梯度更新信息将会以指数形式衰减，即发生了<strong>梯度消失</strong>。如果说从数学上看不够直观的话，下面几个图可以很直观的说明深层网络的梯度问题（图片内容来自参考文献1）：</p>
+<p>注：下图中的隐层标号和第一张全连接图隐层标号刚好相反。<br>图中的曲线表示权值更新的速度，对于下图两个隐层的网络来说，已经可以发现隐藏层2的权值更新速度要比隐藏层1更新的速度慢</p>
+<p><img src="https://img-blog.csdn.net/20171220110058983?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">那么对于四个隐层的网络来说，就更明显了，第四隐藏层比第一隐藏层的更新速度慢了两个数量级：</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdn.net/20171220110732927?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p><strong>总结：</strong>从深层网络角度来讲，不同的层学习的速度差异很大，表现为网络中靠近输出的层学习的情况很好，靠近输入的层学习的很慢，有时甚至训练了很久，前几层的权值和刚开始随机初始化的值差不多。因此，梯度消失、爆炸，其<strong>根本原因</strong>在于反向传播训练法则，属于<a href="https://www.baidu.com/s?wd=%E5%85%88%E5%A4%A9%E4%B8%8D%E8%B6%B3&tn=24004469_oem_dg&rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">先天不足</a>，另外多说一句，Hinton提出capsule的原因就是为了彻底抛弃反向传播，如果真能大范围普及，那真是一个革命。</p>
+<h3 id="2-激活函数角度"><a href="#2-激活函数角度" class="headerlink" title="2.激活函数角度"></a>2.激活函数角度</h3><p>其实也注意到了，上文中提到计算权值更新信息的时候需要计算前层偏导信息，因此如果激活函数选择不合适，比如使用sigmoid，梯度消失就会很明显了，原因看下图，左图是sigmoid的损失函数图，右边是其倒数的图像，如果使用sigmoid作为损失函数，其梯度是不可能超过0.25的，这样经过链式求导之后，很容易发生梯度消失，sigmoid函数数学表达式为：<br><img src="https://img-blog.csdn.net/20171220113129230?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="sigmoid函数"><img src="https://img-blog.csdn.net/20171220113422675?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="sigmoid函数导数"></p>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">同理，<span class="built-in">tanh</span>作为损失函数，它的导数图如下，可以看出，<span class="built-in">tanh</span>比<span class="built-in">sigmoid</span>要好一些，但是它的倒数仍然是小于<span class="number">1</span>的。<span class="built-in">tanh</span>数学表达为：</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://img-blog.csdn.net/20171220114016270?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h1 id="第三部分：梯度消失、爆炸的解决方案"><a href="#第三部分：梯度消失、爆炸的解决方案" class="headerlink" title="第三部分：梯度消失、爆炸的解决方案"></a>第三部分：梯度消失、爆炸的解决方案</h1><hr>
+<h3 id="2-1-方案1-预训练加微调"><a href="#2-1-方案1-预训练加微调" class="headerlink" title="2.1 方案1-预训练加微调"></a>2.1 方案1-预训练加微调</h3><p>此方法来自Hinton在2006年发表的一篇论文，Hinton为了解决梯度的问题，提出采取无监督逐层训练方法，其基本思想是每次训练一层隐节点，训练时将上一层隐节点的输出作为输入，而本层隐节点的输出作为下一层隐节点的输入，此过程就是逐层“预训练”（pre-training）；在预训练完成后，再对整个网络进行“微调”（fine-tunning）。Hinton在训练深度信念网络（Deep Belief Networks中，使用了这个方法，在各层预训练完成后，再利用BP算法对整个网络进行训练。此思想相当于是先寻找局部最优，然后整合起来寻找全局最优，此方法有一定的好处，但是目前应用的不是很多了。</p>
+<h3 id="2-2-方案2-梯度剪切、正则"><a href="#2-2-方案2-梯度剪切、正则" class="headerlink" title="2.2 方案2-梯度剪切、正则"></a>2.2 方案2-梯度剪切、正则</h3><p><strong>梯度剪切</strong>这个方案主要是针对梯度爆炸提出的，其思想是设置一个梯度剪切阈值，然后更新梯度的时候，如果梯度超过这个阈值，那么就将其强制限制在这个范围之内。这可以防止梯度爆炸。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注：在WGAN中也有梯度剪切限制操作，但是和这个是不一样的，WGAN限制梯度更新信息是为了保证lipchitz条件。</span><br></pre></td></tr></table></figure>
+
+<p>另外一种解决梯度爆炸的手段是采用<strong>权重正则化</strong>（weithts regularization）比较常见的是正则，和正则，在各个深度框架中都有相应的API可以使用正则化，比如在中，若搭建网络的时候已经设置了正则化参数，则调用以下代码可以直接计算出正则损失：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">regularization_loss = tf.add_n(tf<span class="selector-class">.losses</span><span class="selector-class">.get_regularization_losses</span>(scope=<span class="string">'my_resnet_50'</span>))</span><br></pre></td></tr></table></figure>
+
+<p>如果没有设置初始化参数，也可以使用以下代码计算正则损失：</p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">l2_loss = tf.add_n([tf<span class="selector-class">.nn</span><span class="selector-class">.l2_loss</span>(var) <span class="keyword">for</span> <span class="selector-tag">var</span> <span class="keyword">in</span> tf.trainable_variables() <span class="keyword">if</span> <span class="string">'weights'</span> <span class="keyword">in</span> <span class="selector-tag">var</span>.name])</span><br></pre></td></tr></table></figure>
+
+<p>正则化是通过对网络权重做正则限制过拟合，仔细看正则项在损失函数的形式： </p>
+<p>其中，是指正则项系数，因此，如果发生梯度爆炸，权值的范数就会变的非常大，通过正则化项，可以部分限制梯度爆炸的发生。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注：事实上，在深度神经网络中，往往是梯度消失出现的更多一些。</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-方案3-relu、leakrelu、elu等激活函数"><a href="#2-3-方案3-relu、leakrelu、elu等激活函数" class="headerlink" title="2.3 方案3-relu、leakrelu、elu等激活函数"></a>2.3 方案3-relu、leakrelu、elu等激活函数</h3><p><strong>Relu:</strong>思想也很简单，如果激活函数的导数为1，那么就不存在梯度消失爆炸的问题了，每层的网络都可以得到相同的更新速度，relu就这样应运而生。先看一下relu的数学表达式：</p>
+<p><img src="https://img-blog.csdn.net/20171220115642365?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>其函数图像：</p>
+<p><img src="https://img-blog.csdn.net/20171220115719332?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>从上图中，我们可以很容易看出，relu函数的导数在正数部分是恒等于1的，因此在深层网络中使用relu激活函数就不会导致梯度消失和爆炸的问题。</p>
+<p><strong>relu</strong>的主要贡献在于：</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 解决了梯度消失、爆炸的问题</span></span><br><span class="line"><span class="comment">-- 计算方便，计算速度快</span></span><br><span class="line"><span class="comment">-- 加速了网络的训练</span></span><br></pre></td></tr></table></figure>
+
+<p>同时也存在一些<strong>缺点</strong>：</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 由于负数部分恒为0，会导致一些神经元无法激活（可通过设置小学习率部分解决）</span></span><br><span class="line"> <span class="comment">-- 输出不是以0为中心的</span></span><br></pre></td></tr></table></figure>
+
+<p>尽管relu也有缺点，但是仍然是目前使用最多的激活函数</p>
+<p><strong>leakrelu</strong><br>leakrelu就是为了解决relu的0区间带来的影响，其数学表达为：其中k是leak系数，一般选择0.01或者0.02，或者通过学习而来</p>
+<p><img src="https://img-blog.csdn.net/20170702211001517?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2FpY2FpYXRuYnU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>leakrelu解决了0区间带来的影响，而且包含了relu的所有优点<br><strong>elu</strong><br>elu激活函数也是为了解决relu的0区间带来的影响，其数学表达为：<img src="https://img-blog.csdn.net/20171220134603079?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>其函数及其导数数学形式为：</p>
+<p><img src="https://img-blog.csdn.net/20171220134614121?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>但是elu相对于leakrelu来说，计算要更耗时间一些</p>
+<h3 id="2-4-解决方案4-batchnorm"><a href="#2-4-解决方案4-batchnorm" class="headerlink" title="2.4 解决方案4-batchnorm"></a>2.4 解决方案4-batchnorm</h3><p><strong>Batchnorm</strong>是深度学习发展以来提出的最重要的成果之一了，目前已经被广泛的应用到了各大网络中，具有加速网络收敛速度，提升训练稳定性的效果，Batchnorm本质上是解决反向传播过程中的梯度问题。batchnorm全名是batch normalization，简称BN，即批规范化，通过规范化操作将输出信号x规范化到均值为0，方差为1保证网络的稳定性。<br>具体的batchnorm原理非常复杂，在这里不做详细展开，此部分大概讲一下batchnorm解决梯度的问题上。具体来说就是反向传播中，经过每一层的梯度会乘以该层的权重，举个简单例子：<br>正向传播中，那么反向传播中，，反向传播式子中有的存在，所以的大小影响了梯度的消失和爆炸，batchnorm就是通过对每一层的输出规范为均值和方差一致的方法，消除了带来的放大缩小的影响，进而解决梯度消失和爆炸的问题。<br>有关batch norm详细的内容可以参考我的另一篇博客：<br><a href="http://blog.csdn.net/qq_25737169/article/details/79048516" target="_blank" rel="noopener">http://blog.csdn.net/qq_25737169/article/details/79048516</a></p>
+<h3 id="2-5-解决方案5-残差结构"><a href="#2-5-解决方案5-残差结构" class="headerlink" title="2.5 解决方案5-残差结构"></a>2.5 解决方案5-残差结构</h3><p><strong>残差结构</strong>说起残差的话，不得不提这篇论文了：Deep Residual Learning for Image Recognition，关于这篇论文的解读，可以参考知乎链接：<a href="https://zhuanlan.zhihu.com/p/31852747" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/31852747</a>这里只简单介绍残差如何解决梯度的问题。<br>事实上，就是残差网络的出现导致了image net比赛的终结，自从残差提出后，几乎所有的深度网络都离不开残差的身影，相比较之前的几层，几十层的深度网络，在残差网络面前都不值一提，残差可以很轻松的构建几百层，一千多层的网络而不用担心梯度消失过快的问题，原因就在于残差的捷径（shortcut）部分，其中残差单元如下图所示：<br><img src="https://img-blog.csdn.net/20171220144105760?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjU3MzcxNjk=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>相比较于以前网络的直来直去结构，残差中有很多这样的跨层连接结构，这样的结构在反向传播中具有很大的好处，见下式：<br><img src="https://www.zhihu.com/equation?tex=%5Cfrac%7B%5Cpartial%20loss%7D%7B%5Cpartial%20%7B%7Bx%7D_%7Bl%7D%7D%7D=%5Cfrac%7B%5Cpartial%20loss%7D%7B%5Cpartial%20%7B%7Bx%7D_%7BL%7D%7D%7D%5Ccdot%20%5Cfrac%7B%5Cpartial%20%7B%7Bx%7D_%7BL%7D%7D%7D%7B%5Cpartial%20%7B%7Bx%7D_%7Bl%7D%7D%7D=%5Cfrac%7B%5Cpartial%20loss%7D%7B%5Cpartial%20%7B%7Bx%7D_%7BL%7D%7D%7D%5Ccdot%20%5Cleft%28%201%2B%5Cfrac%7B%5Cpartial%20%7D%7B%5Cpartial%20%7B%7Bx%7D_%7BL%7D%7D%7D%5Csum%5Climits_%7Bi=l%7D%5E%7BL-1%7D%7BF%28%7B%7Bx%7D_%7Bi%7D%7D,%7B%7BW%7D_%7Bi%7D%7D%29%7D%20%5Cright%29" alt="这里写图片描述"><br>式子的第一个因子  表示的损失函数到达 L 的梯度，小括号中的1表明短路机制可以无损地传播梯度，而另外一项残差梯度则需要经过带有weights的层，梯度不是直接传递过来的。残差梯度不会那么巧全为-1，而且就算其比较小，有1的存在也不会导致梯度消失。所以残差学习会更容易。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注：上面的推导并不是严格的证明。</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-6-解决方案6-LSTM"><a href="#2-6-解决方案6-LSTM" class="headerlink" title="2.6 解决方案6-LSTM"></a>2.6 解决方案6-LSTM</h3><p><strong>LSTM</strong>全称是长短期记忆网络（long-short term memory networks），是不那么容易发生梯度消失的，主要原因在于LSTM内部复杂的“门”(gates)，如下图，LSTM通过它内部的“门”可以接下来更新的时候“记住”前几次训练的”残留记忆“，因此，经常用于生成文本中。目前也有基于CNN的LSTM，感兴趣的可以尝试一下。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/42741-b9a16a53d58ca2b9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt="这里写图片描述"></p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料:"></a>参考资料:</h2><p>1.《Neural networks and deep learning》<br>2.<a href="https://www.baidu.com/s?wd=%E3%80%8A%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E3%80%8B&tn=24004469_oem_dg&rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">《机器学习》</a>周志华 </p>
+<ol start="3">
+<li><p><a href="https://www.cnblogs.com/willnote/p/6912798.html&gt;" target="_blank" rel="noopener">https://www.cnblogs.com/willnote/p/6912798.html&gt;</a> </p>
+</li>
+<li><p><a href="https://www.zhihu.com/question/38102762" target="_blank" rel="noopener">https://www.zhihu.com/question/38102762</a> </p>
+<ol start="5">
+<li><a href="http://www.jianshu.com/p/9dc9f41f0b29" target="_blank" rel="noopener">http://www.jianshu.com/p/9dc9f41f0b29</a></li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/20/python-list-vs-tuple/" rel="next" title="python: list vs tuple">
+                <i class="fa fa-chevron-left"></i> python: list vs tuple
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/22/从bagging到dropout/" rel="prev" title="从bagging到dropout">
+                从bagging到dropout <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">79</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#第一部分：为什么要使用梯度更新规则"><span class="nav-number"></span> <span class="nav-text">第一部分：为什么要使用梯度更新规则</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第二部分：梯度消失、爆炸"><span class="nav-number"></span> <span class="nav-text">第二部分：梯度消失、爆炸</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-深层网络角度"><span class="nav-number">0.1.</span> <span class="nav-text">1.深层网络角度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-激活函数角度"><span class="nav-number">0.2.</span> <span class="nav-text">2.激活函数角度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#第三部分：梯度消失、爆炸的解决方案"><span class="nav-number"></span> <span class="nav-text">第三部分：梯度消失、爆炸的解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-方案1-预训练加微调"><span class="nav-number">0.1.</span> <span class="nav-text">2.1 方案1-预训练加微调</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-方案2-梯度剪切、正则"><span class="nav-number">0.2.</span> <span class="nav-text">2.2 方案2-梯度剪切、正则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-方案3-relu、leakrelu、elu等激活函数"><span class="nav-number">0.3.</span> <span class="nav-text">2.3 方案3-relu、leakrelu、elu等激活函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-解决方案4-batchnorm"><span class="nav-number">0.4.</span> <span class="nav-text">2.4 解决方案4-batchnorm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-解决方案5-残差结构"><span class="nav-number">0.5.</span> <span class="nav-text">2.5 解决方案5-残差结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-解决方案6-LSTM"><span class="nav-number">0.6.</span> <span class="nav-text">2.6 解决方案6-LSTM</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">1.</span> <span class="nav-text">参考资料:</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+    
+    <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+    <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+  
+<!-- END LOCAL -->
+
+  
+
+  
+    <script>
+    function renderGitment(){
+      var gitment = new Gitmint({
+        id: window.location.pathname,
+        owner: 'ShiYaya',
+        repo: 'comments',
+        
+        lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+        
+        oauth: {
+        
+        
+          client_secret: 'a099a7f19f7bcf33594408bd633813e69b200c3e',
+        
+          client_id: '894eb7d8fd0429ed57dc'
+        }});
+      gitment.render('gitment-container');
+    }
+
+    
+      renderGitment();
+    
+    </script>
+  
+
+
+
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>

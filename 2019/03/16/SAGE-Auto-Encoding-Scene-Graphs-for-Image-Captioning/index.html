@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文是CVPR2019 的关于图像描述的文章，主要让我关注的原因是用到了scene graph 和 GCN，这也是本文最大的创新点。但是本文利用的是saptial GCN（悄悄说，构建的graph节点数量少，而且是异质的，不如说是多方面融合信息已达到丰富信息的目的 :-) ）  后记这里讲一下图卷积中spatial  gcn①②③ 与 spectral gcn ④⑤⑥①Learning task-">
+<meta name="keywords" content="图像描述,图卷积网络">
+<meta property="og:type" content="article">
+<meta property="og:title" content="(SAGE)Auto-Encoding Scene Graphs for Image Captioning">
+<meta property="og:url" content="http://yoursite.com/2019/03/16/SAGE-Auto-Encoding-Scene-Graphs-for-Image-Captioning/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="本文是CVPR2019 的关于图像描述的文章，主要让我关注的原因是用到了scene graph 和 GCN，这也是本文最大的创新点。但是本文利用的是saptial GCN（悄悄说，构建的graph节点数量少，而且是异质的，不如说是多方面融合信息已达到丰富信息的目的 :-) ）  后记这里讲一下图卷积中spatial  gcn①②③ 与 spectral gcn ④⑤⑥①Learning task-">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14r211sidj30kb0fy0v3.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14rdh7wg7j33ak1ep7wj.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14u74yahwj30q30modsg.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14vip74y0j311l09eq4y.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14w80gi8tj30w70ik0xu.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1dwj56im1j30iq0nmk00.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1gbldqsamj30q50kntkm.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14w6j9aouj31670aqdiw.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14xg3jwvdj30mo0h2wfi.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g19d1x7kiij30im0bvaat.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14v8kb8kmj30sr0gzwgz.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14wrwfzplj30ze0hcjwe.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14yn2vbtej30k40jzac6.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14y1f5p02j31370e1jw1.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14y594pa8j30og0ksdi2.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14yf14p1mj30sp0k0ten.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14yhc6gpzj314l0gktax.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14yrlt89sj310c07e40b.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1507wpmlij30zf0h8dku.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14zjng66yj30oc0f0djs.jpg">
+<meta property="og:updated_time" content="2019-04-08T02:12:32.203Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="(SAGE)Auto-Encoding Scene Graphs for Image Captioning">
+<meta name="twitter:description" content="本文是CVPR2019 的关于图像描述的文章，主要让我关注的原因是用到了scene graph 和 GCN，这也是本文最大的创新点。但是本文利用的是saptial GCN（悄悄说，构建的graph节点数量少，而且是异质的，不如说是多方面融合信息已达到丰富信息的目的 :-) ）  后记这里讲一下图卷积中spatial  gcn①②③ 与 spectral gcn ④⑤⑥①Learning task-">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14r211sidj30kb0fy0v3.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/16/SAGE-Auto-Encoding-Scene-Graphs-for-Image-Captioning/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>(SAGE)Auto-Encoding Scene Graphs for Image Captioning | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">27</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">21</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">79</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/16/SAGE-Auto-Encoding-Scene-Graphs-for-Image-Captioning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">(SAGE)Auto-Encoding Scene Graphs for Image Captioning
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-16 16:44:59" itemprop="dateCreated datePublished" datetime="2019-03-16T16:44:59+08:00">2019-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-08 10:12:32" itemprop="dateModified" datetime="2019-04-08T10:12:32+08:00">2019-04-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/图像描述/" itemprop="url" rel="index"><span itemprop="name">图像描述</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/16/SAGE-Auto-Encoding-Scene-Graphs-for-Image-Captioning/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/03/16/SAGE-Auto-Encoding-Scene-Graphs-for-Image-Captioning/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文是CVPR2019 的关于图像描述的文章，主要让我关注的原因是用到了scene graph 和 GCN，这也是本文最大的创新点。但是本文利用的是saptial GCN（悄悄说，构建的graph节点数量少，而且是异质的，不如说是多方面融合信息已达到丰富信息的目的 :-) ）</p>
+<ul>
+<li>后记<br>这里讲一下图卷积中spatial  gcn①②③ 与 spectral gcn ④⑤⑥<br>①Learning task-dependent distributed representations by backpropagation through structure.<br>②A new model for  learning in graph domains<br>③The graph neural network model<br>④Spectral networks and locally connected networks on graphs.<br>⑤Deep convolutional networks on graph-structured data.<br>⑥Semi-supervised classification with graph convolutional networks</li>
+</ul>
+<p>关于这篇论文采用的graph  convolutional network：采用的数</p>
+<ul>
+<li>为什么这样说？<br>本文提到了两类graph，一类是sentence scene graph，另一类是image scene graph，而在这两类下，又进行细分为relationship、attribute、object graph。但是，每个graph 中节点是异质的，比如在relationship graph中，obejct<sub>a</sub>， obejct<sub>b</sub>，relationship<sub>ab</sub>构成了一个graph，目的是来更新relationship embedding。从我的角度来看，只是融合相关信息来更新某一目标的特征，与graph无关。  </li>
+<li>写在最前面，我个人的理解，在得到graph 节点的embedding 之后，就要输入gcn layer 来更新特征，这里，gcn layer 的表达公式可以这样理解： 该graph中所有的节点v<sub>i</sub>，经过concatenate之后，再经过一个全连接层。<br>gcn(.) = fc( concatenate(v1, v2, … , vn) )**</li>
+</ul>
+<p>下面说正文：</p>
+<h1 id="General-encoder-decoder-network-for-image-captioning"><a href="#General-encoder-decoder-network-for-image-captioning" class="headerlink" title="General encoder-decoder network for image captioning"></a>General encoder-decoder network for image captioning</h1><ul>
+<li><p>目前一般的encoder-decoder network for image captioning 是<strong>CNN提取image的特征，然后RNN来生成句子</strong>，例如下图所示。</p>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14r211sidj30kb0fy0v3.jpg" style="zoom:80%">
+</li>
+<li><p>进一步有<strong>加入attention</strong> [1]，下图是提取14×14×512 feature map of the fourth  convolutional layer，然后 flatten to 196 × 512 before feed into decoder。在输入到decoder时对这196个feature vector进行attention的加权求和。</p>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14rdh7wg7j33ak1ep7wj.jpg" style="zoom:50%">
+</li>
+<li><p>也有<strong>提取images 中的object，以此来提取显著信息，对object feature 进行attention的加权求和并送入decoder</strong>。具体地，使用RPN 的ROI pooling来提取objects feature，然后对LSTM的每一个step ,对这所有的object features进行attention操作，再作为输入送入LSTM[2]。如下图</p>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14u74yahwj30q30modsg.jpg" style="zoom:70%">
+
+</li>
+</ul>
+<h1 id="本文的encoder-decoder-baseline"><a href="#本文的encoder-decoder-baseline" class="headerlink" title="本文的encoder-decoder baseline"></a>本文的encoder-decoder baseline</h1><h2 id="1-Encoder"><a href="#1-Encoder" class="headerlink" title="1. Encoder"></a><strong>1.</strong> <strong>Encoder</strong></h2><p>本文有两个encoder ： image-encoder；sentence-encoder<br>本文sentence-encoder  是用来预训练Dictionary，并共享给 image-encoder。但是在baseline中不用GCN/MGCN 和 Dictionary，因此image-encoder与sentence-encoder 之间是没有交集的。（我猜测 baseline中没有用到sentence-encoder）</p>
+<p><strong>（1）对于image encoder 得到object embedding，relationship embedding , attribute embedding。</strong></p>
+<p>如何得到object embedding，relationship embedding , attribute embedding？</p>
+<ul>
+<li>object detector : 采用与[1]一致的方式来训练faster r-cnn， 0.7的阈值 for proposal NMS， 0.3的阈值for object NMS。Faster R-CNN在visual genome上预训练，预训练之后，对proposals采取0.7的IoU阈值进行NMS，对objects 采取0.3的IoU阈值进行NMS，对每个image，采取10-100个object。使用RoI pooling 来提取object features，该object features 将作为后边relationship classifier 和attribute classifier的输入。</li>
+<li>relationship classifier：使用在[5] 中提到的LSTM结构来作为关系分类器，来为两个object 分配一个relationship label。</li>
+<li>attribute classifier : 为某个object 分配属性标签，将该object feature输入fc-relu-fc-softmax网络，则得到属性标签。</li>
+</ul>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14vip74y0j311l09eq4y.jpg" style="zoom:60%">      
+
+<ul>
+<li><p>以上三个输出的所有构成一个image scene graph  </p>
+</li>
+<li><p>需要说明以上三个是在<strong>Visual Genome数据集</strong>上预训练的，该数据集具有丰富的scene graph 标注，含有obejct’s categories，obejct’s attributes and pairwise relationships，因此可以用来训练目标检测器、属性分类器、关系分类器。但是由于这些标注含有很多噪声，因此采用一定的措施进行过滤：对于在数据集中出现超过2000次的objects，attributes，relationships保留下来，其余的去掉。经过这样的处理，则得到305个objects类，103个属性类，64个关系类  </p>
+</li>
+<li><p>经过分类器得到 label 之后，还需要得到相对应的embedding: <strong>u<sub>o</sub> , u<sub>r</sub> , u<sub>a</sub></strong> 。<br>其中 label 的维度472 = 305 + 103 + 64，即object/realation/attribute label的one hot vector 维度是三种节点的总类别数。</p>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14w80gi8tj30w70ik0xu.jpg" style="zoom:70%">  
+
+</li>
+</ul>
+<p><strong>（2）对于sentence encoder 使用[6] 来得到 parse scene graph，进而得到object embedding，relationship embedding , attribute embedding</strong><br>注意这里的sentences使用的是<strong>MS COCO</strong>中的caption，而不是Visual Genome中的caption。同样对其进行过滤，过滤掉在all parsed scene graph中出现的objects、attributes、relationships次数少于10的，则剩下5364个objects类，1308个realtionships类，3430个attributes类。<br>sentence encoder 使用[6] 来得到 parse scene graph，但实际上，[6]又是使用[7]中的方法，所以读者最好看[7]<br>这里介绍 一下[6] SPICE 是用来评价image caption的一个性能指标，这里为什么使用它，它是用来做为一个评价指标的吗？首先回答第二个问题，不是用来作为评价指标的，而是利用了它的原理：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1dwj56im1j30iq0nmk00.jpg"></p>
+<p>parse scene graph 的过程：sentence-&gt; syntax dependency tree-&gt; scene graph<br>给定一个句子，首先分析句法依赖树，再根据给定句法依赖树的情况下，输出scene graph，而scene graph 的输出是对sentence中的每一个次元，输出其是object，还是 relation，还是attribute（即，对每个word 输出一个one hot vector （我的猜测））。如下图所示：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1gbldqsamj30q50kntkm.jpg"></p>
+<p>经过parse scene graph得到的是object <strong>label</strong>、relationship <strong>label</strong>、attributes <strong>label</strong>的one hot vector（注意one hot 的长度是 5346+1308+3430 = 10102，即 将三种node合在了一起）。得到label之后，再经过word embedding层即可得到对应的word embedding: <strong>e<sub>o</sub> , e<sub>r</sub> , e<sub>a</sub></strong>。<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14w6j9aouj31670aqdiw.jpg" style="zoom:50%"></p>
+<h2 id="2-Decoder"><a href="#2-Decoder" class="headerlink" title="2.  Decoder"></a><strong>2.</strong>  <strong>Decoder</strong></h2><p>由两层LSTM组成（该部分与论文[1][4] 的decoder部分是完全一致的，只是输入的encoder output不一样而已），下图给出了我自己画的decoder 结构[1]给出的结构[4]中给出的decoder结构</p>
+<ul>
+<li>在[4]中encoder output是GCN输出的object features（两个graph生成的encoder output分别送入decoder）。</li>
+<li>但是在本文中encoder output是 <strong>u<sub>o</sub> , u<sub>r</sub> , u<sub>a</sub></strong> 组合成的d×M 矩阵，或者是 <strong>e<sub>o</sub> , e<sub>r</sub> , e<sub>a</sub></strong> 组合成的d×M 矩阵 。M = num_objects + num_relationships + num_attributes  注意：在sentence-encoder中的输出，这里的M是该句子的parse scene graph实际生成的object、relation、attribute的数量（有可能baseline 中不使用 sentence-encoder）；在image-encoder中的输出，这里也是实际的object detector、relationship classifier、attribute classifier 输出的实际数量总和</li>
+</ul>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14xg3jwvdj30mo0h2wfi.jpg" style="zoom:60%">
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g19d1x7kiij30im0bvaat.jpg" style="zoom:60%">
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14v8kb8kmj30sr0gzwgz.jpg" style="zoom:60%">
+具体地，这里也给出本文的表达方式如下表:
+这里的10369是对MS COCO中的captions 进行预处理之后，得到的 len of vocabulary
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14wrwfzplj30ze0hcjwe.jpg" style="zoom:60%">
+
+<h1 id="在baseline-上加东西"><a href="#在baseline-上加东西" class="headerlink" title="在baseline 上加东西"></a>在baseline 上加东西</h1><ul>
+<li>一般的encoder-decoder如下图中的top所示，本文提出加入MGCN for image和GCN for sentence，同时加入Dictionary（共享参数 betwen sentence and image）<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14yn2vbtej30k40jzac6.jpg" style="zoom:50%">
+由以上可知，构建了image scene graph 和 sentence scene graph，下面将本文的主要创新点，加入GCN和Dictionary  
+
+</li>
+</ul>
+<h2 id="sentence-graph-gt-GCN-更新embedding"><a href="#sentence-graph-gt-GCN-更新embedding" class="headerlink" title="sentence graph -&gt; GCN (更新embedding )"></a>sentence graph -&gt; GCN (更新embedding )</h2><p>经上面的分析构建的sentence scene graph 在得到了object、relation、attribute label 对应的word embedding之后，将通过GCN来更新embedding。</p>
+<ul>
+<li>表中的（7）（8）（9）可以认为是三个relationship、attribute、object graph。<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14y1f5p02j31370e1jw1.jpg" style="zoom:60%"></li>
+<li>解释这里的<strong>g<sub>r</sub> g<sub>a</sub> g<sub>o</sub> g<sub>s</sub></strong><br>以<strong>g<sub>r</sub></strong> 为例：g<sub>r</sub> (D<sub>in</sub>，D<sub>out</sub>）。输入维度为什么是3000？因为e<sub>oi</sub> , e<sub>rij</sub> , e<sub>oj</sub>的维度分别均是1000，论文中省略了将其concatenate的操作的说明，但是实际上是进行了concatenate操作，使得维度变为3000，并作为g<sub>r</sub>的输入。输出是1000维度。</li>
+<li><strong>因此这里图卷积层，可以认为是 该graph中所有的节点v<sub>i</sub>，经过concatenate之后，再经过一个全连接层。<br>g(.) = fc( concatenate(v1, v2, … , vn) )</strong><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14y594pa8j30og0ksdi2.jpg" style="zoom:50%">  
+
+</li>
+</ul>
+<h2 id="image-graph-gt-Multi-modal-GCN-更新embedding"><a href="#image-graph-gt-Multi-modal-GCN-更新embedding" class="headerlink" title="image graph -&gt; Multi-modal GCN (更新embedding )"></a>image graph -&gt; Multi-modal GCN (更新embedding )</h2><p>与sentence graph 对应的GCN类似，这里的 multimodal 也没什么意思，就是特征融合时（9）（10）（11），既使用了label 对应的word embedding，又使用了feature。<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14yf14p1mj30sp0k0ten.jpg">  </p>
+<ul>
+<li>解释这里的<strong>f<sub>r</sub> f<sub>a</sub> f<sub>o</sub> f<sub>s</sub></strong><br>与sentence scene graph 对应的g一致，首先对输入进行了concatenate操作<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14yhc6gpzj314l0gktax.jpg">
+
+</li>
+</ul>
+<h2 id="Dictionary"><a href="#Dictionary" class="headerlink" title="Dictionary"></a>Dictionary</h2><ul>
+<li><strong>该部分的作用</strong>是一个memory network。首先Dictionary在<strong>S-&gt;G-&gt;D-&gt;S</strong>上预训练，之后才被用于<strong>I-&gt;G-&gt;D-&gt;S</strong>  。即是参数共享的。而在<strong>S-&gt;G-&gt;D-&gt;S</strong>中，输入的sentence是由human generated。因此Dictionary中就preserve human’s inductive bias。进而与<strong>I-&gt;G-&gt;D-&gt;S</strong>  共享，使得由image 生成的predict caption也含有 human’s inductive bias</li>
+<li>由上文分析可知，经过GCN/MGCN更新的embedding的维度均是1000，则Dictionary的输入维度均是1000，D是可学习参数矩阵1000*10000，输入的x经过Dictionary得到 x^<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14yrlt89sj310c07e40b.jpg">  
+
+</li>
+</ul>
+<h2 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h2><p>经过encoder 结合GCN/MGCN之后，输出发生了改变，这里再讲一下decoder的输入。</p>
+<ul>
+<li>在<strong>S-&gt;G-&gt;D-&gt;S</strong> 这个序列过程中由D-&gt;S 即输入decoder LSTM的过程，输入的是D的输出。</li>
+<li>而在<strong>I-&gt;G-&gt;D-&gt;S</strong> 这个序列过程中，输入decoder LSTM的过程，输入的是D的输出v’和G的输出v^，即concate[v’, v^]<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1507wpmlij30zf0h8dku.jpg">
+
+</li>
+</ul>
+<h1 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h1><ul>
+<li>首先使用交叉熵损失函数训练 <strong>S-&gt;G-&gt;S</strong>  20 epoch。注意D不参与训练</li>
+<li>使用交叉熵损失函数训练 <strong>S-&gt;G-&gt;D-&gt;S</strong>  20 epoch。这里的D参与训练</li>
+<li>使用交叉熵损失函数训练 <strong>I-&gt;G-&gt;D-&gt;S</strong>  20 epoch。这里的D使用在上一步骤中预训练的参数，并fine-tune</li>
+<li>使用RL-based reward 训练 <strong>I-&gt;G-&gt;D-&gt;S</strong>  40 epoch。 D参与训练  </li>
+</ul>
+<h1 id="推理过程"><a href="#推理过程" class="headerlink" title="推理过程"></a>推理过程</h1><ul>
+<li>文章中没有写，但是我认为是<strong>I-&gt;G-&gt;D-&gt;S</strong>  </li>
+</ul>
+<h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><ul>
+<li>由下表可知，实验结果并不突出，尤其是与GCN-LSTM[7]对比可知，GCN-LSTM的结构更加简单的情况下，两个模型的结果却相差不多。</li>
+<li>可以看到表中有三个GCN-LSTM， 最上边那个是本文作者的复现，由于GCN-LSTM的作者batch_size 太大，本文作者觉得对比不公平，因此重新复现了代码（没公开代码）并减小了bs进行实验得到的结果。第二个GCN-LSTM（sem graph）是原作者论文中的实验数据。第三个GCN-LSTM是融合了semantic graph 和saptial graph。</li>
+<li>对于SGAE的融合应该是输入decoder的不仅是<strong>I-&gt;G-&gt;D-&gt;S</strong> 中D的输出v’，而且也输入G的输出 v^，即concate[v’,  v^]<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14zjng66yj30oc0f0djs.jpg">   
+
+</li>
+</ul>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>[1] Bottom-up and top-down attention for image captioning and visual question answering<br>[2] Show, Attend and Tell: Neural Image Caption  Generation with Visual Attention<br>[3] Image Captioning with Object Detection and Localization<br>[4] Exploring Visual Relationship  for Image Captioning<br><strong>[5] Neural motifs: Scene graph parsing with global context</strong><br><strong>[6] Spice:  Semantic propositional image caption evaluation</strong><br><strong>[7] Generating Semantically Precise Scene Graphs from Textual Descriptions for Improved Image Retrieval</strong></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/图像描述/" rel="tag"># 图像描述</a>
+          
+            <a href="/tags/图卷积网络/" rel="tag"># 图卷积网络</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/15/Video-as-Space-Time-Region-Graphs/" rel="next" title="Video as Space-Time Region Graphs">
+                <i class="fa fa-chevron-left"></i> Video as Space-Time Region Graphs
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/19/python基础知识-try与except处理异常语句/" rel="prev" title="python基础知识-try与except处理异常语句">
+                python基础知识-try与except处理异常语句 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">79</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#General-encoder-decoder-network-for-image-captioning"><span class="nav-number">1.</span> <span class="nav-text">General encoder-decoder network for image captioning</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#本文的encoder-decoder-baseline"><span class="nav-number">2.</span> <span class="nav-text">本文的encoder-decoder baseline</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Encoder"><span class="nav-number">2.1.</span> <span class="nav-text">1. Encoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Decoder"><span class="nav-number">2.2.</span> <span class="nav-text">2.  Decoder</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在baseline-上加东西"><span class="nav-number">3.</span> <span class="nav-text">在baseline 上加东西</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#sentence-graph-gt-GCN-更新embedding"><span class="nav-number">3.1.</span> <span class="nav-text">sentence graph -&gt; GCN (更新embedding )</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#image-graph-gt-Multi-modal-GCN-更新embedding"><span class="nav-number">3.2.</span> <span class="nav-text">image graph -&gt; Multi-modal GCN (更新embedding )</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dictionary"><span class="nav-number">3.3.</span> <span class="nav-text">Dictionary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Decoder"><span class="nav-number">3.4.</span> <span class="nav-text">Decoder</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#训练过程"><span class="nav-number">4.</span> <span class="nav-text">训练过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#推理过程"><span class="nav-number">5.</span> <span class="nav-text">推理过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实验结果"><span class="nav-number">6.</span> <span class="nav-text">实验结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">7.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+    
+    <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+    <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+  
+<!-- END LOCAL -->
+
+  
+
+  
+    <script>
+    function renderGitment(){
+      var gitment = new Gitmint({
+        id: window.location.pathname,
+        owner: 'ShiYaya',
+        repo: 'comments',
+        
+        lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+        
+        oauth: {
+        
+        
+          client_secret: 'a099a7f19f7bcf33594408bd633813e69b200c3e',
+        
+          client_id: '894eb7d8fd0429ed57dc'
+        }});
+      gitment.render('gitment-container');
+    }
+
+    
+      renderGitment();
+    
+    </script>
+  
+
+
+
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>

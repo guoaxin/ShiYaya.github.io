@@ -23,9 +23,65 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2019/07/11/hello-world/</loc>
+    <loc>http://yoursite.com/2019/06/16/numpy-%E5%87%BD%E6%95%B0/</loc>
     
-    <lastmod>2019-07-11T08:28:40.629Z</lastmod>
+    <lastmod>2019-06-16T11:51:39.372Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/06/16/self-attention/</loc>
+    
+    <lastmod>2019-06-16T01:03:33.212Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/05/22/%E4%BC%98%E5%85%88%E7%BA%A7%E9%98%9F%E5%88%97%E5%BC%8F%E5%88%86%E6%94%AF%E9%99%90%E7%95%8C%E6%B3%95-%E6%9C%80%E5%B0%8F%E9%87%8D%E9%87%8F%E6%9C%BA%E5%99%A8%E8%AE%BE%E8%AE%A1%E9%97%AE%E9%A2%98-python%E5%AE%9E%E7%8E%B0/</loc>
+    
+    <lastmod>2019-05-22T03:23:20.359Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/05/10/Grounded-Video-Description/</loc>
+    
+    <lastmod>2019-05-12T09:50:06.760Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/05/10/Spatio-Temporal-Dynamics-and-Semantic-Attribute-Enriched-Visual-Encoding-for-Video-Captioning-1/</loc>
+    
+    <lastmod>2019-05-10T13:04:56.081Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/18/pytorch0-4-0%E5%AD%A6%E4%B9%A0/</loc>
+    
+    <lastmod>2019-05-09T13:11:32.801Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/04/%E5%8F%B2%E9%9B%85%E9%9B%85%E7%9A%84%E6%94%B6%E8%97%8F%E5%A4%B9/</loc>
+    
+    <lastmod>2019-05-09T11:29:45.219Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/05/08/python-dict/</loc>
+    
+    <lastmod>2019-05-08T12:32:17.774Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/05/06/Show-Attend-and-Tell-Neural-Image-Caption-Generation-with-Visual-Attention/</loc>
+    
+    <lastmod>2019-05-06T02:35:54.998Z</lastmod>
     
   </url>
   
@@ -33,6 +89,489 @@
     <loc>http://yoursite.com/2019/04/20/An-End-to-End-Baseline-for-Video-Captioning/</loc>
     
     <lastmod>2019-04-21T13:13:59.872Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/21/%E6%B1%A0%E5%8C%96%E5%B1%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/</loc>
+    
+    <lastmod>2019-04-21T09:24:58.693Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/18/%E7%AE%97%E6%B3%95/</loc>
+    
+    <lastmod>2019-04-18T13:51:41.536Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/18/python-%E5%85%B3%E4%BA%8Elist%E7%9A%84%E6%93%8D%E4%BD%9C/</loc>
+    
+    <lastmod>2019-04-18T01:07:39.499Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/18/%E6%8E%92%E5%BA%8F-sort/</loc>
+    
+    <lastmod>2019-04-18T00:54:20.016Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/18/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92-dynamic-programming/</loc>
+    
+    <lastmod>2019-04-18T00:52:56.479Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/18/%E5%8F%8C%E6%8C%87%E9%92%88-two-pointers/</loc>
+    
+    <lastmod>2019-04-18T00:51:42.684Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/10/python-%E5%87%BD%E6%95%B0/</loc>
+    
+    <lastmod>2019-04-10T08:41:54.579Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/09/numpy%E5%B9%BF%E6%92%AD/</loc>
+    
+    <lastmod>2019-04-09T15:02:30.873Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/09/%E5%B0%91%E6%A0%B7%E6%9C%AC%E5%AD%A6%E4%B9%A0-few-shot-learning/</loc>
+    
+    <lastmod>2019-04-09T14:40:45.257Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/09/%E6%8C%87%E6%95%B0%E5%8A%A0%E6%9D%83%E5%B9%B3%E5%9D%87/</loc>
+    
+    <lastmod>2019-04-09T13:24:03.142Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/07/11/Batch-Normalization-BN%E5%B1%82/</loc>
+    
+    <lastmod>2019-04-09T12:34:29.036Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/09/%E6%A8%A1%E5%9E%8B%E5%89%AA%E6%9E%9D-Model-Pruning/</loc>
+    
+    <lastmod>2019-04-09T11:39:25.674Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/09/I3D/</loc>
+    
+    <lastmod>2019-04-09T11:25:14.301Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/25/SPICE/</loc>
+    
+    <lastmod>2019-04-09T11:25:12.133Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/09/C3D/</loc>
+    
+    <lastmod>2019-04-09T11:24:29.132Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/09/%E8%A7%86%E9%A2%91%E5%88%86%E7%B1%BB%E6%80%BB%E7%BB%93/</loc>
+    
+    <lastmod>2019-04-09T11:24:16.671Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/09/%E8%A7%86%E9%A2%91%E8%A7%A3%E7%A0%81/</loc>
+    
+    <lastmod>2019-04-09T04:07:23.503Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/09/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F/</loc>
+    
+    <lastmod>2019-04-09T04:06:52.569Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/08/python%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF/</loc>
+    
+    <lastmod>2019-04-09T01:58:45.623Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/08/%E8%B0%B1%E8%81%9A%E7%B1%BB/</loc>
+    
+    <lastmod>2019-04-08T11:15:23.414Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/08/SCST-Self-critical-Sequence-Training-for-Image-Captioning/</loc>
+    
+    <lastmod>2019-04-08T11:12:05.715Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/08/Spectral-Networks-and-Deep-Locally-Connected-Networks-on-Graphs/</loc>
+    
+    <lastmod>2019-04-08T11:09:47.023Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/16/SAGE-Auto-Encoding-Scene-Graphs-for-Image-Captioning/</loc>
+    
+    <lastmod>2019-04-08T02:12:32.203Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/07/Bottom-Up-and-Top-Down-Attention-for-Image-Captioning-and-Visual-Question-Answering/</loc>
+    
+    <lastmod>2019-04-07T14:40:37.548Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/07/self-training-in-pytorch/</loc>
+    
+    <lastmod>2019-04-07T01:57:27.553Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/06/tensorboard-logger/</loc>
+    
+    <lastmod>2019-04-07T01:33:59.553Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/20/CV-vs-PIL/</loc>
+    
+    <lastmod>2019-04-05T12:22:31.240Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/20/Unexpected-key-s-in-state-dict-%E2%80%9C-module-features-conv1-0-weight%E2%80%9D/</loc>
+    
+    <lastmod>2019-04-05T12:21:43.795Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/03/LSTM-TSA-Video-Captioning-with-Transferred-Semantic-Attributes/</loc>
+    
+    <lastmod>2019-04-05T12:20:56.729Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/05/range-xrange-np-arange-np-linspace/</loc>
+    
+    <lastmod>2019-04-05T04:13:39.372Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/05/glob-glob-vs-os-listdir/</loc>
+    
+    <lastmod>2019-04-05T03:23:29.212Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/04/python-list-sort%E6%96%B9%E6%B3%95/</loc>
+    
+    <lastmod>2019-04-04T15:11:56.734Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/03/torch-backends-cudnn-benchmark-true-%E4%BD%BF%E7%94%A8%E6%83%85%E5%BD%A2/</loc>
+    
+    <lastmod>2019-04-03T14:49:56.271Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/03/pytorch-%E5%87%8F%E5%B0%8F%E6%98%BE%E5%AD%98%E6%B6%88%E8%80%97%EF%BC%8C%E4%BC%98%E5%8C%96%E6%98%BE%E5%AD%98%E4%BD%BF%E7%94%A8%EF%BC%8C%E9%81%BF%E5%85%8Dout-of-memory/</loc>
+    
+    <lastmod>2019-04-03T09:47:32.591Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/02/%E5%88%B7%E9%A2%98%E7%BB%8F%E9%AA%8C/</loc>
+    
+    <lastmod>2019-04-02T01:02:21.593Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/07/11/Graph-R-CNN-for-Scene-Graph-Generation/</loc>
+    
+    <lastmod>2019-03-27T11:46:49.550Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/26/java/</loc>
+    
+    <lastmod>2019-03-26T12:46:29.670Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/26/ubuntu-%E5%AE%89%E8%A3%85-Stanford-CoreNLP/</loc>
+    
+    <lastmod>2019-03-26T12:45:39.189Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/26/Stanford-Scene-Graph-Parser/</loc>
+    
+    <lastmod>2019-03-26T12:40:36.616Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/</loc>
+    
+    <lastmod>2019-03-26T09:46:55.557Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/22/%E4%BB%8Ebagging%E5%88%B0dropout/</loc>
+    
+    <lastmod>2019-03-25T01:55:55.617Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/24/faster-r-cnn-%E8%A7%A3%E8%AF%BB/</loc>
+    
+    <lastmod>2019-03-24T14:07:38.327Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/24/Image-Caption-%E5%B8%B8%E7%94%A8%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/</loc>
+    
+    <lastmod>2019-03-24T07:08:32.379Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/23/optical-flow-%E5%85%89%E6%B5%81/</loc>
+    
+    <lastmod>2019-03-23T01:41:10.221Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/20/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E7%82%B9/</loc>
+    
+    <lastmod>2019-03-22T01:26:07.069Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/22/%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E4%B8%8E%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8%E7%9A%84%E5%8E%9F%E5%9B%A0%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/</loc>
+    
+    <lastmod>2019-03-22T01:17:00.952Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/20/python-list-vs-tuple/</loc>
+    
+    <lastmod>2019-03-21T14:01:50.576Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/13/linux-%E7%89%A9%E7%90%86CPU%E5%92%8C%E9%80%BB%E8%BE%91CPU/</loc>
+    
+    <lastmod>2019-03-20T13:13:31.393Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/02/21/GitHub-Hexo-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/</loc>
+    
+    <lastmod>2019-03-20T12:21:33.947Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/12/python-%E9%9D%A2%E8%AF%95/</loc>
+    
+    <lastmod>2019-03-20T12:05:14.545Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/19/python%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86-try%E4%B8%8Eexcept%E5%A4%84%E7%90%86%E5%BC%82%E5%B8%B8%E8%AF%AD%E5%8F%A5/</loc>
+    
+    <lastmod>2019-03-20T12:04:15.617Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/20/%E9%9D%9E%E6%9E%81%E5%A4%A7%E5%80%BC%E6%8A%91%E5%88%B6-NMS/</loc>
+    
+    <lastmod>2019-03-20T09:26:39.899Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/15/Video-as-Space-Time-Region-Graphs/</loc>
+    
+    <lastmod>2019-03-15T12:20:41.113Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/12/python%E5%9F%BA%E7%A1%80%EF%BC%9A-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-python-%E4%B8%AD%E7%9A%84%E8%B5%8B%E5%80%BC%E3%80%81%E5%BC%95%E7%94%A8%E3%80%81%E6%8B%B7%E8%B4%9D%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F/</loc>
+    
+    <lastmod>2019-03-13T03:48:16.121Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/13/linux-%E6%9F%A5%E7%9C%8Bcpu%E7%8A%B6%E6%80%81/</loc>
+    
+    <lastmod>2019-03-13T03:07:13.315Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/13/NumPy-%E5%89%AF%E6%9C%AC%E5%92%8C%E8%A7%86%E5%9B%BE/</loc>
+    
+    <lastmod>2019-03-13T02:26:12.538Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/02/23/Video-captioning-summary/</loc>
+    
+    <lastmod>2019-03-09T04:07:58.160Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/02/pytorch-Multi-Gpus/</loc>
+    
+    <lastmod>2019-03-03T07:26:25.978Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/02/22/video-caption-dataset/</loc>
+    
+    <lastmod>2019-03-02T14:20:33.894Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/02/coco-detection/</loc>
+    
+    <lastmod>2019-03-02T02:29:34.051Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/01/Spatio-Temporal-Dynamics-and-Semantic-Attribute-Enriched-Visual-Encoding-for-Video-Captioning/</loc>
+    
+    <lastmod>2019-03-01T12:07:46.567Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/02/28/nltk-tokenize/</loc>
+    
+    <lastmod>2019-02-28T14:53:15.292Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/02/27/Maxout-Networks/</loc>
+    
+    <lastmod>2019-02-27T15:01:46.374Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/02/23/h-RNN-Video-Paragraph-Captioning-Using-Hierarchical-Recurrent-Neural-Networks/</loc>
+    
+    <lastmod>2019-02-27T14:23:29.784Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/02/25/Python-%E7%90%86%E8%A7%A3-yield-%E5%85%B3%E9%94%AE%E5%AD%97/</loc>
+    
+    <lastmod>2019-02-25T03:50:43.851Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/02/22/LSTM-E-Jointly-Modeling-Embedding-and-Translation-to-Bridge-Video-and-Language/</loc>
+    
+    <lastmod>2019-02-24T11:35:11.691Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/02/22/Hierarchical-Boundary-Aware-Neural-Encoder-for-Video-Captioning/</loc>
+    
+    <lastmod>2019-02-23T08:04:20.002Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/02/22/Markdown%E7%94%A8%E6%B3%95/</loc>
+    
+    <lastmod>2019-02-22T02:35:23.569Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/07/11/hello-world/</loc>
+    
+    <lastmod>2019-02-20T08:11:45.333Z</lastmod>
     
   </url>
   

@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="讲一下正则化，L1和L2正则化各自的特点和适用场景。答：L1用来获得稀疏化特征；L2用来防止过拟合。L1让一部分特征的系数缩小到0，从而间接实现特征选择，用于特征间有关联的场合；L2让所有的特征系数都减小，但不会减为0，会使优化求解稳定快速。  防止过拟合的方法：（1）早停，使用验证集，当验证集的损失下降，但是训练集的损失仍在上升时，则停止训练（2）加入正则化项，L1、L2  分类问题有哪些评价">
+<meta name="keywords" content="深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度学习知识点">
+<meta property="og:url" content="http://yoursite.com/2019/03/20/深度学习知识点/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="讲一下正则化，L1和L2正则化各自的特点和适用场景。答：L1用来获得稀疏化特征；L2用来防止过拟合。L1让一部分特征的系数缩小到0，从而间接实现特征选择，用于特征间有关联的场合；L2让所有的特征系数都减小，但不会减为0，会使优化求解稳定快速。  防止过拟合的方法：（1）早停，使用验证集，当验证集的损失下降，但是训练集的损失仍在上升时，则停止训练（2）加入正则化项，L1、L2  分类问题有哪些评价">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1asfgshjuj307c01d3yb.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1asfv7ikpj306d019t8i.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1asg2ggqgj30ab01eglg.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1asgb0qo9j304701dwe9.jpg">
+<meta property="og:updated_time" content="2019-03-22T01:26:07.069Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度学习知识点">
+<meta name="twitter:description" content="讲一下正则化，L1和L2正则化各自的特点和适用场景。答：L1用来获得稀疏化特征；L2用来防止过拟合。L1让一部分特征的系数缩小到0，从而间接实现特征选择，用于特征间有关联的场合；L2让所有的特征系数都减小，但不会减为0，会使优化求解稳定快速。  防止过拟合的方法：（1）早停，使用验证集，当验证集的损失下降，但是训练集的损失仍在上升时，则停止训练（2）加入正则化项，L1、L2  分类问题有哪些评价">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1asfgshjuj307c01d3yb.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/20/深度学习知识点/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>深度学习知识点 | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">27</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">21</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">79</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/20/深度学习知识点/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深度学习知识点
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-03-20 21:04:57" itemprop="dateCreated datePublished" datetime="2019-03-20T21:04:57+08:00">2019-03-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-03-22 09:26:07" itemprop="dateModified" datetime="2019-03-22T09:26:07+08:00">2019-03-22</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/深度学习/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2019/03/20/深度学习知识点/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/03/20/深度学习知识点/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li><p>讲一下正则化，L1和L2正则化各自的特点和适用场景。<br>答：L1用来获得稀疏化特征；L2用来防止过拟合。L1让一部分特征的系数缩小到0，从而间接实现特征选择，用于特征间有关联的场合；L2让所有的特征系数都减小，但不会减为0，会使优化求解稳定快速。</p>
+</li>
+<li><p>防止过拟合的方法：<br>（1）早停，使用验证集，当验证集的损失下降，但是训练集的损失仍在上升时，则停止训练<br>（2）加入正则化项，L1、L2</p>
+</li>
+<li><p>分类问题有哪些评价指标？每种的适用场景<br>Precision  精确率，在所有预测为正样本的样本(TP+FP)中预测正确(TP)的比例，也就是：</p>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1asfgshjuj307c01d3yb.jpg">
+适用于：检索出的信息有多少是用户感兴趣的
+Recall  召回率，在所有正样本(TP+FN)中，预测正确(TP)的比例，也就是：
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1asfv7ikpj306d019t8i.jpg">  
+适用于：用户感兴趣的信息有多少被检索出来了
+Accuracy  准确率，正确分类的样本占所有样本的比例，不适于数据极度不平衡的场景如广告点击率一般在千分之几。
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1asg2ggqgj30ab01eglg.jpg">
+适用于多分类问题
+F1-measure  F1分数，是综合考虑Precision和Recall得到的一个指标，一般在需要PR都要保证的场景使用，针对一个值的优化更加直观容易衡量
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1asgb0qo9j304701dwe9.jpg">
+</li>
+<li><p>逻辑回归可以处理非线性问题吗<br>只用原始特征不能；对特征做非线性变换，比如kernel，当然可以。 但那就不是lr了 或者一个神经网络 最后一层看成是lr 前面看成是提特征<br>lr的应用场景主要是特征很多的情况下 比如特征是上亿维的一些场景</p>
+</li>
+<li><p>讲一下pooling的作用， 为什么max pooling要更常用？哪些情况下，average pooling比max pooling更合适？<br>（1）保证特征的位置与旋转不变性。对于图像处理这种特性是很好的，但是对于NLP来说特征出现的位置是很重要的。比如主语一般出现在句子头等等<br>maxpooling提供了一定position的invariance，当图像某些区域像素变化时，maxpooling得到的output并不会变<br>（2）减少模型参数数量，减少过拟合问题。2D或1D的数组转化为单一数值，对于后续的convolution层或者全连接隐层来说，减少了单个Filter参数或隐层神经元个数<br>（3）可以把变长的输入x整理成固定长度的输入。CNN往往最后连接全连接层，神经元个数需要固定好，但是cnn输入x长度不确定，通过pooling操作，每个filter固定取一个值。有多少个Filter，Pooling就有多少个神经元，这样就可以把全连接层神经元固定住<br>（4）yaya: pooling 一般是对缩小image size，从而可以减小后续步骤中的参数量<br>max-pooling还提供了非线性, 这是max-pooling效果更好的一个重要原因.</p>
+</li>
+</ul>
+<p><strong>average pooling比max pooling更合适：</strong>有的时候在模型接近分类器的末端使用全局平均池化还可以代替Flatten操作，使输入数据变成一位向量。</p>
+<ul>
+<li><p>1x1的卷积核有什么作用？<br>1*1的卷积核在NIN、Googlenet中被广泛使用，作用：<br>（1）实现跨通道的交互和信息整合<br>（2）进行卷积核通道数的降维和升维<br>（3）对于单通道feature map 用单核卷积即为乘以一个参数，而一般情况都是多核卷积多通道，实现多个feature map的线性组合</p>
+</li>
+<li><p>梯度消失和梯度爆炸的原因是什么？ 有哪些解决方法？<br>转载：<a href="https://blog.csdn.net/raojunyang/article/details/79962665（解释的很清楚）" target="_blank" rel="noopener">https://blog.csdn.net/raojunyang/article/details/79962665（解释的很清楚）</a><br>梯度消失更容易发生，当网络较深或者使用了不合适的激活函数时，会发生梯度消失；当为深层网络且权值初始化值太大时，容易发生梯度爆炸<br>yaya: 由于深层网络，在底层的网络权重的更新，需要高层网络权重的连乘，因此，当高层网络权重较小时，使得发生梯度消失，相反，当权重较大时，则发生梯度爆炸。<br>那么什么时候高层网络权重小—当使用sigmoid/tanh这样的激活函数时，因为sigmoid的导数最大为1/2；什么时候高层网络权重大–当初始化的权重较大时<br>如何解决梯度消失与爆炸：（1）使用正确的非线性激活函数（2）对于梯度爆炸问题使用梯度剪切（3）使用batch normalization（4）使用残差结构</p>
+</li>
+<li><p>CNN和RNN的梯度消失是一样的吗？  </p>
+</li>
+<li><p>有哪些防止过拟合的方法？<br>早停；添加正则化项：L1、L2；使用dropout</p>
+</li>
+<li><p>讲一下激活函数sigmoid，tanh，relu. Leaky ReLU各自的优点和适用场景？<br>sigmoid，tanh 有梯度消失的问题<br>relu 部分解决梯度消失问题（x&gt;0）<br>leaky relu </p>
+</li>
+<li><p>relu的负半轴导数都是0，这部分产生的梯度消失怎么办？  </p>
+</li>
+<li><p>batch size对收敛速度的影响。  </p>
+</li>
+<li><p>讲一下batch normalization<br>对输入的数据进行mini batch 的归一化</p>
+</li>
+<li><p>讲一下你怎么理解dropout，分别从bagging和正则化的角度<br><a href="https://blog.csdn.net/m0_37477175/article/details/77145459" target="_blank" rel="noopener">https://blog.csdn.net/m0_37477175/article/details/77145459</a><br>bagging 都是使用集成学习的思想，但是</p>
+</li>
+<li><p>data augmentation有哪些技巧？  </p>
+</li>
+<li><p>讲一下你了解的优化方法，sgd, momentum, rmsprop, adam的区别和联系  </p>
+</li>
+<li><p>如果训练的神经网络不收敛，可能有哪些原因？<br>可以参见此博文，具体来说，可以简述为以下几点：<br>（1）<strong>没有对数据进行归一化</strong>，即对数据减均值，并除以方差。而大部分神经网络的输入输出都是在0附近的分布。因此无法收敛。<br>（2）<strong>学习率不正确</strong><br>（3）<strong>在输出层使用错误的激活函数</strong>：在最后一层使用激活函数时，无法产生所需全部范围的值。假使你使用Relu这类限制范围的函数，神经网络便只会训练得到正值<br>（4）<strong>没有正确初始化权重</strong></p>
+</li>
+</ul>
+<p>（1）代码题（leetcode类型），主要考察数据结构和基础算法，以及代码基本功<br>虽然这部分跟机器学习，深度学习关系不大，但也是面试的重中之重。基本每家公司的面试都问了大量的算法题和代码题，即使是商汤、face++这样的深度学习公司，考察这部分的时间也占到了我很多轮面试的60%甚至70%以上。我去face++面试的时候，面试官是residual net，shuffle net的作者；但他们的面试中，写代码题依旧是主要的部分。<br>大部分题目都不难，基本是leetcode medium的难度。但是要求在现场白板编程，思路要流畅，能做到一次性Bug-free. 并且，一般都是要给出时间复杂度和空间复杂度最优的做法。对于少数难度很大的题，也不要慌张。一般也不会一点思路也没有，尽力给面试官展现自己的思考过程。面试官也会引导你，给一点小提示，沿着提示把题目慢慢做出来也是可以通过面试的。<br>以下是我所遇到的一些需要当场写出完整代码的题目：<br>&lt;1&gt; 二分查找。分别实现C++中的lower_bound和upper_bound.<br>&lt;2&gt; 排序。 手写快速排序，归并排序，堆排序都被问到过。<br>&lt;3&gt; 给你一个数组，求这个数组的最大子段积<br>时间复杂度可以到O(n)<br>&lt;4&gt; 给你一个数组，在这个数组中找出不重合的两段，让这两段的字段和的差的绝对值最小。<br>时间复杂度可以到O(n)<br>&lt;5&gt; 给你一个数组，求一个k值，使得前k个数的方差 + 后面n-k个数的方差最小<br>时间复杂度可以到O(n)<br>&lt;6&gt; 给你一个只由0和1组成的字符串，找一个最长的子串，要求这个子串里面0和1的数目相等。<br>时间复杂度可以到O(n)<br>&lt;7&gt; 给你一个数组以及一个数K， 从这个数组里面选择三个数，使得三个数的和小于等于K， 问有多少种选择的方法？<br>时间复杂度可以到O(n^2)<br>&lt;8&gt; 给你一个只由0和1组成的矩阵，找出一个最大的子矩阵，要求这个子矩阵是方阵，并且这个子矩阵的所有元素为1<br>时间复杂度可以到O(n^2)<br>&lt;9&gt; 求一个字符串的最长回文子串<br>时间复杂度可以到O(n) (Manacher算法)<br>&lt;10&gt; 在一个数轴上移动，初始在0点，现在要到给定的某一个x点， 每一步有三种选择，坐标加1，坐标减1，坐标乘以2，请问最少需要多少步从0点到x点。<br>&lt;11&gt; 给你一个集合，输出这个集合的所有子集。<br>&lt;12&gt; 给你一个长度为n的数组，以及一个k值（k &lt; n) 求出这个数组中每k个相邻元素里面的最大值。其实也就是一个一维的max pooling<br>时间复杂度可以到O(n)<br>&lt;13&gt; 写一个程序，在单位球面上随机取点，也就是说保证随机取到的点是均匀的。<br>&lt;14&gt; 给你一个长度为n的字符串s，以及m个短串（每个短串的长度小于10）， 每个字符串都是基因序列，也就是说只含有A,T,C,G这四个字母。在字符串中找出所有可以和任何一个短串模糊匹配的子串。模糊匹配的定义，两个字符串长度相等，并且至多有两个字符不一样，那么我们就可以说这两个字符串是模糊匹配的。<br>&lt;15&gt; 其它一些描述很复杂的题这里就不列了。</p>
+<p>（2）数学题或者”智力”题。<br>不会涉及特别高深的数学知识，一般就是工科数学（微积分，概率论，线性代数）和一些组合数学的问题。<br>下面是我在面试中被问到过的问题：<br>&lt;1&gt; 如果一个女生说她集齐了十二个星座的前男友，她前男友数量的期望是多少？<br>ps：这道题在知乎上有广泛的讨论，作为知乎重度用户我也看到过。如果一个女生说，她集齐了十二个星座的前男友，我们应该如何估计她前男友的数量？<br>&lt;2&gt; 两个人玩游戏。有n堆石头，每堆分别有a1, a2, a3…. an个石头，每次一个游戏者可以从任意一堆石头里拿走至少一个石头，也可以整堆拿走，但不能从多堆石头里面拿。无法拿石头的游戏者输，请问这个游戏是否有先手必胜或者后手必胜的策略？ 如果有，请说出这个策略，并证明这个策略能保证必胜。<br>&lt;3&gt; 一个一维数轴，起始点在原点。每次向左或者向右走一步，概率都是0.5. 请问回到原点的步数期望是多少？<br>&lt;4&gt; 一条长度为1的线段，随机剪两刀，求有一根大于0.5的概率。<br>&lt;5&gt; 讲一下你理解的矩阵的秩。低秩矩阵有什么特点？ 在图像处理领域，这些特点有什么应用？<br>&lt;6&gt; 讲一下你理解的特征值和特征向量。<br>&lt;7&gt; 为什么负梯度方向是使函数值下降最快的方向？简单数学推导一下</p>
+<p>（3）机器学习基础<br>这部分建议参考周志华老师的《机器学习》。<br>下面是我在面试中被问到过的问题：<br>&lt;1&gt; 逻辑回归和线性回归对比有什么优点？<br>&lt;2&gt; 逻辑回归可以处理非线性问题吗？<br>&lt;3&gt; 分类问题有哪些评价指标？每种的适用场景。<br>&lt;4&gt; 讲一下正则化，L1和L2正则化各自的特点和适用场景。<br>&lt;5&gt; 讲一下常用的损失函数以及各自的适用场景。<br>&lt;6&gt; 讲一下决策树和随机森林<br>&lt;7&gt; 讲一下GBDT的细节，写出GBDT的目标函数。 GBDT和Adaboost的区别与联系<br>&lt;8&gt; 手推softmax loss公式<br>&lt;9&gt; 讲一下SVM, SVM与LR有什么联系。<br>&lt;10&gt;讲一下PCA的步骤。PCA和SVD的区别和联系<br>&lt;11&gt; 讲一下ensemble<br>&lt;12&gt; 偏差和方差的区别。ensemble的方法中哪些是降低偏差，哪些是降低方差？<br>…… 这部分问得太琐碎了，我能记起来的问题就这么多了。我的感觉，这部分问题大多数不是问得很深，所以不至于被问得哑口无言，总有得扯；但是要想给出一个特别深刻的回答，还是需要对机器学习的基础算法了解比较透彻。</p>
+<p>（4）深度学习基础<br>这部分的准备，我推荐花书（Bengio的Deep learning）和 @魏秀参 学长的《解析卷积神经网络-深度学习实践手册》<br>下面是我在面试中被问到过的问题：<br>&lt;1&gt; 手推BP<br>&lt;2&gt; 手推RNN和LSTM结构<br>&lt;3&gt; LSTM中每个gate的作用是什么，为什么跟RNN比起来，LSTM可以防止梯度消失<br>&lt;4&gt; 讲一下pooling的作用， 为什么max pooling要更常用？哪些情况下，average pooling比max pooling更合适？<br>&lt;5&gt; 梯度消失和梯度爆炸的原因是什么？ 有哪些解决方法？<br>&lt;6&gt; CNN和RNN的梯度消失是一样的吗？<br>&lt;6&gt; 有哪些防止过拟合的方法？<br>&lt;7&gt; 讲一下激活函数sigmoid，tanh，relu. 各自的优点和适用场景？<br>&lt;8&gt; relu的负半轴导数都是0，这部分产生的梯度消失怎么办？<br>&lt;9&gt; batch size对收敛速度的影响。<br>&lt;10&gt; 讲一下batch normalization<br>&lt;11&gt; CNN做卷积运算的复杂度。如果一个CNN网络的输入channel数目和卷积核数目都减半，总的计算量变为原来的多少？<br>&lt;12&gt; 讲一下AlexNet的具体结构，每层的作用<br>&lt;13&gt; 讲一下你怎么理解dropout，分别从bagging和正则化的角度<br>&lt;14&gt; data augmentation有哪些技巧？<br>&lt;15&gt; 讲一下你了解的优化方法，sgd, momentum, rmsprop, adam的区别和联系<br>&lt;16&gt; 如果训练的神经网络不收敛，可能有哪些原因？<br>&lt;17&gt; 说一下你理解的卷积核， 1x1的卷积核有什么作用？<br>……..<br>同上，这部分的很多问题也是每个人都或多或少能回答一点，但要答得很好还是需要功底的。</p>
+<p>（5）科研上的开放性问题<br>这部分的问题没有固定答案，也没法很好地针对性准备。功在平时，多读paper多思考，注意培养自己的insight和intuition<br>下面是我在面试中被问到过的问题：<br>&lt;1&gt; 选一个计算机视觉、深度学习、机器学习的子领域，讲一下这个领域的发展脉络，重点讲出各种新方法提出时的motivation，以及谈谈这个领域以后会怎么发展。<br>&lt;2&gt; 讲一下你最近看的印象比较深的paper<br>&lt;3&gt; 讲一下经典的几种网络结构， AlexNet， VGG，GoogleNet， Residual Net等等，它们各自最重要的contribution<br>&lt;4&gt; 你看过最近很火的XXX paper吗? 你对这个有什么看法？<br>……<br>（6） 编程语言、操作系统等方面的一些问题。<br>C++， Python， 操作系统，Linux命令等等。这部分问得比较少，但还是有的，不具体列了<br>（7）针对简历里项目/论文 / 实习的一些问题。<br>这部分因人而异，我个人的对大家也没参考价值，也不列了。</p>
+<p>作者：wendy_要努力努力再努力<br>链接：<a href="https://www.jianshu.com/p/d40fc51874c8" target="_blank" rel="noopener">https://www.jianshu.com/p/d40fc51874c8</a><br>来源：简书<br>简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/20/Unexpected-key-s-in-state-dict-“-module-features-conv1-0-weight”/" rel="next" title="Unexpected key(s) in state_dict: “**module**.features.conv1.0.weight”">
+                <i class="fa fa-chevron-left"></i> Unexpected key(s) in state_dict: “**module**.features.conv1.0.weight”
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/20/python-list-vs-tuple/" rel="prev" title="python: list vs tuple">
+                python: list vs tuple <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">79</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+    
+    <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+    <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+  
+<!-- END LOCAL -->
+
+  
+
+  
+    <script>
+    function renderGitment(){
+      var gitment = new Gitmint({
+        id: window.location.pathname,
+        owner: 'ShiYaya',
+        repo: 'comments',
+        
+        lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+        
+        oauth: {
+        
+        
+          client_secret: 'a099a7f19f7bcf33594408bd633813e69b200c3e',
+        
+          client_id: '894eb7d8fd0429ed57dc'
+        }});
+      gitment.render('gitment-container');
+    }
+
+    
+      renderGitment();
+    
+    </script>
+  
+
+
+
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
