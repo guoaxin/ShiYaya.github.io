@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/03/23/Batch-Normalization-BN%E5%B1%82/</loc>
+    
+    <lastmod>2019-07-16T03:29:46.206Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/24/Graph-R-CNN-for-Scene-Graph-Generation/</loc>
+    
+    <lastmod>2019-07-16T03:29:26.896Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/06/16/self-attention/</loc>
     
     <lastmod>2019-07-16T03:27:01.686Z</lastmod>
@@ -184,13 +198,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2019/07/11/Batch-Normalization-BN%E5%B1%82/</loc>
-    
-    <lastmod>2019-04-09T12:34:29.036Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2019/04/09/%E6%A8%A1%E5%9E%8B%E5%89%AA%E6%9E%9D-Model-Pruning/</loc>
     
     <lastmod>2019-04-09T11:39:25.674Z</lastmod>
@@ -355,13 +362,6 @@
     <loc>http://yoursite.com/2019/04/02/%E5%88%B7%E9%A2%98%E7%BB%8F%E9%AA%8C/</loc>
     
     <lastmod>2019-04-02T01:02:21.593Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/07/11/Graph-R-CNN-for-Scene-Graph-Generation/</loc>
-    
-    <lastmod>2019-03-27T11:46:49.550Z</lastmod>
     
   </url>
   
