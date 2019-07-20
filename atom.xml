@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-07-16T03:26:09.934Z</updated>
+  <updated>2019-07-20T06:53:16.138Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,62 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mmdetection的安装</title>
+    <link href="http://yoursite.com/2019/07/20/mmdetection%E7%9A%84%E5%AE%89%E8%A3%85/"/>
+    <id>http://yoursite.com/2019/07/20/mmdetection的安装/</id>
+    <published>2019-07-20T06:33:47.000Z</published>
+    <updated>2019-07-20T06:53:16.138Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><p>选择镜像（cuda9.0）：py36-pytorch0.4.0-cu90-ctc </p></li><li><p>进入容器，安装anaconda</p></li><li><p>按着<a href="https://github.com/open-mmlab/mmdetection/blob/master/INSTALL.md" target="_blank" rel="noopener">Github install</a>的步骤进行安装</p></li><li><p>Create a conda virtual environment and activate it. Then install Cython.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">conda create -n open-mmlab python=<span class="number">3.7</span> -y</span><br><span class="line">conda activate open-mmlab</span><br><span class="line"></span><br><span class="line">conda install cython</span><br></pre></td></tr></table></figure></li><li><p>安装<a href="https://github.com/open-mmlab/mmcv" target="_blank" rel="noopener">mmcv</a> </p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mmcv</span><br></pre></td></tr></table></figure></li><li><p>安装pytorch<br>最好是离线下载，然后再安装，因为conda install 或者 pip install 可能连接不上（细节：pip install torch  就会出现下载链接，然后自己复制链接去网页下载即可）</p></li><li><p>安装opencv</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="keyword">install</span> -c menpo opencv</span><br></pre></td></tr></table></figure></li><li><p>Clone the mmdetection repository.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/open-mmlab/mmdetection.git</span><br><span class="line">cd mmdetection</span><br></pre></td></tr></table></figure></li><li><p>Install mmdetection</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py develop</span><br></pre></td></tr></table></figure></li><li></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;p&gt;选择镜像（cuda9.0）：py36-pytorch0.4.0-cu90-ctc &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;进入容器，安装anaconda&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;按着&lt;a href=&quot;https://github.com/open-m
+      
+    
+    </summary>
+    
+      <category term="目标检测" scheme="http://yoursite.com/categories/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/"/>
+    
+    
+      <category term="目标检测" scheme="http://yoursite.com/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>torch.no_grad</title>
+    <link href="http://yoursite.com/2019/07/17/torch-no-grad/"/>
+    <id>http://yoursite.com/2019/07/17/torch-no-grad/</id>
+    <published>2019-07-17T04:14:09.000Z</published>
+    <updated>2019-07-17T04:16:17.197Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><a href="https://discuss.pytorch.org/t/model-eval-vs-with-torch-no-grad/19615/21" target="_blank" rel="noopener">https://discuss.pytorch.org/t/model-eval-vs-with-torch-no-grad/19615/21</a></li><li>with torch.no_grad()</li><li>可以减少内存，加快运行速度，同时可以使得batch_size 增大</li><li>但不是说非得必要</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://discuss.pytorch.org/t/model-eval-vs-with-torch-no-grad/19615/21&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://discuss.py
+      
+    
+    </summary>
+    
+      <category term="pytorch" scheme="http://yoursite.com/categories/pytorch/"/>
+    
+    
+      <category term="pytorch" scheme="http://yoursite.com/tags/pytorch/"/>
+    
+  </entry>
   
   <entry>
     <title>Spacy工具包</title>
@@ -470,48 +526,6 @@
     
     
       <category term="算法" scheme="http://yoursite.com/tags/%E7%AE%97%E6%B3%95/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python 函数</title>
-    <link href="http://yoursite.com/2019/04/10/python-%E5%87%BD%E6%95%B0/"/>
-    <id>http://yoursite.com/2019/04/10/python-函数/</id>
-    <published>2019-04-10T08:41:54.000Z</published>
-    <updated>2019-04-10T08:41:54.579Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>numpy广播</title>
-    <link href="http://yoursite.com/2019/04/09/numpy%E5%B9%BF%E6%92%AD/"/>
-    <id>http://yoursite.com/2019/04/09/numpy广播/</id>
-    <published>2019-04-09T14:31:27.000Z</published>
-    <updated>2019-04-09T15:02:30.873Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li>末尾有彩蛋</li></ul><h1 id="NumPy-广播-Broadcast"><a href="#NumPy-广播-Broadcast" class="headerlink" title="NumPy 广播(Broadcast)"></a>NumPy 广播(Broadcast)</h1><p>广播(Broadcast)是 numpy 对不同形状(shape)的数组进行数值计算的方式， 对数组的算术运算通常在相应的元素上进行。</p><p>如果两个数组 a 和 b 形状相同，即满足 <strong>a.shape == b.shape</strong>，那么 a*b 的结果就是 a 与 b 数组对应位相乘。这要求维数相同，且各维度的长度相同。</p><h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>import numpy as np    a = np.array([1,2,3,4])  b = np.array([10,20,30,40])  c = a * b  print (c)</p><p>输出结果为：</p><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ <span class="number">10</span>  <span class="number">40</span>  <span class="number">90</span> <span class="number">160</span>]</span><br></pre></td></tr></table></figure><p>当运算中的 2 个数组的形状不同时，numpy 将自动触发广播机制。如：</p><h2 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np    </span><br><span class="line">a = np.array([[ <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],            [<span class="number">10</span>,<span class="number">10</span>,<span class="number">10</span>],            [<span class="number">20</span>,<span class="number">20</span>,<span class="number">20</span>],            [<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>]]) </span><br><span class="line">b = np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]) print(a + b)</span><br></pre></td></tr></table></figure><p>输出结果为：</p><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[[ <span class="number">1</span>  <span class="number">2</span>  <span class="number">3</span>]</span><br><span class="line"> [<span class="number">11</span> <span class="number">12</span> <span class="number">13</span>]</span><br><span class="line"> [<span class="number">21</span> <span class="number">22</span> <span class="number">23</span>]</span><br><span class="line"> [<span class="number">31</span> <span class="number">32</span> <span class="number">33</span>]]</span><br></pre></td></tr></table></figure><p>下面的图片展示了数组 b 如何通过广播来与数组 a 兼容。</p><p><img src="http://www.runoob.com/wp-content/uploads/2018/10/image0020619.gif" alt="img"></p><p>4x3 的二维数组与长为 3 的一维数组相加，等效于把数组 b 在二维上重复 4 次再运算。</p><h2 id="yayay实例"><a href="#yayay实例" class="headerlink" title="yayay实例"></a>yayay实例</h2><p>在few-shot gnn任务中，想要计算邻接矩阵A，其公式为：<strong>a<sub>ij</sub> = fc(v<sub>i</sub>-v<sub>j</sub>)</strong><br>那么问题来了得到的邻接矩阵是N×N的，则计算的差值矩阵也应该是N×N的。那么该如何高效的计算出来这个差值矩阵。</p><pre><code class="python"><span class="keyword">import</span> numpy <span class="keyword">as</span> npN = <span class="number">10</span>D = <span class="number">7</span>X = np.ones((N,D))X1 = np.expand_dims(X, axis=<span class="number">0</span>)X2 = np.expand_dims(X, axis=<span class="number">1</span>)X_abs = np.abs(X1-X2)X_abs = np.reshape(X_abs, (N,N,D))X_T = X_abs ?????????????????需要考虑一下这个转置问题</code></pre>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;末尾有彩蛋&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h1 id=&quot;NumPy-广播-Broadcast&quot;&gt;&lt;a href=&quot;#NumPy-广播-Broadcast&quot; class=&quot;headerlink&quot; title=&quot;NumPy 广播(Broadcast)&quot;&gt;&lt;/a&gt;NumPy
-      
-    
-    </summary>
-    
-      <category term="numpy" scheme="http://yoursite.com/categories/numpy/"/>
-    
-    
-      <category term="numpy" scheme="http://yoursite.com/tags/numpy/"/>
     
   </entry>
   

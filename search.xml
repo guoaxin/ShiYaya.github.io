@@ -4,6 +4,56 @@
   
     
     <entry>
+      <title>mmdetection的安装</title>
+      <link href="/2019/07/20/mmdetection%E7%9A%84%E5%AE%89%E8%A3%85/"/>
+      <url>/2019/07/20/mmdetection%E7%9A%84%E5%AE%89%E8%A3%85/</url>
+      
+        <content type="html"><![CDATA[<ul><li><p>选择镜像（cuda9.0）：py36-pytorch0.4.0-cu90-ctc </p></li><li><p>进入容器，安装anaconda</p></li><li><p>按着<a href="https://github.com/open-mmlab/mmdetection/blob/master/INSTALL.md" target="_blank" rel="noopener">Github install</a>的步骤进行安装</p></li><li><p>Create a conda virtual environment and activate it. Then install Cython.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">conda create -n open-mmlab python=<span class="number">3.7</span> -y</span><br><span class="line">conda activate open-mmlab</span><br><span class="line"></span><br><span class="line">conda install cython</span><br></pre></td></tr></table></figure></li><li><p>安装<a href="https://github.com/open-mmlab/mmcv" target="_blank" rel="noopener">mmcv</a> </p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mmcv</span><br></pre></td></tr></table></figure></li><li><p>安装pytorch<br>最好是离线下载，然后再安装，因为conda install 或者 pip install 可能连接不上（细节：pip install torch  就会出现下载链接，然后自己复制链接去网页下载即可）</p></li><li><p>安装opencv</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="keyword">install</span> -c menpo opencv</span><br></pre></td></tr></table></figure></li><li><p>Clone the mmdetection repository.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/open-mmlab/mmdetection.git</span><br><span class="line">cd mmdetection</span><br></pre></td></tr></table></figure></li><li><p>Install mmdetection</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py develop</span><br></pre></td></tr></table></figure></li><li></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 目标检测 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 目标检测 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>torch.no_grad</title>
+      <link href="/2019/07/17/torch-no-grad/"/>
+      <url>/2019/07/17/torch-no-grad/</url>
+      
+        <content type="html"><![CDATA[<ul><li><a href="https://discuss.pytorch.org/t/model-eval-vs-with-torch-no-grad/19615/21" target="_blank" rel="noopener">https://discuss.pytorch.org/t/model-eval-vs-with-torch-no-grad/19615/21</a></li><li>with torch.no_grad()</li><li>可以减少内存，加快运行速度，同时可以使得batch_size 增大</li><li>但不是说非得必要</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> pytorch </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> pytorch </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Spacy工具包</title>
       <link href="/2019/07/16/Spacy%E5%B7%A5%E5%85%B7%E5%8C%85/"/>
       <url>/2019/07/16/Spacy%E5%B7%A5%E5%85%B7%E5%8C%85/</url>
@@ -1147,9 +1197,9 @@
       
         <tags>
             
-            <tag> 行为识别 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 行为识别 </tag>
             
         </tags>
       
@@ -1391,9 +1441,9 @@
       
         <tags>
             
-            <tag> 行为识别 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 行为识别 </tag>
             
         </tags>
       
