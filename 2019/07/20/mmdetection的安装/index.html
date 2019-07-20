@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="选择镜像（cuda9.0）：py36-pytorch0.4.0-cu90-ctc   进入容器，安装anaconda  按着Github install的步骤进行安装  Create a conda virtual environment and activate it. Then install Cython. 1234conda create -n open-mmlab python=3.7">
+  <meta name="description" content="准备 选择镜像（cuda9.0）：py36-pytorch0.4.0-cu90-ctc   进入容器，安装anaconda   按着Github install的步骤进行安装如下： Create a conda virtual environment and activate it. Then install Cython. 1234conda create -n open-mmlab pytho">
 <meta name="keywords" content="目标检测">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mmdetection的安装">
 <meta property="og:url" content="http://yoursite.com/2019/07/20/mmdetection的安装/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="选择镜像（cuda9.0）：py36-pytorch0.4.0-cu90-ctc   进入容器，安装anaconda  按着Github install的步骤进行安装  Create a conda virtual environment and activate it. Then install Cython. 1234conda create -n open-mmlab python=3.7">
+<meta property="og:description" content="准备 选择镜像（cuda9.0）：py36-pytorch0.4.0-cu90-ctc   进入容器，安装anaconda   按着Github install的步骤进行安装如下： Create a conda virtual environment and activate it. Then install Cython. 1234conda create -n open-mmlab pytho">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-20T06:53:16.138Z">
+<meta property="og:updated_time" content="2019-07-20T07:10:14.666Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mmdetection的安装">
-<meta name="twitter:description" content="选择镜像（cuda9.0）：py36-pytorch0.4.0-cu90-ctc   进入容器，安装anaconda  按着Github install的步骤进行安装  Create a conda virtual environment and activate it. Then install Cython. 1234conda create -n open-mmlab python=3.7">
+<meta name="twitter:description" content="准备 选择镜像（cuda9.0）：py36-pytorch0.4.0-cu90-ctc   进入容器，安装anaconda   按着Github install的步骤进行安装如下： Create a conda virtual environment and activate it. Then install Cython. 1234conda create -n open-mmlab pytho">
 
 
 
@@ -422,7 +422,7 @@
                 
               
 
-              <time title="创建时间：2019-07-20 14:33:47 / 修改时间：14:53:16" itemprop="dateCreated datePublished" datetime="2019-07-20T14:33:47+08:00">2019-07-20</time>
+              <time title="创建时间：2019-07-20 14:33:47 / 修改时间：15:10:14" itemprop="dateCreated datePublished" datetime="2019-07-20T14:33:47+08:00">2019-07-20</time>
             
 
             
@@ -495,20 +495,21 @@
       
 
       
-        <ul>
+        <h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><ul>
 <li><p>选择镜像（cuda9.0）：py36-pytorch0.4.0-cu90-ctc </p>
 </li>
 <li><p>进入容器，安装anaconda</p>
 </li>
-<li><p>按着<a href="https://github.com/open-mmlab/mmdetection/blob/master/INSTALL.md" target="_blank" rel="noopener">Github install</a>的步骤进行安装</p>
-</li>
+</ul>
+<h3 id="按着Github-install的步骤进行安装如下："><a href="#按着Github-install的步骤进行安装如下：" class="headerlink" title="按着Github install的步骤进行安装如下："></a>按着<a href="https://github.com/open-mmlab/mmdetection/blob/master/INSTALL.md" target="_blank" rel="noopener">Github install</a>的步骤进行安装如下：</h3><ul>
 <li><p>Create a conda virtual environment and activate it. Then install Cython.</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">conda create -n open-mmlab python=<span class="number">3.7</span> -y</span><br><span class="line">conda activate open-mmlab</span><br><span class="line"></span><br><span class="line">conda install cython</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>安装<a href="https://github.com/open-mmlab/mmcv" target="_blank" rel="noopener">mmcv</a> </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mmcv</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>安装pytorch<br>最好是离线下载，然后再安装，因为conda install 或者 pip install 可能连接不上（细节：pip install torch  就会出现下载链接，然后自己复制链接去网页下载即可）</p>
+<li><p>安装pytorch<br>最好是离线下载，然后再安装，因为conda install 或者 pip install 可能连接不上（细节：pip install torch  就会出现下载链接，然后自己复制链接去网页下载即可），下载之后：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">pip</span> <span class="selector-tag">install</span> <span class="selector-tag">torch-1</span><span class="selector-class">.1</span><span class="selector-class">.0-cp37-cp37m-manylinux1_x86_64</span><span class="selector-class">.whl</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>安装opencv</p>
 <figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="keyword">install</span> -c menpo opencv</span><br></pre></td></tr></table></figure>
@@ -617,8 +618,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -776,6 +786,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按着Github-install的步骤进行安装如下："><span class="nav-number">2.</span> <span class="nav-text">按着Github install的步骤进行安装如下：</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
