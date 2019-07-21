@@ -4,11 +4,49 @@
   
     
     <entry>
+      <title>Visual Genome 数据集</title>
+      <link href="/2019/07/21/Visual-Genome-%E6%95%B0%E6%8D%AE%E9%9B%86/"/>
+      <url>/2019/07/21/Visual-Genome-%E6%95%B0%E6%8D%AE%E9%9B%86/</url>
+      
+        <content type="html"><![CDATA[<ul><li>数据集介绍<br><a href="https://cloud.tencent.com/developer/article/1391855" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1391855</a></li></ul><p><a href="https://visualgenome.org/" target="_blank" rel="noopener">Visual Genome 主页</a></p><p><a href="https://visualgenome.org/api/v0/api_home.html" target="_blank" rel="noopener">Visual Genome Data</a></p><p><a href="https://visualgenome.org/api/v0/api_readme" target="_blank" rel="noopener">Visual Genome Readme</a></p><p>Visual Genome 数据集总览：</p><ul><li>108077 张图片</li><li>5.4 Million Region Descriptions</li><li>1.7 Million Visual Question Answers</li><li>3.8 Million Object Instances</li><li>2.8 Million Attributes</li><li>2.3 Million Relationships</li><li>Everything Mapped to Wordnet Synsets  </li><li>标注数据：  objects，attributes，图片内的 relationships</li><li>共 108K 张图片，每张图片平均有， 35 个 objects，26 个 attributes，21对 objects 见的成对 relationships.</li></ul><p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/rex8eso6p5.png?imageView2/2/w/1620" alt="img"></p><p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/vtmiv1yyr6.png?imageView2/2/w/1620" alt="img"></p><h2 id="1-Visual-Genome-数据标注"><a href="#1-Visual-Genome-数据标注" class="headerlink" title="1. Visual Genome 数据标注"></a>1. Visual Genome 数据标注</h2><p>数据集主要包括七个主要部分：</p><ul><li>region descriptions</li><li>objects</li><li>attributes</li><li>relationships</li><li>region graphs</li><li>scene graphs</li><li>question answer pairs</li></ul><h3 id="1-1-Region-Descriptions"><a href="#1-1-Region-Descriptions" class="headerlink" title="1.1. Region Descriptions"></a>1.1. Region Descriptions</h3><p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/8kgo0p0qim.png?imageView2/2/w/1620" alt="img"></p><p>数据集标注了图片的 regions descriptions，每个 region 有一个 bounding box. </p><p>如上图中，图片有三个 regions descriptions： “man jumping over a fire hydrant,”，“yellow fire hydrant,” 和   “woman in shorts is standing behind the man.”.</p><h3 id="1-2-Objects"><a href="#1-2-Objects" class="headerlink" title="1.2. Objects"></a>1.2. Objects</h3><p>数据集中每张图片平均有 35 个 objects，每个 object 采用 bounding box 标注.</p><p>如图：   </p><p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/ih1qpz1p3s.png?imageView2/2/w/1620" alt="img"></p><p><a href="http://blog.csdn.net/zziahgf/article/details/72819043" target="_blank" rel="noopener">MS-COCO 数据集</a> 只标注了 80 个 object categories，没有描述图片中的所有 objects. 实际场景中，可能有更多的 objects 类别.</p><p>Visual Genome 数据集旨在对图片里出现的所有视觉 objects 进行标注，objects categories 类别达到 33877 种.</p><h3 id="1-3-Attributes"><a href="#1-3-Attributes" class="headerlink" title="1.3. Attributes"></a>1.3. Attributes</h3><p>数据集中每张图片平均有 26 个 attributes. Objects 可能没有或者有更多的相关 attributes. </p><p>Attributes 可以是 color(如 yellow)，states(如 standing) 等，如图：   </p><p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/k1n26a1mdt.png?imageView2/2/w/1620" alt="img"></p><p>Attributes 能够对 objects 进行更容易的描述、对比与分类. 即使以前未见到某 object，根据 attributes 仍能推断出与 object 相关的东西. 如，“yellow and brown spotted with long neck(长脖子上有黄色和棕色的斑点)”，很可能推断出 object 是 giraffe(长颈鹿).</p><p>关于 attributes 的研究：</p><ul><li>采用examplar SVMs，利用相似特征来寻找 objects；</li><li>采用纹理(textures) 研究 objects，或者预测颜色.</li><li>采用 attributes 来提高目标分类结果. 如 fine-grained 识别.</li></ul><p>Attributes 一般被定义为 parts(如 has legs)、shapes(如，spherical球形的)、materials(如 furry毛皮的)；用于对新的 objects 类别进行分类.</p><p>Visual Genome 数据集对于 attributes 进行扩展，其 attributes 不是 image-specific 的，而是真实场景中 object-specific 的. attributes 类型包括：size(如 small), pose(如bent), state (如 transparent), emotion (如 happy)等等.</p><ul><li>基于 VGG16 的 attributes 预测结果：   </li></ul><p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/373ih7qquc.png?imageView2/2/w/1620" alt="img"></p><h3 id="1-4-Relationships"><a href="#1-4-Relationships" class="headerlink" title="1.4. Relationships"></a>1.4. Relationships</h3><p>Relationships 是两个 objects 的连接关系.</p><p>Relationships 可以是 actions(如 jumping over)，spatial(如 is build)，comparative(如 taller than)，prepositional phrases (如 drive on). 如图：   </p><p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/5ljbd3m2av.png?imageView2/2/w/1620" alt="img"></p><ul><li>Relationship 预测结果：   </li></ul><p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/pgbhzj5ui4.png?imageView2/2/w/1620" alt="img"></p><h3 id="1-5-Region-Graphs"><a href="#1-5-Region-Graphs" class="headerlink" title="1.5. Region Graphs"></a>1.5. Region Graphs</h3><p>结合 objects、attributes 以及  region descriptions 提取的 relationships，创建每个 regions 的 graph representation. </p><h3 id="1-6-Scene-Graphs"><a href="#1-6-Scene-Graphs" class="headerlink" title="1.6. Scene Graphs"></a>1.6. Scene Graphs</h3><p>Region graphs 是图片的局部区域表示，将 region graphs 结合，生成单个 scene graph来表示整张图片.</p><p>Scene graph 是全部 region graphs 的统一，包含了全部的 objects、attributes以及每个 region description 的 relationships.</p><p>Scene Graph 将多种不同层次的 scene 信息以更加一致的方式结合在一起.</p><h3 id="1-7-Question-Answer-QA-Pairs"><a href="#1-7-Question-Answer-QA-Pairs" class="headerlink" title="1.7. Question Answer(QA) Pairs"></a>1.7. Question Answer(QA) Pairs</h3><p>数据集中每张图片有两种类型的 QA pairs：</p><ul><li>freeform QAs - 基于整张图片；</li><li>region-based QAs - 基于图片的选择区域. </li></ul><p>每张图片标注了 6 中不同类型的问题：what, where, how, when, who, why.</p><p>如图：   </p><p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/vbxbgpfi92.png?imageView2/2/w/1620" alt="img"></p><p>Figure . Visual Genome 数据集. 每张图片包括：region descriptions - 描述了图像的局部信息；两种类型的 question answer pairs(QAs) - free form QAs 和 region-based QAs. 每个 region 转化为 objects、attributes 和 pairwise relationships region 构成的 region graph 表示. 最终， 结合 region graphs 以形成图片内全部 objects 的 scene graph.</p><h2 id="2-Visual-Genome-数据集应用"><a href="#2-Visual-Genome-数据集应用" class="headerlink" title="2. Visual Genome 数据集应用"></a>2. Visual Genome 数据集应用</h2><p>基本应用：</p><ul><li>attribute classification 属性分类</li><li>relationship classification 关系分类</li><li>description generation 描述生成</li><li>question answering QA</li></ul><p>更多应用：</p><ul><li>Dense image captioning</li><li>Visual question answering</li><li>Image understanding</li><li>Relationship extraction</li><li>Semantic image retrieval</li><li>Completing the Set of Annotations</li></ul><p>注 - 与其它数据集对比：   </p><p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/cjqe5v7i44.png?imageView2/2/w/1620" alt="img"></p><h2 id="3-Reference"><a href="#3-Reference" class="headerlink" title="3. Reference"></a>3. Reference</h2><p>[1] - <a href="https://visualgenome.org/" target="_blank" rel="noopener">Visual Genome Home</a></p><p>[1] - <a href="https://visualgenome.org/static/paper/Visual_Genome.pdf" target="_blank" rel="noopener">Visual Genome Doc</a></p><p>[2] - <a href="https://arxiv.org/pdf/1701.02426.pdf" target="_blank" rel="noopener">Scene Graph Generation by Iterative Message Passing</a></p><p>本文参与<a href="https://cloud.tencent.com/developer/support-plan" target="_blank" rel="noopener">腾讯云自媒体分享计划</a>，欢迎正在阅读的你也加入，一起分享。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 目标检测 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 目标检测 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>设置随机种子</title>
+      <link href="/2019/07/21/%E8%AE%BE%E7%BD%AE%E9%9A%8F%E6%9C%BA%E7%A7%8D%E5%AD%90/"/>
+      <url>/2019/07/21/%E8%AE%BE%E7%BD%AE%E9%9A%8F%E6%9C%BA%E7%A7%8D%E5%AD%90/</url>
+      
+        <content type="html"><![CDATA[<p>def set_random_seed(seed):<br>    random.seed(seed)<br>    np.random.seed(seed)<br>    torch.manual_seed(seed)<br>    torch.cuda.manual_seed_all(seed)</p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>mmdetection的安装</title>
       <link href="/2019/07/20/mmdetection%E7%9A%84%E5%AE%89%E8%A3%85/"/>
       <url>/2019/07/20/mmdetection%E7%9A%84%E5%AE%89%E8%A3%85/</url>
       
-        <content type="html"><![CDATA[<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><ul><li><p>选择镜像（cuda9.0）：py36-pytorch0.4.0-cu90-ctc </p></li><li><p>进入容器，安装anaconda</p></li></ul><h3 id="按着Github-install的步骤进行安装如下："><a href="#按着Github-install的步骤进行安装如下：" class="headerlink" title="按着Github install的步骤进行安装如下："></a>按着<a href="https://github.com/open-mmlab/mmdetection/blob/master/INSTALL.md" target="_blank" rel="noopener">Github install</a>的步骤进行安装如下：</h3><ul><li><p>Create a conda virtual environment and activate it. Then install Cython.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">conda create -n open-mmlab python=<span class="number">3.7</span> -y</span><br><span class="line">conda activate open-mmlab</span><br><span class="line"></span><br><span class="line">conda install cython</span><br></pre></td></tr></table></figure></li><li><p>安装<a href="https://github.com/open-mmlab/mmcv" target="_blank" rel="noopener">mmcv</a> </p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mmcv</span><br></pre></td></tr></table></figure></li><li><p>安装pytorch<br>最好是离线下载，然后再安装，因为conda install 或者 pip install 可能连接不上（细节：pip install torch  就会出现下载链接，然后自己复制链接去网页下载即可），下载之后：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">pip</span> <span class="selector-tag">install</span> <span class="selector-tag">torch-1</span><span class="selector-class">.1</span><span class="selector-class">.0-cp37-cp37m-manylinux1_x86_64</span><span class="selector-class">.whl</span></span><br></pre></td></tr></table></figure></li><li><p>安装opencv</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="keyword">install</span> -c menpo opencv</span><br></pre></td></tr></table></figure></li><li><p>Clone the mmdetection repository.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/open-mmlab/mmdetection.git</span><br><span class="line">cd mmdetection</span><br></pre></td></tr></table></figure></li><li><p>Install mmdetection</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py develop</span><br></pre></td></tr></table></figure></li><li></li></ul>]]></content>
+        <content type="html"><![CDATA[<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><ul><li><p>选择镜像（cuda9.0）：py36-pytorch0.4.0-cu90-ctc </p></li><li><p>进入容器，安装anaconda</p></li></ul><h3 id="按着Github-install的步骤进行安装如下："><a href="#按着Github-install的步骤进行安装如下：" class="headerlink" title="按着Github install的步骤进行安装如下："></a>按着<a href="https://github.com/open-mmlab/mmdetection/blob/master/INSTALL.md" target="_blank" rel="noopener">Github install</a>的步骤进行安装如下：</h3><ul><li><p>Create a conda virtual environment and activate it. Then install Cython.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">conda create -n open-mmlab python=<span class="number">3.7</span> -y</span><br><span class="line">conda activate open-mmlab</span><br><span class="line"></span><br><span class="line">conda install cython</span><br></pre></td></tr></table></figure></li><li><p>安装<a href="https://github.com/open-mmlab/mmcv" target="_blank" rel="noopener">mmcv</a> </p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mmcv</span><br></pre></td></tr></table></figure></li><li><p>安装pytorch<br>最好是离线下载，然后再安装，因为conda install 或者 pip install 可能连接不上（细节：pip install torch  就会出现下载链接，然后自己复制链接去网页下载即可），下载之后：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">pip</span> <span class="selector-tag">install</span> <span class="selector-tag">torch-1</span><span class="selector-class">.1</span><span class="selector-class">.0-cp37-cp37m-manylinux1_x86_64</span><span class="selector-class">.whl</span></span><br></pre></td></tr></table></figure></li><li><p>安装opencv</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="keyword">install</span> -c menpo opencv</span><br></pre></td></tr></table></figure></li></ul><ul><li>安装matplotlib<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> matplotlib</span><br></pre></td></tr></table></figure></li></ul><ul><li>安装 terminaltables<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> terminaltables</span><br></pre></td></tr></table></figure></li></ul><ul><li><p>安装 pip install pycocotools</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> pycocotools</span><br></pre></td></tr></table></figure></li><li><p>Clone the mmdetection repository.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/open-mmlab/mmdetection.git</span><br><span class="line">cd mmdetection</span><br></pre></td></tr></table></figure></li><li><p>Install mmdetection</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py develop</span><br></pre></td></tr></table></figure></li><li></li></ul>]]></content>
       
       
       <categories>
@@ -1028,9 +1066,9 @@
     
     
     <entry>
-      <title>java</title>
-      <link href="/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/"/>
-      <url>/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/</url>
+      <title>java 的编译与执行</title>
+      <link href="/2019/03/26/java/"/>
+      <url>/2019/03/26/java/</url>
       
         <content type="html"><![CDATA[<h2 id="java-的编译与执行"><a href="#java-的编译与执行" class="headerlink" title="java 的编译与执行"></a>java 的编译与执行</h2><ol><li><p>用文本编辑器新建一个yumhtest.java文件，在其中输入以下代码并保存：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">yumhtest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello world !"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>编译：在shell终端执行命令 <strong>javac yumhtest.java</strong></p></li><li><p>运行：在shell终端执行命令 <strong>java yumhtest</strong><br>当shell下出现“hello world !”字样</p></li></ol><p>注意事项：类名应和文件名相同。</p>]]></content>
       
@@ -1053,9 +1091,9 @@
     
     
     <entry>
-      <title>java 的编译与执行</title>
-      <link href="/2019/03/26/java/"/>
-      <url>/2019/03/26/java/</url>
+      <title>java</title>
+      <link href="/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/"/>
+      <url>/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/</url>
       
         <content type="html"><![CDATA[<h2 id="java-的编译与执行"><a href="#java-的编译与执行" class="headerlink" title="java 的编译与执行"></a>java 的编译与执行</h2><ol><li><p>用文本编辑器新建一个yumhtest.java文件，在其中输入以下代码并保存：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">yumhtest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello world !"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>编译：在shell终端执行命令 <strong>javac yumhtest.java</strong></p></li><li><p>运行：在shell终端执行命令 <strong>java yumhtest</strong><br>当shell下出现“hello world !”字样</p></li></ol><p>注意事项：类名应和文件名相同。</p>]]></content>
       
@@ -1197,9 +1235,9 @@
       
         <tags>
             
-            <tag> 人工智能 </tag>
-            
             <tag> 行为识别 </tag>
+            
+            <tag> 人工智能 </tag>
             
         </tags>
       
@@ -1441,9 +1479,9 @@
       
         <tags>
             
-            <tag> 人工智能 </tag>
-            
             <tag> 行为识别 </tag>
+            
+            <tag> 人工智能 </tag>
             
         </tags>
       
