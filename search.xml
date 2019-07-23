@@ -4,6 +4,77 @@
   
     
     <entry>
+      <title>Hierarchical Global-Local Temporal Modeling for Video Captioning</title>
+      <link href="/2019/07/23/Hierarchical-Global-Local-Temporal-Modeling-for-Video-Captioning/"/>
+      <url>/2019/07/23/Hierarchical-Global-Local-Temporal-Modeling-for-Video-Captioning/</url>
+      
+        <content type="html"><![CDATA[<h3 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h3><ul><li>使用object features能够更好地检测出action 和 关键的Object</li></ul><h3 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h3><ul><li><p>两个LSTM层</p></li><li><p>global : frame features and C3D features</p></li><li><p>local : objects </p></li></ul><h3 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h3><ul><li><p>Top Down decoder</p><ul><li>Bottom LSTM：mean of regions</li><li>Top LSTM : attention of  regions</li></ul></li><li><p>Grounded video description的decoder：</p><ul><li>Bottom LSTM：mean of  fc+motion</li><li>Top LSTM: attention of  regions and attention of  fc+motion</li></ul></li><li><p>==Hierarchical Global-Local Temporal Modeling（本文） ==</p></li><li><p>Bottom LSTM：attention of fc+motion</p></li><li><p>Top LSTM: attention of regions</p></li><li><p>本文不一样的地方是在Bottom LSTM的输入也加入了attention</p></li></ul><h3 id="提取特征"><a href="#提取特征" class="headerlink" title="提取特征"></a>提取特征</h3><ul><li>等间隔提取帧的特征</li><li>由于帧之间的间隔，会使得没有运动信息，所以再使用C3D来补充运动信息（以该该为中心，提取16帧，输入C3D中）</li><li>object features: faster rcnn 去掉rcnn部分的类别/分数预测，提取head_to_heal处的pooled_feats</li></ul>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 视频描述 </tag>
+            
+            <tag> [object Object] </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>VATEX: a video caption dataset</title>
+      <link href="/2019/07/23/VATEX-a-video-caption-dataset/"/>
+      <url>/2019/07/23/VATEX-a-video-caption-dataset/</url>
+      
+        <content type="html"><![CDATA[<h2 id="VATEX数据集"><a href="#VATEX数据集" class="headerlink" title="VATEX数据集"></a>VATEX数据集</h2><ul><li>一个新的数据集，41269个video， 时长大约10s, 每个video有10个中文，10个英文，同时这10个之中，中英文之间有5个是两两配对的</li><li>提出了两个新的任务：（1）一个encoder-decoder模型，在两种语言之间共享参数，即希望一个模型，可以得到两种语言的描述。（2）提出了一种新的机器翻译任务，即当进行中英文的机器翻译任务时，可以添加视频的视觉特征作为辅助信息</li><li>数据集的来源：来自于kinetics的validation dataset, 然后它们找人进行了caption的标注。它们将这41269个video 分成了4部分，train, validation, public test, secret test(不公开，用于比赛)</li></ul><h3 id="Baseline"><a href="#Baseline" class="headerlink" title="Baseline"></a>Baseline</h3><ul><li>encoder-decoder 就是 TopDown的形式</li><li>视觉特征：通过I3D（在kinetics train上预训练且不再fine-tune）来提取视觉特征，应该是把video分成了很多segments，对每个segment都提取I3D的特征，每个特征作为vi。</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 视频描述 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 视频描述 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>faster_rcnn various box head</title>
+      <link href="/2019/07/22/faster-rcnn-various-box-head/"/>
+      <url>/2019/07/22/faster-rcnn-various-box-head/</url>
+      
+        <content type="html"><![CDATA[<h4 id="Ground-video-description"><a href="#Ground-video-description" class="headerlink" title="Ground video description"></a>Ground video description</h4><ul><li>在阅读这篇论文的时候，由于作者提取了objects，说是提取的fc6的特征，但是不太懂是哪里，在issue中，他说是借鉴这里的代码，于是乎，我就来看了看<a href="https://github.com/facebookresearch/Detectron/blob/8170b25b425967f8f1c7d715bea3c5b8d9536cd8/detectron/modeling/fast_rcnn_heads.py" target="_blank" rel="noopener">box_head</a>，哈哈哈哈哈哈 </li><li>fc6 是 box_head里边的，box_head就是 类似于faster_rcnn中的_head_to_tail</li></ul><h4 id="那么box-head-是干嘛的？"><a href="#那么box-head-是干嘛的？" class="headerlink" title="那么box_head 是干嘛的？"></a>那么box_head 是干嘛的？</h4><ul><li>由于经过roi_pooling 之后得到的是 7*7的一个pooled_feats，还要 ==再进行池化或者拍平，或者再进行全连接层等== ，以便于后边的预测，分类任务。</li></ul><ul><li><p>faster_rcnn 中的box_head就是 resnet layer4</p></li><li><p>mmdetection 中的 faster_rcnn 现将7*7  排成49 ，再送入两个全连接层，可以将这两个全连接层命名为fc6, fc7.   完美!！!！</p></li><li><p>这里展示了各种各样的 box_head</p></li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 目标检测 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 目标检测 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>mmdetection的configs中的各项参数具体解释</title>
       <link href="/2019/07/21/mmdetection%E7%9A%84configs%E4%B8%AD%E7%9A%84%E5%90%84%E9%A1%B9%E5%8F%82%E6%95%B0%E5%85%B7%E4%BD%93%E8%A7%A3%E9%87%8A/"/>
       <url>/2019/07/21/mmdetection%E7%9A%84configs%E4%B8%AD%E7%9A%84%E5%90%84%E9%A1%B9%E5%8F%82%E6%95%B0%E5%85%B7%E4%BD%93%E8%A7%A3%E9%87%8A/</url>
@@ -1260,9 +1331,9 @@
       
         <tags>
             
-            <tag> 行为识别 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 行为识别 </tag>
             
         </tags>
       
@@ -1504,9 +1575,9 @@
       
         <tags>
             
-            <tag> 行为识别 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 行为识别 </tag>
             
         </tags>
       
@@ -1872,7 +1943,7 @@
       <link href="/2019/02/22/video-caption-dataset/"/>
       <url>/2019/02/22/video-caption-dataset/</url>
       
-        <content type="html"><![CDATA[<h2 id="Youtube2Text-（MSVD）-1"><a href="#Youtube2Text-（MSVD）-1" class="headerlink" title="Youtube2Text （MSVD）[1]"></a>Youtube2Text （MSVD）[1]</h2><ul><li>这个数据集包含 1967个短视频，10-25s，平均时长为9s，视频包含不同的人，动物，动作，场景等。</li><li>每个视频由不同的人标注了多个句子，大约41 annotated sentences per clip，共有 80839 个sentences，平均每个句子有8个words，这些所有的句子中共包含近16000个 unique words。</li><li>caption中包括多国的语言进行描述，部分论文中采取只选用laguage = english 的caption 进行训练和测试[3][4]</li><li>采用的split根据 [2] ： 1,200 videos for training, 100 for validation and 670 for testing.<br><a href="https://github.com/ShiYaya/video_captioning/tree/master/MSVD" target="_blank" rel="noopener">我的整理</a></li></ul><ul><li>数据的下载：</li><li><a href="https://www.microsoft.com/en-us/download/details.aspx?spm=a2c4e.11153940.blogcont209612.6.42ba7e9eAA1K2o&id=52422&from=http%3A%2F%2Fresearch.microsoft.com%2Fen-us%2Fdownloads%2F38cf15fd-b8df-477e-a4e4-a4680caa75af%2Fdefault.aspx" target="_blank" rel="noopener">[website]</a></li><li>原数据：只给出了video_id,以及strart and end time , 若需要video数据，则需要自己通过url下载</li><li>某篇对于视频分析的总结，给出了<a href="https://github.com/sinyeratlantis/sinyeratlantis.github.io/blob/master/content/dl/%E8%A7%86%E9%A2%91%E5%88%86%E6%9E%90%E6%96%87%E7%8C%AE%E8%B0%83%E7%A0%94.md" target="_blank" rel="noopener">MSVD的下载链接</a>，可用，推荐(下载速度快，且video命名相对较好)☀☀<br><br><a href="http://www.cs.utexas.edu/users/ml/clamp/videoDescription/YouTubeClips.tar" target="_blank" rel="noopener">直接的下载链接</a><strong>[推荐]</strong></li><li>某篇github 含有MSVD(Youtube2Text)的<a href="https://github.com/yaoli/arctic-capgen-vid" target="_blank" rel="noopener">[preproceed dataset]</a><br><br><a href="http://lisaweb.iro.umontreal.ca/transfert/lisa/users/yaoli/youtube2text_iccv15.zip" target="_blank" rel="noopener">直接的下载链接</a>(下载速度慢)</li><li>该篇github上含有<a href="https://github.com/ShiYaya/Video-Description-with-Spatial-Temporal-Attention#video-datas-and-pre-extracted-features-on-msvd-dataset" target="_blank" rel="noopener">MSVD数据集下载链接</a><br><br><a href="https://www.multcloud.com/share/050e69cd-cab9-4ba3-a671-ed459341ab41" target="_blank" rel="noopener">直接的下载链接</a></li><li>对caption 常用的预处理: 1) verting all text to lower case, 2) tokenizing the sentences, 3) removing punctuation.</li></ul><h2 id="MSR-VTT-dataset"><a href="#MSR-VTT-dataset" class="headerlink" title="MSR-VTT dataset"></a>MSR-VTT dataset</h2><p> 共10000个video, 每个video有20个sentences, 共20万 video/sentence pair，10-30s居多</p><ul><li>split:  train:6513, val:497, test：2990</li><li>MSR-VTT dataset v2 , just video url: <a href="http://ms-multimedia-challenge.com/2017/dataset" target="_blank" rel="noopener">http://ms-multimedia-challenge.com/2017/dataset</a></li><li>author split train test val by himself and provied video data :<a href="https://github.com/xiadingZ/video-caption.pytorch" target="_blank" rel="noopener">https://github.com/xiadingZ/video-caption.pytorch</a>  <br></li></ul><p><strong>下载这个数据集即可使用，但是还需要再找split!</strong><br></p><ul><li>MSR VTT 采用的split 是2016年提供的，<strong>目前科研广泛使用的都是2016年的</strong>。</li><li><a href="https://github.com/adi-dhal/In_Depth_Video_Analysis/tree/master/msr-vtt/2016" target="_blank" rel="noopener">[split]</a><br>MSR-VTT. Test video doesn’t have captions, so I spilit train-viedo to train/val/test. Extract and put them in <code>./data/</code> directory</li></ul><p>train-video: <a href="https://drive.google.com/file/d/1Qi6Gn_l93SzrvmKQQu-drI90L-x8B0ly/view?usp=sharing" target="_blank" rel="noopener">download link</a> <br><br>test-video: <a href="https://drive.google.com/file/d/10fPbEhD-ENVQihrRvKFvxcMzkDlhvf4Q/view?usp=sharing" target="_blank" rel="noopener">download link</a> <br><br>json info of train-video: <a href="https://drive.google.com/file/d/1LcTtsAvfnHhUfHMiI4YkDgN7lF1-_-m7/view?usp=sharing" target="_blank" rel="noopener">download link</a> <br><br>json info of test-video: <a href="https://drive.google.com/file/d/1Kgra0uMKDQssclNZXRLfbj9UQgBv-1YE/view?usp=sharing" target="_blank" rel="noopener">download link</a> <br></p><ul><li><p>download.py 可以下载MSR-VTT数据集(step by video)：<a href="https://github.com/OSUPCVLab/VideoToTextDNN" target="_blank" rel="noopener">[链接]</a></p></li><li><p>msr-vtt 2017 vs 2016<br>In the 2nd MSR Video to Language Challenge, we have combined the training set, validation set, and testing data in the 1st MSR Video to Language Challenge as the new training data. An additional test set of around 3K video clips will be released on June 1st as the final evaluation set. As such, we have 10K video clips for training and 3K video clips for testing this year. Each video is annotated with 20 natural sentences.<br><br>总结：就仅仅是将2016的train val and test 综合到一起，组成了2017： 一个大的含10000个video的train 数据集，并另外提供了2000个test video。<br><br>科研上普遍使用2016的分割方案，</p></li></ul><ul><li>In MSR-VTT dataset, we provide the category information for each video clip and the video clip contains audio information as well.</li></ul><p>[1] Youtube2text: Recognizing and describing arbitrary activities using semantic hierarchies and zero-shot recognition. In ICCV 2013</p><p>[2] Translating videos to natural language using deep recurrent neural networks. NAACL, 2015.<br>[3] (ICCV 2015)Sequence to Sequence – Video to Text<br>[4] Jointly Modeling Embedding and Translation to Bridge Video and Language</p>]]></content>
+        <content type="html"><![CDATA[<h2 id="Youtube2Text-（MSVD）-1"><a href="#Youtube2Text-（MSVD）-1" class="headerlink" title="Youtube2Text （MSVD）[1]"></a>Youtube2Text （MSVD）[1]</h2><ul><li>这个数据集包含 1967个短视频，10-25s，平均时长为9s，视频包含不同的人，动物，动作，场景等。</li><li>每个视频由不同的人标注了多个句子，大约41 annotated sentences per clip，共有 80839 个sentences，平均每个句子有8个words，这些所有的句子中共包含近16000个 unique words。</li><li>caption中包括多国的语言进行描述，部分论文中采取只选用laguage = english 的caption 进行训练和测试[3][4]</li><li>采用的split根据 [2] ： 1,200 videos for training, 100 for validation and 670 for testing.<br><a href="https://github.com/ShiYaya/video_captioning/tree/master/MSVD" target="_blank" rel="noopener">我的整理</a></li></ul><ul><li>数据的下载：</li><li><a href="https://www.microsoft.com/en-us/download/details.aspx?spm=a2c4e.11153940.blogcont209612.6.42ba7e9eAA1K2o&id=52422&from=http%3A%2F%2Fresearch.microsoft.com%2Fen-us%2Fdownloads%2F38cf15fd-b8df-477e-a4e4-a4680caa75af%2Fdefault.aspx" target="_blank" rel="noopener">[website]</a></li><li>原数据：只给出了video_id,以及strart and end time , 若需要video数据，则需要自己通过url下载</li><li>某篇对于视频分析的总结，给出了<a href="https://github.com/sinyeratlantis/sinyeratlantis.github.io/blob/master/content/dl/%E8%A7%86%E9%A2%91%E5%88%86%E6%9E%90%E6%96%87%E7%8C%AE%E8%B0%83%E7%A0%94.md" target="_blank" rel="noopener">MSVD的下载链接</a>，可用，推荐(下载速度快，且video命名相对较好)☀☀<br><br><a href="http://www.cs.utexas.edu/users/ml/clamp/videoDescription/YouTubeClips.tar" target="_blank" rel="noopener">直接的下载链接</a><strong>[推荐]</strong></li><li>某篇github 含有MSVD(Youtube2Text)的<a href="https://github.com/yaoli/arctic-capgen-vid" target="_blank" rel="noopener">[preproceed dataset]</a><br><br><a href="http://lisaweb.iro.umontreal.ca/transfert/lisa/users/yaoli/youtube2text_iccv15.zip" target="_blank" rel="noopener">直接的下载链接</a>(下载速度慢)</li><li>该篇github上含有<a href="https://github.com/ShiYaya/Video-Description-with-Spatial-Temporal-Attention#video-datas-and-pre-extracted-features-on-msvd-dataset" target="_blank" rel="noopener">MSVD数据集下载链接</a><br><br><a href="https://www.multcloud.com/share/050e69cd-cab9-4ba3-a671-ed459341ab41" target="_blank" rel="noopener">直接的下载链接</a></li><li>对caption 常用的预处理: 1) verting all text to lower case, 2) tokenizing the sentences, 3) removing punctuation.</li></ul><h2 id="MSR-VTT-dataset"><a href="#MSR-VTT-dataset" class="headerlink" title="MSR-VTT dataset"></a>MSR-VTT dataset</h2><p> 共10000个video, 每个video有20个sentences, 共20万 video/sentence pair，10-30s居多</p><ul><li>split:  train:6513, val:497, test：2990</li><li>MSR-VTT dataset v2 , just video url: <a href="http://ms-multimedia-challenge.com/2017/dataset" target="_blank" rel="noopener">http://ms-multimedia-challenge.com/2017/dataset</a></li><li>author split train test val by himself and provied video data :<a href="https://github.com/xiadingZ/video-caption.pytorch" target="_blank" rel="noopener">https://github.com/xiadingZ/video-caption.pytorch</a>  <br></li></ul><p><strong>下载这个数据集即可使用，但是还需要再找split!</strong><br></p><ul><li>MSR VTT 采用的split 是2016年提供的，<strong>目前科研广泛使用的都是2016年的</strong>。</li><li><a href="https://github.com/adi-dhal/In_Depth_Video_Analysis/tree/master/msr-vtt/2016" target="_blank" rel="noopener">[split]</a><br>MSR-VTT. Test video doesn’t have captions, so I spilit train-viedo to train/val/test. Extract and put them in <code>./data/</code> directory</li></ul><p>train-video: <a href="https://drive.google.com/file/d/1Qi6Gn_l93SzrvmKQQu-drI90L-x8B0ly/view?usp=sharing" target="_blank" rel="noopener">download link</a> <br><br>test-video: <a href="https://drive.google.com/file/d/10fPbEhD-ENVQihrRvKFvxcMzkDlhvf4Q/view?usp=sharing" target="_blank" rel="noopener">download link</a> <br><br>json info of train-video: <a href="https://drive.google.com/file/d/1LcTtsAvfnHhUfHMiI4YkDgN7lF1-_-m7/view?usp=sharing" target="_blank" rel="noopener">download link</a> <br><br>json info of test-video: <a href="https://drive.google.com/file/d/1Kgra0uMKDQssclNZXRLfbj9UQgBv-1YE/view?usp=sharing" target="_blank" rel="noopener">download link</a> <br></p><ul><li><p>download.py 可以下载MSR-VTT数据集(step by video)：<a href="https://github.com/OSUPCVLab/VideoToTextDNN" target="_blank" rel="noopener">[链接]</a></p></li><li><p>msr-vtt 2017 vs 2016<br>In the 2nd MSR Video to Language Challenge, we have combined the training set, validation set, and testing data in the 1st MSR Video to Language Challenge as the new training data. An additional test set of around 3K video clips will be released on June 1st as the final evaluation set. As such, we have 10K video clips for training and 3K video clips for testing this year. Each video is annotated with 20 natural sentences.<br><br>总结：就仅仅是将2016的train val and test 综合到一起，组成了2017： 一个大的含10000个video的train 数据集，并另外提供了2000个test video。<br><br>科研上普遍使用2016的分割方案，</p></li></ul><ul><li>In MSR-VTT dataset, we provide the category information for each video clip and the video clip contains audio information as well.</li></ul><p>[1] Youtube2text: Recognizing and describing arbitrary activities using semantic hierarchies and zero-shot recognition. In ICCV 2013</p><p>[2] Translating videos to natural language using deep recurrent neural networks. NAACL, 2015.<br>[3] (ICCV 2015)Sequence to Sequence – Video to Text<br>[4] Jointly Modeling Embedding and Translation to Bridge Video and Language</p><h2 id="VATEX数据集"><a href="#VATEX数据集" class="headerlink" title="VATEX数据集"></a>VATEX数据集</h2><ul><li><p>一个新的数据集，41269个video， 时长大约10s, 每个video有10个中文，10个英文，同时这10个之中，中英文之间有5个是两两配对的</p></li><li><p>提出了两个新的任务：（1）一个encoder-decoder模型，在两种语言之间共享参数，即希望一个模型，可以得到两种语言的描述。（2）提出了一种新的机器翻译任务，即当进行中英文的机器翻译任务时，可以添加视频的视觉特征作为辅助信息</p></li><li><p>数据集的来源：来自于kinetics的validation dataset, 然后它们找人进行了caption的标注。它们将这41269个video 分成了4部分，train, validation, public test, secret test(不公开，用于比赛)</p></li><li><p>具体我的介绍见这篇博文</p></li></ul>]]></content>
       
       
       <categories>

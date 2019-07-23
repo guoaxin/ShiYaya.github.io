@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="ShiYaya">
 <meta property="og:description" content="Youtube2Text （MSVD）[1] 这个数据集包含 1967个短视频，10-25s，平均时长为9s，视频包含不同的人，动物，动作，场景等。 每个视频由不同的人标注了多个句子，大约41 annotated sentences per clip，共有 80839 个sentences，平均每个句子有8个words，这些所有的句子中共包含近16000个 unique words。 captio">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-02T14:20:33.894Z">
+<meta property="og:updated_time" content="2019-07-23T01:32:04.175Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="video-caption-dataset">
 <meta name="twitter:description" content="Youtube2Text （MSVD）[1] 这个数据集包含 1967个短视频，10-25s，平均时长为9s，视频包含不同的人，动物，动作，场景等。 每个视频由不同的人标注了多个句子，大约41 annotated sentences per clip，共有 80839 个sentences，平均每个句子有8个words，这些所有的句子中共包含近16000个 unique words。 captio">
@@ -260,7 +260,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">26</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">27</span></a>
 
   </li>
         
@@ -298,7 +298,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">86</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">89</span></a>
 
   </li>
 
@@ -439,7 +439,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-03-02 22:20:33" itemprop="dateModified" datetime="2019-03-02T22:20:33+08:00">2019-03-02</time>
+                <time title="修改时间：2019-07-23 09:32:04" itemprop="dateModified" datetime="2019-07-23T09:32:04+08:00">2019-07-23</time>
               
             
           </span>
@@ -545,6 +545,16 @@
 </ul>
 <p>[1] Youtube2text: Recognizing and describing arbitrary activities using semantic hierarchies and zero-shot recognition. In ICCV 2013</p>
 <p>[2] Translating videos to natural language using deep recurrent neural networks. NAACL, 2015.<br>[3] (ICCV 2015)Sequence to Sequence – Video to Text<br>[4] Jointly Modeling Embedding and Translation to Bridge Video and Language</p>
+<h2 id="VATEX数据集"><a href="#VATEX数据集" class="headerlink" title="VATEX数据集"></a>VATEX数据集</h2><ul>
+<li><p>一个新的数据集，41269个video， 时长大约10s, 每个video有10个中文，10个英文，同时这10个之中，中英文之间有5个是两两配对的</p>
+</li>
+<li><p>提出了两个新的任务：（1）一个encoder-decoder模型，在两种语言之间共享参数，即希望一个模型，可以得到两种语言的描述。（2）提出了一种新的机器翻译任务，即当进行中英文的机器翻译任务时，可以添加视频的视觉特征作为辅助信息</p>
+</li>
+<li><p>数据集的来源：来自于kinetics的validation dataset, 然后它们找人进行了caption的标注。它们将这41269个video 分成了4部分，train, validation, public test, secret test(不公开，用于比赛)</p>
+</li>
+<li><p>具体我的介绍见这篇博文</p>
+</li>
+</ul>
 
       
     </div>
@@ -672,7 +682,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">86</span>
+                    <span class="site-state-item-count">89</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -790,7 +800,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">26</span>
+                      
+                    
+                    <span class="site-state-item-count">27</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -826,7 +838,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Youtube2Text-（MSVD）-1"><span class="nav-number">1.</span> <span class="nav-text">Youtube2Text （MSVD）[1]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MSR-VTT-dataset"><span class="nav-number">2.</span> <span class="nav-text">MSR-VTT dataset</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Youtube2Text-（MSVD）-1"><span class="nav-number">1.</span> <span class="nav-text">Youtube2Text （MSVD）[1]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MSR-VTT-dataset"><span class="nav-number">2.</span> <span class="nav-text">MSR-VTT dataset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VATEX数据集"><span class="nav-number">3.</span> <span class="nav-text">VATEX数据集</span></a></li></ol></div>
             
 
           </div>
