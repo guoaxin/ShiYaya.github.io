@@ -8,7 +8,7 @@
       <link href="/2019/07/23/Hierarchical-Global-Local-Temporal-Modeling-for-Video-Captioning/"/>
       <url>/2019/07/23/Hierarchical-Global-Local-Temporal-Modeling-for-Video-Captioning/</url>
       
-        <content type="html"><![CDATA[<h3 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h3><ul><li>使用object features能够更好地检测出action 和 关键的Object</li></ul><h3 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h3><ul><li><p>两个LSTM层</p></li><li><p>global : frame features and C3D features</p></li><li><p>local : objects </p></li></ul><h3 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h3><ul><li><p>Top Down decoder</p><ul><li>Bottom LSTM：mean of regions</li><li>Top LSTM : attention of  regions</li></ul></li><li><p>Grounded video description的decoder：</p><ul><li>Bottom LSTM：mean of  fc+motion</li><li>Top LSTM: attention of  regions and attention of  fc+motion</li></ul></li><li><p>==Hierarchical Global-Local Temporal Modeling（本文） ==</p></li><li><p>Bottom LSTM：attention of fc+motion</p></li><li><p>Top LSTM: attention of regions</p></li><li><p>本文不一样的地方是在Bottom LSTM的输入也加入了attention</p></li></ul><h3 id="提取特征"><a href="#提取特征" class="headerlink" title="提取特征"></a>提取特征</h3><ul><li>等间隔提取帧的特征</li><li>由于帧之间的间隔，会使得没有运动信息，所以再使用C3D来补充运动信息（以该该为中心，提取16帧，输入C3D中）</li><li>object features: faster rcnn 去掉rcnn部分的类别/分数预测，提取head_to_heal处的pooled_feats</li></ul>]]></content>
+        <content type="html"><![CDATA[<h3 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h3><ul><li>使用object features能够更好地检测出action 和 关键的Object</li></ul><h3 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h3><ul><li><p>两个LSTM层</p></li><li><p>global : frame features and C3D features</p></li><li><p>local : objects </p></li></ul><h3 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h3><ul><li><p>Top Down decoder</p><ul><li>Bottom LSTM：mean of regions</li><li>Top LSTM : attention of  regions</li></ul></li><li><p>Grounded video description的decoder：</p><ul><li>Bottom LSTM：mean of  fc+motion</li><li>Top LSTM: attention of  regions and attention of  fc+motion</li></ul></li><li><p>==Hierarchical Global-Local Temporal Modeling（本文） ==</p><ul><li>Bottom LSTM：attention of fc+motion</li><li>Top LSTM: attention of regions</li><li>本文不一样的地方是在Bottom LSTM的输入也加入了attention</li></ul></li></ul><h3 id="提取特征"><a href="#提取特征" class="headerlink" title="提取特征"></a>提取特征</h3><ul><li>等间隔提取帧的特征</li><li>由于帧之间的间隔，会使得没有运动信息，所以再使用C3D来补充运动信息（以该该为中心，提取16帧，输入C3D中）</li><li>object features: faster rcnn 去掉rcnn部分的类别/分数预测，提取head_to_heal处的pooled_feats</li></ul>]]></content>
       
       
       
@@ -142,7 +142,7 @@
       <link href="/2019/07/20/mmdetection%E7%9A%84%E5%AE%89%E8%A3%85/"/>
       <url>/2019/07/20/mmdetection%E7%9A%84%E5%AE%89%E8%A3%85/</url>
       
-        <content type="html"><![CDATA[<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><ul><li><p>选择镜像（cuda9.0）：py36-pytorch0.4.0-cu90-ctc </p></li><li><p>进入容器，安装anaconda</p></li></ul><h3 id="按着Github-install的步骤进行安装如下："><a href="#按着Github-install的步骤进行安装如下：" class="headerlink" title="按着Github install的步骤进行安装如下："></a>按着<a href="https://github.com/open-mmlab/mmdetection/blob/master/INSTALL.md" target="_blank" rel="noopener">Github install</a>的步骤进行安装如下：</h3><ul><li><p>Create a conda virtual environment and activate it. Then install Cython.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">conda create -n open-mmlab python=<span class="number">3.7</span> -y</span><br><span class="line">conda activate open-mmlab</span><br><span class="line"></span><br><span class="line">conda install cython</span><br></pre></td></tr></table></figure></li><li><p>安装<a href="https://github.com/open-mmlab/mmcv" target="_blank" rel="noopener">mmcv</a> </p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mmcv</span><br></pre></td></tr></table></figure></li><li><p>安装pytorch<br>最好是离线下载，然后再安装，因为conda install 或者 pip install 可能连接不上（细节：pip install torch  就会出现下载链接，然后自己复制链接去网页下载即可），下载之后：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">pip</span> <span class="selector-tag">install</span> <span class="selector-tag">torch-1</span><span class="selector-class">.1</span><span class="selector-class">.0-cp37-cp37m-manylinux1_x86_64</span><span class="selector-class">.whl</span></span><br></pre></td></tr></table></figure></li><li><p>安装opencv</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="keyword">install</span> -c menpo opencv</span><br></pre></td></tr></table></figure></li></ul><ul><li>安装matplotlib<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> matplotlib</span><br></pre></td></tr></table></figure></li></ul><ul><li>安装 terminaltables<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> terminaltables</span><br></pre></td></tr></table></figure></li></ul><ul><li><p>安装 pip install pycocotools</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> pycocotools</span><br></pre></td></tr></table></figure></li><li><p>Clone the mmdetection repository.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/open-mmlab/mmdetection.git</span><br><span class="line">cd mmdetection</span><br></pre></td></tr></table></figure></li><li><p>Install mmdetection</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py develop</span><br></pre></td></tr></table></figure></li><li></li></ul>]]></content>
+        <content type="html"><![CDATA[<h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><ul><li><p>选择镜像（cuda9.0）：py36-pytorch0.4.0-cu90-ctc </p></li><li><p>进入容器，安装anaconda</p></li></ul><h3 id="按着Github-install的步骤进行安装如下："><a href="#按着Github-install的步骤进行安装如下：" class="headerlink" title="按着Github install的步骤进行安装如下："></a>按着<a href="https://github.com/open-mmlab/mmdetection/blob/master/INSTALL.md" target="_blank" rel="noopener">Github install</a>的步骤进行安装如下：</h3><ul><li><p>Create a conda virtual environment and activate it. Then install Cython.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">conda create -n open-mmlab python=<span class="number">3.7</span> -y</span><br><span class="line">source activate open-mmlab</span><br><span class="line"></span><br><span class="line">conda install cython</span><br></pre></td></tr></table></figure></li><li><p>安装<a href="https://github.com/open-mmlab/mmcv" target="_blank" rel="noopener">mmcv</a> </p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mmcv</span><br></pre></td></tr></table></figure></li><li><p>安装pytorch<br>最好是离线下载，然后再安装，因为conda install 或者 pip install 可能连接不上（细节：pip install torch  就会出现下载链接，然后自己复制链接去网页下载即可），下载之后：</p><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">pip</span> <span class="selector-tag">install</span> <span class="selector-tag">torch-1</span><span class="selector-class">.1</span><span class="selector-class">.0-cp37-cp37m-manylinux1_x86_64</span><span class="selector-class">.whl</span></span><br></pre></td></tr></table></figure></li><li><p>安装opencv</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="keyword">install</span> -c menpo opencv</span><br></pre></td></tr></table></figure></li></ul><ul><li>安装matplotlib<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> matplotlib</span><br></pre></td></tr></table></figure></li></ul><ul><li>安装 terminaltables<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> terminaltables</span><br></pre></td></tr></table></figure></li></ul><ul><li><p>安装 pip install pycocotools</p><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> pycocotools</span><br></pre></td></tr></table></figure></li><li><p>Clone the mmdetection repository.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/open-mmlab/mmdetection.git</span><br><span class="line">cd mmdetection</span><br></pre></td></tr></table></figure></li><li><p>Install mmdetection</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py develop</span><br></pre></td></tr></table></figure></li><li></li></ul>]]></content>
       
       
       <categories>
@@ -1241,7 +1241,7 @@
       <link href="/2019/03/24/faster-r-cnn-%E8%A7%A3%E8%AF%BB/"/>
       <url>/2019/03/24/faster-r-cnn-%E8%A7%A3%E8%AF%BB/</url>
       
-        <content type="html"><![CDATA[<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>来自<a href="https://mp.weixin.qq.com/s/M_i38L2brq69BYzmaPeJ9w" target="_blank" rel="noopener">机器之心</a><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0ltm2y7j30u0083wev.jpg"><br>by yaya:<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e10a6tguj31fj0mw0vw.jpg"></p><h2 id="RPN"><a href="#RPN" class="headerlink" title="RPN"></a>RPN</h2><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p68j95j30t80gaaar.jpg" style="zoom:60%"><p>anchor: 定义anchor的长: scale=[4,8,16], 长宽比: ratio=[0.5, 1, 1.5, 2]，则在each position of conv feature 将会有k=len(scale)×len(ratio)=12个anchor</p><p>(1)对于分类层，我们对每个锚点输出两个预测值：它是背景（不是目标）的分数，和它是前景（实际的目标）的分数.<br><br>则经过该1×1的卷积层，输出的shape=N×2k×H×W  <br><br>(2)对于回归或边框调整层，我们输出四个预测值：Δxcenter、Δycenter、Δwidth、Δheight，我们将会把这些值用到锚点中来得到最终的建议.<br><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p66yxyj312w066t91.jpg"></p><h2 id="R-CNN"><a href="#R-CNN" class="headerlink" title="R-CNN"></a>R-CNN</h2><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p6ekybj30u00c175l.jpg"><p>有两个不同的目标：<br><br>(1) 将建议分到一个类中，加上一个背景类（用于删除不好的建议）。<br><br>(2) 根据预测的类别更好地调整建议的边框。<br><br>在最初的 Faster R-CNN 论文中，R-CNN 对每个建议采用特征图，将它平坦化并使用两个大小为 4096 的有 ReLU 激活函数的全连接层。然后，它对每个不同的目标使用两种不同的全连接层：<br><br>一个有 N+1 个单元的全连接层，其中 N 是类的总数，另外一个是背景类。<br><br>一个有 4N 个单元的全连接层。我们希望有一个回归预测，因此对 N 个类别中的每一个可能的类别，我们都需要 Δcenterx、Δcentery、Δwidth、Δheight。<br><br>训练和目标<br><br>R-CNN 的目标与 RPN 的目标的计算方法几乎相同，但是考虑的是不同的可能类别。我们采用建议和真实边框，并计算它们之间的 IoU。<br></p><p>那些有任何真实边框的建议，只要其 IoU 大于 0.5，都被分配给那个真实数据。那些 IoU 在 0.1 和 0.5 之间的被标记为背景。与我们在为 RPN 分配目标时相反的是，我们忽略了没有任何交集的建议。这是因为在这个阶段，我们假设已经有好的建议并且我们对解决更困难的情况更有兴趣。当然，这些所有的值都是可以为了更好的拟合你想找的目标类型而做调整的超参数。<br></p><p>边框回归的目标是计算建议和与其对应的真实框之间的偏移量，仅针对那些基于 IoU 阈值分配了类别的建议。<br></p><p>我们随机抽样了一个尺寸为 64 的 balanced mini batch，其中我们有高达 25% 的前景建议（有类别）和 75% 的背景。<br></p><p>按照我们对 RPN 损失所做的相同处理方式，现在的分类损失是一个多类别的交叉熵损失，使用所有选定的建议和用于与真实框匹配的 25% 建议的 Smooth L1 loss。由于 R-CNN 边框回归的全连接网络的输出对于每个类都有一个预测，所以当我们得到这种损失时必须小心。在计算损失时，我们只需要考虑正确的类。<br><br>这里若假定类别可知，则每个类都有预测，若类别不可知，则仅有一个预测即可，代码如下：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p66uafj30nq03vt8o.jpg"></p>]]></content>
+        <content type="html"><![CDATA[<h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>来自<a href="https://mp.weixin.qq.com/s/M_i38L2brq69BYzmaPeJ9w" target="_blank" rel="noopener">机器之心</a><br>可能机器之心的那个链接无法转到，<a href="http://tech.ifeng.com/a/20180223/44884976_0.shtml" target="_blank" rel="noopener">看这个</a><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0ltm2y7j30u0083wev.jpg"><br>by yaya:<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e10a6tguj31fj0mw0vw.jpg"></p><h2 id="RPN"><a href="#RPN" class="headerlink" title="RPN"></a>RPN</h2><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p68j95j30t80gaaar.jpg" style="zoom:60%"><p>anchor: 定义anchor的长: scale=[4,8,16], 长宽比: ratio=[0.5, 1, 1.5, 2]，则在each position of conv feature 将会有k=len(scale)×len(ratio)=12个anchor</p><p>(1)对于分类层，我们对每个锚点输出两个预测值：它是背景（不是目标）的分数，和它是前景（实际的目标）的分数.<br><br>则经过该1×1的卷积层，输出的shape=N×2k×H×W  <br><br>(2)对于回归或边框调整层，我们输出四个预测值：Δxcenter、Δycenter、Δwidth、Δheight，我们将会把这些值用到锚点中来得到最终的建议.<br><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p66yxyj312w066t91.jpg"></p><h2 id="R-CNN"><a href="#R-CNN" class="headerlink" title="R-CNN"></a>R-CNN</h2><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p6ekybj30u00c175l.jpg"><p>有两个不同的目标：<br><br>(1) 将建议分到一个类中，加上一个背景类（用于删除不好的建议）。<br><br>(2) 根据预测的类别更好地调整建议的边框。<br><br>在最初的 Faster R-CNN 论文中，R-CNN 对每个建议采用特征图，将它平坦化并使用两个大小为 4096 的有 ReLU 激活函数的全连接层。然后，它对每个不同的目标使用两种不同的全连接层：<br><br>一个有 N+1 个单元的全连接层，其中 N 是类的总数，另外一个是背景类。<br><br>一个有 4N 个单元的全连接层。我们希望有一个回归预测，因此对 N 个类别中的每一个可能的类别，我们都需要 Δcenterx、Δcentery、Δwidth、Δheight。<br><br>训练和目标<br><br>R-CNN 的目标与 RPN 的目标的计算方法几乎相同，但是考虑的是不同的可能类别。我们采用建议和真实边框，并计算它们之间的 IoU。<br></p><p>那些有任何真实边框的建议，只要其 IoU 大于 0.5，都被分配给那个真实数据。那些 IoU 在 0.1 和 0.5 之间的被标记为背景。与我们在为 RPN 分配目标时相反的是，我们忽略了没有任何交集的建议。这是因为在这个阶段，我们假设已经有好的建议并且我们对解决更困难的情况更有兴趣。当然，这些所有的值都是可以为了更好的拟合你想找的目标类型而做调整的超参数。<br></p><p>边框回归的目标是计算建议和与其对应的真实框之间的偏移量，仅针对那些基于 IoU 阈值分配了类别的建议。<br></p><p>我们随机抽样了一个尺寸为 64 的 balanced mini batch，其中我们有高达 25% 的前景建议（有类别）和 75% 的背景。<br></p><p>按照我们对 RPN 损失所做的相同处理方式，现在的分类损失是一个多类别的交叉熵损失，使用所有选定的建议和用于与真实框匹配的 25% 建议的 Smooth L1 loss。由于 R-CNN 边框回归的全连接网络的输出对于每个类都有一个预测，所以当我们得到这种损失时必须小心。在计算损失时，我们只需要考虑正确的类。<br><br>这里若假定类别可知，则每个类都有预测，若类别不可知，则仅有一个预测即可，代码如下：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p66uafj30nq03vt8o.jpg"></p>]]></content>
       
       
       <categories>
@@ -1733,9 +1733,9 @@
       
         <tags>
             
-            <tag> 视频描述 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 视频描述 </tag>
             
         </tags>
       
@@ -1874,9 +1874,9 @@
       
         <tags>
             
-            <tag> 视频描述 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 视频描述 </tag>
             
         </tags>
       
@@ -1901,9 +1901,9 @@
       
         <tags>
             
-            <tag> 视频描述 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 视频描述 </tag>
             
         </tags>
       
@@ -1928,9 +1928,9 @@
       
         <tags>
             
-            <tag> 视频描述 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 视频描述 </tag>
             
         </tags>
       
@@ -2009,9 +2009,9 @@
       
         <tags>
             
-            <tag> 视频描述 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 视频描述 </tag>
             
         </tags>
       
