@@ -4,6 +4,44 @@
   
     
     <entry>
+      <title>Memory-Attended Recurrent Network for Video Captioning</title>
+      <link href="/2019/07/25/Memory-Attended-Recurrent-Network-for-Video-Captioning/"/>
+      <url>/2019/07/25/Memory-Attended-Recurrent-Network-for-Video-Captioning/</url>
+      
+        <content type="html"><![CDATA[<h3 id="词频"><a href="#词频" class="headerlink" title="词频"></a>词频</h3><p>“&gt; =3”的保留</p><p>MSR-VTT :11K   MSVD:4K</p><h3 id="Attention-Decoder"><a href="#Attention-Decoder" class="headerlink" title="Attention Decoder"></a>Attention Decoder</h3><ul><li><p>采用SA-LSTM的结构</p></li><li><p>细节：</p><ul><li><p>由于需要对frames_feature ==(L帧)==  与 C3D_feature ==（L帧 -&gt; L/16个特征向量）== 都进行attention，这里进行了共享attention，好处：   <br>  （1）将2D 和 3D 特征映射到相似的特征空间  <br></p><p>（2）像是一种正则化，减少了参数，避免过拟合  <br>  </p></li><li><p>降维，将2D 和 3D 的2048维度的特征，降维到512</p></li></ul></li></ul><h3 id="Attended-Memory-Decoder"><a href="#Attended-Memory-Decoder" class="headerlink" title="Attended Memory Decoder"></a>Attended Memory Decoder</h3><ul><li><p>当前模型的不足：</p><ul><li>现有的模型在生成word的时候，只依赖于当前video的信息，而不能依赖于那些，出现过该单词的其他video的信息</li><li>生成下一个单词，仅依赖于video信息和当前单词，没有建模相邻两个单词之间的兼容性（没看懂）</li></ul></li><li><p>具体的memeory设计详见论文</p></li></ul><h3 id="Attention-Coherent-Loss-AC-Loss"><a href="#Attention-Coherent-Loss-AC-Loss" class="headerlink" title="Attention-Coherent Loss (AC Loss)"></a>Attention-Coherent Loss (AC Loss)</h3><ul><li>将C3D 输入的L帧作为1个time interval,希望对一个time interval 中的frames feature 的attention系数值相近</li><li>仅对frames_features 的attention 系数，计算这样的一个loss</li></ul><img src="https://i.loli.net/2019/07/25/5d397582d36f640160.png" alt="搜狗截图20190725172350.png" title="搜狗截图20190725172350.png">]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>深度层次化图卷积神经网络</title>
+      <link href="/2019/07/25/%E6%B7%B1%E5%BA%A6%E5%B1%82%E6%AC%A1%E5%8C%96%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"/>
+      <url>/2019/07/25/%E6%B7%B1%E5%BA%A6%E5%B1%82%E6%AC%A1%E5%8C%96%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</url>
+      
+        <content type="html"><![CDATA[<h3 id="池化-可以扩大感受野"><a href="#池化-可以扩大感受野" class="headerlink" title="池化 可以扩大感受野"></a>池化 可以扩大感受野</h3><h3 id="GCN（两层）-node-classification"><a href="#GCN（两层）-node-classification" class="headerlink" title="GCN（两层）( node classification )"></a>GCN（两层）( node classification )</h3><ul><li>基于邻域聚合的</li><li><code>H= AXW</code><h3 id="deeper-insight-into-graph-convolutional-networks-for-semi-supervised-learning"><a href="#deeper-insight-into-graph-convolutional-networks-for-semi-supervised-learning" class="headerlink" title="deeper insight into graph convolutional networks for semi-supervised learning"></a>deeper insight into graph convolutional networks for semi-supervised learning</h3></li><li>GCN层数多效果不好：特征之间过于平滑<h3 id="GAT-（两层）-GraphSAGE"><a href="#GAT-（两层）-GraphSAGE" class="headerlink" title="GAT （两层）  GraphSAGE"></a>GAT （两层）  GraphSAGE</h3></li><li>两层，感受野小，2-hop</li></ul><h3 id="Hierarchical-Graph-Representation-Learning-with-Differentiable-Pooling-（graph-classification）"><a href="#Hierarchical-Graph-Representation-Learning-with-Differentiable-Pooling-（graph-classification）" class="headerlink" title="Hierarchical Graph Representation Learning with Differentiable Pooling （graph classification）"></a>Hierarchical Graph Representation Learning with Differentiable Pooling （graph classification）</h3><ol><li>优点</li></ol><ul><li>简单的两层GCN 的感受野只有2-hop</li><li>但是如果GCN- clusterpooling，把相同的节点聚类在一起，再进行GCN，那么感受野就会扩大，</li><li>捕捉到了graph 中的Hierarchical  structure</li></ul><ol start="2"><li>缺点</li></ol><ul><li>但是由于他自身网络设计的，一次池化，就需要一个全连接层，使得想要设计一个很深的网络，就需要很多的参数，容易过拟合</li><li>很难去训练pooling matrix，这是由于不能保证，经过这一个池化层，就可以把相似的objects聚类到一起。本文作者在每层都增加了两个正则项</li></ul><h3 id="Hierarchical-Graph-Convolutional-Networks-for-Semi-supervised-Node-Classification-9层-IJCAI-2019"><a href="#Hierarchical-Graph-Convolutional-Networks-for-Semi-supervised-Node-Classification-9层-IJCAI-2019" class="headerlink" title="Hierarchical Graph Convolutional Networks for Semi-supervised Node Classification ( 9层 ) ( IJCAI 2019)"></a>Hierarchical Graph Convolutional Networks for Semi-supervised Node Classification ( 9层 ) ( IJCAI 2019)</h3><ul><li>粗化 coarsening</li><li>结构一致粗化</li><li>结构相似粗化</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 图卷积网络 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 图卷积网络 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hierarchical Global-Local Temporal Modeling for Video Captioning</title>
       <link href="/2019/07/23/Hierarchical-Global-Local-Temporal-Modeling-for-Video-Captioning/"/>
       <url>/2019/07/23/Hierarchical-Global-Local-Temporal-Modeling-for-Video-Captioning/</url>
@@ -1038,7 +1076,7 @@
       <link href="/2019/04/04/%E5%8F%B2%E9%9B%85%E9%9B%85%E7%9A%84%E6%94%B6%E8%97%8F%E5%A4%B9/"/>
       <url>/2019/04/04/%E5%8F%B2%E9%9B%85%E9%9B%85%E7%9A%84%E6%94%B6%E8%97%8F%E5%A4%B9/</url>
       
-        <content type="html"><![CDATA[<p><a href="http://pygments.org/" target="_blank" rel="noopener">http://pygments.org/</a></p><p><a href="https://202.38.95.226:7443/view.html" target="_blank" rel="noopener">https://202.38.95.226:7443/view.html</a></p><p><a href="https://aideadlin.es/?sub=ML,RO,CV,SP,NLP,DM" target="_blank" rel="noopener">https://aideadlin.es/?sub=ML,RO,CV,SP,NLP,DM</a></p><p><a href="https://yjs.ustc.edu.cn/" target="_blank" rel="noopener">https://yjs.ustc.edu.cn/</a></p><p><a href="https://www.json.cn/" target="_blank" rel="noopener">https://www.json.cn/</a></p><p><a href="https://kevinj-huang.github.io/" target="_blank" rel="noopener">https://kevinj-huang.github.io/</a></p><p><a href="https://shiyaya.github.io/" target="_blank" rel="noopener">https://shiyaya.github.io/</a></p><p><a href="https://stackedit.io/app#" target="_blank" rel="noopener">https://stackedit.io/app#</a></p><p><a href="http://jsonviewer.stack.hu/" target="_blank" rel="noopener">http://jsonviewer.stack.hu/</a></p><p><a href="http://www.nlpjob.com/" target="_blank" rel="noopener">http://www.nlpjob.com/</a></p><p><a href="https://nlp.stanford.edu/software/scenegraph-parser.shtml#Usage" target="_blank" rel="noopener">https://nlp.stanford.edu/software/scenegraph-parser.shtml#Usage</a></p><p><a href="https://paperswithcode.com/sota" target="_blank" rel="noopener">https://paperswithcode.com/sota</a></p>]]></content>
+        <content type="html"><![CDATA[<p><a href="http://pygments.org/" target="_blank" rel="noopener">http://pygments.org/</a></p><p><a href="https://202.38.95.226:7443/view.html" target="_blank" rel="noopener">https://202.38.95.226:7443/view.html</a></p><p><a href="https://aideadlin.es/?sub=ML,RO,CV,SP,NLP,DM" target="_blank" rel="noopener">https://aideadlin.es/?sub=ML,RO,CV,SP,NLP,DM</a></p><p><a href="https://yjs.ustc.edu.cn/" target="_blank" rel="noopener">https://yjs.ustc.edu.cn/</a></p><p><a href="https://www.json.cn/" target="_blank" rel="noopener">https://www.json.cn/</a></p><p><a href="https://kevinj-huang.github.io/" target="_blank" rel="noopener">https://kevinj-huang.github.io/</a></p><p><a href="https://shiyaya.github.io/" target="_blank" rel="noopener">https://shiyaya.github.io/</a></p><p><a href="https://stackedit.io/app#" target="_blank" rel="noopener">https://stackedit.io/app#</a></p><p><a href="http://jsonviewer.stack.hu/" target="_blank" rel="noopener">http://jsonviewer.stack.hu/</a></p><p><a href="http://www.nlpjob.com/" target="_blank" rel="noopener">http://www.nlpjob.com/</a></p><p><a href="https://nlp.stanford.edu/software/scenegraph-parser.shtml#Usage" target="_blank" rel="noopener">https://nlp.stanford.edu/software/scenegraph-parser.shtml#Usage</a></p><p><a href="https://paperswithcode.com/sota" target="_blank" rel="noopener">https://paperswithcode.com/sota</a></p><p><a href="https://sm.ms/" target="_blank" rel="noopener">https://sm.ms/</a></p>]]></content>
       
       
       <categories>
@@ -1162,9 +1200,9 @@
     
     
     <entry>
-      <title>java 的编译与执行</title>
-      <link href="/2019/03/26/java/"/>
-      <url>/2019/03/26/java/</url>
+      <title>java</title>
+      <link href="/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/"/>
+      <url>/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/</url>
       
         <content type="html"><![CDATA[<h2 id="java-的编译与执行"><a href="#java-的编译与执行" class="headerlink" title="java 的编译与执行"></a>java 的编译与执行</h2><ol><li><p>用文本编辑器新建一个yumhtest.java文件，在其中输入以下代码并保存：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">yumhtest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello world !"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>编译：在shell终端执行命令 <strong>javac yumhtest.java</strong></p></li><li><p>运行：在shell终端执行命令 <strong>java yumhtest</strong><br>当shell下出现“hello world !”字样</p></li></ol><p>注意事项：类名应和文件名相同。</p>]]></content>
       
@@ -1187,9 +1225,9 @@
     
     
     <entry>
-      <title>java</title>
-      <link href="/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/"/>
-      <url>/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/</url>
+      <title>java 的编译与执行</title>
+      <link href="/2019/03/26/java/"/>
+      <url>/2019/03/26/java/</url>
       
         <content type="html"><![CDATA[<h2 id="java-的编译与执行"><a href="#java-的编译与执行" class="headerlink" title="java 的编译与执行"></a>java 的编译与执行</h2><ol><li><p>用文本编辑器新建一个yumhtest.java文件，在其中输入以下代码并保存：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">yumhtest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello world !"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>编译：在shell终端执行命令 <strong>javac yumhtest.java</strong></p></li><li><p>运行：在shell终端执行命令 <strong>java yumhtest</strong><br>当shell下出现“hello world !”字样</p></li></ol><p>注意事项：类名应和文件名相同。</p>]]></content>
       
@@ -1733,9 +1771,9 @@
       
         <tags>
             
-            <tag> 视频描述 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 视频描述 </tag>
             
         </tags>
       
@@ -1874,9 +1912,9 @@
       
         <tags>
             
-            <tag> 视频描述 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 视频描述 </tag>
             
         </tags>
       
@@ -1901,9 +1939,9 @@
       
         <tags>
             
-            <tag> 视频描述 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 视频描述 </tag>
             
         </tags>
       
@@ -1928,9 +1966,9 @@
       
         <tags>
             
-            <tag> 视频描述 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 视频描述 </tag>
             
         </tags>
       
@@ -2009,9 +2047,9 @@
       
         <tags>
             
-            <tag> 视频描述 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 视频描述 </tag>
             
         </tags>
       

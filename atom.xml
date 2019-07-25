@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-07-23T10:17:31.275Z</updated>
+  <updated>2019-07-25T10:09:29.973Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,54 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Memory-Attended Recurrent Network for Video Captioning</title>
+    <link href="http://yoursite.com/2019/07/25/Memory-Attended-Recurrent-Network-for-Video-Captioning/"/>
+    <id>http://yoursite.com/2019/07/25/Memory-Attended-Recurrent-Network-for-Video-Captioning/</id>
+    <published>2019-07-25T08:28:58.000Z</published>
+    <updated>2019-07-25T10:09:29.973Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="词频"><a href="#词频" class="headerlink" title="词频"></a>词频</h3><p>“&gt; =3”的保留</p><p>MSR-VTT :11K   MSVD:4K</p><h3 id="Attention-Decoder"><a href="#Attention-Decoder" class="headerlink" title="Attention Decoder"></a>Attention Decoder</h3><ul><li><p>采用SA-LSTM的结构</p></li><li><p>细节：</p><ul><li><p>由于需要对frames_feature ==(L帧)==  与 C3D_feature ==（L帧 -&gt; L/16个特征向量）== 都进行attention，这里进行了共享attention，好处：   <br>  （1）将2D 和 3D 特征映射到相似的特征空间  <br></p><p>（2）像是一种正则化，减少了参数，避免过拟合  <br>  </p></li><li><p>降维，将2D 和 3D 的2048维度的特征，降维到512</p></li></ul></li></ul><h3 id="Attended-Memory-Decoder"><a href="#Attended-Memory-Decoder" class="headerlink" title="Attended Memory Decoder"></a>Attended Memory Decoder</h3><ul><li><p>当前模型的不足：</p><ul><li>现有的模型在生成word的时候，只依赖于当前video的信息，而不能依赖于那些，出现过该单词的其他video的信息</li><li>生成下一个单词，仅依赖于video信息和当前单词，没有建模相邻两个单词之间的兼容性（没看懂）</li></ul></li><li><p>具体的memeory设计详见论文</p></li></ul><h3 id="Attention-Coherent-Loss-AC-Loss"><a href="#Attention-Coherent-Loss-AC-Loss" class="headerlink" title="Attention-Coherent Loss (AC Loss)"></a>Attention-Coherent Loss (AC Loss)</h3><ul><li>将C3D 输入的L帧作为1个time interval,希望对一个time interval 中的frames feature 的attention系数值相近</li><li>仅对frames_features 的attention 系数，计算这样的一个loss</li></ul><img src="https://i.loli.net/2019/07/25/5d397582d36f640160.png" alt="搜狗截图20190725172350.png" title="搜狗截图20190725172350.png">]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;词频&quot;&gt;&lt;a href=&quot;#词频&quot; class=&quot;headerlink&quot; title=&quot;词频&quot;&gt;&lt;/a&gt;词频&lt;/h3&gt;&lt;p&gt;“&amp;gt; =3”的保留&lt;/p&gt;
+&lt;p&gt;MSR-VTT :11K   MSVD:4K&lt;/p&gt;
+&lt;h3 id=&quot;Attention-Decod
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>深度层次化图卷积神经网络</title>
+    <link href="http://yoursite.com/2019/07/25/%E6%B7%B1%E5%BA%A6%E5%B1%82%E6%AC%A1%E5%8C%96%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"/>
+    <id>http://yoursite.com/2019/07/25/深度层次化图卷积神经网络/</id>
+    <published>2019-07-25T03:53:40.000Z</published>
+    <updated>2019-07-25T03:54:41.406Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="池化-可以扩大感受野"><a href="#池化-可以扩大感受野" class="headerlink" title="池化 可以扩大感受野"></a>池化 可以扩大感受野</h3><h3 id="GCN（两层）-node-classification"><a href="#GCN（两层）-node-classification" class="headerlink" title="GCN（两层）( node classification )"></a>GCN（两层）( node classification )</h3><ul><li>基于邻域聚合的</li><li><code>H= AXW</code><h3 id="deeper-insight-into-graph-convolutional-networks-for-semi-supervised-learning"><a href="#deeper-insight-into-graph-convolutional-networks-for-semi-supervised-learning" class="headerlink" title="deeper insight into graph convolutional networks for semi-supervised learning"></a>deeper insight into graph convolutional networks for semi-supervised learning</h3></li><li>GCN层数多效果不好：特征之间过于平滑<h3 id="GAT-（两层）-GraphSAGE"><a href="#GAT-（两层）-GraphSAGE" class="headerlink" title="GAT （两层）  GraphSAGE"></a>GAT （两层）  GraphSAGE</h3></li><li>两层，感受野小，2-hop</li></ul><h3 id="Hierarchical-Graph-Representation-Learning-with-Differentiable-Pooling-（graph-classification）"><a href="#Hierarchical-Graph-Representation-Learning-with-Differentiable-Pooling-（graph-classification）" class="headerlink" title="Hierarchical Graph Representation Learning with Differentiable Pooling （graph classification）"></a>Hierarchical Graph Representation Learning with Differentiable Pooling （graph classification）</h3><ol><li>优点</li></ol><ul><li>简单的两层GCN 的感受野只有2-hop</li><li>但是如果GCN- clusterpooling，把相同的节点聚类在一起，再进行GCN，那么感受野就会扩大，</li><li>捕捉到了graph 中的Hierarchical  structure</li></ul><ol start="2"><li>缺点</li></ol><ul><li>但是由于他自身网络设计的，一次池化，就需要一个全连接层，使得想要设计一个很深的网络，就需要很多的参数，容易过拟合</li><li>很难去训练pooling matrix，这是由于不能保证，经过这一个池化层，就可以把相似的objects聚类到一起。本文作者在每层都增加了两个正则项</li></ul><h3 id="Hierarchical-Graph-Convolutional-Networks-for-Semi-supervised-Node-Classification-9层-IJCAI-2019"><a href="#Hierarchical-Graph-Convolutional-Networks-for-Semi-supervised-Node-Classification-9层-IJCAI-2019" class="headerlink" title="Hierarchical Graph Convolutional Networks for Semi-supervised Node Classification ( 9层 ) ( IJCAI 2019)"></a>Hierarchical Graph Convolutional Networks for Semi-supervised Node Classification ( 9层 ) ( IJCAI 2019)</h3><ul><li>粗化 coarsening</li><li>结构一致粗化</li><li>结构相似粗化</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;池化-可以扩大感受野&quot;&gt;&lt;a href=&quot;#池化-可以扩大感受野&quot; class=&quot;headerlink&quot; title=&quot;池化 可以扩大感受野&quot;&gt;&lt;/a&gt;池化 可以扩大感受野&lt;/h3&gt;&lt;h3 id=&quot;GCN（两层）-node-classification&quot;&gt;&lt;a h
+      
+    
+    </summary>
+    
+      <category term="图卷积网络" scheme="http://yoursite.com/categories/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="图卷积网络" scheme="http://yoursite.com/tags/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/"/>
+    
+  </entry>
   
   <entry>
     <title>Hierarchical Global-Local Temporal Modeling for Video Captioning</title>
@@ -470,57 +518,6 @@
     
     
       <category term="图像描述" scheme="http://yoursite.com/tags/%E5%9B%BE%E5%83%8F%E6%8F%8F%E8%BF%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>池化层的反向传播</title>
-    <link href="http://yoursite.com/2019/04/21/%E6%B1%A0%E5%8C%96%E5%B1%82%E7%9A%84%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD/"/>
-    <id>http://yoursite.com/2019/04/21/池化层的反向传播/</id>
-    <published>2019-04-21T09:20:22.000Z</published>
-    <updated>2019-04-21T09:24:58.693Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li>参考： <a href="https://blog.csdn.net/qq_21190081/article/details/72871704" target="_blank" rel="noopener">https://blog.csdn.net/qq_21190081/article/details/72871704</a></li><li>总结，<br>（1）对于平均池化层，比如2×2-&gt;1， 梯度的反向传递，是1-&gt;2×2，若梯度为x, 则，反向传播的梯度为4个 1/4<br>（1）对于最大池化层，比如2×2-&gt;1， 梯度的反向传递，是1-&gt;2×2，若梯度为x, 则，反向传播只赋值给最大值所在的元素，其余三个元素的梯度为0</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;参考： &lt;a href=&quot;https://blog.csdn.net/qq_21190081/article/details/72871704&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://blog.csdn.net/qq_21
-      
-    
-    </summary>
-    
-      <category term="深度学习" scheme="http://yoursite.com/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="深度学习" scheme="http://yoursite.com/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>An End-to-End Baseline for Video Captioning</title>
-    <link href="http://yoursite.com/2019/04/20/An-End-to-End-Baseline-for-Video-Captioning/"/>
-    <id>http://yoursite.com/2019/04/20/An-End-to-End-Baseline-for-Video-Captioning/</id>
-    <published>2019-04-20T13:57:34.000Z</published>
-    <updated>2019-04-21T13:13:59.872Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="积累梯度那里没有看明白-–-解决内存占用多的问题"><a href="#积累梯度那里没有看明白-–-解决内存占用多的问题" class="headerlink" title="积累梯度那里没有看明白 – 解决内存占用多的问题"></a>积累梯度那里没有看明白 – 解决内存占用多的问题</h3><p>我认为可能是积累 loss, 直到达到某一个batch size才进行反向传播<br>说是为了解决内存占用多的问题，可是这样，就解决了吗？？？</p><h3 id="灵魂反问"><a href="#灵魂反问" class="headerlink" title="灵魂反问"></a>灵魂反问</h3><p>为什么要是end-to-end，我最终需要的是一个效果比较好的模型，但是为了只得到这样的一点提升，反而会需要很多的GPU计算资源。这个end-to-end fine-tune 是否有必要。</p><h3 id="目前方法存在的问题"><a href="#目前方法存在的问题" class="headerlink" title="目前方法存在的问题"></a>目前方法存在的问题</h3><p>encoder：比如 CNN， 一般是在不同任务上的其他数据集上进行预训练的，之后，在训练video captioning任务时，得到的video/image feature就不再fine tune。这样得到的结果是次优的。<br>目前改进这一缺陷的文章有：[1][2][3]，他们尝试捕捉不同帧之间的动态时域，但是，他们没有从根本上改变一个事实：视频描述任务需要一个与该任务相关的特征。</p><h4 id="当前没有人去fine-tune-encoder的原因"><a href="#当前没有人去fine-tune-encoder的原因" class="headerlink" title="当前没有人去fine-tune encoder的原因"></a>当前没有人去fine-tune encoder的原因</h4><p>（1）because of the amount of memory required to process  video data for each batch。是因为每个批次都要处理视频数据，所需要的存储空间会很大。<br>（2）batch sizes for video captioning can become very high (e.g. 512), making training  prohibitive on a small number of GPUs。同时，视频描述的批次一般都比较大，使得所需要的GPU数量会很多。</p><h4 id="本文提取出的解决方案—-即训练过程"><a href="#本文提取出的解决方案—-即训练过程" class="headerlink" title="本文提取出的解决方案—-即训练过程"></a>本文提取出的解决方案—-即训练过程</h4><p>In this paper we address this issue by accumulating gradients over multiple steps, to update parameters only after  the required effective batch size is achieved.<br>在多步积累梯度，并只在达到有效的批次大小之后(当神经网络训练完512个examples)，才进行梯度更新。<br>这种训练方案相比于分别训练两部分收敛速度会慢，因为所需的迭代次数增加了。但是这里采用了一个加速训练过程的方案，先分别训练encoder和decoder，然后再end-to-end进行fine-tune。</p><h4 id="主要的贡献"><a href="#主要的贡献" class="headerlink" title="主要的贡献"></a>主要的贡献</h4><ol><li>可以得到与具体任务（视频描述）相关的特征</li><li>积累梯度来限制GOU存储消耗，因此可以处理大批次，这是基于RNN的decoders所需的。</li><li>使用了两阶段的训练来加速训练</li><li>为未来的工作，创建了一个简单的baseline</li></ol><h3 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h3><ol><li>先预训练encoder，例如利用图像识别、行为识别等</li><li>冻结encoder的参数，在视频描述任务上训练decoder，直到在验证数据集上表现出比较好的效果</li><li>整个网络，端到端的训练，冻结Inception-ResNet-v2中的BN层，由于该过程中占用的内存较多，作者采用了一种方法：accumulating gradients over multiple steps, to update parameters only after  the required effective batch size is achieved. </li></ol><ul><li>需要注意的是，在2. 3. 阶段的训练过程中，SA-LSTM都是使用target words(ground truth)作为输入，而不是使用之前的预测。</li></ul><h3 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h3><p> Inception-ResNet-v2[5] as an encoder，and a modified version of  Soft-Attention LSTM as a decoder.<br> <img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ad637ykjj30hy0h677d.jpg">    </p><ul><li>decoder<ul><li>输入LSTM的input: <strong>x<sup>t</sup></strong> ：<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeagi7o3j30a30280sl.jpg">    - 该step 生成的word：<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeiriwanj30jd014mx7.jpg"></li></ul></li></ul><p>soft-attention这里，原文是采用attention机制进行加权求和 ，这里与原soft-attention[2] 略有不同。</p><ul><li><p>原soft-attention论文：</p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeagheogj308o03ct8l.jpg">     </li><li><p>现修改为：（增加了β<sub>t</sub>）</p></li></ul><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeagka0rj30h504dq37.jpg">   <img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeaggzpdj309302xdfq.jpg">   <ul><li><font color="#0099ff" size="5" face="黑体">这里与Figure2 图中显示的结构并不一致，这里是全权求和，但是在图中却是concatenate !</font></li></ul><ul><li>还有一些其他的修改<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aes6w62rj30il09xwgp.jpg"></li></ul><h3 id="实验效果"><a href="#实验效果" class="headerlink" title="实验效果"></a>实验效果</h3><ul><li>step1 : encoder先训练，然后固定encoder的参数，训练decoder的参数，不进行联合训练</li><li>step2：在step1的基础上，联合训练encoder-decoder。</li><li>MSR-VTT的实验结果<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ajqfodpkj30kl0b9acc.jpg">  </li><li>MSVD的实验结果<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ajqfqhbjj30ks0icn0q.jpg"></li></ul><h4 id="yaya：-本文step1训练效果比较好的原因（相较于soft-attention-lstm-原论文）"><a href="#yaya：-本文step1训练效果比较好的原因（相较于soft-attention-lstm-原论文）" class="headerlink" title=" yaya： 本文step1训练效果比较好的原因（相较于soft-attention lstm 原论文）"></a><font color="#0099ff" size="5" face="黑体"> yaya： 本文step1训练效果比较好的原因（相较于soft-attention lstm 原论文）</font></h4><p>这里step1的意思是：encoder、decoder 分开训练，并不进行联合训练</p><ol><li>该文使用的 Inception-ResNet-v2作为encoder来提取特征。会比其他论文中使用的encoder更复杂。</li><li>初始化的细节<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ak8as8u4j309703pglo.jpg"></li><li>对SA-LSTM[2]而言，进行了一些修改：<br>（1）frame features 转为一个特征向量，使用的注意力机制，但是该文在soft-attention的基础上，还增加了一个系数β<sub>t</sub><br>（2）LSTM的内部结构的计算公式增加了一项，如下图<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ajg7vn8rj31fi0ci427.jpg">（3）在生成word时，主要差别就是E[y<sub>t-1</sub>]前边是否有权重的问题 - soft-attention 使用的公式：<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeiriwanj30jd014mx7.jpg"> - 但是在本文中使用的公式为：<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ajjxtsplj30d103v74i.jpg">- 但是就该文3.3.2节中说：These changes are inspired by  the original code repository by Yao et al [2]，也就是有可能人家的源代码和在论文中提到的不一致。</li></ol><h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p>[1] Video captioning with  transferred semantic attributes. CVPR, 2017<br>[2] Describing videos by exploiting temporal  structure. ICCV, 2015.<br>[3] Task-driven dynamic fusion: Reducing ambiguity in video description. CVPR, 2017.<br>[4] Show and  tell: Lessons learned from the 2015 mscoco image captioning challenge. TPAMI, 2016.<br>[5] Inception-v4, inception-resnet and the impact of residual  connections on learning. AAAI, 2017</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h3 id=&quot;积累梯度那里没有看明白-–-解决内存占用多的问题&quot;&gt;&lt;a href=&quot;#积累梯度那里没有看明白-–-解决内存占用多的问题&quot; class=&quot;headerlink&quot; title=&quot;积累梯度那里没有看明白 – 解决内存占用多的问题&quot;&gt;&lt;/a&gt;积累梯度那里没有看明白 – 
-      
-    
-    </summary>
-    
-      <category term="视频描述" scheme="http://yoursite.com/categories/%E8%A7%86%E9%A2%91%E6%8F%8F%E8%BF%B0/"/>
-    
-    
-      <category term="视频描述" scheme="http://yoursite.com/tags/%E8%A7%86%E9%A2%91%E6%8F%8F%E8%BF%B0/"/>
     
   </entry>
   
