@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="词频“&amp;gt; =3”的保留 MSR-VTT :11K   MSVD:4K Attention Decoder 采用SA-LSTM的结构  细节：  由于需要对frames_feature ==(L帧)==  与 C3D_feature ==（L帧 -&amp;gt; L/16个特征向量）== 都进行attention，这里进行了共享attention，好处：     （1）将2D 和 3D 特征映射到相">
+  <meta name="description" content="词频“&amp;gt; =3”的保留 MSR-VTT :11K   MSVD:4K Attention Decoder 采用SA-LSTM的结构  细节：  ==共享attention==由于需要对frames_feature ==(L帧)==  与 C3D_feature ==（L帧 -&amp;gt; L/16个特征向量）== 都进行attention，这里进行了共享attention，好处：     （1）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Memory-Attended Recurrent Network for Video Captioning">
 <meta property="og:url" content="http://yoursite.com/2019/07/25/Memory-Attended-Recurrent-Network-for-Video-Captioning/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="词频“&amp;gt; =3”的保留 MSR-VTT :11K   MSVD:4K Attention Decoder 采用SA-LSTM的结构  细节：  由于需要对frames_feature ==(L帧)==  与 C3D_feature ==（L帧 -&amp;gt; L/16个特征向量）== 都进行attention，这里进行了共享attention，好处：     （1）将2D 和 3D 特征映射到相">
+<meta property="og:description" content="词频“&amp;gt; =3”的保留 MSR-VTT :11K   MSVD:4K Attention Decoder 采用SA-LSTM的结构  细节：  ==共享attention==由于需要对frames_feature ==(L帧)==  与 C3D_feature ==（L帧 -&amp;gt; L/16个特征向量）== 都进行attention，这里进行了共享attention，好处：     （1）">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2019/07/25/5d397582d36f640160.png">
-<meta property="og:updated_time" content="2019-07-25T10:09:29.973Z">
+<meta property="og:updated_time" content="2019-07-25T10:49:28.637Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Memory-Attended Recurrent Network for Video Captioning">
-<meta name="twitter:description" content="词频“&amp;gt; =3”的保留 MSR-VTT :11K   MSVD:4K Attention Decoder 采用SA-LSTM的结构  细节：  由于需要对frames_feature ==(L帧)==  与 C3D_feature ==（L帧 -&amp;gt; L/16个特征向量）== 都进行attention，这里进行了共享attention，好处：     （1）将2D 和 3D 特征映射到相">
+<meta name="twitter:description" content="词频“&amp;gt; =3”的保留 MSR-VTT :11K   MSVD:4K Attention Decoder 采用SA-LSTM的结构  细节：  ==共享attention==由于需要对frames_feature ==(L帧)==  与 C3D_feature ==（L帧 -&amp;gt; L/16个特征向量）== 都进行attention，这里进行了共享attention，好处：     （1）">
 <meta name="twitter:image" content="https://i.loli.net/2019/07/25/5d397582d36f640160.png">
 
 
@@ -299,7 +299,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">91</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">92</span></a>
 
   </li>
 
@@ -423,7 +423,7 @@
                 
               
 
-              <time title="创建时间：2019-07-25 16:28:58 / 修改时间：18:09:29" itemprop="dateCreated datePublished" datetime="2019-07-25T16:28:58+08:00">2019-07-25</time>
+              <time title="创建时间：2019-07-25 16:28:58 / 修改时间：18:49:28" itemprop="dateCreated datePublished" datetime="2019-07-25T16:28:58+08:00">2019-07-25</time>
             
 
             
@@ -485,10 +485,10 @@
 </li>
 <li><p>细节：</p>
 <ul>
-<li><p>由于需要对frames_feature ==(L帧)==  与 C3D_feature ==（L帧 -&gt; L/16个特征向量）== 都进行attention，这里进行了共享attention，好处：   <br>  （1）将2D 和 3D 特征映射到相似的特征空间  <br></p>
+<li><p>==共享attention==<br>由于需要对frames_feature ==(L帧)==  与 C3D_feature ==（L帧 -&gt; L/16个特征向量）== 都进行attention，这里进行了共享attention，好处：   <br>  （1）将2D 和 3D 特征映射到相似的特征空间  <br></p>
 <p>（2）像是一种正则化，减少了参数，避免过拟合  <br>  </p>
 </li>
-<li><p>降维，将2D 和 3D 的2048维度的特征，降维到512</p>
+<li><p>降维<br>将2D 和 3D 的2048维度的特征，降维到512</p>
 </li>
 </ul>
 </li>
@@ -548,6 +548,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/26/Learning-Video-Representations-from-Correspondence-Proposals/" rel="prev" title="Learning Video Representations from Correspondence Proposals">
+                Learning Video Representations from Correspondence Proposals <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -624,7 +628,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">91</span>
+                    <span class="site-state-item-count">92</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

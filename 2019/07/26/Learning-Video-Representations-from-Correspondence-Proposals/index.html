@@ -96,36 +96,28 @@
 
 
 
-  <meta name="description" content="数据集介绍https://cloud.tencent.com/developer/article/1391855  Visual Genome 主页 Visual Genome Data Visual Genome Readme Visual Genome 数据集总览：  108077 张图片 5.4 Million Region Descriptions 1.7 Million Visual">
-<meta name="keywords" content="目标检测">
+  <meta name="description" content="我的理解 与Non-local 类似，都是在现有CNN（2D， 3D）模型中加入一个设计的模块  CPNet 介绍（1）在CNN的某一层，得到了T*H*W*d的特征，这T*H*W个特征，是经过conv来的，即一个特征，返回到原图对应的是一个块（区域）的特征。    （2）类似于graph 中的邻接矩阵的操作，计算这个T*H*W个节点之间的相似性，相似性近的前K个（且不在同一帧），认为他们之间存在对">
+<meta name="keywords" content="行为识别">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Visual Genome 数据集">
-<meta property="og:url" content="http://yoursite.com/2019/07/21/Visual-Genome-数据集/index.html">
+<meta property="og:title" content="Learning Video Representations from Correspondence Proposals">
+<meta property="og:url" content="http://yoursite.com/2019/07/26/Learning-Video-Representations-from-Correspondence-Proposals/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="数据集介绍https://cloud.tencent.com/developer/article/1391855  Visual Genome 主页 Visual Genome Data Visual Genome Readme Visual Genome 数据集总览：  108077 张图片 5.4 Million Region Descriptions 1.7 Million Visual">
+<meta property="og:description" content="我的理解 与Non-local 类似，都是在现有CNN（2D， 3D）模型中加入一个设计的模块  CPNet 介绍（1）在CNN的某一层，得到了T*H*W*d的特征，这T*H*W个特征，是经过conv来的，即一个特征，返回到原图对应的是一个块（区域）的特征。    （2）类似于graph 中的邻接矩阵的操作，计算这个T*H*W个节点之间的相似性，相似性近的前K个（且不在同一帧），认为他们之间存在对">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1682974/rex8eso6p5.png?imageView2/2/w/1620">
-<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1682974/vtmiv1yyr6.png?imageView2/2/w/1620">
-<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1682974/8kgo0p0qim.png?imageView2/2/w/1620">
-<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1682974/ih1qpz1p3s.png?imageView2/2/w/1620">
-<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1682974/k1n26a1mdt.png?imageView2/2/w/1620">
-<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1682974/373ih7qquc.png?imageView2/2/w/1620">
-<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1682974/5ljbd3m2av.png?imageView2/2/w/1620">
-<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1682974/pgbhzj5ui4.png?imageView2/2/w/1620">
-<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1682974/vbxbgpfi92.png?imageView2/2/w/1620">
-<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1682974/cjqe5v7i44.png?imageView2/2/w/1620">
-<meta property="og:updated_time" content="2019-07-21T02:50:42.253Z">
+<meta property="og:image" content="https://i.loli.net/2019/07/26/5d3a7afee6b0178187.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/26/5d3a6c44659ae30922.png">
+<meta property="og:updated_time" content="2019-07-26T04:06:30.154Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Visual Genome 数据集">
-<meta name="twitter:description" content="数据集介绍https://cloud.tencent.com/developer/article/1391855  Visual Genome 主页 Visual Genome Data Visual Genome Readme Visual Genome 数据集总览：  108077 张图片 5.4 Million Region Descriptions 1.7 Million Visual">
-<meta name="twitter:image" content="https://ask.qcloudimg.com/http-save/yehe-1682974/rex8eso6p5.png?imageView2/2/w/1620">
+<meta name="twitter:title" content="Learning Video Representations from Correspondence Proposals">
+<meta name="twitter:description" content="我的理解 与Non-local 类似，都是在现有CNN（2D， 3D）模型中加入一个设计的模块  CPNet 介绍（1）在CNN的某一层，得到了T*H*W*d的特征，这T*H*W个特征，是经过conv来的，即一个特征，返回到原图对应的是一个块（区域）的特征。    （2）类似于graph 中的邻接矩阵的操作，计算这个T*H*W个节点之间的相似性，相似性近的前K个（且不在同一帧），认为他们之间存在对">
+<meta name="twitter:image" content="https://i.loli.net/2019/07/26/5d3a7afee6b0178187.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/21/Visual-Genome-数据集/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/26/Learning-Video-Representations-from-Correspondence-Proposals/">
 
 
 
@@ -135,7 +127,7 @@
   };
 </script>
 
-  <title>Visual Genome 数据集 | ShiYaya</title>
+  <title>Learning Video Representations from Correspondence Proposals | ShiYaya</title>
   
 
 
@@ -390,7 +382,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/21/Visual-Genome-数据集/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/26/Learning-Video-Representations-from-Correspondence-Proposals/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ShiYaya">
@@ -407,7 +399,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Visual Genome 数据集
+          <h1 class="post-title" itemprop="name headline">Learning Video Representations from Correspondence Proposals
 
               
             
@@ -433,7 +425,7 @@
                 
               
 
-              <time title="创建时间：2019-07-21 10:48:54 / 修改时间：10:50:42" itemprop="dateCreated datePublished" datetime="2019-07-21T10:48:54+08:00">2019-07-21</time>
+              <time title="创建时间：2019-07-26 09:55:31 / 修改时间：12:06:30" itemprop="dateCreated datePublished" datetime="2019-07-26T09:55:31+08:00">2019-07-26</time>
             
 
             
@@ -455,7 +447,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/目标检测/" itemprop="url" rel="index"><span itemprop="name">目标检测</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/行为识别/" itemprop="url" rel="index"><span itemprop="name">行为识别</span></a></span>
 
                 
                 
@@ -470,8 +462,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/07/21/Visual-Genome-数据集/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/07/21/Visual-Genome-数据集/" itemprop="commentsCount"></span>
+                <a href="/2019/07/26/Learning-Video-Representations-from-Correspondence-Proposals/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/07/26/Learning-Video-Representations-from-Correspondence-Proposals/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -506,103 +498,28 @@
       
 
       
-        <ul>
-<li>数据集介绍<br><a href="https://cloud.tencent.com/developer/article/1391855" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1391855</a></li>
+        <h3 id="我的理解"><a href="#我的理解" class="headerlink" title="我的理解"></a>我的理解</h3><ul>
+<li>与Non-local 类似，都是在现有CNN（2D， 3D）模型中加入一个设计的模块</li>
 </ul>
-<p><a href="https://visualgenome.org/" target="_blank" rel="noopener">Visual Genome 主页</a></p>
-<p><a href="https://visualgenome.org/api/v0/api_home.html" target="_blank" rel="noopener">Visual Genome Data</a></p>
-<p><a href="https://visualgenome.org/api/v0/api_readme" target="_blank" rel="noopener">Visual Genome Readme</a></p>
-<p>Visual Genome 数据集总览：</p>
-<ul>
-<li>108077 张图片</li>
-<li>5.4 Million Region Descriptions</li>
-<li>1.7 Million Visual Question Answers</li>
-<li>3.8 Million Object Instances</li>
-<li>2.8 Million Attributes</li>
-<li>2.3 Million Relationships</li>
-<li>Everything Mapped to Wordnet Synsets  </li>
-<li>标注数据：  objects，attributes，图片内的 relationships</li>
-<li>共 108K 张图片，每张图片平均有， 35 个 objects，26 个 attributes，21对 objects 见的成对 relationships.</li>
-</ul>
-<p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/rex8eso6p5.png?imageView2/2/w/1620" alt="img"></p>
-<p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/vtmiv1yyr6.png?imageView2/2/w/1620" alt="img"></p>
-<h2 id="1-Visual-Genome-数据标注"><a href="#1-Visual-Genome-数据标注" class="headerlink" title="1. Visual Genome 数据标注"></a>1. Visual Genome 数据标注</h2><p>数据集主要包括七个主要部分：</p>
-<ul>
-<li>region descriptions</li>
-<li>objects</li>
-<li>attributes</li>
-<li>relationships</li>
-<li>region graphs</li>
-<li>scene graphs</li>
-<li>question answer pairs</li>
-</ul>
-<h3 id="1-1-Region-Descriptions"><a href="#1-1-Region-Descriptions" class="headerlink" title="1.1. Region Descriptions"></a>1.1. Region Descriptions</h3><p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/8kgo0p0qim.png?imageView2/2/w/1620" alt="img"></p>
-<p>数据集标注了图片的 regions descriptions，每个 region 有一个 bounding box. </p>
-<p>如上图中，图片有三个 regions descriptions： “man jumping over a fire hydrant,”，“yellow fire hydrant,” 和   “woman in shorts is standing behind the man.”.</p>
-<h3 id="1-2-Objects"><a href="#1-2-Objects" class="headerlink" title="1.2. Objects"></a>1.2. Objects</h3><p>数据集中每张图片平均有 35 个 objects，每个 object 采用 bounding box 标注.</p>
-<p>如图：   </p>
-<p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/ih1qpz1p3s.png?imageView2/2/w/1620" alt="img"></p>
-<p><a href="http://blog.csdn.net/zziahgf/article/details/72819043" target="_blank" rel="noopener">MS-COCO 数据集</a> 只标注了 80 个 object categories，没有描述图片中的所有 objects. 实际场景中，可能有更多的 objects 类别.</p>
-<p>Visual Genome 数据集旨在对图片里出现的所有视觉 objects 进行标注，objects categories 类别达到 33877 种.</p>
-<h3 id="1-3-Attributes"><a href="#1-3-Attributes" class="headerlink" title="1.3. Attributes"></a>1.3. Attributes</h3><p>数据集中每张图片平均有 26 个 attributes. Objects 可能没有或者有更多的相关 attributes. </p>
-<p>Attributes 可以是 color(如 yellow)，states(如 standing) 等，如图：   </p>
-<p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/k1n26a1mdt.png?imageView2/2/w/1620" alt="img"></p>
-<p>Attributes 能够对 objects 进行更容易的描述、对比与分类. 即使以前未见到某 object，根据 attributes 仍能推断出与 object 相关的东西. 如，“yellow and brown spotted with long neck(长脖子上有黄色和棕色的斑点)”，很可能推断出 object 是 giraffe(长颈鹿).</p>
-<p>关于 attributes 的研究：</p>
-<ul>
-<li>采用examplar SVMs，利用相似特征来寻找 objects；</li>
-<li>采用纹理(textures) 研究 objects，或者预测颜色.</li>
-<li>采用 attributes 来提高目标分类结果. 如 fine-grained 识别.</li>
-</ul>
-<p>Attributes 一般被定义为 parts(如 has legs)、shapes(如，spherical球形的)、materials(如 furry毛皮的)；用于对新的 objects 类别进行分类.</p>
-<p>Visual Genome 数据集对于 attributes 进行扩展，其 attributes 不是 image-specific 的，而是真实场景中 object-specific 的. attributes 类型包括：size(如 small), pose(如bent), state (如 transparent), emotion (如 happy)等等.</p>
-<ul>
-<li>基于 VGG16 的 attributes 预测结果：   </li>
-</ul>
-<p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/373ih7qquc.png?imageView2/2/w/1620" alt="img"></p>
-<h3 id="1-4-Relationships"><a href="#1-4-Relationships" class="headerlink" title="1.4. Relationships"></a>1.4. Relationships</h3><p>Relationships 是两个 objects 的连接关系.</p>
-<p>Relationships 可以是 actions(如 jumping over)，spatial(如 is build)，comparative(如 taller than)，prepositional phrases (如 drive on). 如图：   </p>
-<p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/5ljbd3m2av.png?imageView2/2/w/1620" alt="img"></p>
-<ul>
-<li>Relationship 预测结果：   </li>
-</ul>
-<p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/pgbhzj5ui4.png?imageView2/2/w/1620" alt="img"></p>
-<h3 id="1-5-Region-Graphs"><a href="#1-5-Region-Graphs" class="headerlink" title="1.5. Region Graphs"></a>1.5. Region Graphs</h3><p>结合 objects、attributes 以及  region descriptions 提取的 relationships，创建每个 regions 的 graph representation. </p>
-<h3 id="1-6-Scene-Graphs"><a href="#1-6-Scene-Graphs" class="headerlink" title="1.6. Scene Graphs"></a>1.6. Scene Graphs</h3><p>Region graphs 是图片的局部区域表示，将 region graphs 结合，生成单个 scene graph来表示整张图片.</p>
-<p>Scene graph 是全部 region graphs 的统一，包含了全部的 objects、attributes以及每个 region description 的 relationships.</p>
-<p>Scene Graph 将多种不同层次的 scene 信息以更加一致的方式结合在一起.</p>
-<h3 id="1-7-Question-Answer-QA-Pairs"><a href="#1-7-Question-Answer-QA-Pairs" class="headerlink" title="1.7. Question Answer(QA) Pairs"></a>1.7. Question Answer(QA) Pairs</h3><p>数据集中每张图片有两种类型的 QA pairs：</p>
-<ul>
-<li>freeform QAs - 基于整张图片；</li>
-<li>region-based QAs - 基于图片的选择区域. </li>
-</ul>
-<p>每张图片标注了 6 中不同类型的问题：what, where, how, when, who, why.</p>
-<p>如图：   </p>
-<p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/vbxbgpfi92.png?imageView2/2/w/1620" alt="img"></p>
-<p>Figure . Visual Genome 数据集. 每张图片包括：region descriptions - 描述了图像的局部信息；两种类型的 question answer pairs(QAs) - free form QAs 和 region-based QAs. 每个 region 转化为 objects、attributes 和 pairwise relationships region 构成的 region graph 表示. 最终， 结合 region graphs 以形成图片内全部 objects 的 scene graph.</p>
-<h2 id="2-Visual-Genome-数据集应用"><a href="#2-Visual-Genome-数据集应用" class="headerlink" title="2. Visual Genome 数据集应用"></a>2. Visual Genome 数据集应用</h2><p>基本应用：</p>
-<ul>
-<li>attribute classification 属性分类</li>
-<li>relationship classification 关系分类</li>
-<li>description generation 描述生成</li>
-<li>question answering QA</li>
-</ul>
-<p>更多应用：</p>
-<ul>
-<li>Dense image captioning</li>
-<li>Visual question answering</li>
-<li>Image understanding</li>
-<li>Relationship extraction</li>
-<li>Semantic image retrieval</li>
-<li>Completing the Set of Annotations</li>
-</ul>
-<p>注 - 与其它数据集对比：   </p>
-<p><img src="https://ask.qcloudimg.com/http-save/yehe-1682974/cjqe5v7i44.png?imageView2/2/w/1620" alt="img"></p>
-<h2 id="3-Reference"><a href="#3-Reference" class="headerlink" title="3. Reference"></a>3. Reference</h2><p>[1] - <a href="https://visualgenome.org/" target="_blank" rel="noopener">Visual Genome Home</a></p>
-<p>[1] - <a href="https://visualgenome.org/static/paper/Visual_Genome.pdf" target="_blank" rel="noopener">Visual Genome Doc</a></p>
-<p>[2] - <a href="https://arxiv.org/pdf/1701.02426.pdf" target="_blank" rel="noopener">Scene Graph Generation by Iterative Message Passing</a></p>
-<p>本文参与<a href="https://cloud.tencent.com/developer/support-plan" target="_blank" rel="noopener">腾讯云自媒体分享计划</a>，欢迎正在阅读的你也加入，一起分享。</p>
+<h3 id="CPNet-介绍"><a href="#CPNet-介绍" class="headerlink" title="CPNet 介绍"></a>CPNet 介绍</h3><p>（1）在CNN的某一层，得到了<code>T*H*W*d</code>的特征，这<code>T*H*W</code>个特征，是经过conv来的，即一个特征，返回到原图对应的是一个块（区域）的特征。   </p>
+<p>（2）类似于graph 中的邻接矩阵的操作，计算这个<code>T*H*W</code>个节点之间的相似性，相似性近的前K个（且不在同一帧），认为他们之间存在对应关系，即找到了一个区域对应到其他帧的对应区域。   </p>
+<p>（3）将原区域，与对应区域的特征，与他们之间的位置关系，输入到MLP中，得到了一个更新的特征。对每个对应区域都采取这样的操作，得到K个特征。取max，得到了一个鲁棒的特征（可以去掉不是对应块区域的特征，即去掉噪声）。   </p>
+<img src="https://i.loli.net/2019/07/26/5d3a7afee6b0178187.png" alt="搜狗截图20190726120054.png" title="搜狗截图20190726120054.png">
 
+<ul>
+<li>是不是跟Non-Local很像，==CP Module就是融合了相似区域的特征，对原区域的特征进行更新。==</li>
+</ul>
+<h3 id="Non-local-vs-CPNet"><a href="#Non-local-vs-CPNet" class="headerlink" title="Non-local  vs   CPNet"></a>Non-local  vs   CPNet</h3><ul>
+<li><p>在toy dataset （figure4）上设计了toy model（两层 CNN）,将现有的三个SOTA model以及自己设计的CPNet上进行试验</p>
+</li>
+<li><p>可以看到 I3D，ARTNet ，TRN三个模型的效果都不是很好</p>
+</li>
+<li><p>ARTNet ，TRN 是由于只使用了两个卷积层，不能捕捉长范围的运动信息</p>
+</li>
+<li><p>Non-local 可以捕捉长范围的运动信息，但是为什么效果还是不好：==NL block 没有加进去位置信息==（作者这么说的原因，就是因为在他们的CP module中有position information）</p>
+</li>
+</ul>
+<img src="https://i.loli.net/2019/07/26/5d3a6c44659ae30922.png" alt="搜狗截图20190726102546.png" title="搜狗截图20190726102546.png">
       
     </div>
 
@@ -625,7 +542,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/目标检测/" rel="tag"># 目标检测</a>
+            <a href="/tags/行为识别/" rel="tag"># 行为识别</a>
           
         </div>
       
@@ -638,8 +555,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/21/设置随机种子/" rel="next" title="设置随机种子">
-                <i class="fa fa-chevron-left"></i> 设置随机种子
+              <a href="/2019/07/25/Memory-Attended-Recurrent-Network-for-Video-Captioning/" rel="next" title="Memory-Attended Recurrent Network for Video Captioning">
+                <i class="fa fa-chevron-left"></i> Memory-Attended Recurrent Network for Video Captioning
               </a>
             
           </div>
@@ -647,10 +564,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/21/mmdetection的configs中的各项参数具体解释/" rel="prev" title="mmdetection的configs中的各项参数具体解释">
-                mmdetection的configs中的各项参数具体解释 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -883,7 +796,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Visual-Genome-数据标注"><span class="nav-number">1.</span> <span class="nav-text">1. Visual Genome 数据标注</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Region-Descriptions"><span class="nav-number">1.1.</span> <span class="nav-text">1.1. Region Descriptions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Objects"><span class="nav-number">1.2.</span> <span class="nav-text">1.2. Objects</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-Attributes"><span class="nav-number">1.3.</span> <span class="nav-text">1.3. Attributes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-Relationships"><span class="nav-number">1.4.</span> <span class="nav-text">1.4. Relationships</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-5-Region-Graphs"><span class="nav-number">1.5.</span> <span class="nav-text">1.5. Region Graphs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-6-Scene-Graphs"><span class="nav-number">1.6.</span> <span class="nav-text">1.6. Scene Graphs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-7-Question-Answer-QA-Pairs"><span class="nav-number">1.7.</span> <span class="nav-text">1.7. Question Answer(QA) Pairs</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Visual-Genome-数据集应用"><span class="nav-number">2.</span> <span class="nav-text">2. Visual Genome 数据集应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Reference"><span class="nav-number">3.</span> <span class="nav-text">3. Reference</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#我的理解"><span class="nav-number">1.</span> <span class="nav-text">我的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CPNet-介绍"><span class="nav-number">2.</span> <span class="nav-text">CPNet 介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Non-local-vs-CPNet"><span class="nav-number">3.</span> <span class="nav-text">Non-local  vs   CPNet</span></a></li></ol></div>
             
 
           </div>

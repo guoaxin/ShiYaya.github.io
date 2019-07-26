@@ -4,11 +4,36 @@
   
     
     <entry>
+      <title>Learning Video Representations from Correspondence Proposals</title>
+      <link href="/2019/07/26/Learning-Video-Representations-from-Correspondence-Proposals/"/>
+      <url>/2019/07/26/Learning-Video-Representations-from-Correspondence-Proposals/</url>
+      
+        <content type="html"><![CDATA[<h3 id="我的理解"><a href="#我的理解" class="headerlink" title="我的理解"></a>我的理解</h3><ul><li>与Non-local 类似，都是在现有CNN（2D， 3D）模型中加入一个设计的模块</li></ul><h3 id="CPNet-介绍"><a href="#CPNet-介绍" class="headerlink" title="CPNet 介绍"></a>CPNet 介绍</h3><p>（1）在CNN的某一层，得到了<code>T*H*W*d</code>的特征，这<code>T*H*W</code>个特征，是经过conv来的，即一个特征，返回到原图对应的是一个块（区域）的特征。   </p><p>（2）类似于graph 中的邻接矩阵的操作，计算这个<code>T*H*W</code>个节点之间的相似性，相似性近的前K个（且不在同一帧），认为他们之间存在对应关系，即找到了一个区域对应到其他帧的对应区域。   </p><p>（3）将原区域，与对应区域的特征，与他们之间的位置关系，输入到MLP中，得到了一个更新的特征。对每个对应区域都采取这样的操作，得到K个特征。取max，得到了一个鲁棒的特征（可以去掉不是对应块区域的特征，即去掉噪声）。   </p><img src="https://i.loli.net/2019/07/26/5d3a7afee6b0178187.png" alt="搜狗截图20190726120054.png" title="搜狗截图20190726120054.png"><ul><li>是不是跟Non-Local很像，==CP Module就是融合了相似区域的特征，对原区域的特征进行更新。==</li></ul><h3 id="Non-local-vs-CPNet"><a href="#Non-local-vs-CPNet" class="headerlink" title="Non-local  vs   CPNet"></a>Non-local  vs   CPNet</h3><ul><li><p>在toy dataset （figure4）上设计了toy model（两层 CNN）,将现有的三个SOTA model以及自己设计的CPNet上进行试验</p></li><li><p>可以看到 I3D，ARTNet ，TRN三个模型的效果都不是很好</p></li><li><p>ARTNet ，TRN 是由于只使用了两个卷积层，不能捕捉长范围的运动信息</p></li><li><p>Non-local 可以捕捉长范围的运动信息，但是为什么效果还是不好：==NL block 没有加进去位置信息==（作者这么说的原因，就是因为在他们的CP module中有position information）</p></li></ul><img src="https://i.loli.net/2019/07/26/5d3a6c44659ae30922.png" alt="搜狗截图20190726102546.png" title="搜狗截图20190726102546.png">]]></content>
+      
+      
+      <categories>
+          
+          <category> 行为识别 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 行为识别 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Memory-Attended Recurrent Network for Video Captioning</title>
       <link href="/2019/07/25/Memory-Attended-Recurrent-Network-for-Video-Captioning/"/>
       <url>/2019/07/25/Memory-Attended-Recurrent-Network-for-Video-Captioning/</url>
       
-        <content type="html"><![CDATA[<h3 id="词频"><a href="#词频" class="headerlink" title="词频"></a>词频</h3><p>“&gt; =3”的保留</p><p>MSR-VTT :11K   MSVD:4K</p><h3 id="Attention-Decoder"><a href="#Attention-Decoder" class="headerlink" title="Attention Decoder"></a>Attention Decoder</h3><ul><li><p>采用SA-LSTM的结构</p></li><li><p>细节：</p><ul><li><p>由于需要对frames_feature ==(L帧)==  与 C3D_feature ==（L帧 -&gt; L/16个特征向量）== 都进行attention，这里进行了共享attention，好处：   <br>  （1）将2D 和 3D 特征映射到相似的特征空间  <br></p><p>（2）像是一种正则化，减少了参数，避免过拟合  <br>  </p></li><li><p>降维，将2D 和 3D 的2048维度的特征，降维到512</p></li></ul></li></ul><h3 id="Attended-Memory-Decoder"><a href="#Attended-Memory-Decoder" class="headerlink" title="Attended Memory Decoder"></a>Attended Memory Decoder</h3><ul><li><p>当前模型的不足：</p><ul><li>现有的模型在生成word的时候，只依赖于当前video的信息，而不能依赖于那些，出现过该单词的其他video的信息</li><li>生成下一个单词，仅依赖于video信息和当前单词，没有建模相邻两个单词之间的兼容性（没看懂）</li></ul></li><li><p>具体的memeory设计详见论文</p></li></ul><h3 id="Attention-Coherent-Loss-AC-Loss"><a href="#Attention-Coherent-Loss-AC-Loss" class="headerlink" title="Attention-Coherent Loss (AC Loss)"></a>Attention-Coherent Loss (AC Loss)</h3><ul><li>将C3D 输入的L帧作为1个time interval,希望对一个time interval 中的frames feature 的attention系数值相近</li><li>仅对frames_features 的attention 系数，计算这样的一个loss</li></ul><img src="https://i.loli.net/2019/07/25/5d397582d36f640160.png" alt="搜狗截图20190725172350.png" title="搜狗截图20190725172350.png">]]></content>
+        <content type="html"><![CDATA[<h3 id="词频"><a href="#词频" class="headerlink" title="词频"></a>词频</h3><p>“&gt; =3”的保留</p><p>MSR-VTT :11K   MSVD:4K</p><h3 id="Attention-Decoder"><a href="#Attention-Decoder" class="headerlink" title="Attention Decoder"></a>Attention Decoder</h3><ul><li><p>采用SA-LSTM的结构</p></li><li><p>细节：</p><ul><li><p>==共享attention==<br>由于需要对frames_feature ==(L帧)==  与 C3D_feature ==（L帧 -&gt; L/16个特征向量）== 都进行attention，这里进行了共享attention，好处：   <br>  （1）将2D 和 3D 特征映射到相似的特征空间  <br></p><p>（2）像是一种正则化，减少了参数，避免过拟合  <br>  </p></li><li><p>降维<br>将2D 和 3D 的2048维度的特征，降维到512</p></li></ul></li></ul><h3 id="Attended-Memory-Decoder"><a href="#Attended-Memory-Decoder" class="headerlink" title="Attended Memory Decoder"></a>Attended Memory Decoder</h3><ul><li><p>当前模型的不足：</p><ul><li>现有的模型在生成word的时候，只依赖于当前video的信息，而不能依赖于那些，出现过该单词的其他video的信息</li><li>生成下一个单词，仅依赖于video信息和当前单词，没有建模相邻两个单词之间的兼容性（没看懂）</li></ul></li><li><p>具体的memeory设计详见论文</p></li></ul><h3 id="Attention-Coherent-Loss-AC-Loss"><a href="#Attention-Coherent-Loss-AC-Loss" class="headerlink" title="Attention-Coherent Loss (AC Loss)"></a>Attention-Coherent Loss (AC Loss)</h3><ul><li>将C3D 输入的L帧作为1个time interval,希望对一个time interval 中的frames feature 的attention系数值相近</li><li>仅对frames_features 的attention 系数，计算这样的一个loss</li></ul><img src="https://i.loli.net/2019/07/25/5d397582d36f640160.png" alt="搜狗截图20190725172350.png" title="搜狗截图20190725172350.png">]]></content>
       
       
       
@@ -1369,9 +1394,9 @@
       
         <tags>
             
-            <tag> 人工智能 </tag>
-            
             <tag> 行为识别 </tag>
+            
+            <tag> 人工智能 </tag>
             
         </tags>
       
@@ -1613,9 +1638,9 @@
       
         <tags>
             
-            <tag> 人工智能 </tag>
-            
             <tag> 行为识别 </tag>
+            
+            <tag> 人工智能 </tag>
             
         </tags>
       
