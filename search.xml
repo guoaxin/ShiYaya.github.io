@@ -8,7 +8,7 @@
       <link href="/2019/07/26/Learning-Video-Representations-from-Correspondence-Proposals/"/>
       <url>/2019/07/26/Learning-Video-Representations-from-Correspondence-Proposals/</url>
       
-        <content type="html"><![CDATA[<h3 id="我的理解"><a href="#我的理解" class="headerlink" title="我的理解"></a>我的理解</h3><ul><li>与Non-local 类似，都是在现有CNN（2D， 3D）模型中加入一个设计的模块</li></ul><h3 id="CPNet-介绍"><a href="#CPNet-介绍" class="headerlink" title="CPNet 介绍"></a>CPNet 介绍</h3><p>（1）在CNN的某一层，得到了<code>T*H*W*d</code>的特征，这<code>T*H*W</code>个特征，是经过conv来的，即一个特征，返回到原图对应的是一个块（区域）的特征。   </p><p>（2）类似于graph 中的邻接矩阵的操作，计算这个<code>T*H*W</code>个节点之间的相似性，相似性近的前K个（且不在同一帧），认为他们之间存在对应关系，即找到了一个区域对应到其他帧的对应区域。   </p><p>（3）将原区域，与对应区域的特征，与他们之间的位置关系，输入到MLP中，得到了一个更新的特征。对每个对应区域都采取这样的操作，得到K个特征。取max，得到了一个鲁棒的特征（可以去掉不是对应块区域的特征，即去掉噪声）。   </p><img src="https://i.loli.net/2019/07/26/5d3a7afee6b0178187.png" alt="搜狗截图20190726120054.png" title="搜狗截图20190726120054.png"><ul><li>是不是跟Non-Local很像，==CP Module就是融合了相似区域的特征，对原区域的特征进行更新。==</li></ul><h3 id="Non-local-vs-CPNet"><a href="#Non-local-vs-CPNet" class="headerlink" title="Non-local  vs   CPNet"></a>Non-local  vs   CPNet</h3><ul><li><p>在toy dataset （figure4）上设计了toy model（两层 CNN）,将现有的三个SOTA model以及自己设计的CPNet上进行试验</p></li><li><p>可以看到 I3D，ARTNet ，TRN三个模型的效果都不是很好</p></li><li><p>ARTNet ，TRN 是由于只使用了两个卷积层，不能捕捉长范围的运动信息</p></li><li><p>Non-local 可以捕捉长范围的运动信息，但是为什么效果还是不好：==NL block 没有加进去位置信息==（作者这么说的原因，就是因为在他们的CP module中有position information）</p></li></ul><img src="https://i.loli.net/2019/07/26/5d3a6c44659ae30922.png" alt="搜狗截图20190726102546.png" title="搜狗截图20190726102546.png">]]></content>
+        <content type="html"><![CDATA[<h3 id="我的理解"><a href="#我的理解" class="headerlink" title="我的理解"></a>我的理解</h3><ul><li>与Non-local 类似，都是在现有CNN（2D， 3D）模型中加入一个设计的模块</li></ul><h3 id="CPNet-介绍"><a href="#CPNet-介绍" class="headerlink" title="CPNet 介绍"></a>CPNet 介绍</h3><p>（1）在CNN的某一层，得到了<code>T*H*W*d</code>的特征，这<code>T*H*W</code>个特征，是经过conv来的，即一个特征，返回到原图对应的是一个块（区域）的特征。   </p><p>（2）类似于graph 中的邻接矩阵的操作，计算这个<code>T*H*W</code>个节点之间的相似性，相似性近的前K个（且不在同一帧），认为他们之间存在对应关系，即找到了一个区域对应到其他帧的对应区域。   </p><p>（3）将原区域，与对应区域的特征，与他们之间的位置关系，输入到MLP中，得到了一个更新的特征。对每个对应区域都采取这样的操作，得到K个特征。取max，得到了一个鲁棒的特征（可以去掉不是对应块区域的特征，即去掉噪声）。   </p><img src="https://i.loli.net/2019/07/26/5d3a7afee6b0178187.png" alt="搜狗截图20190726120054.png" title="搜狗截图20190726120054.png"><ul><li>是不是跟Non-Local很像，==CP Module就是融合了相似区域的特征，对原区域的特征进行更新。==</li></ul><h3 id="Non-local-vs-CPNet"><a href="#Non-local-vs-CPNet" class="headerlink" title="Non-local  vs   CPNet"></a>Non-local  vs   CPNet</h3><ul><li><p>在toy dataset （figure4）上设计了toy model（两层 CNN）,将现有的三个SOTA model以及自己设计的CPNet上进行试验</p></li><li><p>可以看到 I3D，ARTNet ，TRN三个模型的效果都不是很好</p></li><li><p>ARTNet ，TRN 是由于只使用了两个卷积层，不能捕捉长范围的运动信息</p></li><li><p>Non-local 可以捕捉长范围的运动信息，但是为什么效果还是不好：==NL block 没有加进去位置信息==（作者这么说的原因，就是因为在他们的CP module中有position information）</p></li></ul><img src="https://i.loli.net/2019/07/26/5d3a6c44659ae30922.png" alt="搜狗截图20190726102546.png" title="搜狗截图20190726102546.png"><h3 id="CPNet-可以退化成这三个model-没看懂-之后可以结合代码再深入分析"><a href="#CPNet-可以退化成这三个model-没看懂-之后可以结合代码再深入分析" class="headerlink" title="CPNet 可以退化成这三个model: ( 没看懂 ,之后可以结合代码再深入分析)"></a>CPNet 可以退化成这三个model: ( 没看懂 ,之后可以结合代码再深入分析)</h3><img src="https://i.loli.net/2019/07/26/5d3a889e2ce0b69830.png" alt="搜狗截图20190726125811.png" title="搜狗截图20190726125811.png">]]></content>
       
       
       <categories>
@@ -1225,9 +1225,9 @@
     
     
     <entry>
-      <title>java</title>
-      <link href="/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/"/>
-      <url>/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/</url>
+      <title>java 的编译与执行</title>
+      <link href="/2019/03/26/java/"/>
+      <url>/2019/03/26/java/</url>
       
         <content type="html"><![CDATA[<h2 id="java-的编译与执行"><a href="#java-的编译与执行" class="headerlink" title="java 的编译与执行"></a>java 的编译与执行</h2><ol><li><p>用文本编辑器新建一个yumhtest.java文件，在其中输入以下代码并保存：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">yumhtest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello world !"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>编译：在shell终端执行命令 <strong>javac yumhtest.java</strong></p></li><li><p>运行：在shell终端执行命令 <strong>java yumhtest</strong><br>当shell下出现“hello world !”字样</p></li></ol><p>注意事项：类名应和文件名相同。</p>]]></content>
       
@@ -1250,9 +1250,9 @@
     
     
     <entry>
-      <title>java 的编译与执行</title>
-      <link href="/2019/03/26/java/"/>
-      <url>/2019/03/26/java/</url>
+      <title>java</title>
+      <link href="/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/"/>
+      <url>/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/</url>
       
         <content type="html"><![CDATA[<h2 id="java-的编译与执行"><a href="#java-的编译与执行" class="headerlink" title="java 的编译与执行"></a>java 的编译与执行</h2><ol><li><p>用文本编辑器新建一个yumhtest.java文件，在其中输入以下代码并保存：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">yumhtest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello world !"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>编译：在shell终端执行命令 <strong>javac yumhtest.java</strong></p></li><li><p>运行：在shell终端执行命令 <strong>java yumhtest</strong><br>当shell下出现“hello world !”字样</p></li></ol><p>注意事项：类名应和文件名相同。</p>]]></content>
       
@@ -1394,9 +1394,9 @@
       
         <tags>
             
-            <tag> 行为识别 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 行为识别 </tag>
             
         </tags>
       
@@ -1638,9 +1638,9 @@
       
         <tags>
             
-            <tag> 行为识别 </tag>
-            
             <tag> 人工智能 </tag>
+            
+            <tag> 行为识别 </tag>
             
         </tags>
       
@@ -1796,9 +1796,9 @@
       
         <tags>
             
-            <tag> 人工智能 </tag>
-            
             <tag> 视频描述 </tag>
+            
+            <tag> 人工智能 </tag>
             
         </tags>
       
@@ -1937,9 +1937,9 @@
       
         <tags>
             
-            <tag> 人工智能 </tag>
-            
             <tag> 视频描述 </tag>
+            
+            <tag> 人工智能 </tag>
             
         </tags>
       
@@ -1964,9 +1964,9 @@
       
         <tags>
             
-            <tag> 人工智能 </tag>
-            
             <tag> 视频描述 </tag>
+            
+            <tag> 人工智能 </tag>
             
         </tags>
       
@@ -1991,9 +1991,9 @@
       
         <tags>
             
-            <tag> 人工智能 </tag>
-            
             <tag> 视频描述 </tag>
+            
+            <tag> 人工智能 </tag>
             
         </tags>
       
@@ -2072,9 +2072,9 @@
       
         <tags>
             
-            <tag> 人工智能 </tag>
-            
             <tag> 视频描述 </tag>
+            
+            <tag> 人工智能 </tag>
             
         </tags>
       
