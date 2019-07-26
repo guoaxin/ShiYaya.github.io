@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-07-26T05:00:03.785Z</updated>
+  <updated>2019-07-26T07:54:02.603Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,56 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>vision to language 大牛</title>
+    <link href="http://yoursite.com/2019/07/26/vision-to-language-%E5%A4%A7%E7%89%9B/"/>
+    <id>http://yoursite.com/2019/07/26/vision-to-language-大牛/</id>
+    <published>2019-07-26T07:53:12.000Z</published>
+    <updated>2019-07-26T07:54:02.603Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="王鑫"><a href="#王鑫" class="headerlink" title="王鑫"></a>王鑫</h3><p>Papers can be found at <a href="https://sites.cs.ucsb.edu/~xwang" target="_blank" rel="noopener">https://sites.cs.ucsb.edu/~xwang</a><br>Email: <a href="mailto:xwang@cs.ucsb.edu" target="_blank" rel="noopener">xwang@cs.ucsb.edu</a></p><h4 id="video-captioning-via-hierarchical-reinforcement-learning"><a href="#video-captioning-via-hierarchical-reinforcement-learning" class="headerlink" title="video captioning via hierarchical  reinforcement learning"></a>video captioning via hierarchical  reinforcement learning</h4><ol><li>强化学习</li><li>加入音频信号</li></ol><h4 id="zero-shot-video-captioning"><a href="#zero-shot-video-captioning" class="headerlink" title="zero-shot video captioning"></a>zero-shot video captioning</h4><ul><li>Topic-Aware Mixture of Experts (TAMoE)  <h4 id="evaluation"><a href="#evaluation" class="headerlink" title="evaluation"></a>evaluation</h4></li></ul><ol><li><p>如何去评判，本身就是一个问题，当前的评价指标并不是那么合理</p></li><li><p>human evaluation是一个必要的评测方法，尤其是对于生成story的</p></li></ol><h4 id="强化学习"><a href="#强化学习" class="headerlink" title="强化学习"></a>强化学习</h4><ul><li>利用强化学习直接对指标进行优化，很可能会造成，指标上去了，但是生成的句子语义并不好。所以提出了下篇论文</li></ul><ol><li>Adversarial REward Learning (AREL)</li></ol><h4 id="Connecting-Language-and-Vision-to-Actions"><a href="#Connecting-Language-and-Vision-to-Actions" class="headerlink" title="Connecting Language and Vision to Actions"></a>Connecting Language and Vision to Actions</h4><ul><li>Look Before You Leap: Model-based RL</li><li>Reinforced Cross-Modal Matching (RCM)</li></ul><h3 id="吴琦"><a href="#吴琦" class="headerlink" title="吴琦"></a>吴琦</h3><h4 id="从-Vision-到-Language-再到-Action，万字漫谈三年跨域信息融合研究"><a href="#从-Vision-到-Language-再到-Action，万字漫谈三年跨域信息融合研究" class="headerlink" title="从 Vision 到 Language 再到 Action，万字漫谈三年跨域信息融合研究"></a><a href="https://mp.weixin.qq.com/s/lnoL1TpKY8HQqCMaBqWA5Q" target="_blank" rel="noopener">从 Vision 到 Language 再到 Action，万字漫谈三年跨域信息融合研究</a></h4><h4 id="一文纵览-Vision-and-Language-领域最新研究与进展"><a href="#一文纵览-Vision-and-Language-领域最新研究与进展" class="headerlink" title="一文纵览 Vision-and-Language 领域最新研究与进展"></a><a href="https://mp.weixin.qq.com/s/dyY64QrvPWbjGvJw5H51OA" target="_blank" rel="noopener">一文纵览 Vision-and-Language 领域最新研究与进展</a></h4>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;王鑫&quot;&gt;&lt;a href=&quot;#王鑫&quot; class=&quot;headerlink&quot; title=&quot;王鑫&quot;&gt;&lt;/a&gt;王鑫&lt;/h3&gt;&lt;p&gt;Papers can be found at &lt;a href=&quot;https://sites.cs.ucsb.edu/~xwang&quot; targ
+      
+    
+    </summary>
+    
+      <category term="视频描述" scheme="http://yoursite.com/categories/%E8%A7%86%E9%A2%91%E6%8F%8F%E8%BF%B0/"/>
+    
+    
+      <category term="视频描述" scheme="http://yoursite.com/tags/%E8%A7%86%E9%A2%91%E6%8F%8F%E8%BF%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CMU课程上新：Neural Networks for NLP</title>
+    <link href="http://yoursite.com/2019/07/26/CMU%E8%AF%BE%E7%A8%8B%E4%B8%8A%E6%96%B0%EF%BC%9ANeural-Networks-for-NLP/"/>
+    <id>http://yoursite.com/2019/07/26/CMU课程上新：Neural-Networks-for-NLP/</id>
+    <published>2019-07-26T07:35:41.000Z</published>
+    <updated>2019-07-26T07:36:42.594Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="CMU课程上新：Neural-Networks-for-NLP（18年视频课件放出）"><a href="#CMU课程上新：Neural-Networks-for-NLP（18年视频课件放出）" class="headerlink" title="CMU课程上新：Neural Networks for NLP（18年视频课件放出）"></a>CMU课程上新：Neural Networks for NLP（18年视频课件放出）</h1><p>今天文摘菌给大家推荐一门非常棒的课程《Neural Networks for NLP》。这个课程首先简要介绍一下神经网络的基本知识，然后课程的大部讲分如何将神经网络应用于自然语言处理。</p><p>课程中的每一节都会介绍自然语言中的特定问题和现象，并描述建模的难点，当然，并也会绍几个解决这些问题的模型。</p><p>总的来说，这个“神课”会涉及用神经网络建模过程中所使用的各种技术，包括如何处理结构化句子，如何处理大数据，以及半监督和无监督学习，结构化预测和多语言建模等等。</p><p>注意，修读本门课程需要有一定的自然语言处理的知识储备，按照课程的要求，就是应该上过《17-711，NLP算法》。</p><p>2018年的课程视频已经公开，无法上外网的同学，国内也有热心的小伙伴将课程搬到了国内的B站，通过下面的链接可以打开哟</p><p><a href="https://www.bilibili.com/video/av31156700/" target="_blank" rel="noopener">https://www.bilibili.com/video/av31156700/</a></p><p>19年的春季新课程新增了ELMo/BERT上下文词表示、模型可解释性等内容，PyTorch/DyNet代码示例。</p><p>19年课程的课程目录等详细信息，可以去课程主页去查看哟~~文摘菌在下面给大家简单介绍一下这门课程的师资以及作业等情况。</p><p><a href="https://phontron.com/class/nn4nlp2019/schedule.html" target="_blank" rel="noopener">https://phontron.com/class/nn4nlp2019/schedule.html</a></p><p><strong>师资力量</strong></p><p><img src="https://image.jiqizhixin.com/uploads/editor/6e56a929-53db-4396-bd4d-e42e2bd166cd/640.png" alt="img"></p><p>本课程有两位主讲教师，分别是：Graham Neubig、Antonios Anastasopoulos。其中Graham Neubig是卡内基梅陇大学的教授，主要研究自然语言处理，他对机器学习非常感兴趣。Antonios Anastasopoulos我是圣母大学的在读博士，目前David Chiang自然语言处理技术组的成员。专注于“濒危”语言的机器翻译和语音识别。</p><p><img src="https://image.jiqizhixin.com/uploads/editor/db527776-dbf8-4611-a415-1c94e99db32e/640.png" alt="img"></p><p>除了上课的教师外，还有一大批助教来解答同学们的疑惑。从助教安排，我们可以看出，课程在尽量做到有问必答。</p><h2 id="作业介绍及资料公开"><a href="#作业介绍及资料公开" class="headerlink" title="作业介绍及资料公开"></a>作业介绍及资料公开</h2><p>在课程的官网上，对课程的每一次作业都做了详细的说明，包括评分要求，完成作业的条件等等。除此之外还给出了作业示例。</p><p><img src="https://image.jiqizhixin.com/uploads/editor/0cf289f4-3ea8-43ad-b318-c97703e921ac/640.png" alt="img"></p><p>课程官网也贴心的给大家准备好了每一次讲课的PPT，在上课之前，大家多多预习哟~</p><p>PPT下载地址：<a href="https://phontron.com/class/nn4nlp2019/schedule.html" target="_blank" rel="noopener">https://phontron.com/class/nn4nlp2019/schedule.html</a></p><p>此次课程，初步是线下课程。请大家关注大数据文摘，如果后期有视频放出，文摘菌也一定会为大家更新的。</p><p>最后，再次给出课程主页：<a href="https://phontron.com/class/nn4nlp2019/schedule.html" target="_blank" rel="noopener">https://phontron.com/class/nn4nlp2019/schedule.html</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;CMU课程上新：Neural-Networks-for-NLP（18年视频课件放出）&quot;&gt;&lt;a href=&quot;#CMU课程上新：Neural-Networks-for-NLP（18年视频课件放出）&quot; class=&quot;headerlink&quot; title=&quot;CMU课程上新：
+      
+    
+    </summary>
+    
+      <category term="课程" scheme="http://yoursite.com/categories/%E8%AF%BE%E7%A8%8B/"/>
+    
+    
+      <category term="课程" scheme="http://yoursite.com/tags/%E8%AF%BE%E7%A8%8B/"/>
+    
+  </entry>
   
   <entry>
     <title>Learning Video Representations from Correspondence Proposals</title>
@@ -468,57 +518,6 @@
     
     
       <category term="视频描述" scheme="http://yoursite.com/tags/%E8%A7%86%E9%A2%91%E6%8F%8F%E8%BF%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Spatio-Temporal Dynamics and Semantic Attribute Enriched Visual Encoding for Video Captioning（CVPR2019）</title>
-    <link href="http://yoursite.com/2019/05/10/Spatio-Temporal-Dynamics-and-Semantic-Attribute-Enriched-Visual-Encoding-for-Video-Captioning-1/"/>
-    <id>http://yoursite.com/2019/05/10/Spatio-Temporal-Dynamics-and-Semantic-Attribute-Enriched-Visual-Encoding-for-Video-Captioning-1/</id>
-    <published>2019-05-10T10:31:48.000Z</published>
-    <updated>2019-05-10T13:04:56.081Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><ul><li>我们的方法丰富视觉特征的<strong>时域动态temporal dynamics</strong>，通过在整个video上分层对CNN特征应用短的fourier 变换</li><li>从object detector 中提取高层语义，来丰富被检测object 的<strong>空间动态 spatial dynamics</strong></li><li>最终的表达映射到一个压缩的空间</li></ul><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><ul><li>object detector YOLO[1]</li><li>目标检测和C3D的输出层被用来得到高层语义属性，</li><li>提出的视觉特征包含检测的目标属性、目标发生的频率</li></ul><h2 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h2><p>现有的video captioning model 一种使用平均池化得到特征，一种使用attention得到high level特征，但是这些视觉特征都是直接的被使用，则，这些方法没有充分利用CNN在视频字幕框架中的最新特性。我们的模型丰富了视觉特征，实验结果证明，该视觉特征与任意一个简单的语言模型相结合，可以提高其性能。</p><h2 id="Visual-Representation"><a href="#Visual-Representation" class="headerlink" title="Visual Representation"></a>Visual Representation</h2><ul><li>the visual representation of a  video V as v = [α; β; γ; η]</li><li>α; β; γ; η 是四个列向量，下面具体介绍如何得到这四个列向量<h3 id="Encoding-temporal-dynamics"><a href="#Encoding-temporal-dynamics" class="headerlink" title="Encoding temporal dynamics"></a>Encoding temporal dynamics</h3></li><li>首先已经有 f 帧 对应的CNN[2]特征向量，和c个clip对应的C3D[3]得到的特征向量</li><li>对某个video而言，其所有帧再某一个维度的神经元，组成了一个特征向量a，利用<strong>傅里叶变换</strong>得到一个p维度的特征向量，将a分成两半，分别进行傅里叶变换，得到一个p维度的特征向量，再次进行分半，等等一系列操作，可以得到 p×7的矩阵。则对于所有的神经元m 则得到m×p×7的张量。至此得到<strong>α</strong></li><li><strong>β</strong>同理，只是对clips对应的C3D特征进行处理</li><li>目前已经有将傅里叶变换应用在行为识别上的文章吗，但是本文是第一篇将傅里叶变换应用在视频描述上的文章。</li><li><font color="#0099ff" size="4" face="黑体">但是需要注意的是，该文并没有说明使用傅里叶变换的动机（rich temporal dynamics?），但是为什么使用傅里叶变换可以丰富？？</font></li></ul><h3 id="Encoding-Semantics-and-Spatial-Evolution"><a href="#Encoding-Semantics-and-Spatial-Evolution" class="headerlink" title="Encoding Semantics and Spatial Evolution"></a>Encoding Semantics and Spatial Evolution</h3><ul><li>比较复杂，利用object detector YOLO 来提取Object 以及C3D来加强语义信息，具体看论文吧</li></ul><h2 id="Experimental-Results-on-MSVD"><a href="#Experimental-Results-on-MSVD" class="headerlink" title="Experimental Results on MSVD"></a>Experimental Results on MSVD</h2><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2wd8q6kegj30dh0ig0wc.jpg">    <ul><li>GRU-MP - (C3D) 与 使用了傅里叶变换的GRU-EVEhft - (C3D)  相比，可知，使用傅里叶变换是有小鬼的</li><li>GRU-EVEhft - (CI) 与GRU-EVEhft+sem - (CI)相比，可得增加的senmatic 效果是不显著的。</li></ul><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>[1] Yolo9000: better, faster, stronger.  In IEEE CVPR, 2017<br>[2] Inception-v4, inception-resnet and the impact of residual  connections on learning. In AAAI, volume 4, page 12, 2017.<br>[3] Learning spatiotemporal features with 3d convolutional networks. In Proceedings of the IEEE international conference  on computer vision, pages 4489–4497, 2015.</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;Abstract&quot;&gt;&lt;a href=&quot;#Abstract&quot; class=&quot;headerlink&quot; title=&quot;Abstract&quot;&gt;&lt;/a&gt;Abstract&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;我们的方法丰富视觉特征的&lt;strong&gt;时域动态temporal dynamic
-      
-    
-    </summary>
-    
-      <category term="视频描述" scheme="http://yoursite.com/categories/%E8%A7%86%E9%A2%91%E6%8F%8F%E8%BF%B0/"/>
-    
-    
-      <category term="视频描述" scheme="http://yoursite.com/tags/%E8%A7%86%E9%A2%91%E6%8F%8F%E8%BF%B0/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>python-dict</title>
-    <link href="http://yoursite.com/2019/05/08/python-dict/"/>
-    <id>http://yoursite.com/2019/05/08/python-dict/</id>
-    <published>2019-05-08T12:29:19.000Z</published>
-    <updated>2019-05-08T12:32:17.774Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="dict-的get-函数"><a href="#dict-的get-函数" class="headerlink" title="dict 的get 函数"></a>dict 的get 函数</h1><h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>Python 字典(Dictionary) get() 函数返回指定键的值，如果值不在字典中返回默认值。</p><h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><p>get()方法语法：</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dict.<span class="builtin-name">get</span>(key, <span class="attribute">default</span>=None)</span><br></pre></td></tr></table></figure><h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><ul><li>key – 字典中要查找的键。</li><li>default – 如果指定键的值不存在时，返回该默认值值。</li></ul><h2 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h2><p>返回指定键的值，如果值不在字典中返回默认值None。</p><h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><p>get函数的作用是返回指定key的值，若key不存在，则返回default值，default值，默认为None，也可以自己指定</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;dict-的get-函数&quot;&gt;&lt;a href=&quot;#dict-的get-函数&quot; class=&quot;headerlink&quot; title=&quot;dict 的get 函数&quot;&gt;&lt;/a&gt;dict 的get 函数&lt;/h1&gt;&lt;h2 id=&quot;描述&quot;&gt;&lt;a href=&quot;#描述&quot; class=&quot;
-      
-    
-    </summary>
-    
-      <category term="python" scheme="http://yoursite.com/categories/python/"/>
-    
-    
-      <category term="python" scheme="http://yoursite.com/tags/python/"/>
     
   </entry>
   
