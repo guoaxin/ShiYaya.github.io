@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/07/27/Object-aware-Aggregation-with-Bidirectional-Temporal-Graph-for-Video-Captioning/</loc>
+    
+    <lastmod>2019-07-28T06:16:09.912Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/04/%E5%8F%B2%E9%9B%85%E9%9B%85%E7%9A%84%E6%94%B6%E8%97%8F%E5%A4%B9/</loc>
+    
+    <lastmod>2019-07-27T11:45:15.972Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/07/26/Pointing-Novel-Objects-in-Image-Captioning/</loc>
+    
+    <lastmod>2019-07-27T09:42:59.022Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/07/23/Hierarchical-Global-Local-Temporal-Modeling-for-Video-Captioning/</loc>
+    
+    <lastmod>2019-07-27T07:39:23.704Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/07/26/vision-to-language-%E5%A4%A7%E7%89%9B/</loc>
     
     <lastmod>2019-07-26T07:54:02.603Z</lastmod>
@@ -30,13 +58,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2019/04/04/%E5%8F%B2%E9%9B%85%E9%9B%85%E7%9A%84%E6%94%B6%E8%97%8F%E5%A4%B9/</loc>
-    
-    <lastmod>2019-07-25T09:43:49.746Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2019/07/25/%E6%B7%B1%E5%BA%A6%E5%B1%82%E6%AC%A1%E5%8C%96%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</loc>
     
     <lastmod>2019-07-25T03:54:41.406Z</lastmod>
@@ -54,13 +75,6 @@
     <loc>http://yoursite.com/2019/03/24/faster-r-cnn-%E8%A7%A3%E8%AF%BB/</loc>
     
     <lastmod>2019-07-24T01:00:06.906Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/07/23/Hierarchical-Global-Local-Temporal-Modeling-for-Video-Captioning/</loc>
-    
-    <lastmod>2019-07-23T10:17:31.275Z</lastmod>
     
   </url>
   

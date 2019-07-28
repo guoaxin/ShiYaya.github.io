@@ -96,25 +96,30 @@
 
 
 
-  <meta name="description" content="准备 选择镜像：py36-pytorch0.4.0-cu90-ctc （即，准备一个cuda9.0的环境）  进入容器，安装anaconda   按着Github install的步骤进行安装如下： Create a conda virtual environment and activate it. Then install Cython.12conda create -n open-mmlab">
-<meta name="keywords" content="目标检测">
+  <meta name="description" content="Overview  Motivation问题 当前的模型，都是以image-caption对来进行训练，因此训练模型只能输出in-domain objects，但是，在实际应用中有些图片含有丰富的信息，但是用现有的模型却不能充分的表达。     解决1 希望可以生成新的words,(没有出现在training dataset)    本文提出了解决办法：用object learner 来扩增标准的">
+<meta name="keywords" content="图像描述">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mmdetection的安装">
-<meta property="og:url" content="http://yoursite.com/2019/07/20/mmdetection的安装/index.html">
+<meta property="og:title" content="Pointing Novel Objects in Image Captioning">
+<meta property="og:url" content="http://yoursite.com/2019/07/26/Pointing-Novel-Objects-in-Image-Captioning/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="准备 选择镜像：py36-pytorch0.4.0-cu90-ctc （即，准备一个cuda9.0的环境）  进入容器，安装anaconda   按着Github install的步骤进行安装如下： Create a conda virtual environment and activate it. Then install Cython.12conda create -n open-mmlab">
+<meta property="og:description" content="Overview  Motivation问题 当前的模型，都是以image-caption对来进行训练，因此训练模型只能输出in-domain objects，但是，在实际应用中有些图片含有丰富的信息，但是用现有的模型却不能充分的表达。     解决1 希望可以生成新的words,(没有出现在training dataset)    本文提出了解决办法：用object learner 来扩增标准的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-25T01:27:23.103Z">
+<meta property="og:image" content="https://i.loli.net/2019/07/27/5d3c1676f301a18995.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/27/5d3c1c012cccc48971.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/27/5d3c1c754b56a83488.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/27/5d3c1c7536e6674709.png">
+<meta property="og:updated_time" content="2019-07-27T09:42:59.022Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mmdetection的安装">
-<meta name="twitter:description" content="准备 选择镜像：py36-pytorch0.4.0-cu90-ctc （即，准备一个cuda9.0的环境）  进入容器，安装anaconda   按着Github install的步骤进行安装如下： Create a conda virtual environment and activate it. Then install Cython.12conda create -n open-mmlab">
+<meta name="twitter:title" content="Pointing Novel Objects in Image Captioning">
+<meta name="twitter:description" content="Overview  Motivation问题 当前的模型，都是以image-caption对来进行训练，因此训练模型只能输出in-domain objects，但是，在实际应用中有些图片含有丰富的信息，但是用现有的模型却不能充分的表达。     解决1 希望可以生成新的words,(没有出现在training dataset)    本文提出了解决办法：用object learner 来扩增标准的">
+<meta name="twitter:image" content="https://i.loli.net/2019/07/27/5d3c1676f301a18995.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/20/mmdetection的安装/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/26/Pointing-Novel-Objects-in-Image-Captioning/">
 
 
 
@@ -124,7 +129,7 @@
   };
 </script>
 
-  <title>mmdetection的安装 | ShiYaya</title>
+  <title>Pointing Novel Objects in Image Captioning | ShiYaya</title>
   
 
 
@@ -379,7 +384,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/20/mmdetection的安装/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/26/Pointing-Novel-Objects-in-Image-Captioning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ShiYaya">
@@ -396,7 +401,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">mmdetection的安装
+          <h1 class="post-title" itemprop="name headline">Pointing Novel Objects in Image Captioning
 
               
             
@@ -422,7 +427,7 @@
                 
               
 
-              <time title="创建时间：2019-07-20 14:33:47" itemprop="dateCreated datePublished" datetime="2019-07-20T14:33:47+08:00">2019-07-20</time>
+              <time title="创建时间：2019-07-26 19:40:20" itemprop="dateCreated datePublished" datetime="2019-07-26T19:40:20+08:00">2019-07-26</time>
             
 
             
@@ -439,7 +444,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-25 09:27:23" itemprop="dateModified" datetime="2019-07-25T09:27:23+08:00">2019-07-25</time>
+                <time title="修改时间：2019-07-27 17:42:59" itemprop="dateModified" datetime="2019-07-27T17:42:59+08:00">2019-07-27</time>
               
             
           </span>
@@ -456,7 +461,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/目标检测/" itemprop="url" rel="index"><span itemprop="name">目标检测</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/图像描述/" itemprop="url" rel="index"><span itemprop="name">图像描述</span></a></span>
 
                 
                 
@@ -471,8 +476,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/07/20/mmdetection的安装/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/07/20/mmdetection的安装/" itemprop="commentsCount"></span>
+                <a href="/2019/07/26/Pointing-Novel-Objects-in-Image-Captioning/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/07/26/Pointing-Novel-Objects-in-Image-Captioning/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -507,66 +512,29 @@
       
 
       
-        <h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><ul>
-<li><p>选择镜像：py36-pytorch0.4.0-cu90-ctc （即，准备一个cuda9.0的环境）</p>
-</li>
-<li><p>进入容器，安装anaconda</p>
-</li>
+        <h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><img src="https://i.loli.net/2019/07/27/5d3c1676f301a18995.png" alt="搜狗截图20190727171628.png" title="搜狗截图20190727171628.png">
+
+<h3 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h3><h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><ul>
+<li>当前的模型，都是以image-caption对来进行训练，因此训练模型只能输出in-domain objects，但是，在实际应用中有些图片含有丰富的信息，但是用现有的模型却不能充分的表达。   </li>
 </ul>
-<h3 id="按着Github-install的步骤进行安装如下："><a href="#按着Github-install的步骤进行安装如下：" class="headerlink" title="按着Github install的步骤进行安装如下："></a>按着<a href="https://github.com/open-mmlab/mmdetection/blob/master/INSTALL.md" target="_blank" rel="noopener">Github install</a>的步骤进行安装如下：</h3><ul>
-<li>Create a conda virtual environment and activate it. Then install Cython.<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create -n open-mmlab python=<span class="number">3.7</span> -y</span><br><span class="line">source activate open-mmlab</span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ul>
-<ul>
-<li><p>** 以下的操作都是在进入open-mmlab环境之后进行的**</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="keyword">install</span> cython</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装 numpy</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> numpy</span><br></pre></td></tr></table></figure>
-
+<h4 id="解决1"><a href="#解决1" class="headerlink" title="解决1"></a>解决1</h4><ul>
+<li>希望可以生成新的words,(没有出现在training dataset)   </li>
+<li>本文提出了解决办法：用object learner 来扩增标准的deep caption 结构。即，由一个图像分类任务，则可以得到该图像中出现的obects。这可以作为一个补充信息，加入到当前现有的deep caption Model 中。   </li>
+<li>具体地：（1）标准的LSTM decoder 会输出一个predicted word,  （2）objects learner 通过一个copying layer 也可以得到一个预测单词。那么该选谁，本文并不硬选择，而是软选择，即给一个系数，来给这两个分配个概率，然后加和。这个选择的过程称为 <strong>Pointing Mechanism</strong>   </li>
+<li>loss:   <img src="https://i.loli.net/2019/07/27/5d3c1c012cccc48971.png" alt="搜狗截图20190727173939.png" title="搜狗截图20190727173939.png">   
 
 </li>
 </ul>
-<ul>
-<li><p>安装<a href="https://github.com/open-mmlab/mmcv" target="_blank" rel="noopener">mmcv</a> </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mmcv</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装pytorch<br>最好是离线下载，然后再安装，因为conda install 或者 pip install 可能连接不上（细节：pip install torch  就会出现下载链接，然后自己复制链接去网页下载即可），下载之后：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">pip</span> <span class="selector-tag">install</span> <span class="selector-tag">torch-1</span><span class="selector-class">.1</span><span class="selector-class">.0-cp37-cp37m-manylinux1_x86_64</span><span class="selector-class">.whl</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装opencv</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="keyword">install</span> -c menpo opencv</span><br></pre></td></tr></table></figure>
-
-
-</li>
+<h4 id="解决2"><a href="#解决2" class="headerlink" title="解决2:"></a>解决2:</h4><ul>
+<li>希望将image中的所有信息，在句子中都可以覆盖到</li>
+<li>提出了一个新的损失。target caption中含有 n词，即对应到image 中的 objects。那么希望生成的句子中含有的n词信息能够包含image中所有出现到的objects（即 target caption中的所有名词）</li>
+<li>那么可以根据预测的单词是否生成了 target caption 中的名词，来计算损失（文章中这里在计算损失的时候忽略了语法结构，即不要求名词出现的在句子中的位置，只要求出现就可以）.   </li>
+<li>loss:</li>
 </ul>
-<ul>
-<li>安装matplotlib<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> matplotlib</span><br></pre></td></tr></table></figure>
+<img src="https://i.loli.net/2019/07/27/5d3c1c754b56a83488.png" alt="搜狗截图20190727174134.png" title="搜狗截图20190727174134.png">    
+<img src="https://i.loli.net/2019/07/27/5d3c1c7536e6674709.png" alt="搜狗截图20190727174147.png" title="搜狗截图20190727174147.png"> 
 
 
-</li>
-</ul>
-<ul>
-<li>安装 terminaltables<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> terminaltables</span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ul>
-<ul>
-<li><p>安装 pip install pycocotools</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> pycocotools</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>选择一个看的顺眼的位置：Clone the mmdetection repository.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/open-mmlab/mmdetection.git</span><br><span class="line">cd mmdetection</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Install mmdetection</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py develop</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>大功告成</p>
-</li>
-</ul>
 
       
     </div>
@@ -590,7 +558,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/目标检测/" rel="tag"># 目标检测</a>
+            <a href="/tags/图像描述/" rel="tag"># 图像描述</a>
           
         </div>
       
@@ -603,8 +571,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/17/torch-no-grad/" rel="next" title="torch.no_grad">
-                <i class="fa fa-chevron-left"></i> torch.no_grad
+              <a href="/2019/07/26/vision-to-language-大牛/" rel="next" title="vision to language 大牛">
+                <i class="fa fa-chevron-left"></i> vision to language 大牛
               </a>
             
           </div>
@@ -613,8 +581,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/07/21/设置随机种子/" rel="prev" title="设置随机种子">
-                设置随机种子 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/07/27/Object-aware-Aggregation-with-Bidirectional-Temporal-Graph-for-Video-Captioning/" rel="prev" title="Object-aware Aggregation with Bidirectional Temporal Graph for Video Captioning">
+                Object-aware Aggregation with Bidirectional Temporal Graph for Video Captioning <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -852,7 +820,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按着Github-install的步骤进行安装如下："><span class="nav-number">2.</span> <span class="nav-text">按着Github install的步骤进行安装如下：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Motivation"><span class="nav-number">2.</span> <span class="nav-text">Motivation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#问题"><span class="nav-number">2.1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决1"><span class="nav-number">2.2.</span> <span class="nav-text">解决1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决2"><span class="nav-number">2.3.</span> <span class="nav-text">解决2:</span></a></li></ol></li></ol></div>
             
 
           </div>

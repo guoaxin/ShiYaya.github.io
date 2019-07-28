@@ -96,25 +96,27 @@
 
 
 
-  <meta name="description" content="准备 选择镜像：py36-pytorch0.4.0-cu90-ctc （即，准备一个cuda9.0的环境）  进入容器，安装anaconda   按着Github install的步骤进行安装如下： Create a conda virtual environment and activate it. Then install Cython.12conda create -n open-mmlab">
-<meta name="keywords" content="目标检测">
+  <meta name="description" content="我的理解 本文旨在于捕捉基于object的运动信息(capture object-based trajectory)，以前向流为例，以第一帧中的object regions 作为anchor， 来寻找在其他帧中相对应的regions， 计算该anchor 与 第i帧中的regions的相似性，然后相似性最大的那个region，认为是与anchor一致的objects， 然后将他们组成一组。反向流类">
+<meta name="keywords" content="视频描述">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mmdetection的安装">
-<meta property="og:url" content="http://yoursite.com/2019/07/20/mmdetection的安装/index.html">
+<meta property="og:title" content="Object-aware Aggregation with Bidirectional Temporal Graph for Video Captioning">
+<meta property="og:url" content="http://yoursite.com/2019/07/27/Object-aware-Aggregation-with-Bidirectional-Temporal-Graph-for-Video-Captioning/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="准备 选择镜像：py36-pytorch0.4.0-cu90-ctc （即，准备一个cuda9.0的环境）  进入容器，安装anaconda   按着Github install的步骤进行安装如下： Create a conda virtual environment and activate it. Then install Cython.12conda create -n open-mmlab">
+<meta property="og:description" content="我的理解 本文旨在于捕捉基于object的运动信息(capture object-based trajectory)，以前向流为例，以第一帧中的object regions 作为anchor， 来寻找在其他帧中相对应的regions， 计算该anchor 与 第i帧中的regions的相似性，然后相似性最大的那个region，认为是与anchor一致的objects， 然后将他们组成一组。反向流类">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-25T01:27:23.103Z">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d37324d6d283934.png">
+<meta property="og:updated_time" content="2019-07-28T06:16:09.912Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mmdetection的安装">
-<meta name="twitter:description" content="准备 选择镜像：py36-pytorch0.4.0-cu90-ctc （即，准备一个cuda9.0的环境）  进入容器，安装anaconda   按着Github install的步骤进行安装如下： Create a conda virtual environment and activate it. Then install Cython.12conda create -n open-mmlab">
+<meta name="twitter:title" content="Object-aware Aggregation with Bidirectional Temporal Graph for Video Captioning">
+<meta name="twitter:description" content="我的理解 本文旨在于捕捉基于object的运动信息(capture object-based trajectory)，以前向流为例，以第一帧中的object regions 作为anchor， 来寻找在其他帧中相对应的regions， 计算该anchor 与 第i帧中的regions的相似性，然后相似性最大的那个region，认为是与anchor一致的objects， 然后将他们组成一组。反向流类">
+<meta name="twitter:image" content="https://i.loli.net/2019/07/28/5d3d37324d6d283934.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/20/mmdetection的安装/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/27/Object-aware-Aggregation-with-Bidirectional-Temporal-Graph-for-Video-Captioning/">
 
 
 
@@ -124,7 +126,7 @@
   };
 </script>
 
-  <title>mmdetection的安装 | ShiYaya</title>
+  <title>Object-aware Aggregation with Bidirectional Temporal Graph for Video Captioning | ShiYaya</title>
   
 
 
@@ -379,7 +381,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/20/mmdetection的安装/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/27/Object-aware-Aggregation-with-Bidirectional-Temporal-Graph-for-Video-Captioning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ShiYaya">
@@ -396,7 +398,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">mmdetection的安装
+          <h1 class="post-title" itemprop="name headline">Object-aware Aggregation with Bidirectional Temporal Graph for Video Captioning
 
               
             
@@ -422,7 +424,7 @@
                 
               
 
-              <time title="创建时间：2019-07-20 14:33:47" itemprop="dateCreated datePublished" datetime="2019-07-20T14:33:47+08:00">2019-07-20</time>
+              <time title="创建时间：2019-07-27 20:53:36" itemprop="dateCreated datePublished" datetime="2019-07-27T20:53:36+08:00">2019-07-27</time>
             
 
             
@@ -439,7 +441,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-25 09:27:23" itemprop="dateModified" datetime="2019-07-25T09:27:23+08:00">2019-07-25</time>
+                <time title="修改时间：2019-07-28 14:16:09" itemprop="dateModified" datetime="2019-07-28T14:16:09+08:00">2019-07-28</time>
               
             
           </span>
@@ -456,7 +458,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/目标检测/" itemprop="url" rel="index"><span itemprop="name">目标检测</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/视频描述/" itemprop="url" rel="index"><span itemprop="name">视频描述</span></a></span>
 
                 
                 
@@ -471,8 +473,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/07/20/mmdetection的安装/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/07/20/mmdetection的安装/" itemprop="commentsCount"></span>
+                <a href="/2019/07/27/Object-aware-Aggregation-with-Bidirectional-Temporal-Graph-for-Video-Captioning/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/07/27/Object-aware-Aggregation-with-Bidirectional-Temporal-Graph-for-Video-Captioning/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -507,65 +509,33 @@
       
 
       
-        <h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><ul>
-<li><p>选择镜像：py36-pytorch0.4.0-cu90-ctc （即，准备一个cuda9.0的环境）</p>
-</li>
-<li><p>进入容器，安装anaconda</p>
-</li>
+        <h3 id="我的理解"><a href="#我的理解" class="headerlink" title="我的理解"></a>我的理解</h3><ul>
+<li>本文旨在于捕捉基于object的运动信息(capture object-based trajectory)，以前向流为例，以第一帧中的object regions 作为anchor， 来寻找在其他帧中相对应的regions， 计算该anchor 与 第i帧中的regions的相似性，然后相似性最大的那个region，认为是与anchor一致的objects， 然后将他们组成一组。反向流类似。  </li>
+<li>这个捕捉运动信息的思想与 【Learning Video Representations from Correspondence Proposals】中的很相似。   </li>
 </ul>
-<h3 id="按着Github-install的步骤进行安装如下："><a href="#按着Github-install的步骤进行安装如下：" class="headerlink" title="按着Github install的步骤进行安装如下："></a>按着<a href="https://github.com/open-mmlab/mmdetection/blob/master/INSTALL.md" target="_blank" rel="noopener">Github install</a>的步骤进行安装如下：</h3><ul>
-<li>Create a conda virtual environment and activate it. Then install Cython.<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create -n open-mmlab python=<span class="number">3.7</span> -y</span><br><span class="line">source activate open-mmlab</span><br></pre></td></tr></table></figure>
-
-
-</li>
+<h3 id="当前存在的问题"><a href="#当前存在的问题" class="headerlink" title="当前存在的问题"></a>当前存在的问题</h3><ul>
+<li>当前的工作主要使用 global frame 或者是 salient regions而不是使用specific objects，那么将不能捕捉到每个object 的细节的时域动态。</li>
 </ul>
-<ul>
-<li><p>** 以下的操作都是在进入open-mmlab环境之后进行的**</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="keyword">install</span> cython</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>安装 numpy</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> numpy</span><br></pre></td></tr></table></figure>
-
-
-</li>
+<h3 id="文章的主要工作"><a href="#文章的主要工作" class="headerlink" title="文章的主要工作"></a>文章的主要工作</h3><h4 id="encoder"><a href="#encoder" class="headerlink" title="encoder"></a>encoder</h4><ul>
+<li>constructs ==bidirectional temporal graph== to extract  the temporal trajectories for each object instance, which captures the detailed temporal dynamics in video content.    </li>
+<li>==aggregation process on object regions==, which can capture the object-aware semantic information， 这里主要是得到了 VLAD representation   </li>
 </ul>
-<ul>
-<li><p>安装<a href="https://github.com/open-mmlab/mmcv" target="_blank" rel="noopener">mmcv</a> </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mmcv</span><br></pre></td></tr></table></figure>
+<h4 id="decoder"><a href="#decoder" class="headerlink" title="decoder"></a>decoder</h4><ul>
+<li><p>对object VLAD representation实施了temporal attention 和 object attentin</p>
 </li>
-<li><p>安装pytorch<br>最好是离线下载，然后再安装，因为conda install 或者 pip install 可能连接不上（细节：pip install torch  就会出现下载链接，然后自己复制链接去网页下载即可），下载之后：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">pip</span> <span class="selector-tag">install</span> <span class="selector-tag">torch-1</span><span class="selector-class">.1</span><span class="selector-class">.0-cp37-cp37m-manylinux1_x86_64</span><span class="selector-class">.whl</span></span><br></pre></td></tr></table></figure>
+<li><p>对 frames VLAD representation 实施了 temporal attention</p>
 </li>
-<li><p>安装opencv</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda <span class="keyword">install</span> -c menpo opencv</span><br></pre></td></tr></table></figure>
+<li><p>然后分别进行nn.linear 线性变换后，相加</p>
+</li>
+<li><p>再与word_embedding相加送入GRU</p>
+<img src="https://i.loli.net/2019/07/28/5d3d37324d6d283934.png" alt="搜狗截图20190728134820.png" title="搜狗截图20190728134820.png">   
 
 
 </li>
 </ul>
-<ul>
-<li>安装matplotlib<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> matplotlib</span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ul>
-<ul>
-<li>安装 terminaltables<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> terminaltables</span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ul>
-<ul>
-<li><p>安装 pip install pycocotools</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip <span class="keyword">install</span> pycocotools</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>选择一个看的顺眼的位置：Clone the mmdetection repository.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/open-mmlab/mmdetection.git</span><br><span class="line">cd mmdetection</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>Install mmdetection</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python setup.py develop</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>大功告成</p>
-</li>
+<h3 id="本文的性能分析"><a href="#本文的性能分析" class="headerlink" title="本文的性能分析"></a>本文的性能分析</h3><ul>
+<li>可以准确的描述video，比如关键的objects。</li>
+<li><strong>但是！不能很好地去描述 objects 之间的交互</strong></li>
 </ul>
 
       
@@ -590,7 +560,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/目标检测/" rel="tag"># 目标检测</a>
+            <a href="/tags/视频描述/" rel="tag"># 视频描述</a>
           
         </div>
       
@@ -603,8 +573,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/07/17/torch-no-grad/" rel="next" title="torch.no_grad">
-                <i class="fa fa-chevron-left"></i> torch.no_grad
+              <a href="/2019/07/26/Pointing-Novel-Objects-in-Image-Captioning/" rel="next" title="Pointing Novel Objects in Image Captioning">
+                <i class="fa fa-chevron-left"></i> Pointing Novel Objects in Image Captioning
               </a>
             
           </div>
@@ -612,10 +582,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/07/21/设置随机种子/" rel="prev" title="设置随机种子">
-                设置随机种子 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -852,7 +818,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备"><span class="nav-number">1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按着Github-install的步骤进行安装如下："><span class="nav-number">2.</span> <span class="nav-text">按着Github install的步骤进行安装如下：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#我的理解"><span class="nav-number">1.</span> <span class="nav-text">我的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当前存在的问题"><span class="nav-number">2.</span> <span class="nav-text">当前存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文章的主要工作"><span class="nav-number">3.</span> <span class="nav-text">文章的主要工作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#encoder"><span class="nav-number">3.1.</span> <span class="nav-text">encoder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#decoder"><span class="nav-number">3.2.</span> <span class="nav-text">decoder</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文的性能分析"><span class="nav-number">4.</span> <span class="nav-text">本文的性能分析</span></a></li></ol></div>
             
 
           </div>
