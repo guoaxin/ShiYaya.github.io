@@ -105,7 +105,7 @@
 <meta property="og:description" content="我的理解 本文旨在于捕捉基于object的运动信息(capture object-based trajectory)，以前向流为例，以第一帧中的object regions 作为anchor， 来寻找在其他帧中相对应的regions， 计算该anchor 与 第i帧中的regions的相似性，然后相似性最大的那个region，认为是与anchor一致的objects， 然后将他们组成一组。反向流类">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d37324d6d283934.png">
-<meta property="og:updated_time" content="2019-07-28T06:16:09.912Z">
+<meta property="og:updated_time" content="2019-07-28T07:04:55.749Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Object-aware Aggregation with Bidirectional Temporal Graph for Video Captioning">
 <meta name="twitter:description" content="我的理解 本文旨在于捕捉基于object的运动信息(capture object-based trajectory)，以前向流为例，以第一帧中的object regions 作为anchor， 来寻找在其他帧中相对应的regions， 计算该anchor 与 第i帧中的regions的相似性，然后相似性最大的那个region，认为是与anchor一致的objects， 然后将他们组成一组。反向流类">
@@ -300,7 +300,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">96</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">97</span></a>
 
   </li>
 
@@ -441,7 +441,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-07-28 14:16:09" itemprop="dateModified" datetime="2019-07-28T14:16:09+08:00">2019-07-28</time>
+                <time title="修改时间：2019-07-28 15:04:55" itemprop="dateModified" datetime="2019-07-28T15:04:55+08:00">2019-07-28</time>
               
             
           </span>
@@ -518,7 +518,7 @@
 </ul>
 <h3 id="文章的主要工作"><a href="#文章的主要工作" class="headerlink" title="文章的主要工作"></a>文章的主要工作</h3><h4 id="encoder"><a href="#encoder" class="headerlink" title="encoder"></a>encoder</h4><ul>
 <li>constructs ==bidirectional temporal graph== to extract  the temporal trajectories for each object instance, which captures the detailed temporal dynamics in video content.    </li>
-<li>==aggregation process on object regions==, which can capture the object-aware semantic information， 这里主要是得到了 VLAD representation   </li>
+<li>==aggregation process on object regions==, which can capture the object-aware semantic information， 这里主要是得到了 VLAD[5, 6] representation   </li>
 </ul>
 <h4 id="decoder"><a href="#decoder" class="headerlink" title="decoder"></a>decoder</h4><ul>
 <li><p>对object VLAD representation实施了temporal attention 和 object attentin</p>
@@ -536,6 +536,10 @@
 <h3 id="本文的性能分析"><a href="#本文的性能分析" class="headerlink" title="本文的性能分析"></a>本文的性能分析</h3><ul>
 <li>可以准确的描述video，比如关键的objects。</li>
 <li><strong>但是！不能很好地去描述 objects 之间的交互</strong></li>
+</ul>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ul>
+<li>【NetVLAD】Relja Arandjelovic, Petr Gronat, Akihiko Torii, Tomas Pajdla, and Josef Sivic. Netvlad: Cnn architecture for weakly supervised place recognition. In CVPR, pages 5297–5307, 2016.</li>
+<li>【SeqVLAD】Youjiang Xu, Yahong Han, Richang Hong, and Qi Tian. Sequential video vlad: Training the aggregation locally and temporally. IEEE Transactions on Image Processing (TIP), 27(10):4933–4944, 2018</li>
 </ul>
 
       
@@ -582,6 +586,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/28/Motion-Guided-Spatial-Attention-for-Video-Captioning/" rel="prev" title="Motion Guided Spatial Attention for Video Captioning">
+                Motion Guided Spatial Attention for Video Captioning <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -658,7 +666,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">96</span>
+                    <span class="site-state-item-count">97</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -818,7 +826,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#我的理解"><span class="nav-number">1.</span> <span class="nav-text">我的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当前存在的问题"><span class="nav-number">2.</span> <span class="nav-text">当前存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文章的主要工作"><span class="nav-number">3.</span> <span class="nav-text">文章的主要工作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#encoder"><span class="nav-number">3.1.</span> <span class="nav-text">encoder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#decoder"><span class="nav-number">3.2.</span> <span class="nav-text">decoder</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文的性能分析"><span class="nav-number">4.</span> <span class="nav-text">本文的性能分析</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#我的理解"><span class="nav-number">1.</span> <span class="nav-text">我的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当前存在的问题"><span class="nav-number">2.</span> <span class="nav-text">当前存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文章的主要工作"><span class="nav-number">3.</span> <span class="nav-text">文章的主要工作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#encoder"><span class="nav-number">3.1.</span> <span class="nav-text">encoder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#decoder"><span class="nav-number">3.2.</span> <span class="nav-text">decoder</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文的性能分析"><span class="nav-number">4.</span> <span class="nav-text">本文的性能分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>

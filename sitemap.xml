@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/07/28/Motion-Guided-Spatial-Attention-for-Video-Captioning/</loc>
+    
+    <lastmod>2019-07-28T13:21:27.138Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/07/27/Object-aware-Aggregation-with-Bidirectional-Temporal-Graph-for-Video-Captioning/</loc>
     
-    <lastmod>2019-07-28T06:16:09.912Z</lastmod>
+    <lastmod>2019-07-28T07:04:55.749Z</lastmod>
     
   </url>
   

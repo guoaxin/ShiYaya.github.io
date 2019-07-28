@@ -96,28 +96,29 @@
 
 
 
-  <meta name="description" content="转载 from: https://blog.csdn.net/m0_37477175/article/details/77145459  dropout的思想继承自bagging方法，学习dropout先了解一下bagging方法。 bagging bagging是一种集成方法（ensemble methods）,可以通过集成来减小泛化误差（generalization error）。  bag">
-<meta name="keywords" content="深度学习">
+  <meta name="description" content="当前的问题 spatial attention 很少有人去探索 motion information 被利用通常是使用3D-CNNs来作为另外一种模态  本文的工作 两个贡献： MGSA、GARU The proposed MGSA utilize motion information between consecutive frames by applying CNN to stacked op">
+<meta name="keywords" content="视频描述">
 <meta property="og:type" content="article">
-<meta property="og:title" content="从bagging到dropout">
-<meta property="og:url" content="http://yoursite.com/2019/03/22/从bagging到dropout/index.html">
+<meta property="og:title" content="Motion Guided Spatial Attention for Video Captioning">
+<meta property="og:url" content="http://yoursite.com/2019/07/28/Motion-Guided-Spatial-Attention-for-Video-Captioning/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="转载 from: https://blog.csdn.net/m0_37477175/article/details/77145459  dropout的思想继承自bagging方法，学习dropout先了解一下bagging方法。 bagging bagging是一种集成方法（ensemble methods）,可以通过集成来减小泛化误差（generalization error）。  bag">
+<meta property="og:description" content="当前的问题 spatial attention 很少有人去探索 motion information 被利用通常是使用3D-CNNs来作为另外一种模态  本文的工作 两个贡献： MGSA、GARU The proposed MGSA utilize motion information between consecutive frames by applying CNN to stacked op">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://img-blog.csdn.net/20170813153102572?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbTBfMzc0NzcxNzU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:image" content="https://img-blog.csdn.net/20170813154717429?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbTBfMzc0NzcxNzU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2019-03-25T01:55:55.617Z">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d877e9c0d546970.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d87b91afaa36288.png">
+<meta property="og:image" content="https://i.loli.net/2019/07/28/5d3d80835814750581.png">
+<meta property="og:updated_time" content="2019-07-28T13:21:27.138Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="从bagging到dropout">
-<meta name="twitter:description" content="转载 from: https://blog.csdn.net/m0_37477175/article/details/77145459  dropout的思想继承自bagging方法，学习dropout先了解一下bagging方法。 bagging bagging是一种集成方法（ensemble methods）,可以通过集成来减小泛化误差（generalization error）。  bag">
-<meta name="twitter:image" content="https://img-blog.csdn.net/20170813153102572?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbTBfMzc0NzcxNzU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta name="twitter:title" content="Motion Guided Spatial Attention for Video Captioning">
+<meta name="twitter:description" content="当前的问题 spatial attention 很少有人去探索 motion information 被利用通常是使用3D-CNNs来作为另外一种模态  本文的工作 两个贡献： MGSA、GARU The proposed MGSA utilize motion information between consecutive frames by applying CNN to stacked op">
+<meta name="twitter:image" content="https://i.loli.net/2019/07/28/5d3d877e9c0d546970.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/22/从bagging到dropout/">
+  <link rel="canonical" href="http://yoursite.com/2019/07/28/Motion-Guided-Spatial-Attention-for-Video-Captioning/">
 
 
 
@@ -127,7 +128,7 @@
   };
 </script>
 
-  <title>从bagging到dropout | ShiYaya</title>
+  <title>Motion Guided Spatial Attention for Video Captioning | ShiYaya</title>
   
 
 
@@ -382,7 +383,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/22/从bagging到dropout/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/28/Motion-Guided-Spatial-Attention-for-Video-Captioning/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ShiYaya">
@@ -399,7 +400,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">从bagging到dropout
+          <h1 class="post-title" itemprop="name headline">Motion Guided Spatial Attention for Video Captioning
 
               
             
@@ -425,24 +426,12 @@
                 
               
 
-              <time title="创建时间：2019-03-22 09:24:40" itemprop="dateCreated datePublished" datetime="2019-03-22T09:24:40+08:00">2019-03-22</time>
+              <time title="创建时间：2019-07-28 15:04:27 / 修改时间：21:21:27" itemprop="dateCreated datePublished" datetime="2019-07-28T15:04:27+08:00">2019-07-28</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-03-25 09:55:55" itemprop="dateModified" datetime="2019-03-25T09:55:55+08:00">2019-03-25</time>
               
             
           </span>
@@ -459,7 +448,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/深度学习/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/视频描述/" itemprop="url" rel="index"><span itemprop="name">视频描述</span></a></span>
 
                 
                 
@@ -474,8 +463,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/03/22/从bagging到dropout/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/03/22/从bagging到dropout/" itemprop="commentsCount"></span>
+                <a href="/2019/07/28/Motion-Guided-Spatial-Attention-for-Video-Captioning/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/07/28/Motion-Guided-Spatial-Attention-for-Video-Captioning/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -510,43 +499,40 @@
       
 
       
-        <ul>
-<li>转载 from: <a href="https://blog.csdn.net/m0_37477175/article/details/77145459" target="_blank" rel="noopener">https://blog.csdn.net/m0_37477175/article/details/77145459</a></li>
+        <h3 id="当前的问题"><a href="#当前的问题" class="headerlink" title="当前的问题"></a>当前的问题</h3><ul>
+<li>spatial attention 很少有人去探索</li>
+<li>motion information 被利用通常是使用3D-CNNs来作为另外一种模态</li>
 </ul>
-<p>dropout的思想继承自bagging方法，学习dropout先了解一下bagging方法。</p>
-<h2 id="bagging"><a href="#bagging" class="headerlink" title="bagging"></a>bagging</h2><ul>
-<li>bagging是一种集成方法（ensemble methods）,可以通过集成来减小泛化误差（generalization error）。 </li>
-<li>bagging的<strong>最基本的思想</strong>是通过分别训练几个不同分类器，最后对测试的样本，每个分类器对其进行投票。在机器学习上这种策略叫model averaging。 </li>
-<li>model averaging 之所以有效，是因为并非所有的分类器都会产生相同的误差，只要有不同的分类器产生的误差不同就会对减小泛化误差非常有效。 </li>
-<li>对于bagging方法，允许采用相同的分类器，相同的训练算法，相同的目标函数。但是在<strong>数据集方面</strong>，<a href="https://www.baidu.com/s?wd=%E6%96%B0%E6%95%B0%E6%8D%AE&tn=24004469_oem_dg&rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">新数据</a>集与原始数据集的大小是相等的。每个数据集都是通过在原始数据集中随机选择一个样本进行替换而得到的。意味着，每个新数据集中会<strong>存在重复</strong>的样本。 </li>
-<li>在数据集建好之后，用<strong>相同的学习算法</strong>分别作用于每个数据集就得到了几个分类器。 </li>
-<li>下面这幅图片很好的解释了bagging的工作方式：我们想实现一个对数字8进行分类的分类器。此时构造了两个数据集，使用相同的学习算法，第一个分类器学习到的是8的上面那部分而第二个分类器学习的是8的下面那个部分。当我们把两个分类器集合起来的时候，此时的分类才是比较好的。 </li>
-<li>Each of these individual classification ruls is brittle, but if we average there output then the detector is robust.<br><img src="https://img-blog.csdn.net/20170813153102572?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbTBfMzc0NzcxNzU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
-</ul>
-<h2 id="dropout"><a href="#dropout" class="headerlink" title="dropout"></a>dropout</h2><ul>
-<li><p>我们可以把dropout类比成将许多大的神经网络进行集成的一种bagging方法。 </p>
-</li>
-<li><p>但是每一个神经网络的训练是非常耗时和占用很多内存的，训练很多的神经网络进行集合分类就显得太不实际了。 </p>
-</li>
-<li><p>但是，dropout可以训练所有子网络的集合，这些子网络通过去除整个网络中的一些<a href="https://www.baidu.com/s?wd=%E7%A5%9E%E7%BB%8F%E5%85%83&tn=24004469_oem_dg&rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">神经元</a>来获得。 </p>
-</li>
-<li><p>如下图所示：<br><img src="https://img-blog.csdn.net/20170813154717429?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbTBfMzc0NzcxNzU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-</li>
-<li><p>可能有些人会问上图的有些子网络，从输入到不了最终的输出，怎么办？其实对于比较宽的层（wider layers）从输入到输出都切断的概率是非常小的，多以影响不是很大。</p>
-</li>
-<li><p>如何移除一个神经元呢，我们通过仿射和非线性变换，试神经元的输出乘以0。</p>
-</li>
-<li><p>每次我们加载一个样本到minibatch，然后随机的采样一个不同的二进制掩膜作用在所有的输出，输入，隐藏节点上。每个节点的掩膜都是独立采样的。采样一个掩膜值为1的概率是固定的超参数。</p>
+<h3 id="本文的工作"><a href="#本文的工作" class="headerlink" title="本文的工作"></a>本文的工作</h3><ul>
+<li>两个贡献： MGSA、GARU</li>
+<li>The proposed MGSA utilize motion information between consecutive frames by applying CNN to stacked optical flows. </li>
+<li>In addition, a gated recurrent unit named GARU is designed to adaptively relate spatial attention maps across time. <img src="https://i.loli.net/2019/07/28/5d3d877e9c0d546970.png" alt="搜狗截图20190728193057.png" title="搜狗截图20190728193057.png">    
+
+
 </li>
 </ul>
-<h2 id="bagging与dropout训练的对比"><a href="#bagging与dropout训练的对比" class="headerlink" title="bagging与dropout训练的对比"></a>bagging与dropout训练的对比</h2><ul>
-<li>在bagging中，所有的分类器都是独立的，而在dropout中，所有的模型都是共享参数的。</li>
-<li>在bagging中，所有的分类器都是在特定的数据集下训练至收敛，而在dropout中没有明确的模型训练过程。网络都是在一步中训练一次（输入一个样本，随机训练一个子网络）</li>
-<li>（相同点）对于训练集来说，每一个子网络的训练数据是通过原始数据的替代采样得到的子集。<strong>？？？</strong>（自己的理解：每一个输入一个样本初始化某一个子网络）</li>
+<h3 id="Encoder-部分我的理解"><a href="#Encoder-部分我的理解" class="headerlink" title="Encoder 部分我的理解"></a>Encoder 部分我的理解</h3><ul>
+<li>对一个video 采取N帧，对这N帧提取appearences feature，得到<code>N*H*W*D</code>的特征向量</li>
+<li>以每帧为中心，采取连续的M帧，这M帧计算optical flow，并将这个<code>N*M</code>帧的optical flow images送入CNN中，得到<code>N*H*W*1</code>的特征向量。</li>
+<li>==构造一个长度为N的GRU时域序列，每次送入一帧==appearence feature 和 optical flow cnn feature，并得到一个输出,维度为<code>H*W</code>，</li>
+<li>该输出作为一个attention系数，并与==当前帧 ==frame feature 相乘。得到一个为该帧的每个像素点（<code>H*W</code>）分配的权重系数。即进行加权求和，则可以得到该帧的spatial attention</li>
 </ul>
-<h2 id="dropout的优势"><a href="#dropout的优势" class="headerlink" title="dropout的优势"></a>dropout的优势</h2><ul>
-<li>very computationally cheap在dropout训练阶段，每一个样本每一次更新只需要O(n)<br>，同时要生成n个二进制数字与每个状态相乘。除此之外，还需要O(n)的额外空间存储这些二进制数字，直到反向传播阶段。</li>
-<li>没有很显著的限制模型的大小和训练的过程。</li>
+<h3 id="Eecoder"><a href="#Eecoder" class="headerlink" title="Eecoder"></a>Eecoder</h3><img src="https://i.loli.net/2019/07/28/5d3d87b91afaa36288.png" alt="搜狗截图20190728193156.png" title="搜狗截图20190728193156.png" width="440px" height="400px">    
+
+
+
+<h3 id="Experimental-results"><a href="#Experimental-results" class="headerlink" title="Experimental results"></a>Experimental results</h3><ul>
+<li>这里只是想提一点，就是有一些论文在MSR-VTT上的实验结果，是使用了==音频信息==。<img src="https://i.loli.net/2019/07/28/5d3d80835814750581.png" alt="搜狗截图20190728190107.png" title="搜狗截图20190728190107.png">
+
+</li>
+</ul>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ul>
+<li><p>基于 spatial attention的 video captioning model</p>
+</li>
+<li><p>Li, X.; Zhao, B.; and Lu, X. 2017. MAM-RNN: multi-level attention model based RNN for video captioning. In IJCAI, 2208–2214. </p>
+</li>
+<li><p>Yang, Z.; Han, Y.; and Wang, Z. 2017. Catching the temporal regions-of-interest for video captioning. In ACM MM, 146–153. attention, spatial. </p>
+</li>
 </ul>
 
       
@@ -571,7 +557,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+            <a href="/tags/视频描述/" rel="tag"># 视频描述</a>
           
         </div>
       
@@ -584,8 +570,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/22/梯度消失与梯度爆炸的原因以及解决方案/" rel="next" title="梯度消失与梯度爆炸的原因以及解决方案">
-                <i class="fa fa-chevron-left"></i> 梯度消失与梯度爆炸的原因以及解决方案
+              <a href="/2019/07/27/Object-aware-Aggregation-with-Bidirectional-Temporal-Graph-for-Video-Captioning/" rel="next" title="Object-aware Aggregation with Bidirectional Temporal Graph for Video Captioning">
+                <i class="fa fa-chevron-left"></i> Object-aware Aggregation with Bidirectional Temporal Graph for Video Captioning
               </a>
             
           </div>
@@ -593,10 +579,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/23/optical-flow-光流/" rel="prev" title="optical flow(光流)">
-                optical flow(光流) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -833,7 +815,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#bagging"><span class="nav-number">1.</span> <span class="nav-text">bagging</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dropout"><span class="nav-number">2.</span> <span class="nav-text">dropout</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bagging与dropout训练的对比"><span class="nav-number">3.</span> <span class="nav-text">bagging与dropout训练的对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dropout的优势"><span class="nav-number">4.</span> <span class="nav-text">dropout的优势</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#当前的问题"><span class="nav-number">1.</span> <span class="nav-text">当前的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文的工作"><span class="nav-number">2.</span> <span class="nav-text">本文的工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Encoder-部分我的理解"><span class="nav-number">3.</span> <span class="nav-text">Encoder 部分我的理解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Eecoder"><span class="nav-number">4.</span> <span class="nav-text">Eecoder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Experimental-results"><span class="nav-number">5.</span> <span class="nav-text">Experimental results</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">6.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>
