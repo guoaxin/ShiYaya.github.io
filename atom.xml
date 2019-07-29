@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2019-07-28T13:21:27.138Z</updated>
+  <updated>2019-07-29T03:07:40.416Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,13 +17,66 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Video Description: A Survey of Methods, Datasets and Evaluation Metrics</title>
+    <link href="http://yoursite.com/2019/07/29/Video-Description-A-Survey-of-Methods-Datasets-and-Evaluation-Metrics/"/>
+    <id>http://yoursite.com/2019/07/29/Video-Description-A-Survey-of-Methods-Datasets-and-Evaluation-Metrics/</id>
+    <published>2019-07-29T02:21:32.000Z</published>
+    <updated>2019-07-29T03:07:40.416Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="视频描述仍然处于起步阶段的原因"><a href="#视频描述仍然处于起步阶段的原因" class="headerlink" title="视频描述仍然处于起步阶段的原因"></a>视频描述仍然处于起步阶段的原因</h3><ul><li>对视频描述模型的分析是困难的，很难去判别是visual feature 亦或是 language model 哪个做的贡献大</li><li>当前的数据集，既没有包含足够的视觉多样性，也没有复杂的语言结构</li><li>当前的凭据指标并不能非常正确的去评估生成的句子与人类生成的句子之间的一致程度</li></ul><h3 id="相比于-image-caption-，video-caption的困难"><a href="#相比于-image-caption-，video-caption的困难" class="headerlink" title="相比于 image caption ，video caption的困难"></a>相比于 image caption ，video caption的困难</h3><ul><li>并不是在video中的所有object 都是与description相关的，可能其只是背景中的一个元素。</li><li>此外，还需要objects的运动信息，以及 事件，动作，对象之间的因果关系。</li><li>视频中的action可能有不同的长度，不同的action之间，可能有重叠。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;视频描述仍然处于起步阶段的原因&quot;&gt;&lt;a href=&quot;#视频描述仍然处于起步阶段的原因&quot; class=&quot;headerlink&quot; title=&quot;视频描述仍然处于起步阶段的原因&quot;&gt;&lt;/a&gt;视频描述仍然处于起步阶段的原因&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;对视频描述模型的分析是困
+      
+    
+    </summary>
+    
+      <category term="视频描述" scheme="http://yoursite.com/categories/%E8%A7%86%E9%A2%91%E6%8F%8F%E8%BF%B0/"/>
+    
+    
+      <category term="视频描述" scheme="http://yoursite.com/tags/%E8%A7%86%E9%A2%91%E6%8F%8F%E8%BF%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Temporal Deformable Convolutional Encoder-Decoder Networks for Video Captioning</title>
+    <link href="http://yoursite.com/2019/07/28/Temporal-Deformable-Convolutional-Encoder-Decoder-Networks-for-Video-Captioning/"/>
+    <id>http://yoursite.com/2019/07/28/Temporal-Deformable-Convolutional-Encoder-Decoder-Networks-for-Video-Captioning/</id>
+    <published>2019-07-28T13:51:41.000Z</published>
+    <updated>2019-07-29T00:55:09.280Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="当前存在的问题"><a href="#当前存在的问题" class="headerlink" title="当前存在的问题"></a>当前存在的问题</h3><ul><li>RNN 存在梯度消失和梯度下降的问题</li><li>RNN 的本质的循环依赖，限制了其并行计算</li><li>因此本文提出了 ==Temporal Deformable Convolutional Encoder-Decoder Networks (dubbed as TDConvED) ==that fully employ convolutions in both encoder and decoder networks for video captioning. </li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;当前存在的问题&quot;&gt;&lt;a href=&quot;#当前存在的问题&quot; class=&quot;headerlink&quot; title=&quot;当前存在的问题&quot;&gt;&lt;/a&gt;当前存在的问题&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;RNN 存在梯度消失和梯度下降的问题&lt;/li&gt;
+&lt;li&gt;RNN 的本质的循环依赖，限制了
+      
+    
+    </summary>
+    
+      <category term="视频描述" scheme="http://yoursite.com/categories/%E8%A7%86%E9%A2%91%E6%8F%8F%E8%BF%B0/"/>
+    
+    
+      <category term="视频描述" scheme="http://yoursite.com/tags/%E8%A7%86%E9%A2%91%E6%8F%8F%E8%BF%B0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Motion Guided Spatial Attention for Video Captioning</title>
     <link href="http://yoursite.com/2019/07/28/Motion-Guided-Spatial-Attention-for-Video-Captioning/"/>
     <id>http://yoursite.com/2019/07/28/Motion-Guided-Spatial-Attention-for-Video-Captioning/</id>
     <published>2019-07-28T07:04:27.000Z</published>
-    <updated>2019-07-28T13:21:27.138Z</updated>
+    <updated>2019-07-29T01:03:59.809Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="当前的问题"><a href="#当前的问题" class="headerlink" title="当前的问题"></a>当前的问题</h3><ul><li>spatial attention 很少有人去探索</li><li>motion information 被利用通常是使用3D-CNNs来作为另外一种模态</li></ul><h3 id="本文的工作"><a href="#本文的工作" class="headerlink" title="本文的工作"></a>本文的工作</h3><ul><li>两个贡献： MGSA、GARU</li><li>The proposed MGSA utilize motion information between consecutive frames by applying CNN to stacked optical flows. </li><li>In addition, a gated recurrent unit named GARU is designed to adaptively relate spatial attention maps across time. <img src="https://i.loli.net/2019/07/28/5d3d877e9c0d546970.png" alt="搜狗截图20190728193057.png" title="搜狗截图20190728193057.png">    </li></ul><h3 id="Encoder-部分我的理解"><a href="#Encoder-部分我的理解" class="headerlink" title="Encoder 部分我的理解"></a>Encoder 部分我的理解</h3><ul><li>对一个video 采取N帧，对这N帧提取appearences feature，得到<code>N*H*W*D</code>的特征向量</li><li>以每帧为中心，采取连续的M帧，这M帧计算optical flow，并将这个<code>N*M</code>帧的optical flow images送入CNN中，得到<code>N*H*W*1</code>的特征向量。</li><li>==构造一个长度为N的GRU时域序列，每次送入一帧==appearence feature 和 optical flow cnn feature，并得到一个输出,维度为<code>H*W</code>，</li><li>该输出作为一个attention系数，并与==当前帧 ==frame feature 相乘。得到一个为该帧的每个像素点（<code>H*W</code>）分配的权重系数。即进行加权求和，则可以得到该帧的spatial attention</li></ul><h3 id="Eecoder"><a href="#Eecoder" class="headerlink" title="Eecoder"></a>Eecoder</h3><img src="https://i.loli.net/2019/07/28/5d3d87b91afaa36288.png" alt="搜狗截图20190728193156.png" title="搜狗截图20190728193156.png" width="440px" height="400px">    <h3 id="Experimental-results"><a href="#Experimental-results" class="headerlink" title="Experimental results"></a>Experimental results</h3><ul><li>这里只是想提一点，就是有一些论文在MSR-VTT上的实验结果，是使用了==音频信息==。<img src="https://i.loli.net/2019/07/28/5d3d80835814750581.png" alt="搜狗截图20190728190107.png" title="搜狗截图20190728190107.png"></li></ul><h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ul><li><p>基于 spatial attention的 video captioning model</p></li><li><p>Li, X.; Zhao, B.; and Lu, X. 2017. MAM-RNN: multi-level attention model based RNN for video captioning. In IJCAI, 2208–2214. </p></li><li><p>Yang, Z.; Han, Y.; and Wang, Z. 2017. Catching the temporal regions-of-interest for video captioning. In ACM MM, 146–153. attention, spatial. </p></li></ul>]]></content>
+    <content type="html"><![CDATA[<h3 id="当前的问题"><a href="#当前的问题" class="headerlink" title="当前的问题"></a>当前的问题</h3><ul><li>spatial attention 很少有人去探索</li><li>motion information 被利用通常是使用3D-CNNs来作为另外一种模态</li></ul><h3 id="本文的工作"><a href="#本文的工作" class="headerlink" title="本文的工作"></a>本文的工作</h3><ul><li>两个贡献： MGSA、GARU</li><li>The proposed MGSA utilize motion information between consecutive frames by applying CNN to stacked optical flows. </li><li>In addition, a gated recurrent unit named GARU is designed to adaptively relate spatial attention maps across time. <img src="https://i.loli.net/2019/07/28/5d3d877e9c0d546970.png" alt="搜狗截图20190728193057.png" title="搜狗截图20190728193057.png">    </li></ul><h3 id="Encoder-部分我的理解"><a href="#Encoder-部分我的理解" class="headerlink" title="Encoder 部分我的理解"></a>Encoder 部分我的理解</h3><ul><li>对一个video 采取N帧，对这N帧提取appearences feature，得到<code>N*H*W*D</code>的特征向量</li><li>以每帧为中心，采取连续的M帧，这M帧计算optical flow，并将这个<code>N*M</code>帧的optical flow images送入CNN中，得到<code>N*H*W*1</code>的特征向量。</li><li>==构造一个长度为N的GRU时域序列，每次送入一帧==  appearence feature 和 optical flow cnn feature，并得到一个输出,维度为<code>H*W</code>，</li><li>该输出作为一个attention系数，并与 ==当前帧== frame feature 相乘。得到一个为该帧的每个像素点（<code>H*W</code>）分配的权重系数。即进行加权求和，则可以得到该帧的spatial attention</li></ul><h3 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h3><img src="https://i.loli.net/2019/07/28/5d3d87b91afaa36288.png" alt="搜狗截图20190728193156.png" title="搜狗截图20190728193156.png" width="440px" height="400px">    <h3 id="Experimental-results"><a href="#Experimental-results" class="headerlink" title="Experimental results"></a>Experimental results</h3><ul><li>这里只是想提一点，就是有一些论文在MSR-VTT上的实验结果，是使用了==音频信息==。<img src="https://i.loli.net/2019/07/28/5d3d80835814750581.png" alt="搜狗截图20190728190107.png" title="搜狗截图20190728190107.png"></li></ul><h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ul><li><p>基于 spatial attention的 video captioning model</p></li><li><p>Li, X.; Zhao, B.; and Lu, X. 2017. MAM-RNN: multi-level attention model based RNN for video captioning. In IJCAI, 2208–2214. </p></li><li><p>Yang, Z.; Han, Y.; and Wang, Z. 2017. Catching the temporal regions-of-interest for video captioning. In ACM MM, 146–153. attention, spatial. </p></li></ul>]]></content>
     
     <summary type="html">
     
@@ -471,48 +524,6 @@
     
     
       <category term="pytorch" scheme="http://yoursite.com/tags/pytorch/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="http://yoursite.com/2019/07/11/hello-world/"/>
-    <id>http://yoursite.com/2019/07/11/hello-world/</id>
-    <published>2019-07-11T08:28:40.629Z</published>
-    <updated>2019-02-20T08:11:45.333Z</updated>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>numpy 函数</title>
-    <link href="http://yoursite.com/2019/06/16/numpy-%E5%87%BD%E6%95%B0/"/>
-    <id>http://yoursite.com/2019/06/16/numpy-函数/</id>
-    <published>2019-06-16T02:34:31.000Z</published>
-    <updated>2019-06-16T11:51:39.372Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="np-round"><a href="#np-round" class="headerlink" title="np.round "></a><font color="#0099ff" size="7" face="黑体">np.round </font></h2><h3 id="round函数概念："><a href="#round函数概念：" class="headerlink" title="round函数概念："></a>round函数概念：</h3><p>英文：圆，四舍五入<br>是python内置函数，它在哪都能用，对数字取四舍五入。<br>round(number[, ndigits])<br>round 对传入的数据进行四舍五入，如果ngigits不传，默认是0（就是说保留整数部分）.ngigits&lt;0 的时候是来对整数部分进行四舍五入，返回的结果是浮点数.</p><h3 id="round-负数"><a href="#round-负数" class="headerlink" title="round 负数"></a>round 负数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 四舍五入是围绕着0来计算的，  </span></span><br><span class="line">round(<span class="number">0.5</span>) <span class="comment"># 1.0  </span></span><br><span class="line">round(<span class="number">-0.5</span>) <span class="comment">#-1.0</span></span><br></pre></td></tr></table></figure><h3 id="round-的陷阱"><a href="#round-的陷阱" class="headerlink" title="round 的陷阱"></a>round 的陷阱</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">round(<span class="number">1.675</span>, <span class="number">2</span>) <span class="comment">#1.68  </span></span><br><span class="line">round(<span class="number">2.675</span>, <span class="number">2</span>) <span class="comment">#2.67</span></span><br></pre></td></tr></table></figure><h3 id="举例："><a href="#举例：" class="headerlink" title="举例："></a>举例：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">round(<span class="number">3.4</span>) <span class="comment"># 3.0  </span></span><br><span class="line">round(<span class="number">3.5</span>) <span class="comment"># 4.0  </span></span><br><span class="line">round(<span class="number">3.6</span>) <span class="comment"># 4.0  </span></span><br><span class="line">round(<span class="number">3.6</span>, <span class="number">0</span>) <span class="comment"># 4.0  </span></span><br><span class="line">round(<span class="number">1.95583</span>, <span class="number">2</span>) <span class="comment"># 1.96  </span></span><br><span class="line">round(<span class="number">1241757</span>, <span class="number">-3</span>) <span class="comment"># 1242000.0  </span></span><br><span class="line">round(<span class="number">5.045</span>, <span class="number">2</span>) <span class="comment"># 5.05  </span></span><br><span class="line">round(<span class="number">5.055</span>, <span class="number">2</span>) <span class="comment"># 5.06</span></span><br></pre></td></tr></table></figure><h2 id="np-clip"><a href="#np-clip" class="headerlink" title="np.clip"></a><font color="#0099ff" size="7" face="黑体">np.clip</font></h2><p>numpy.clip(a, a_min, a_max, out=None)[source]<br>其中a是一个数组，后面两个参数分别表示最小和最大值，怎么用呢，老规矩，我们看代码：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">x=np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>])</span><br><span class="line">np.clip(x,<span class="number">3</span>,<span class="number">8</span>)</span><br><span class="line">Out[<span class="number">88</span>]:</span><br><span class="line">array([<span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">8</span>])</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;np-round&quot;&gt;&lt;a href=&quot;#np-round&quot; class=&quot;headerlink&quot; title=&quot;np.round &quot;&gt;&lt;/a&gt;&lt;font color=&quot;#0099ff&quot; size=&quot;7&quot; face=&quot;黑体&quot;&gt;np.round &lt;/font&gt;&lt;/h2
-      
-    
-    </summary>
-    
     
   </entry>
   

@@ -4,11 +4,61 @@
   
     
     <entry>
+      <title>Video Description: A Survey of Methods, Datasets and Evaluation Metrics</title>
+      <link href="/2019/07/29/Video-Description-A-Survey-of-Methods-Datasets-and-Evaluation-Metrics/"/>
+      <url>/2019/07/29/Video-Description-A-Survey-of-Methods-Datasets-and-Evaluation-Metrics/</url>
+      
+        <content type="html"><![CDATA[<h3 id="视频描述仍然处于起步阶段的原因"><a href="#视频描述仍然处于起步阶段的原因" class="headerlink" title="视频描述仍然处于起步阶段的原因"></a>视频描述仍然处于起步阶段的原因</h3><ul><li>对视频描述模型的分析是困难的，很难去判别是visual feature 亦或是 language model 哪个做的贡献大</li><li>当前的数据集，既没有包含足够的视觉多样性，也没有复杂的语言结构</li><li>当前的凭据指标并不能非常正确的去评估生成的句子与人类生成的句子之间的一致程度</li></ul><h3 id="相比于-image-caption-，video-caption的困难"><a href="#相比于-image-caption-，video-caption的困难" class="headerlink" title="相比于 image caption ，video caption的困难"></a>相比于 image caption ，video caption的困难</h3><ul><li>并不是在video中的所有object 都是与description相关的，可能其只是背景中的一个元素。</li><li>此外，还需要objects的运动信息，以及 事件，动作，对象之间的因果关系。</li><li>视频中的action可能有不同的长度，不同的action之间，可能有重叠。</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 视频描述 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 视频描述 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Temporal Deformable Convolutional Encoder-Decoder Networks for Video Captioning</title>
+      <link href="/2019/07/28/Temporal-Deformable-Convolutional-Encoder-Decoder-Networks-for-Video-Captioning/"/>
+      <url>/2019/07/28/Temporal-Deformable-Convolutional-Encoder-Decoder-Networks-for-Video-Captioning/</url>
+      
+        <content type="html"><![CDATA[<h3 id="当前存在的问题"><a href="#当前存在的问题" class="headerlink" title="当前存在的问题"></a>当前存在的问题</h3><ul><li>RNN 存在梯度消失和梯度下降的问题</li><li>RNN 的本质的循环依赖，限制了其并行计算</li><li>因此本文提出了 ==Temporal Deformable Convolutional Encoder-Decoder Networks (dubbed as TDConvED) ==that fully employ convolutions in both encoder and decoder networks for video captioning. </li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 视频描述 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 视频描述 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Motion Guided Spatial Attention for Video Captioning</title>
       <link href="/2019/07/28/Motion-Guided-Spatial-Attention-for-Video-Captioning/"/>
       <url>/2019/07/28/Motion-Guided-Spatial-Attention-for-Video-Captioning/</url>
       
-        <content type="html"><![CDATA[<h3 id="当前的问题"><a href="#当前的问题" class="headerlink" title="当前的问题"></a>当前的问题</h3><ul><li>spatial attention 很少有人去探索</li><li>motion information 被利用通常是使用3D-CNNs来作为另外一种模态</li></ul><h3 id="本文的工作"><a href="#本文的工作" class="headerlink" title="本文的工作"></a>本文的工作</h3><ul><li>两个贡献： MGSA、GARU</li><li>The proposed MGSA utilize motion information between consecutive frames by applying CNN to stacked optical flows. </li><li>In addition, a gated recurrent unit named GARU is designed to adaptively relate spatial attention maps across time. <img src="https://i.loli.net/2019/07/28/5d3d877e9c0d546970.png" alt="搜狗截图20190728193057.png" title="搜狗截图20190728193057.png">    </li></ul><h3 id="Encoder-部分我的理解"><a href="#Encoder-部分我的理解" class="headerlink" title="Encoder 部分我的理解"></a>Encoder 部分我的理解</h3><ul><li>对一个video 采取N帧，对这N帧提取appearences feature，得到<code>N*H*W*D</code>的特征向量</li><li>以每帧为中心，采取连续的M帧，这M帧计算optical flow，并将这个<code>N*M</code>帧的optical flow images送入CNN中，得到<code>N*H*W*1</code>的特征向量。</li><li>==构造一个长度为N的GRU时域序列，每次送入一帧==appearence feature 和 optical flow cnn feature，并得到一个输出,维度为<code>H*W</code>，</li><li>该输出作为一个attention系数，并与==当前帧 ==frame feature 相乘。得到一个为该帧的每个像素点（<code>H*W</code>）分配的权重系数。即进行加权求和，则可以得到该帧的spatial attention</li></ul><h3 id="Eecoder"><a href="#Eecoder" class="headerlink" title="Eecoder"></a>Eecoder</h3><img src="https://i.loli.net/2019/07/28/5d3d87b91afaa36288.png" alt="搜狗截图20190728193156.png" title="搜狗截图20190728193156.png" width="440px" height="400px">    <h3 id="Experimental-results"><a href="#Experimental-results" class="headerlink" title="Experimental results"></a>Experimental results</h3><ul><li>这里只是想提一点，就是有一些论文在MSR-VTT上的实验结果，是使用了==音频信息==。<img src="https://i.loli.net/2019/07/28/5d3d80835814750581.png" alt="搜狗截图20190728190107.png" title="搜狗截图20190728190107.png"></li></ul><h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ul><li><p>基于 spatial attention的 video captioning model</p></li><li><p>Li, X.; Zhao, B.; and Lu, X. 2017. MAM-RNN: multi-level attention model based RNN for video captioning. In IJCAI, 2208–2214. </p></li><li><p>Yang, Z.; Han, Y.; and Wang, Z. 2017. Catching the temporal regions-of-interest for video captioning. In ACM MM, 146–153. attention, spatial. </p></li></ul>]]></content>
+        <content type="html"><![CDATA[<h3 id="当前的问题"><a href="#当前的问题" class="headerlink" title="当前的问题"></a>当前的问题</h3><ul><li>spatial attention 很少有人去探索</li><li>motion information 被利用通常是使用3D-CNNs来作为另外一种模态</li></ul><h3 id="本文的工作"><a href="#本文的工作" class="headerlink" title="本文的工作"></a>本文的工作</h3><ul><li>两个贡献： MGSA、GARU</li><li>The proposed MGSA utilize motion information between consecutive frames by applying CNN to stacked optical flows. </li><li>In addition, a gated recurrent unit named GARU is designed to adaptively relate spatial attention maps across time. <img src="https://i.loli.net/2019/07/28/5d3d877e9c0d546970.png" alt="搜狗截图20190728193057.png" title="搜狗截图20190728193057.png">    </li></ul><h3 id="Encoder-部分我的理解"><a href="#Encoder-部分我的理解" class="headerlink" title="Encoder 部分我的理解"></a>Encoder 部分我的理解</h3><ul><li>对一个video 采取N帧，对这N帧提取appearences feature，得到<code>N*H*W*D</code>的特征向量</li><li>以每帧为中心，采取连续的M帧，这M帧计算optical flow，并将这个<code>N*M</code>帧的optical flow images送入CNN中，得到<code>N*H*W*1</code>的特征向量。</li><li>==构造一个长度为N的GRU时域序列，每次送入一帧==  appearence feature 和 optical flow cnn feature，并得到一个输出,维度为<code>H*W</code>，</li><li>该输出作为一个attention系数，并与 ==当前帧== frame feature 相乘。得到一个为该帧的每个像素点（<code>H*W</code>）分配的权重系数。即进行加权求和，则可以得到该帧的spatial attention</li></ul><h3 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h3><img src="https://i.loli.net/2019/07/28/5d3d87b91afaa36288.png" alt="搜狗截图20190728193156.png" title="搜狗截图20190728193156.png" width="440px" height="400px">    <h3 id="Experimental-results"><a href="#Experimental-results" class="headerlink" title="Experimental results"></a>Experimental results</h3><ul><li>这里只是想提一点，就是有一些论文在MSR-VTT上的实验结果，是使用了==音频信息==。<img src="https://i.loli.net/2019/07/28/5d3d80835814750581.png" alt="搜狗截图20190728190107.png" title="搜狗截图20190728190107.png"></li></ul><h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ul><li><p>基于 spatial attention的 video captioning model</p></li><li><p>Li, X.; Zhao, B.; and Lu, X. 2017. MAM-RNN: multi-level attention model based RNN for video captioning. In IJCAI, 2208–2214. </p></li><li><p>Yang, Z.; Han, Y.; and Wang, Z. 2017. Catching the temporal regions-of-interest for video captioning. In ACM MM, 146–153. attention, spatial. </p></li></ul>]]></content>
       
       
       <categories>
@@ -1226,7 +1276,7 @@
       <link href="/2019/04/04/%E5%8F%B2%E9%9B%85%E9%9B%85%E7%9A%84%E6%94%B6%E8%97%8F%E5%A4%B9/"/>
       <url>/2019/04/04/%E5%8F%B2%E9%9B%85%E9%9B%85%E7%9A%84%E6%94%B6%E8%97%8F%E5%A4%B9/</url>
       
-        <content type="html"><![CDATA[<p><a href="http://pygments.org/" target="_blank" rel="noopener">http://pygments.org/</a></p><p><a href="https://202.38.95.226:7443/view.html" target="_blank" rel="noopener">https://202.38.95.226:7443/view.html</a></p><p><a href="https://aideadlin.es/?sub=ML,RO,CV,SP,NLP,DM" target="_blank" rel="noopener">https://aideadlin.es/?sub=ML,RO,CV,SP,NLP,DM</a></p><p><a href="https://yjs.ustc.edu.cn/" target="_blank" rel="noopener">https://yjs.ustc.edu.cn/</a></p><p><a href="https://www.json.cn/" target="_blank" rel="noopener">https://www.json.cn/</a></p><p><a href="https://kevinj-huang.github.io/" target="_blank" rel="noopener">https://kevinj-huang.github.io/</a></p><p><a href="https://shiyaya.github.io/" target="_blank" rel="noopener">https://shiyaya.github.io/</a></p><p><a href="https://stackedit.io/app#" target="_blank" rel="noopener">https://stackedit.io/app#</a></p><p><a href="http://jsonviewer.stack.hu/" target="_blank" rel="noopener">http://jsonviewer.stack.hu/</a></p><p><a href="http://www.nlpjob.com/" target="_blank" rel="noopener">http://www.nlpjob.com/</a></p><p><a href="https://nlp.stanford.edu/software/scenegraph-parser.shtml#Usage" target="_blank" rel="noopener">https://nlp.stanford.edu/software/scenegraph-parser.shtml#Usage</a></p><p><a href="https://paperswithcode.com/sota" target="_blank" rel="noopener">https://paperswithcode.com/sota</a></p><p><a href="https://sm.ms/" target="_blank" rel="noopener">https://sm.ms/</a></p><p><a href="http://www.arxiv-sanity.com/" target="_blank" rel="noopener">http://www.arxiv-sanity.com/</a></p>]]></content>
+        <content type="html"><![CDATA[<p><a href="http://pygments.org/" target="_blank" rel="noopener">http://pygments.org/</a></p><p><a href="https://202.38.95.226:7443/view.html" target="_blank" rel="noopener">https://202.38.95.226:7443/view.html</a></p><p><a href="https://aideadlin.es/?sub=ML,RO,CV,SP,NLP,DM" target="_blank" rel="noopener">https://aideadlin.es/?sub=ML,RO,CV,SP,NLP,DM</a></p><p><a href="https://yjs.ustc.edu.cn/" target="_blank" rel="noopener">https://yjs.ustc.edu.cn/</a></p><p><a href="https://www.json.cn/" target="_blank" rel="noopener">https://www.json.cn/</a></p><p><a href="https://kevinj-huang.github.io/" target="_blank" rel="noopener">https://kevinj-huang.github.io/</a></p><p><a href="https://shiyaya.github.io/" target="_blank" rel="noopener">https://shiyaya.github.io/</a></p><p><a href="https://stackedit.io/app#" target="_blank" rel="noopener">https://stackedit.io/app#</a></p><p><a href="http://jsonviewer.stack.hu/" target="_blank" rel="noopener">http://jsonviewer.stack.hu/</a></p><p><a href="http://www.nlpjob.com/" target="_blank" rel="noopener">http://www.nlpjob.com/</a></p><p><a href="https://nlp.stanford.edu/software/scenegraph-parser.shtml#Usage" target="_blank" rel="noopener">https://nlp.stanford.edu/software/scenegraph-parser.shtml#Usage</a></p><p><a href="https://paperswithcode.com/sota" target="_blank" rel="noopener">https://paperswithcode.com/sota</a></p><p><a href="https://sm.ms/" target="_blank" rel="noopener">https://sm.ms/</a></p><p><a href="http://www.arxiv-sanity.com/" target="_blank" rel="noopener">http://www.arxiv-sanity.com/</a></p><h2 id="会议搜索"><a href="#会议搜索" class="headerlink" title="会议搜索"></a>会议搜索</h2><p><a href="http://www.searchconf.net/conf/searchresule/" target="_blank" rel="noopener">http://www.searchconf.net/conf/searchresule/</a></p>]]></content>
       
       
       <categories>
@@ -1350,9 +1400,9 @@
     
     
     <entry>
-      <title>java 的编译与执行</title>
-      <link href="/2019/03/26/java/"/>
-      <url>/2019/03/26/java/</url>
+      <title>java</title>
+      <link href="/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/"/>
+      <url>/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/</url>
       
         <content type="html"><![CDATA[<h2 id="java-的编译与执行"><a href="#java-的编译与执行" class="headerlink" title="java 的编译与执行"></a>java 的编译与执行</h2><ol><li><p>用文本编辑器新建一个yumhtest.java文件，在其中输入以下代码并保存：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">yumhtest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello world !"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>编译：在shell终端执行命令 <strong>javac yumhtest.java</strong></p></li><li><p>运行：在shell终端执行命令 <strong>java yumhtest</strong><br>当shell下出现“hello world !”字样</p></li></ol><p>注意事项：类名应和文件名相同。</p>]]></content>
       
@@ -1375,9 +1425,9 @@
     
     
     <entry>
-      <title>java</title>
-      <link href="/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/"/>
-      <url>/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/</url>
+      <title>java 的编译与执行</title>
+      <link href="/2019/03/26/java/"/>
+      <url>/2019/03/26/java/</url>
       
         <content type="html"><![CDATA[<h2 id="java-的编译与执行"><a href="#java-的编译与执行" class="headerlink" title="java 的编译与执行"></a>java 的编译与执行</h2><ol><li><p>用文本编辑器新建一个yumhtest.java文件，在其中输入以下代码并保存：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">yumhtest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello world !"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>编译：在shell终端执行命令 <strong>javac yumhtest.java</strong></p></li><li><p>运行：在shell终端执行命令 <strong>java yumhtest</strong><br>当shell下出现“hello world !”字样</p></li></ol><p>注意事项：类名应和文件名相同。</p>]]></content>
       
@@ -1635,6 +1685,31 @@
         <tags>
             
             <tag> pytorch </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>计算机视觉学术会议</title>
+      <link href="/2019/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AD%A6%E6%9C%AF%E4%BC%9A%E8%AE%AE/"/>
+      <url>/2019/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AD%A6%E6%9C%AF%E4%BC%9A%E8%AE%AE/</url>
+      
+        <content type="html"><![CDATA[<h3 id="A类"><a href="#A类" class="headerlink" title="A类"></a>A类</h3><ul><li>(AAAI)   Conference on Artificial Intelligence  </li></ul><p>截稿日期：2019-8-30</p><ul><li>CVPR 2019: IEEE Conference on Computer Vision and Pattern Recognition    </li></ul><p><a href="http://cvpr2019.thecvf.com/" target="_blank" rel="noopener">http://cvpr2019.thecvf.com/</a> </p><p>截稿日期：2018-11-16<br>通知日期：2019-03-02<br>会议日期：2019-06-15</p><ul><li>IJCAI 2019: International Joint Conference on Artificial Intelligence</li></ul><p><a href="http://www.ijcai19.org" target="_blank" rel="noopener">http://www.ijcai19.org</a></p><p>截稿日期：2019-02-05<br>会议日期：Aug 10 - Aug 16, 2019</p><ul><li>ICCV2019: International Conference on Computer Vision</li></ul><p><a href="http://iccv2019.thecvf.com" target="_blank" rel="noopener">http://iccv2019.thecvf.com</a></p><p>截稿日期：2019-05-01<br>会议日期：Oct 27 - Nov 3, 2019</p><ul><li>ECCV</li></ul><p>截稿时间：3 月 14 日<br>会议时间：9 月 8-14 日</p><ul><li>ACM International Conference on Multimedia (ACM MM) </li></ul><p><a href="https://www.acmmm.org/2019/" target="_blank" rel="noopener">https://www.acmmm.org/2019/</a></p><p>截稿日期：2019.4.1</p><h3 id="B类"><a href="#B类" class="headerlink" title="B类"></a>B类</h3><ul><li>ICME 2019: International Conference on Multimedia and Expo</li></ul><p><a href="http://www.icme2019.org" target="_blank" rel="noopener">http://www.icme2019.org</a> </p><p>截稿日期：2018-12-03<br>通知日期：2019-03-11<br>会议日期：2019-07-08</p><h3 id="C类"><a href="#C类" class="headerlink" title="C类"></a>C类</h3><ul><li>BMVC</li></ul><p><a href="http://bmvc2018.org" target="_blank" rel="noopener">http://bmvc2018.org</a></p><p>截稿时间：4 月 30 日</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 杂类 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 杂类 </tag>
             
         </tags>
       

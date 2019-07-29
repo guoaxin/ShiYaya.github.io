@@ -2,9 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AD%A6%E6%9C%AF%E4%BC%9A%E8%AE%AE/</loc>
+    
+    <lastmod>2019-07-29T04:07:24.283Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/04/%E5%8F%B2%E9%9B%85%E9%9B%85%E7%9A%84%E6%94%B6%E8%97%8F%E5%A4%B9/</loc>
+    
+    <lastmod>2019-07-29T03:20:10.911Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/07/29/Video-Description-A-Survey-of-Methods-Datasets-and-Evaluation-Metrics/</loc>
+    
+    <lastmod>2019-07-29T03:07:40.416Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/07/28/Motion-Guided-Spatial-Attention-for-Video-Captioning/</loc>
     
-    <lastmod>2019-07-28T13:21:27.138Z</lastmod>
+    <lastmod>2019-07-29T01:03:59.809Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/07/28/Temporal-Deformable-Convolutional-Encoder-Decoder-Networks-for-Video-Captioning/</loc>
+    
+    <lastmod>2019-07-29T00:55:09.280Z</lastmod>
     
   </url>
   
@@ -12,13 +40,6 @@
     <loc>http://yoursite.com/2019/07/27/Object-aware-Aggregation-with-Bidirectional-Temporal-Graph-for-Video-Captioning/</loc>
     
     <lastmod>2019-07-28T07:04:55.749Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/04/04/%E5%8F%B2%E9%9B%85%E9%9B%85%E7%9A%84%E6%94%B6%E8%97%8F%E5%A4%B9/</loc>
-    
-    <lastmod>2019-07-27T11:45:15.972Z</lastmod>
     
   </url>
   
