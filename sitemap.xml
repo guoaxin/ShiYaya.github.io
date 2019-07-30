@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/02/21/GitHub-Hexo-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/</loc>
+    
+    <lastmod>2019-07-30T03:13:31.990Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/07/30/gcn-on-captioning/</loc>
     
-    <lastmod>2019-07-30T03:02:01.399Z</lastmod>
+    <lastmod>2019-07-30T03:10:23.952Z</lastmod>
     
   </url>
   
@@ -194,13 +201,6 @@
     <loc>http://yoursite.com/2019/07/16/Spacy%E5%B7%A5%E5%85%B7%E5%8C%85/</loc>
     
     <lastmod>2019-07-16T03:26:09.934Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/02/21/GitHub-Hexo-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/</loc>
-    
-    <lastmod>2019-07-12T04:10:49.130Z</lastmod>
     
   </url>
   
