@@ -105,7 +105,7 @@
 <meta property="og:site_name" content="ShiYaya">
 <meta property="og:description" content="pytorch 中 Conv2dhttps://pytorch.org/docs/stable/nn.html#conv2dthe shape of input:  batch×channel×height×width Conv3dhttps://pytorch.org/docs/stable/nn.html#conv3dthe shape of input: batch×channel×dept">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-04-09T11:24:29.132Z">
+<meta property="og:updated_time" content="2019-08-21T14:10:53.934Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C3D">
 <meta name="twitter:description" content="pytorch 中 Conv2dhttps://pytorch.org/docs/stable/nn.html#conv2dthe shape of input:  batch×channel×height×width Conv3dhttps://pytorch.org/docs/stable/nn.html#conv3dthe shape of input: batch×channel×dept">
@@ -299,7 +299,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">113</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">116</span></a>
 
   </li>
 
@@ -423,12 +423,24 @@
                 
               
 
-              <time title="创建时间：2019-04-09 15:11:42 / 修改时间：19:24:29" itemprop="dateCreated datePublished" datetime="2019-04-09T15:11:42+08:00">2019-04-09</time>
+              <time title="创建时间：2019-04-09 15:11:42" itemprop="dateCreated datePublished" datetime="2019-04-09T15:11:42+08:00">2019-04-09</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-08-21 22:10:53" itemprop="dateModified" datetime="2019-08-21T22:10:53+08:00">2019-08-21</time>
               
             
           </span>
@@ -498,14 +510,40 @@
       
         <p>pytorch 中</p>
 <h3 id="Conv2d"><a href="#Conv2d" class="headerlink" title="Conv2d"></a>Conv2d</h3><p><a href="https://pytorch.org/docs/stable/nn.html#conv2d" target="_blank" rel="noopener">https://pytorch.org/docs/stable/nn.html#conv2d</a><br>the shape of input:  <font size="5," color="#0099ff">batch×channel×height×width</font></p>
-<h3 id="Conv3d"><a href="#Conv3d" class="headerlink" title="Conv3d"></a>Conv3d</h3><p><a href="https://pytorch.org/docs/stable/nn.html#conv3d" target="_blank" rel="noopener">https://pytorch.org/docs/stable/nn.html#conv3d</a><br>the shape of input: <font size="5," color="#0099ff">batch×channel×depth×height×width</font></p>
-<h3 id="C3D-用于行为识别-1-2"><a href="#C3D-用于行为识别-1-2" class="headerlink" title="C3D 用于行为识别[1][2]"></a>C3D 用于行为识别[1][2]</h3><p>[1] C3D 的网络结构</p>
+<h2 id="Conv3d"><a href="#Conv3d" class="headerlink" title="Conv3d"></a>Conv3d</h2><p><a href="https://pytorch.org/docs/stable/nn.html#conv3d" target="_blank" rel="noopener">https://pytorch.org/docs/stable/nn.html#conv3d</a><br>the shape of input: <font size="5," color="#0099ff">batch×channel×depth×height×width</font></p>
+<h2 id="C3D-用于行为识别-1-2"><a href="#C3D-用于行为识别-1-2" class="headerlink" title="C3D 用于行为识别[1][2]"></a>C3D 用于行为识别[1][2]</h2><p>[1] C3D 的网络结构</p>
 <ul>
-<li>输入： bs×3×<font size="5," color="#0099ff">16</font>×H×W，即输入一个长为16的视频序列clip</li>
+<li>输入： bs×3×<font size="5," color="#0099ff">16</font>×H×W，即输入一个长为16的视频序列clip， 实际是 bs×3×16×12×12</li>
 <li>输出： bs×feature_size</li>
 </ul>
 <p>对于一个video，含有N帧，则将这N帧分成16帧的clips，每相邻的两个clips重叠8帧，然后将这些clips得到的fc6 activations 进行平均得到video feature，进而送入分类层得到video class label</p>
-<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p>[1] Learning spatiotemporal features with 3d convolutional networks.  CVPR 2015<br>[2] Can Spatiotemporal 3D CNNs Retrace the History of 2D CNNs and ImageNet?  CVPR 2018</p>
+<h2 id="解读论文Learning-Spatio-Temporal-Features-with-3D-Residual-Networks-for-Action-Recognition"><a href="#解读论文Learning-Spatio-Temporal-Features-with-3D-Residual-Networks-for-Action-Recognition" class="headerlink" title="解读论文Learning Spatio-Temporal Features with 3D Residual Networks for Action Recognition"></a>解读论文<code>Learning Spatio-Temporal Features with 3D Residual Networks for Action Recognition</code></h2><h3 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h3><ul>
+<li>当前行为识别的方法，参数量不能过多的原因是，现在可以用于训练的数据集较小，一旦参数量过大，使得模型过拟合</li>
+<li>但是，现在有了kinetics 这样的大型数据集，这时，便可以提出一个参数量大的model<h3 id="Goal"><a href="#Goal" class="headerlink" title="Goal"></a>Goal</h3></li>
+<li>生成一个用于 spatio-temporal recognition的标准预训练模型</li>
+</ul>
+<h3 id="关于image-size-部分的介绍"><a href="#关于image-size-部分的介绍" class="headerlink" title="关于image size 部分的介绍"></a>关于image size 部分的介绍</h3><ul>
+<li>截取帧时，固定长宽比，并设置高为360（resneXt是240），<h4 id="train"><a href="#train" class="headerlink" title="train"></a>train</h4></li>
+<li>以一个 16 连续帧组成的clip来代表 video</li>
+<li>先以最小边为尺寸进行裁剪（裁剪为一个正方形），然后再进行resize 112</li>
+<li>为了数据增强，这里有三个trick  (1) 最小边=min(height, weight) * sacle (2) 选取哪个区域进行裁剪，有五种选择 四个角和中心 (3)以50%的概率进行随机水平翻转<h4 id="test"><a href="#test" class="headerlink" title="test"></a>test</h4></li>
+<li>一个video 去选择 没有重叠的所有 16 连续帧，然后对这所有的clip的得分进行取平均作为video的得分</li>
+<li>不再进行数据增强</li>
+<li>先按照最小边，固定长宽比进行缩放</li>
+<li>再 中心裁剪成指定的 <code>112*112</code></li>
+</ul>
+<h3 id="分析-resnet34-c3d-比-rgb-i3d-差的原因"><a href="#分析-resnet34-c3d-比-rgb-i3d-差的原因" class="headerlink" title="分析 resnet34-c3d 比 rgb-i3d 差的原因"></a>分析 resnet34-c3d 比 rgb-i3d 差的原因</h3><ol>
+<li><p>rgb-i3d 使用了64个GPU，可能他们使用的batch size 也比较大。而 resnet34-c3d 仅使用了4个GPU，256 batch size。</p>
+</li>
+<li><p>rgb-i3d 使用的 clip 分辨率为：3 × 64 × 224 × 224.  而 resnet34-c3d 的 clip 分辨率为 3 × 16 × 112 × 112 。    </p>
+<p>即，i3d 使用连续的 <strong>64</strong> 帧组成一个clip，并且 image 分辨率为 <strong>224</strong>，</p>
+<p>而， resnet c3d 使用连续的 <strong>16</strong> 帧组成一个clip，并且 image 分辨率为 <strong>112</strong>，</p>
+</li>
+</ol>
+<h2 id="解读论文Can-Spatiotemporal-3D-CNNs-Retrace-the-History-of-2D-CNNs-and-ImageNet"><a href="#解读论文Can-Spatiotemporal-3D-CNNs-Retrace-the-History-of-2D-CNNs-and-ImageNet" class="headerlink" title="解读论文Can Spatiotemporal 3D CNNs Retrace the History of 2D CNNs and ImageNet?"></a>解读论文<code>Can Spatiotemporal 3D CNNs Retrace the History of 2D CNNs and ImageNet?</code></h2><h3 id="Goal-1"><a href="#Goal-1" class="headerlink" title="Goal"></a>Goal</h3><ul>
+<li>本文的目的是为了验证当前存在的数据集是否足够支撑训练一个很深的3d网络</li>
+</ul>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p>[1] Learning Spatio-Temporal Features with 3D Residual Networks for Action Recognition .  ICCV 2017<br>[2] Can Spatiotemporal 3D CNNs Retrace the History of 2D CNNs and ImageNet?  CVPR 2018</p>
 
       
     </div>
@@ -631,7 +669,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">113</span>
+                    <span class="site-state-item-count">116</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -795,7 +833,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Conv2d"><span class="nav-number">1.</span> <span class="nav-text">Conv2d</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Conv3d"><span class="nav-number">2.</span> <span class="nav-text">Conv3d</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#C3D-用于行为识别-1-2"><span class="nav-number">3.</span> <span class="nav-text">C3D 用于行为识别[1][2]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Conv2d"><span class="nav-number">1.</span> <span class="nav-text">Conv2d</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#Conv3d"><span class="nav-number"></span> <span class="nav-text">Conv3d</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C3D-用于行为识别-1-2"><span class="nav-number"></span> <span class="nav-text">C3D 用于行为识别[1][2]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解读论文Learning-Spatio-Temporal-Features-with-3D-Residual-Networks-for-Action-Recognition"><span class="nav-number"></span> <span class="nav-text">解读论文Learning Spatio-Temporal Features with 3D Residual Networks for Action Recognition</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Motivation"><span class="nav-number">1.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Goal"><span class="nav-number">2.</span> <span class="nav-text">Goal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于image-size-部分的介绍"><span class="nav-number">3.</span> <span class="nav-text">关于image size 部分的介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#train"><span class="nav-number">3.1.</span> <span class="nav-text">train</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#test"><span class="nav-number">3.2.</span> <span class="nav-text">test</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析-resnet34-c3d-比-rgb-i3d-差的原因"><span class="nav-number">4.</span> <span class="nav-text">分析 resnet34-c3d 比 rgb-i3d 差的原因</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解读论文Can-Spatiotemporal-3D-CNNs-Retrace-the-History-of-2D-CNNs-and-ImageNet"><span class="nav-number"></span> <span class="nav-text">解读论文Can Spatiotemporal 3D CNNs Retrace the History of 2D CNNs and ImageNet?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Goal-1"><span class="nav-number">1.</span> <span class="nav-text">Goal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">2.</span> <span class="nav-text">Reference</span></a></li></ol></li></div>
             
 
           </div>
