@@ -111,7 +111,7 @@
 <meta property="og:image" content="https://i.loli.net/2019/09/02/T5AzpW8DHkVL2Oy.png">
 <meta property="og:image" content="https://i.loli.net/2019/09/02/m5xLQnzCJGsjWVc.png">
 <meta property="og:image" content="https://i.loli.net/2019/09/02/q6XNP8iSVzekyCE.png">
-<meta property="og:updated_time" content="2019-09-02T08:59:49.551Z">
+<meta property="og:updated_time" content="2019-09-02T14:25:17.670Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="视频描述任务中用到objects的论文总结">
 <meta name="twitter:description" content="CVPR 2018  Fine-grained Video Captioning for Sports Narrative   CVPR 2019  Grounded Video Description Object-aware Aggregation with Bidirectional Temporal Graph for Video Captioning Spatio-Temporal D">
@@ -268,7 +268,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">29</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">28</span></a>
 
   </li>
         
@@ -306,7 +306,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">118</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">119</span></a>
 
   </li>
 
@@ -447,7 +447,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-02 16:59:49" itemprop="dateModified" datetime="2019-09-02T16:59:49+08:00">2019-09-02</time>
+                <time title="修改时间：2019-09-02 22:25:17" itemprop="dateModified" datetime="2019-09-02T22:25:17+08:00">2019-09-02</time>
               
             
           </span>
@@ -586,6 +586,10 @@
 <p>   每帧 objects features 的加权求和，再经过LSTM得到隐层状态</p>
 </li>
 </ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>当前基于 objects feature 的论文，decoder 部分没有太大的新颖（一般都是Top-Down或者是 Soft-Attention），主要的新颖的地方是在 encoder 部分</li>
+<li>encoder部分有的使用LSTM 以及attention 来更新 objects features；有的使用VLAD 来构建 行为特征，使用 objects 的时域轨迹和两层attention 来聚合特征；使用objetcs 的其他信息，比如 position 以及 label 等信息</li>
+</ul>
 
       
     </div>
@@ -631,6 +635,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/07/clean/" rel="prev" title="clean">
+                clean <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -707,7 +715,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">118</span>
+                    <span class="site-state-item-count">119</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -835,9 +843,7 @@
                     
                       
                     
-                      
-                    
-                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-count">28</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -873,7 +879,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Grounded-Video-Description"><span class="nav-number">1.</span> <span class="nav-text">Grounded Video Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-aware-Aggregation-with-Bidirectional-Temporal-Graph-for-Video-Captioning"><span class="nav-number">2.</span> <span class="nav-text">Object-aware Aggregation with Bidirectional Temporal Graph for Video Captioning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spatio-Temporal-Dynamics-and-Semantic-Attribute-Enriched-Visual-Encoding-for-Video-Captioning"><span class="nav-number">3.</span> <span class="nav-text">Spatio-Temporal Dynamics and Semantic Attribute Enriched Visual Encoding for Video Captioning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hierarchical-Global-Local-Temporal-Modeling-for-Video-Captioning"><span class="nav-number">4.</span> <span class="nav-text">Hierarchical Global-Local Temporal Modeling for Video Captioning</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Grounded-Video-Description"><span class="nav-number">1.</span> <span class="nav-text">Grounded Video Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Object-aware-Aggregation-with-Bidirectional-Temporal-Graph-for-Video-Captioning"><span class="nav-number">2.</span> <span class="nav-text">Object-aware Aggregation with Bidirectional Temporal Graph for Video Captioning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spatio-Temporal-Dynamics-and-Semantic-Attribute-Enriched-Visual-Encoding-for-Video-Captioning"><span class="nav-number">3.</span> <span class="nav-text">Spatio-Temporal Dynamics and Semantic Attribute Enriched Visual Encoding for Video Captioning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hierarchical-Global-Local-Temporal-Modeling-for-Video-Captioning"><span class="nav-number">4.</span> <span class="nav-text">Hierarchical Global-Local Temporal Modeling for Video Captioning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

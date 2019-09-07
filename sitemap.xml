@@ -2,9 +2,51 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/09/07/clean/</loc>
+    
+    <lastmod>2019-09-07T06:53:57.355Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/02/22/video-caption-dataset/</loc>
+    
+    <lastmod>2019-09-07T06:53:11.186Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/04/06/tensorboard-logger/</loc>
+    
+    <lastmod>2019-09-06T13:52:58.190Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/07/20/mmdetection%E7%9A%84%E5%AE%89%E8%A3%85/</loc>
+    
+    <lastmod>2019-09-06T12:48:26.051Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AD%A6%E6%9C%AF%E4%BC%9A%E8%AE%AE/</loc>
+    
+    <lastmod>2019-09-06T04:48:46.161Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/24/faster-r-cnn-%E8%A7%A3%E8%AF%BB/</loc>
+    
+    <lastmod>2019-09-05T03:53:59.111Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/09/01/%E8%A7%86%E9%A2%91%E6%8F%8F%E8%BF%B0%E4%BB%BB%E5%8A%A1%E4%B8%AD%E7%94%A8%E5%88%B0objects%E7%9A%84%E8%AE%BA%E6%96%87%E6%80%BB%E7%BB%93/</loc>
     
-    <lastmod>2019-09-02T08:59:49.551Z</lastmod>
+    <lastmod>2019-09-02T14:25:17.670Z</lastmod>
     
   </url>
   
@@ -44,13 +86,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2019/03/24/faster-r-cnn-%E8%A7%A3%E8%AF%BB/</loc>
-    
-    <lastmod>2019-08-29T03:04:13.587Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2019/04/20/An-End-to-End-Baseline-for-Video-Captioning/</loc>
     
     <lastmod>2019-08-22T08:31:06.483Z</lastmod>
@@ -61,13 +96,6 @@
     <loc>http://yoursite.com/2019/04/09/C3D/</loc>
     
     <lastmod>2019-08-22T01:31:58.693Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AD%A6%E6%9C%AF%E4%BC%9A%E8%AE%AE/</loc>
-    
-    <lastmod>2019-08-19T09:55:12.132Z</lastmod>
     
   </url>
   
@@ -198,13 +226,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2019/07/20/mmdetection%E7%9A%84%E5%AE%89%E8%A3%85/</loc>
-    
-    <lastmod>2019-07-30T07:15:11.846Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2019/02/21/GitHub-Hexo-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/</loc>
     
     <lastmod>2019-07-30T03:40:44.061Z</lastmod>
@@ -299,13 +320,6 @@
     <loc>http://yoursite.com/2019/07/23/VATEX-a-video-caption-dataset/</loc>
     
     <lastmod>2019-07-23T01:43:28.289Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/02/22/video-caption-dataset/</loc>
-    
-    <lastmod>2019-07-23T01:32:04.175Z</lastmod>
     
   </url>
   
@@ -586,13 +600,6 @@
     <loc>http://yoursite.com/2019/04/07/self-training-in-pytorch/</loc>
     
     <lastmod>2019-04-07T01:57:27.553Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/04/06/tensorboard-logger/</loc>
-    
-    <lastmod>2019-04-07T01:33:59.553Z</lastmod>
     
   </url>
   
