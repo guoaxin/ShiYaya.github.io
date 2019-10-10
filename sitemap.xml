@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/10/10/%E4%BD%BF%E7%94%A8-objects-position-%E4%BD%9C%E4%B8%BA%E7%89%B9%E5%BE%81%E7%9A%84%E8%AE%BA%E6%96%87/</loc>
+    
+    <lastmod>2019-10-10T02:25:11.330Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AD%A6%E6%9C%AF%E4%BC%9A%E8%AE%AE/</loc>
+    
+    <lastmod>2019-09-25T07:03:27.527Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/03/24/faster-r-cnn-%E8%A7%A3%E8%AF%BB/</loc>
     
-    <lastmod>2019-09-25T03:53:51.381Z</lastmod>
+    <lastmod>2019-09-25T04:34:52.599Z</lastmod>
     
   </url>
   
@@ -82,13 +96,6 @@
     <loc>http://yoursite.com/2019/07/20/mmdetection%E7%9A%84%E5%AE%89%E8%A3%85/</loc>
     
     <lastmod>2019-09-06T12:48:26.051Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AD%A6%E6%9C%AF%E4%BC%9A%E8%AE%AE/</loc>
-    
-    <lastmod>2019-09-06T04:48:46.161Z</lastmod>
     
   </url>
   
