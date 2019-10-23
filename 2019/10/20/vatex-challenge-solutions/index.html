@@ -97,18 +97,18 @@
 
 
 
-  <meta name="description" content="VATEX Captioning Challenge 2019: Multi-modal Information Fusion and Multi-stage Training Strategyfor Video Captioning   encoder: 使用 image_feature， video_feature，audio_feature  decoder: Topdown model">
+  <meta name="description" content="Just can be seen by yaya.">
 <meta name="keywords" content="视频描述">
 <meta property="og:type" content="article">
 <meta property="og:title" content="vatex_challenge_solutions">
 <meta property="og:url" content="http://yoursite.com/2019/10/20/vatex-challenge-solutions/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="VATEX Captioning Challenge 2019: Multi-modal Information Fusion and Multi-stage Training Strategyfor Video Captioning   encoder: 使用 image_feature， video_feature，audio_feature  decoder: Topdown model">
+<meta property="og:description" content="Just can be seen by yaya.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-10-22T02:38:40.150Z">
+<meta property="og:updated_time" content="2019-10-23T09:11:10.234Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vatex_challenge_solutions">
-<meta name="twitter:description" content="VATEX Captioning Challenge 2019: Multi-modal Information Fusion and Multi-stage Training Strategyfor Video Captioning   encoder: 使用 image_feature， video_feature，audio_feature  decoder: Topdown model">
+<meta name="twitter:description" content="Just can be seen by yaya.">
 
 
 
@@ -440,7 +440,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-10-22 10:38:40" itemprop="dateModified" datetime="2019-10-22T10:38:40+08:00">2019-10-22</time>
+                <time title="修改时间：2019-10-23 17:11:10" itemprop="dateModified" datetime="2019-10-23T17:11:10+08:00">2019-10-23</time>
               
             
           </span>
@@ -490,44 +490,20 @@
       
 
       
-        <h3 id="VATEX-Captioning-Challenge-2019-Multi-modal-Information-Fusion-and-Multi-stage-Training-Strategy"><a href="#VATEX-Captioning-Challenge-2019-Multi-modal-Information-Fusion-and-Multi-stage-Training-Strategy" class="headerlink" title="VATEX Captioning Challenge 2019: Multi-modal Information Fusion and Multi-stage Training Strategy"></a>VATEX Captioning Challenge 2019: Multi-modal Information Fusion and Multi-stage Training Strategy</h3><p>for Video Captioning </p>
-<ul>
-<li><p>encoder: 使用 image_feature， video_feature，audio_feature</p>
-</li>
-<li><p>decoder: Topdown model</p>
-</li>
-<li><p>有效的贡献：</p>
-<ul>
-<li><p>（1） 加入了 action_label embedding</p>
-</li>
-<li><p>（2）加入了 gumbel softmax 来提升</p>
-</li>
-<li><p>（3）音频</p>
-</li>
-<li><p>（4）强化学习</p>
-</li>
-<li><p>（3）在beam_search 中加入对句长的软归一化,,使其不偏向于输出短的句子！（吴恩达）</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">candidate_logprob = (<span class="name">beam_logprobs_sum</span>[q] * t ** 0.5 + local_logprob) / ((t+1) ** 0.5)</span><br></pre></td></tr></table></figure>
-
-
-</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><p>（4） self.embed 不加 BN，fc_embed, att_embed 加入BN ，均加入relu, dropout 效果好</p>
-</li>
-<li><p>（5）c3d 共享 frames 的 attention，然后再cat 起来，效果好</p>
-</li>
-</ul>
-<h3 id="Integrating-Temporal-and-Spatial-Attentions-for-VATEX-Video-Captioning-Challenge-2019"><a href="#Integrating-Temporal-and-Spatial-Attentions-for-VATEX-Video-Captioning-Challenge-2019" class="headerlink" title="Integrating Temporal and Spatial Attentions for VATEX Video Captioning Challenge 2019"></a>Integrating Temporal and Spatial Attentions for VATEX Video Captioning Challenge 2019</h3><ul>
-<li>使用了两个模型进行融合，</li>
-<li>第一个模型： 与我们的一致</li>
-<li>第二个模型：<strong>使用mask_rcnn 提取出 object_bbox，然后从 appearence_feature_map和 i3d_feature_map上来提取该bbox对应的 feature</strong></li>
-<li>使用后融合：utilize a late fusion strategy to fuse results from the two types of attentive models. We train a video-semantic embedding model [1] on the VATEX dataset, and use it to select the best video descriptions among generated captions from the two types of attentive models according to their relevancy to the video. </li>
-</ul>
-<h3 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h3><p>[1] Fartash Faghri, David J Fleet, Jamie Ryan Kiros, and Sanja Fidler. Vse++: Improved visual-semantic embeddings. arXiv preprint arXiv:1707.05612, 2(7):8, 2017. </p>
-
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+<div id="hbe-security">
+  <div class="hbe-input-container">
+  <input type="password" class="hbe-form-control" id="pass" placeholder="Welcome to my blog, enter password to read.">
+    <label for="pass">Welcome to my blog, enter password to read.</label>
+    <div class="bottom-line"></div>
+  </div>
+</div>
+<div id="decryptionError" style="display: none;">Incorrect Password!</div>
+<div id="noContentError" style="display: none;">No content to display!</div>
+<div id="encrypt-blog" style="display:none">
+U2FsdGVkX18zL/LoyyIwhhYszH5TqCJ5Xb4meMAg6dvIYMwKQiiFf3ropgDtWosf5/wdyOwdfCszsxRbCeffxasSLh34mWAZULS7f3f8BKZrctnQBSYwmaKvL0RFuA0Rw35YEQFSgYRodgufe14LKUNmAFu3P8mubbtS9KOY9cb+X7vpZEIW2t2U+ZPrT8DCh6NZpsVvEnUgQuzL03qPdix1wLYHCxAOqJFx+lrKCagWWOZsJevojOOFgz+GxMmAjBxYC8t3kk9HQUL8BRJGStS5za95FHRWbt0Q+qLTAfTc0vyY/w7rez87RFJBN4pzqCwl8aKDy0+hXTA+HQpLwSszwegRaTxm2+UPOKhu7NmARpSoqCIjh2XqIbyl2fF6dnlJsTjAzf0Wdp3rLbjLUp5lb/xL4j8pyVcfMoQvujz0gg06GdfouGXZwI35NY7II3GKW8o+x9J8PccE+6/n/oW1CD7+iy5hcdbqO89JFZljnhlbEDpFHlCvc9FtESqYdgjdasozuiqQ8KSeXPKLMi4JVWCBPnTtaDL/2n9GZmtCwBXIGdoELBaZrJz2YnhLoKw5cFBDNAUY786c+87wypuv7YFkj0UYO9m7TKi8q6hB0/hBBSlntvuvUxRk6nZQeCqjdr2bIToXPK9uc+QkdvdborPEiQv57/fFCMIETqojyy6f9GhZlYlN1yihz2yinsFb/HooX0RK9ackCHlU+4ORLNOY80Kpa3/3jOJIG2ybv+/PoWtuAmPUUpX+NKKlD9JxbVdWpyseYo1I2w5y5YIjAMuBNKFjP+a2E24zROgrCazSJNljAutMiEbObFLrqhqitWjt4z+onMQUAow3mCzIm35pskn/vCLCTpVd2ZgDSWewE53OaqWwYAbxl12V7yJ/8nMoKLIIlHznl3I4iSFEuq0ht/DmwfubCcRmp2ZVT9wAt9kIVameIgyWeBReR1Jg0Xrx66QqrUaO5wVET2peWVw3QT4O7CnUcQE5AzeK/3t7Ag4XpXBOTAqJRCp0VvpXM49sgVH1S1YQdPPkRpVQFIGwaeP27uodTLl+RQxBqWoWgtiUlTsrkGtaF6X9ffJyvHA4iUOco48l/+FScpTOQPbI16hkxlcTfT1MAB+UZ0xg2rTrWUJ8C0TbdBANYl3ZfuYyfgrwNTb1xuYhBQZcN76HgRmYXLx0Z7/PcZv0wLScFaaMnlgGSaGEwgOQiSQC6wFGfjklWlx1mlGlrzwSekhz3uroBrSJKwsw2Bmeb1IUgAFs1mg9/jv5orGMsn3ZgohLsPvsQrjtItJEY6zX0d0DvKpON9rhVxIyI4fengx4uKepl3iIJM8gh3+v/pGiIU4CthVKBSmjjsoqfP4ERguHgRTS/sb2k3ni0LjDL0noOfntzjYmmPXabbslRafJSVn7H1jgUON2rhzNG3NpbmTv841ffDqWU9f2WPl7zzqIOyIMq5xEN3VGW62LGXvVE9ZQz4MxXdh+CLrsOMizn8f98ckr6ut4JTugkgpA4HD4XtGuU/CtWUFUx0/kv2bG8YyKo5xIgIws6RucGmFzEQpytIMlRFunvo9y+IJbjbbTNgFf1pE2Jo+tyITDnHJiTZ2G46UEp1npFz+E9mUyGyglMHKQEox4U6uoQnfOx8WfH4HXC93MS9jY3knZMi6fME8YDqquzgOs5b28eKmOc9eqwb304DbzeVW9TzILPk7U7J/YgQ0WNuunmLdkWJpplqYVAWRONbayapH1FmckBl6Ku/zKwtVacSbuJZlpBwb9ASOUW7EUKxMkNp+d7pRs5iUm/AquUh7jzYfd5V3dsMe/nakJCODGefXKcypQ71Nq4cdPY/V65SSV07yiwddy4D8J2/+vFo5FJhKKgkGbjbAqkduQOTbISvJCMfcqe5xeXc2pkY7DY3qwVHE2vnLfDuQPty9zd6Sy+kSewIEqaX2WFVXoVuPGHxdkt2FGqmmYJofxCZerVH5P3bkcipYFM87Y8UNraQxo+P9ltM6gBQSbSgh4DWCRWFHOL4lOVZd6KYF7KrsfAi/ktoGejShJ/+Ku1EpKAGTGHXQNWg3BACkcO/0cjzqiKilUhhxCB0r16TCeINazOifGIaWQeItPnFSrgbIy20gpYgGYcxzTKNfozM3j7JfxNNT3+0/N7VePbICixHORAjnnE0ixzByjk2+nlQUbUKc9eM7axCnSk4I80HdGuLxfJMjVVjKkrKS2RQNaeocVviZPY+DQBOJ+UHiJVApbO2fsMBsD0qE52c8+q/OI9z/IOTEXVZQYlz+pthcYPCSLDygsENsPmtsbnDixkoeD97A4R/+7c+tjjAGgxNQP7cFTW9XtUjTgtdKMq2bPBBS+T/HRo/ILWZX+ipSsyS0G2T3Phw0P+E8J6KsX8EH0ad5BOi2eFy2ivv8gFFfsTYJAiBpz9S1EFnLp5OS1Ux5W/DHLtKnyhzLJ7bVB0y8JBk1h+9Mne5SvGc5ldjCEqcd/JUqMXrbeeBl+gQ9ug3XvT0fUU+rE1SYbauD1Z52jd7BYCI7jWhYXNC3HtpZwahRKg5pAqKQTlwollnkI1TtplsehfcirXpQPYM0wlIBaLzQE/itzRfK+11SuwrphsT7dr6zN7tO7Yt8qrrerfH7ihftNo0Xd6SyvO9FcZnyZOryonJiUzu0GMD64cCUaUTgei88tjrzO/+Jdk6R92a8vRGDLSsBDwIpbgFaANIsi/xe9hOwAzFff2Z3/4LNJr7b6rI0eWFzW3RJGLE16PnpQAUnRxfJazhGWGImTYBgeNsoS1TGxWnx7yI+Oe9ROgXKw5YJCyg+zYCfeoEx0M71ajXhfW4mu6bRMWj9blA0OVRSZL16+WtVbkfxIVc5bdDCI0reCrYGtaz/fCFKV/GP4ygFgP57LlniJBKyXKmqzAlgi2Jj544LQFmL57VvZYJiWxALiqaCFOjQ4uZh/dXzIGmdn3+53WevqvraQEc4gdKEgS5ayw7WcQHV9BDncbJNhInVC6J4C6qxCwOBwTE9D+x3n4rESMBD3kgu7NutHAaRXJ1GsrgqIn9Q7eqDj0XiwHSCjjSVuAEtcYyEi8E4bu7bV+2Hr//SZiciZXBrStR/TqVKZB6JQfJa3lDX99/yCMmAc2+CC8WgENwwK73MCsWjAFjJFUL/AlbW5tOe5pQDDOWsxipJkU2VdOCpaEkwTFhA8iXrRlCnLo529zTJPyfIuC2FhKGxreRhGp7bkJzKB5cIZ6rsh66dgjckUMB5nF6mterM6sjdyyJoycwcma2uvyxjgC/CeWseoYJ35WGkQnb28eQaO4ebhgX4+m+bj56eG2Sm+V8igZ2RYvCdNrzNPX5XYjR4FATKHJW+GOznOhsKCA0e4PUdvGX9e/sVtFa9UGTNU58ARGzC52jhsst7G4Ict5TqWcM7yB80B6/6uikdwjuQzao31PA6OUhaHgMh6gEkZLO2/AqNSUwEvxdHThquyF1SdCL2r2RbUvAK/q+AUOvCxWg9BG1cwFrxXzzPy4FTC4FVeaPq+df2P/0YZTVhueB4unQp3CcwAIdO8VZOO7Hq7h+IAmNzQugYQS3NDL9T0xQSnFoBfv4Rf+43SXvGZDJlRjLwC70Zc+MIGh07Dxs957DQDBvnaClP8D52ELUCd+bex+39SNKtfAJse1GFyIFgTIzhZClyZ88HS7/AzKyvInIsCQCOwWsCqZVQuGZRPXESXjA2tIm5jXObbYFS7vHqenSui4c5dTdZj/UHBCpNSeL4BCCOtnhJ5zMlrVHMVK52aJIHeZk3s4B5isJWtbtr+Q0w3K9Nkg5OeNxzd4EQrCCIU2FutUjvfwIEA9WROF5/AR9hmcbSJfNSFWs1VnBqR5OA5Ywbg3CpJCCDcRof/kAksEyg/nPi0HkV1flXi59//vuRHT/JvmjjC++6P/EUujOnNc+x9j4jZXOkSgbofG7dsTz2HWpy3Ja3/a7vQuV2e+GhhJQvhpH4XkBydtlvrLPFzh0Avh9MrjR74NEaJzg2rvmTLebDRFNakTPtxDPwdc0iA4HtF8mT2I3WOKVl4ggoRsf3rfREaKyYFOg1geKoNOscNZ5NBV/w1Zw13atJuvg/gYK2ZoHeyvsXR5HCmmaT/prioN/dBNGbAcAQ4MtubpqRQSWhebGH+PxKRoe8Zs78plUyaptK+TElM5R6E51f5j9UVAkJbA/CSptXCRrp4dL1mIkqPd8i6KOGLqTVF1dGWRsnwoDL1RJFH2htgIbwpgHxc9mMkQmdJiOcx/6DJhYN15tFHJcLwlnODALOsOpnJrtkHX1nWgO5tcawVdziRjpuCqKq3QJcZOn52ZTjr+e8Oofc68QjjzAhmZNwpWHBUPnxevk2ZYer4uIsrXY8Y0q5rwybckKAosKqT0Tzq0D2SiCrD72Eta8q2a6DI2cHRMXlvP1MWEMtx2PDQHRiLBGlyIvnSa+3qWDWg+RbrlZK0uKPjKC76/Zco1CZFuA+8cucVcQDP5gWGOVdklqVi7iYgw2x6TTnJVnp+/imOvqyIJ5kJLN7p2JbyCtKi5o4F/ZUFLH3PSIBNtgaPrvdy74u5r+A7pRSoR8Dh/5WP7UCcMEMHNThx2QuFTfySsmCKgG1RzTA/P0aBZDWrVApWQGuMIXKAsgr3H4pBida1nX1wZWIpqjygwQsfxtdE42W4/s7Q8q6UbhTQufFJVxQq+N7A6dzvvEAruAxCTfNehDJ4OzlN2RtsxQIMHVknj0lx3UiSuSk28Y6s6AWcnIBOdDQY+xz7sm6shS3S4AvuIr0GNUW2J2keLJMnD7vhJYY12shHn/UVuvEFos6nDD4DLvuNgKJ/dPWbn1F2V14PeKbI+jkFiWK+JtbS5RvhIhvmYp3lqMruYp2U2SDb3zi3n970LasVyLymzUzZhybHLwzpQiFCcrg/8bG2iccICP0K9f00w7JfxPER8w9GyNPipyQ/FTHfZgpFO8/ianr7EMz0lygUqEDpHNDuD4taJWwix5d0e9HfFG/aQwMk3pjbFQDTzcfzwRcAA6YgXfYFXOpNw94aYXB+9yMpbgv+TfZmsZfT7P4NlTWclRo1BaD/S8M2NKZkUi+jXYoPxq/rAC0nYqcmrxXG+I2tWFD150pT7qGvTOXp7z2XHSzu9DF43fZ/mlQbELw1fh/KVuJuyGQxWvy6pg9haJpKaaWP+5Kgnt7Hj83s2VrEDDnsgdg1uo4DEbVbcvJvXRvf4BS21++DIc0qo41J6rrvQiJzXsyxeul7TmWAY9kuSw2jyRVT2KAJ0FPZNRmnf43jIaE2RO6oJ6B7UsnZ3Bqp6nJNVviqH8MdWn0V9UD2PNQBY7MfdY7cNCTJfpR5OexsOor+3O3Fy/RRwMWqklfBR6fl+OMfePI2MZF0Nmo5fFqOkLyEutRlssNFJ7EECdo2ky1HyH9nBR5Sou31uoxiZtBSl96OOsK1cpLG+/9tKPx2dkn+BBgyS+1o3Twg5ONWNv1q9ReVLng4fvQzmUU33RUNDaCHv1M6apCcaPk86ypcNCsxx2sqs3cc5ZjxHmhnmHWXi9XYJm92RYQIlYj79tjik6IuuI8kCZeu/77PovGWHV8CjQfpfLQVnisSARGJBNVmNiqkZaze732Td/98zmSag/40JP27RwvpiDi2GG2H4fWuKO99cZ9Vcuf88+VB0g++JMi5dctiKiDyiin/tJPcNXmzvxxDKa70Wr+v26p6MBc+zhKnNiE7EVUASSJGNTdLBxnVwO0iGWttPbixiNxeZ4NmKupGc+eTivMO1ZWia0WzfpgrCYO4l8NhNbGvHlNo5gjLPkxLUmWCB/6DAScOgj5cdYD1kVO+XGP/KfkP0e7c5ODstfbtKj/xSj/WZqoAEdow1NHmEI4TgEu6xS2Tfox0I30j6kGaqdtBYqKtG3wFS9aOi1whln7hlRWLN0Eu7qjFkbBmfGnsOotCq4Dr7QOYczXB4moZk6yd3TglngKjYtrfkAvSYDQh7l3kef/AM3XrPxOoGNn/MDHvJ5R4a0fUFpMgQiLFpYCixX6QBwURi/F3k200cYKiAKilsU+1R2QOrKppihq/r8y/WgFHMvlyZVFpRBefowwQHcKDKdvWBGKnc/WE3SnTUz08yOEAJFwG8kueNeGhkbTyG6tZ/pyq+GfAp61z1kK9LYdkIlFqCp05aeW1vrnEgcrwt3TF0hxJDk8kQmUSDIv581YmWYADXvCiPLV3fUrTELxYwg3eO0tvJWtRYBbPPvzcx2qO6St4URJ715C49y3He4uGPK66WeAezaRIpu5oAFNvZqM0043qBxx0pfgDGRDxTxJsSLeCZDwvBgSbs0tsgt3MecnwRbS8z+w7BGPXH7or7W1037ELVJ2oAfny5W13IU15yc6RDNEsS3IyZuxRqaCeD9WiOzap9Bfepl/AhUrGb2kVu7CNruttAsDMvCXTeO8FoF5MA2lwZvUsI3CV+Kmzfgkq8Qaqq7rjkmVoB99PNCMBELuaW5rAzRqDxtmljeBqGrobBoU8H6HPztB+sDzp8UTAr3EQvPb5+buv/dVXCAtYyIz3/4pMq2SBaN0eEydckjvBUJ2zMM+kIWkxKb25DJqb25seemngsikaF08dgTyAPhcgS0pkA6+XhM09fYzZwvwHAGbQxFCS1KB2vN2ATI9+UdI+/rUs1onAKHIOesv6f7+TBxZrOTwbMkW5mzcB7wmFjKOOHY5u+qetJMjQxPfN16s+ebWrFU47sXqknetHdlcp3hvcc0uQV5bKRF7TxgQWEKKU7kFaiRS6r+ENLQvwcyELR3EIH/YVR8+YQPBi3x/U9NNwMhd36zy2zw5pkm+BWLI6wRDOpLT0JsPY5dfwLiVVq4O13ZL6PGa7AvlWVWosm6qCa/jdWa3qjsEPcnbnS1SIC7KOnfA/cJDRykcxZ1g+NyZxcnwnc1soZRhGL90d5Ih0gNU+JO8cnwKCQl5b2OgSIqfbOhVt3sk5ot61QT2r8UA7AkWo7JF0JyTXs7S1zNf/65PUPPDyFpxP3KestJzViPMvIHKIhWfvv+RLxiOy4z79/2P6R3DkhhKJROQwYJ68yUzCOPuoCQB4pZi4mBjy68vKPrfjtFMISxuySy/BX0dFWMIdQGABX1e7PC3Ifw5wNgYllf+dH07kYIWQpQr4zSWU40sdmVGIF74E9wj/rDGpNiGmiHBN8F9Zs0QHsMTTJsD7jFG6l1BZl6tQJKX22QF+xPCOMvGIjRlqsx80xXm5xpb+K6JkF29cvHFQZ8j6qP0jv59LSvfWLoIJXwreuemBzwj41jD5XnXHvOrlImG++kiaSep2l0jXPkaWROUI78/4ZXpgIFUe5I1+O1WxUXkBqaqbC+Y1KGzEDDP4qQFAJBjpajm0NjehrXX0fNCWs4Agg4J7jjiFlwLgcnfxDKnNghwD7cHbF0bS3BGNXdQbgb70qEXc9ZPGuhR63XuNbUbQjvODzUx3XfiJ4NuhtR3NJLqlpXbZgRLnJcJpT9eRtPN2SA==
+</div>
+<script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
       
     </div>
 
@@ -623,17 +599,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <div class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -805,23 +772,6 @@
         </div>
       </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#VATEX-Captioning-Challenge-2019-Multi-modal-Information-Fusion-and-Multi-stage-Training-Strategy"><span class="nav-number">1.</span> <span class="nav-text">VATEX Captioning Challenge 2019: Multi-modal Information Fusion and Multi-stage Training Strategy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Integrating-Temporal-and-Spatial-Attentions-for-VATEX-Video-Captioning-Challenge-2019"><span class="nav-number">2.</span> <span class="nav-text">Integrating Temporal and Spatial Attentions for VATEX Video Captioning Challenge 2019</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">3.</span> <span class="nav-text">reference</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
 
       
