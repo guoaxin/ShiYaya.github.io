@@ -106,7 +106,7 @@
 <meta property="og:description" content="ACL 2019  Motivation image grounding取得了很大的进步，但是将该任务迁移到视频上，需要对视频中的每帧都标注region，这个工程量是巨大的。  为了避免这种标注工作的工程量，一些weakly-supervised video grouding工作【1】【2】被提出来，他们只提供了video-sentence pairs，没有提供 fine-grained reg">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g9io2sodynj30i40hk0v9.jpg">
-<meta property="og:updated_time" content="2019-12-02T13:20:03.477Z">
+<meta property="og:updated_time" content="2019-12-02T13:51:40.392Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Weakly-Supervised Spatio-Temporally Grounding Natural Sentence in Video">
 <meta name="twitter:description" content="ACL 2019  Motivation image grounding取得了很大的进步，但是将该任务迁移到视频上，需要对视频中的每帧都标注region，这个工程量是巨大的。  为了避免这种标注工作的工程量，一些weakly-supervised video grouding工作【1】【2】被提出来，他们只提供了video-sentence pairs，没有提供 fine-grained reg">
@@ -425,7 +425,7 @@
                 
               
 
-              <time title="创建时间：2019-12-02 11:36:02 / 修改时间：21:20:03" itemprop="dateCreated datePublished" datetime="2019-12-02T11:36:02+08:00">2019-12-02</time>
+              <time title="创建时间：2019-12-02 11:36:02 / 修改时间：21:51:40" itemprop="dateCreated datePublished" datetime="2019-12-02T11:36:02+08:00">2019-12-02</time>
             
 
             
@@ -526,20 +526,18 @@
 <h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><h4 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h4><ul>
 <li>该任务是 给出一个 a natural sentence query <strong>q</strong> and a video <strong>v</strong> 来定位一个spatial-temporal tube，作者也将这个tube 称作 instance。</li>
 <li>由于是弱监督，因此仅仅只给出 video-sentence pair，细粒度的regional annotations不给出！</li>
-<li>将该任务转为一个 Multiple instance learning problem。给定一个video，首先由instance generator【3】来生成一组instance proposals，然后再根据语义相似性来匹配 natural sentence query 和 instance。</li>
+<li>将该任务转为一个 Multiple instance learning problem。给定一个video，首先由instance generator【3】来生成一组instance proposals，然后再根据语义相似性来匹配 natural sentence query 和 instance。  </li>
 </ul>
 <h4 id="Instance-Extraction"><a href="#Instance-Extraction" class="headerlink" title="Instance Extraction"></a>Instance Extraction</h4><ul>
-<li><p><strong>Instance Generation</strong> ：  先由faster rcnn提取object proposals，假设每帧提取N个proposal ， 然后根据【3】得到N个spatial-temporal tube</p>
-</li>
-<li><p><strong>Feature Representation</strong> ：I3D-RGB， I3D-Flow， frame-level RoI pooled feature</p>
-<h4 id="Attentive-Interactor"><a href="#Attentive-Interactor" class="headerlink" title="Attentive Interactor"></a>Attentive Interactor</h4></li>
+<li><strong>Instance Generation</strong> ：  先由faster rcnn提取object proposals，假设每帧提取N个proposal ， 然后根据【3】得到N个spatial-temporal tube</li>
+<li><strong>Feature Representation</strong> ：I3D-RGB， I3D-Flow， frame-level RoI pooled feature   </li>
 </ul>
-<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g9io2sodynj30i40hk0v9.jpg" alt="搜狗截图20191202204720.png"></p>
+<h4 id="Attentive-Interactor"><a href="#Attentive-Interactor" class="headerlink" title="Attentive Interactor"></a>Attentive Interactor</h4><p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g9io2sodynj30i40hk0v9.jpg" alt="搜狗截图20191202204720.png"></p>
 <ul>
 <li>（1）分别对 sequential visual features 和 sequential textual features 经过LSTM进行编码，LSTM每个step输出的隐层状态作为新的representation，得到新的visual feature 和 sentence representation</li>
-<li>（2）依次以visual feature中的每个隐状态作为查询，以 sentence 所有隐状态作为key 和 value，输入Attention中，则得到了<strong>visual guided sentence feature</strong>。（直观的理解：在给定某一个视觉特征，用attention去分析要关注哪一个word）<h4 id="Matching-Behavior-Characterization"><a href="#Matching-Behavior-Characterization" class="headerlink" title="Matching Behavior Characterization"></a>Matching Behavior Characterization</h4></li>
+<li>（2）依次以visual feature中的每个隐状态作为查询，以 sentence 所有隐状态作为key 和 value，输入Attention中，则得到了<strong>visual guided sentence feature</strong>。（直观的理解：在给定某一个视觉特征，用attention去分析要关注哪一个word）  </li>
 </ul>
-<ul>
+<h4 id="Matching-Behavior-Characterization"><a href="#Matching-Behavior-Characterization" class="headerlink" title="Matching Behavior Characterization"></a>Matching Behavior Characterization</h4><ul>
 <li>用余弦函数计算 <code>i-th</code> visual feature 和 visual guided sentence features 之间的 匹配度</li>
 <li>对所有的step 加和，则得到instance proposal 与 sentence 之间的匹配度</li>
 </ul>
