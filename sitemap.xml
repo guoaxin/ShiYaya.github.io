@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/12/02/Weakly-Supervised-Spatio-Temporally-Grounding-Natural-Sentence-in-Video/</loc>
+    
+    <lastmod>2019-12-02T13:20:03.477Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2019/12/02/Finding-It-Weakly-Supervised-Reference-Aware-Visual-Grounding-in-Instructional-Videos/</loc>
+    
+    <lastmod>2019-12-02T03:37:20.039Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/12/01/Learning-to-Generate-Grounded-Visual-Captions-without-Localization-Supervision/</loc>
     
     <lastmod>2019-12-01T10:47:20.570Z</lastmod>
