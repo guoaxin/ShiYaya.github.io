@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/12/11/pth-save-in-py2-but-load-in-py3/</loc>
+    
+    <lastmod>2019-12-11T06:38:09.904Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/12/02/Weakly-Supervised-Spatio-Temporally-Grounding-Natural-Sentence-in-Video/</loc>
     
     <lastmod>2019-12-03T07:13:39.369Z</lastmod>
