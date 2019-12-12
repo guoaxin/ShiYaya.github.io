@@ -97,14 +97,21 @@
 
 
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="Quality Estimation (QE) of image-captions 本文提出了在图像描述领域一个新的问题，Quality Estimation。由于当前的 automatic metric 非常依赖 ground-truth references，因此当一个模型训练好后，若是对一个 unseen images which don’t have gt sentence 进行描述，则无">
+<meta name="keywords" content="图像描述">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Quality Estimation for Image Captions Based on Large-scale Human Evaluations">
 <meta property="og:url" content="http://yoursite.com/2019/12/12/Quality-Estimation-for-Image-Captions-Based-on-Large-scale-Human-Evaluations/index.html">
 <meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="Quality Estimation (QE) of image-captions 本文提出了在图像描述领域一个新的问题，Quality Estimation。由于当前的 automatic metric 非常依赖 ground-truth references，因此当一个模型训练好后，若是对一个 unseen images which don’t have gt sentence 进行描述，则无">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-12-12T06:14:06.842Z">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVgy1g9txhzr2swj30yc0i642k.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVgy1g9txhzmt4rj30xs0apq5u.jpg">
+<meta property="og:updated_time" content="2019-12-12T06:47:49.748Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Quality Estimation for Image Captions Based on Large-scale Human Evaluations">
+<meta name="twitter:description" content="Quality Estimation (QE) of image-captions 本文提出了在图像描述领域一个新的问题，Quality Estimation。由于当前的 automatic metric 非常依赖 ground-truth references，因此当一个模型训练好后，若是对一个 unseen images which don’t have gt sentence 进行描述，则无">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVgy1g9txhzr2swj30yc0i642k.jpg">
 
 
 
@@ -419,12 +426,34 @@
                 
               
 
-              <time title="创建时间：2019-12-12 14:14:06" itemprop="dateCreated datePublished" datetime="2019-12-12T14:14:06+08:00">2019-12-12</time>
+              <time title="创建时间：2019-12-12 14:14:06 / 修改时间：14:47:49" itemprop="dateCreated datePublished" datetime="2019-12-12T14:14:06+08:00">2019-12-12</time>
             
 
+            
+              
+
+              
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/图像描述/" itemprop="url" rel="index"><span itemprop="name">图像描述</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -470,7 +499,31 @@
       
 
       
-        
+        <h3 id="Quality-Estimation-QE-of-image-captions"><a href="#Quality-Estimation-QE-of-image-captions" class="headerlink" title="Quality Estimation (QE) of image-captions"></a>Quality Estimation (QE) of image-captions</h3><ul>
+<li>本文提出了在图像描述领域一个新的问题，Quality Estimation。由于当前的 automatic metric 非常依赖 ground-truth references，因此当一个模型训练好后，若是对一个 unseen images which don’t have gt sentence 进行描述，则无法对该描述进行评价。    </li>
+</ul>
+<h3 id="Idea"><a href="#Idea" class="headerlink" title="Idea"></a>Idea</h3><h5 id="数据收集"><a href="#数据收集" class="headerlink" title="数据收集"></a>数据收集</h5><ul>
+<li>（1）首先在 Conceptual Captions dataset  上训练多个 image-captioning model （这个数据集会在比 coco上训练的captioning model 更好），captioning model的差异可以体现在 image feature extraction model，object detection提取的object 数量，caption decoder。    </li>
+<li>（2）以上的 image-captioning model 可以为一个image 提供多个 sentence，作者对image 进行了脱敏处理    </li>
+</ul>
+<h5 id="数据打分及处理"><a href="#数据打分及处理" class="headerlink" title="数据打分及处理"></a>数据打分及处理</h5><ul>
+<li><p>（1）这些 image-caption pairs 放到 crowdsource.google上让大家对这些 captioning，进行评价：好、坏或者跳过。每个image-captioning pair 被分配给10个人进行打分     </p>
+</li>
+<li><p>（2）得到收集的 rating image-captioning pairs 之后，对 unique image，将10个评分进行处理， using the equation y = round(mean(ri) ∗ 8)/8.     </p>
+</li>
+</ul>
+<h5 id="QE-Model"><a href="#QE-Model" class="headerlink" title="QE Model"></a>QE Model</h5><ul>
+<li>本文作者设计了两个模型（并把这两个模型进行融合）来处理 QE task。一个是使用到 image-captioning model，两一个是不使用   </li>
+<li>（1）使用image-captioning model：<strong>Confidence-based Features QE Model</strong><br><img src="http://ww1.sinaimg.cn/large/006uWRWVgy1g9txhzr2swj30yc0i642k.jpg" alt="搜狗截图20191212143453.png"></li>
+<li>（2） 不使用 image-captioning model：<strong>Generation-independent Bilinear QE model</strong><br><img src="http://ww1.sinaimg.cn/large/006uWRWVgy1g9txhzmt4rj30xs0apq5u.jpg" alt="搜狗截图20191212143515.png"></li>
+</ul>
+<h3 id="Spearman’s-ρ-Analysis"><a href="#Spearman’s-ρ-Analysis" class="headerlink" title="Spearman’s ρ Analysis"></a>Spearman’s ρ Analysis</h3><ul>
+<li>该文的主要目的就是希望在 没有gt sentence 的情况下，对 unseen-image 进行描述时，可以给出一个caption 的评分。或者是说，该captioning与 人类的描述的相近程度。</li>
+<li>该任务也是希望提出一个 machine learning metric similar to human evaluation （trained-metric），则对该模型好坏的一个的评判就是这个模型给出的评分与人类评分的相近程度。</li>
+<li>predict： 模型对image-caption pair 的评分， Gt:  人类给出的评分</li>
+<li>指标：Spearman’s correlation.  <a href="https://github.com/ShiYaya/spearman-rank" target="_blank" rel="noopener">my github explanation</a></li>
+</ul>
+
       
     </div>
 
@@ -490,6 +543,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/图像描述/" rel="tag"># 图像描述</a>
+          
+        </div>
       
 
       
@@ -560,8 +619,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -737,6 +805,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Quality-Estimation-QE-of-image-captions"><span class="nav-number">1.</span> <span class="nav-text">Quality Estimation (QE) of image-captions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Idea"><span class="nav-number">2.</span> <span class="nav-text">Idea</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数据收集"><span class="nav-number">2.0.1.</span> <span class="nav-text">数据收集</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#数据打分及处理"><span class="nav-number">2.0.2.</span> <span class="nav-text">数据打分及处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#QE-Model"><span class="nav-number">2.0.3.</span> <span class="nav-text">QE Model</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#Spearman’s-ρ-Analysis"><span class="nav-number">3.</span> <span class="nav-text">Spearman’s ρ Analysis</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
