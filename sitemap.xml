@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/03/24/faster-r-cnn-%E8%A7%A3%E8%AF%BB/</loc>
+    
+    <lastmod>2020-01-03T07:34:25.069Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/12/20/Graph-Matching-Networks-for-Learning-the-Similarity-of-Graph-Structured-Objects/</loc>
     
     <lastmod>2019-12-20T09:30:49.974Z</lastmod>
@@ -82,13 +89,6 @@
     <loc>http://yoursite.com/2019/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AD%A6%E6%9C%AF%E4%BC%9A%E8%AE%AE/</loc>
     
     <lastmod>2019-09-25T07:03:27.527Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/03/24/faster-r-cnn-%E8%A7%A3%E8%AF%BB/</loc>
-    
-    <lastmod>2019-09-25T04:34:52.599Z</lastmod>
     
   </url>
   

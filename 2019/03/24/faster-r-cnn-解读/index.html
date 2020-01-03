@@ -111,7 +111,7 @@
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p66yxyj312w066t91.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p6ekybj30u00c175l.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p66uafj30nq03vt8o.jpg">
-<meta property="og:updated_time" content="2019-09-25T04:34:52.599Z">
+<meta property="og:updated_time" content="2020-01-03T07:34:25.069Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="faster r-cnn 解读">
 <meta name="twitter:description" content="Overview来自机器之心可能机器之心的那个链接无法转到，看这个by yaya: RPN  anchor: 定义anchor的长: scale=[4,8,16], 长宽比: ratio=[0.5, 1, 1.5, 2]，则在each position of conv feature 将会有k=len(scale)×len(ratio)=12个anchor (1)对于分类层，我们对每个锚点输出两个">
@@ -447,7 +447,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-25 12:34:52" itemprop="dateModified" datetime="2019-09-25T12:34:52+08:00">2019-09-25</time>
+                <time title="修改时间：2020-01-03 15:34:25" itemprop="dateModified" datetime="2020-01-03T15:34:25+08:00">2020-01-03</time>
               
             
           </span>
@@ -521,7 +521,7 @@
 <p>anchor: 定义anchor的长: scale=[4,8,16], 长宽比: ratio=[0.5, 1, 1.5, 2]，则在each position of conv feature 将会有k=len(scale)×len(ratio)=12个anchor</p>
 <p>(1)对于分类层，我们对每个锚点输出两个预测值：它是背景（不是目标）的分数，和它是前景（实际的目标）的分数.<br><br>则经过该1×1的卷积层，输出的shape=N×2k×H×W  <br></p>
 <p>(2)对于回归或边框调整层，我们输出四个预测值(偏移值)：<font color="#0099ff" size="5" face="黑体">Δxcenter、Δycenter、Δwidth、Δheight</font>，我们将会把这些值用到锚点中来得到最终的建议：(x1, y1, x2, y2)分别为左下角和右上角的坐标，即area=(x2-x1)*(y2-y1).<br><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p66yxyj312w066t91.jpg"></p>
-<p>(3) 补充，<font color="#0099ff" size="5" face="黑体">RoI Pooling</font>  得到 pooled feats，输入的是base feats, 得到的pred proposals 以及 <font color="#0099ff" size="5" face="黑体">1/scale</font><br>因为pred proposals得到的坐标是在原始的image上的，而当前的base feats 是相对于原图有尺度变化的，为了对应.</p>
+<p>(3) 补充，<font color="#0099ff" size="5" face="黑体">RoI Pooling</font>  得到 pooled feats，输入的是base feats, 得到的pred proposals 以及 <font color="#0099ff" size="5" face="黑体">1/scale</font><br>因为pred proposals得到的坐标是在<del>原始的image上的</del> 输入到网络中的image，而当前的base feats 是相对于原图有尺度变化的，为了对应.</p>
 <h2 id="R-CNN"><a href="#R-CNN" class="headerlink" title="R-CNN"></a>R-CNN</h2><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p6ekybj30u00c175l.jpg">
 
 <p>有两个不同的目标：<br><br>(1) 将建议分到一个类中，加上一个背景类（用于删除不好的建议）。<br><br>(2) 根据预测的类别更好地调整建议的边框。<br><br>在最初的 Faster R-CNN 论文中，R-CNN 对每个建议采用特征图，将它平坦化并使用两个大小为 4096 的有 ReLU 激活函数的全连接层。然后，它对每个不同的目标使用两种不同的全连接层：<br><br>一个有 N+1 个单元的全连接层，其中 N 是类的总数，另外一个是背景类。<br><br>一个有 4N 个单元的全连接层。我们希望有一个回归预测，因此对 N 个类别中的每一个可能的类别，我们都需要 <font color="#0099ff" size="5" face="黑体">Δxcenter、Δycenter、Δwidth、Δheight</font>。<br><br>训练和目标<br><br>R-CNN 的目标与 RPN 的目标的计算方法几乎相同，但是考虑的是不同的可能类别。我们采用建议和真实边框，并计算它们之间的 IoU。<br></p>
@@ -848,7 +848,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
