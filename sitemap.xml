@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/03/25/Object-Hallucination-in-Image-Captioning/</loc>
+    
+    <lastmod>2020-03-27T03:03:36.395Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/03/24/NLP-%E8%87%AA%E7%BC%96%E7%A0%81-and-%E8%87%AA%E5%9B%9E%E5%BD%92/</loc>
+    
+    <lastmod>2020-03-24T05:51:42.008Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/01/16/VIFIDEL-Evaluating-the-Visual-Fidelity-of-Image-Descriptions/</loc>
+    
+    <lastmod>2020-01-16T14:31:11.909Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/01/15/TIGEr-Text-to-Image-Grounding-for-Image-Caption-Evaluation/</loc>
+    
+    <lastmod>2020-01-15T06:31:18.079Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2019/03/24/faster-r-cnn-%E8%A7%A3%E8%AF%BB/</loc>
     
     <lastmod>2020-01-03T07:34:25.069Z</lastmod>

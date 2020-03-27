@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Abstract 当前captioning task 存在的问题 当前的caption model 目前存在的问题是，生成的句子中出现的object 常常是在corresponding vision scene 中没有出现到的。 当前使用的评价指标只能评估 candidate caption 与 gt captions 之间的一个相似性，不能捕捉到candidate caption 与 image">
+<meta name="keywords" content="图像描述">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Object Hallucination in Image Captioning ">
+<meta property="og:url" content="http://yoursite.com/2020/03/25/Object-Hallucination-in-Image-Captioning/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="Abstract 当前captioning task 存在的问题 当前的caption model 目前存在的问题是，生成的句子中出现的object 常常是在corresponding vision scene 中没有出现到的。 当前使用的评价指标只能评估 candidate caption 与 gt captions 之间的一个相似性，不能捕捉到candidate caption 与 image">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gd7d25xmjcj30h605k0te.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gd8997jm24j30gi08375g.jpg">
+<meta property="og:updated_time" content="2020-03-27T03:03:36.395Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Object Hallucination in Image Captioning ">
+<meta name="twitter:description" content="Abstract 当前captioning task 存在的问题 当前的caption model 目前存在的问题是，生成的句子中出现的object 常常是在corresponding vision scene 中没有出现到的。 当前使用的评价指标只能评估 candidate caption 与 gt captions 之间的一个相似性，不能捕捉到candidate caption 与 image">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gd7d25xmjcj30h605k0te.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/03/25/Object-Hallucination-in-Image-Captioning/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Object Hallucination in Image Captioning  | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">31</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">26</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">135</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/25/Object-Hallucination-in-Image-Captioning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Object Hallucination in Image Captioning 
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-03-25 20:19:50" itemprop="dateCreated datePublished" datetime="2020-03-25T20:19:50+08:00">2020-03-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-03-27 11:03:36" itemprop="dateModified" datetime="2020-03-27T11:03:36+08:00">2020-03-27</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/图像描述/" itemprop="url" rel="index"><span itemprop="name">图像描述</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/25/Object-Hallucination-in-Image-Captioning/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2020/03/25/Object-Hallucination-in-Image-Captioning/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h4><ul>
+<li>当前captioning task 存在的问题<ul>
+<li>当前的caption model 目前存在的问题是，生成的句子中出现的object 常常是在corresponding vision scene 中没有出现到的。</li>
+<li>当前使用的评价指标只能评估 candidate caption 与 gt captions 之间的一个相似性，不能捕捉到candidate caption 与 image information之间的relevance. </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>因此本文进行的一个工作：<ul>
+<li>We analyze how captioning model architectures and learning objectives contribute to object hallucination, explore when hallucination is likely due to image misclassification or language priors, and assess how well current sentence metrics capture object hallucination.  </li>
+</ul>
+</li>
+</ul>
+<h4 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h4><ul>
+<li><p>（一）关于 object hallucination 的四点讨论</p>
+<ul>
+<li><p>从人类的角度</p>
+<ul>
+<li>丢失对显著物体的描述是一个 failure mode，但是captions is summaries，<strong>因此一般不期待其描述出场景中的所有的objects.</strong> 另外在人类的标注数据中，也不偏向于标注出所有出现在scene 中的objects</li>
+<li>研究报告表明，human judgements 比较不待见那些caption中包含了image content中未出现的 object，*<em>Correctness is more important to human judges than specificity.   *</em></li>
+<li>Many visually impaired who *<em>value correctness over coverage, *</em>hallucination is an obvious concern.  </li>
+</ul>
+</li>
+<li><p>从模型的角度</p>
+<ul>
+<li>object hallucination  揭示了caption model 存在的一个问题，可能caption model并没有对视觉场景学习到一个很好的视觉表征，而是对损失函数过拟合。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>（二）本文要研究的问题</p>
+<ul>
+<li>本文研究当前captioning models中存在的object hallucination现象</li>
+<li>考虑了几个关键问题：<ul>
+<li>(1) <strong>Which models are more prone to hallucination?</strong>  spanning different architectures and learning objectives.   <ul>
+<li>一个新的评价指标来评估object hallucination：CHAIR (Caption Hallucination Assessment with Image Relevance)  </li>
+</ul>
+</li>
+<li>(2) *<em>What are the likely causes of hallucination?   *</em><ul>
+<li>造成object hallucination这一现象的原因主要有两点：visual misclassification and over-reliance on language priors  <ul>
+<li>提出：image and language model consistency scores  </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>(3) <strong>How well do the standard metrics capture hallucination?</strong>  <ul>
+<li>当前的评价指标并不能很好的捕捉到object hallucination 这一现象。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h4><h5 id="CHAIR-Metric"><a href="#CHAIR-Metric" class="headerlink" title="CHAIR Metric"></a>CHAIR Metric</h5><ul>
+<li>同时使用GT sentence 和 coco image segmentation这两个信息 to measure object hallucination。</li>
+</ul>
+<p>  <img src="http://ww1.sinaimg.cn/large/006uWRWVly1gd7d25xmjcj30h605k0te.jpg" alt="搜狗截图20200326152719.png"></p>
+<h5 id="Image-Consistency"><a href="#Image-Consistency" class="headerlink" title="Image Consistency"></a>Image Consistency</h5><ul>
+<li>对比 <strong>caption model 与 image (alone) model</strong> 两个模型对于预测objects 之间的一致性误差。</li>
+</ul>
+<h5 id="Language-Consistency"><a href="#Language-Consistency" class="headerlink" title="Language Consistency"></a>Language Consistency</h5><ul>
+<li>对比 <strong>caption model 与 sentence (alone) model</strong> 两个模型对于预测下一个word 之间的一致性误差。</li>
+</ul>
+<h4 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h4><h5 id="Which-Models-Are-More-Prone-To-Hallucination"><a href="#Which-Models-Are-More-Prone-To-Hallucination" class="headerlink" title="Which Models Are More Prone To Hallucination?"></a>Which Models Are More Prone To Hallucination?</h5><ul>
+<li>一般情况下 ，在标准的evaluation metrics 上表现性能好的模型，在CHAIR metric 上也能表现的比较好，即object hallucination现象相对较弱。但是当模型基于 cider 进行强化学习的训练之后，则不是这种一致的现象。</li>
+<li>（1）使用attention 的模型更加偏向于有较低的object hallucination；NBT模型在标准的evaluation metrics 上表现性能没有topdown-BB 好，但是CHAIR性能却更好，原因在于其使用的pre-trained  detector 与 captioning dataset is in a same domain 。</li>
+<li>（2）当模型基于 cider 进行强化学习的训练之后，将会增加hallucination 的数量。</li>
+<li>（3）LRCN Model 比 FC Model有更多的object hallucination，说明仅仅在第一个 time step 输入视觉特征，将会产生更少的object hallucination </li>
+<li>（4）the GAN loss actually helps decrease hallucination.  the GAN loss encourages sentences to be human-like。</li>
+<li>（5）CE loss: beam size 5, object hallucination 会比 lower beam size 小很多；self-critical loss: beam size sometimes leads to worse performance on CHAIR.   即object hallucination 数量会更多。</li>
+</ul>
+<h5 id="What-Are-The-Likely-Causes-Of-Hallucination"><a href="#What-Are-The-Likely-Causes-Of-Hallucination" class="headerlink" title="What Are The Likely Causes Of Hallucination?"></a>What Are The Likely Causes Of Hallucination?</h5><ul>
+<li><p>We rely on the deconstructed TopDown models to analyze the impact of model components on hallucination  </p>
+<ul>
+<li>通过设计的 几个 deconstructed TopDown models 的分析可以看出，使得object hallucination 数量减少的原因是：due to access to feature maps with spatial locality, not the actual attention mechanism.  </li>
+<li>LRCN Model 比 FC Model 有更多的object hallucination，说明仅仅在第一个 time step 输入视觉特征，将会产生更少的object hallucination 。作者在文中对这一现象给出的解释是，在每一步都输入视觉特征 fc_feature, 而不是 spatial feature, 这将导致对视觉特征的过拟合。</li>
+</ul>
+</li>
+<li><p>Investigate what causes hallucination using the deconstructed TopDown models and the image consistency and language consistency scores. </p>
+<ul>
+<li>We note that models with less hallucination tend to make errors consistent with the image model, whereas models with more hallucination tend to make errors consistent with the  language model.  这说明有更少object hallutition 的models 有更强的能力从Image 中提取知识到句子生成过程中。</li>
+<li>在Robust split 上进行实验发现，所有models之间的language consistency 差异度不大；相比于 Karpathy split，相对应下的models image consistency 有所下降。这是由于 Robust split 在测试集上，会出现 novel compositions of objects at test time. 使得所有的模型有很强的language prior.</li>
+</ul>
+</li>
+<li><p>在训练过程中，分析FC model 的image/language consistency，结果发现在训练开始，与language model 的一致性更好，随着训练的结束，与 image model 的一致性更好。这说明，模型首先学习生成流畅的语言，而后再去学习结合视觉信息。</p>
+<h5 id="How-Well-Do-The-Standard-Metrics-Capture-Hallucination"><a href="#How-Well-Do-The-Standard-Metrics-Capture-Hallucination" class="headerlink" title="How Well Do The Standard Metrics Capture Hallucination?"></a>How Well Do The Standard Metrics Capture Hallucination?</h5></li>
+<li><p>作者分析了 standard metric 与 CHAIRs  之间的 pearsom correlation coefficient ，结果发现 SPICE 的一致性更好。</p>
+</li>
+<li><p>object hallucination can not be always predicted based on the traditional sentence metrics.  </p>
+</li>
+<li><p><strong>与当前使用的standard metrci 互为补充，可以提升与人类评分的一致程度。</strong></p>
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gd8997jm24j30gi08375g.jpg" alt="搜狗截图20200327100117.png"></p>
+<p>这个意思是说，第一列，单独分析各个automatic metric 与 human judgement 的一致性。第二/三列，各个评价指标分别加上1-CHs/ 1-CHi 之后再与human judgement 计算一致性。可以发现，一致性得到提升。即 <strong>CHAIR is complementary to standard metrics</strong></p>
+</li>
+</ul>
+<h5 id="Does-hallucination-impact-generation-of-other-words"><a href="#Does-hallucination-impact-generation-of-other-words" class="headerlink" title="Does hallucination impact generation of other words?"></a>Does hallucination impact generation of other words?</h5><ul>
+<li>Hallucinating objects 影响句子生成的质量，不仅是由于 object 没有被正确的预测，也是由于hallucinated word 影响到了生成的其他的words.</li>
+<li>通过比较TopDown 和 TD-Restrict 生成的句子可以分析这个现象。We find that after the hallucinated word is generated, the following words in the sentence are different 47.3% of  the time.  </li>
+<li>一旦一个hallucination words 被生成，则其又会由于language prior(hallucinating a “cat” leading to hallucinating<br>a “chair”  )，产生更多的hallucination words 。</li>
+</ul>
+<h4 id="Discussion"><a href="#Discussion" class="headerlink" title="Discussion"></a>Discussion</h4><ul>
+<li><p>the popular self critical loss increases CIDEr score, but also the amount of hallucination. </p>
+</li>
+<li><p>CHAIR complements the standard sentence metrics in capturing human preference( judgements ).  </p>
+</li>
+<li><p>Models with stronger image consistency frequently hallucinate fewer objects, suggesting that strong visual processing is important for  avoiding hallucination.  </p>
+</li>
+<li><p><strong>Advises for captioning task:</strong> 仅使用CE-loss/ standard sentence metrics来优化，不太能解决object hallucination 这个问题，若同时以 image relevance 来优化，会更好。</p>
+</li>
+</ul>
+<h4 id="yaya-总结"><a href="#yaya-总结" class="headerlink" title="yaya 总结"></a>yaya 总结</h4><ul>
+<li><p>在设计评价指标上给我的几点启发</p>
+<ul>
+<li>(1) 不需要要求machine generated caption 可以概括所有的objects which have been occurred in the vision scene</li>
+<li>(2) machine generated caption 进行评价时，正确性比全面性更加重要</li>
+</ul>
+</li>
+<li><p>本文的一个巧妙的点</p>
+<ul>
+<li>本文为了查看object hallucination，使用COCO的80个类。对于candidata caption 首先将其token， 然后调整成单数形式，然后使用同义词的思想，去跟COCO 的80个类别进行匹配。</li>
+<li>另外对于GT sentences，也提出一个list，这个地方不太知道它说的什么意思？？？？？  </li>
+</ul>
+</li>
+<li><p>GVD 好像也类似的提到过类似的思想</p>
+</li>
+<li><p>关于the image consistency and language consistency scores.</p>
+<ul>
+<li>在这个得分的计算方式上，是否还有什么可以改进的地方？</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/图像描述/" rel="tag"># 图像描述</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/24/NLP-自编码-and-自回归/" rel="next" title="NLP: 自编码 and 自回归">
+                <i class="fa fa-chevron-left"></i> NLP: 自编码 and 自回归
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">135</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">31</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Method"><span class="nav-number">3.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#CHAIR-Metric"><span class="nav-number">3.1.</span> <span class="nav-text">CHAIR Metric</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Image-Consistency"><span class="nav-number">3.2.</span> <span class="nav-text">Image Consistency</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Language-Consistency"><span class="nav-number">3.3.</span> <span class="nav-text">Language Consistency</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Evaluation"><span class="nav-number">4.</span> <span class="nav-text">Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Which-Models-Are-More-Prone-To-Hallucination"><span class="nav-number">4.1.</span> <span class="nav-text">Which Models Are More Prone To Hallucination?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#What-Are-The-Likely-Causes-Of-Hallucination"><span class="nav-number">4.2.</span> <span class="nav-text">What Are The Likely Causes Of Hallucination?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#How-Well-Do-The-Standard-Metrics-Capture-Hallucination"><span class="nav-number">4.3.</span> <span class="nav-text">How Well Do The Standard Metrics Capture Hallucination?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Does-hallucination-impact-generation-of-other-words"><span class="nav-number">4.4.</span> <span class="nav-text">Does hallucination impact generation of other words?</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Discussion"><span class="nav-number">5.</span> <span class="nav-text">Discussion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#yaya-总结"><span class="nav-number">6.</span> <span class="nav-text">yaya 总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+    
+    <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+    <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+  
+<!-- END LOCAL -->
+
+  
+
+  
+    <script>
+    function renderGitment(){
+      var gitment = new Gitmint({
+        id: window.location.pathname,
+        owner: 'ShiYaya',
+        repo: 'comments',
+        
+        lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+        
+        oauth: {
+        
+        
+          client_secret: 'a099a7f19f7bcf33594408bd633813e69b200c3e',
+        
+          client_id: '894eb7d8fd0429ed57dc'
+        }});
+      gitment.render('gitment-container');
+    }
+
+    
+      renderGitment();
+    
+    </script>
+  
+
+
+
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
