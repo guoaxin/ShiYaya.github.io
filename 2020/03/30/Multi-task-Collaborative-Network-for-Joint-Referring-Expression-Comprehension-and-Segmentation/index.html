@@ -97,17 +97,17 @@
 
 
 
-  <meta name="description" content="这是cvpr 2020 的一篇文章。 Abstract两个创新点：（1）同时解决指向性目标检测（Referring Expression Comprehension）（REC）和指向性目标分割（Referring Expression Segmentation）（RES）两个任务。（2）使用one-stage: 以前的two-stage：依赖于预训练目标检测器先提特征，后利用语言特征和其进行交互检">
+  <meta name="description" content="Just can be seen by yaya.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Multi-task Collaborative Network for Joint Referring Expression Comprehension and Segmentation">
 <meta property="og:url" content="http://yoursite.com/2020/03/30/Multi-task-Collaborative-Network-for-Joint-Referring-Expression-Comprehension-and-Segmentation/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="这是cvpr 2020 的一篇文章。 Abstract两个创新点：（1）同时解决指向性目标检测（Referring Expression Comprehension）（REC）和指向性目标分割（Referring Expression Segmentation）（RES）两个任务。（2）使用one-stage: 以前的two-stage：依赖于预训练目标检测器先提特征，后利用语言特征和其进行交互检">
+<meta property="og:description" content="Just can be seen by yaya.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-03-30T10:05:52.680Z">
+<meta property="og:updated_time" content="2020-03-31T01:40:39.416Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Multi-task Collaborative Network for Joint Referring Expression Comprehension and Segmentation">
-<meta name="twitter:description" content="这是cvpr 2020 的一篇文章。 Abstract两个创新点：（1）同时解决指向性目标检测（Referring Expression Comprehension）（REC）和指向性目标分割（Referring Expression Segmentation）（RES）两个任务。（2）使用one-stage: 以前的two-stage：依赖于预训练目标检测器先提特征，后利用语言特征和其进行交互检">
+<meta name="twitter:description" content="Just can be seen by yaya.">
 
 
 
@@ -422,12 +422,24 @@
                 
               
 
-              <time title="创建时间：2020-03-30 17:26:57 / 修改时间：18:05:52" itemprop="dateCreated datePublished" datetime="2020-03-30T17:26:57+08:00">2020-03-30</time>
+              <time title="创建时间：2020-03-30 17:26:57" itemprop="dateCreated datePublished" datetime="2020-03-30T17:26:57+08:00">2020-03-30</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-03-31 09:40:39" itemprop="dateModified" datetime="2020-03-31T09:40:39+08:00">2020-03-31</time>
               
             
           </span>
@@ -477,26 +489,20 @@
       
 
       
-        <p>这是cvpr 2020 的一篇文章。</p>
-<h4 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h4><p>两个创新点：（1）<strong>同时</strong>解决指向性目标检测（Referring Expression Comprehension）（REC）和指向性目标分割（Referring Expression Segmentation）（RES）两个任务。（2）使用<strong>one-stage</strong>: 以前的two-stage：依赖于预训练目标检测器先提特征，后利用语言特征和其进行交互检索的方式</p>
-<h4 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h4><ul>
-<li><strong>结合REC和 RES的工作较少，且在仅有的研究中也存在缺陷</strong>：REC 和 RES 长期以来被当成两个不同的 任务来看待并被设计出了大量的单任务网络，例如将语言模块嵌入到语义分割网络（RES）或者利用语言来检索目标（REC）。尽管其中有一些基于目标检索的多阶段网络，例如 MAttNet，能得到两个任务的结果，但究其本质仍是单任务的检索（ranking）网络，其多任务的结果归根于后端的 mask-rcnn。</li>
-<li><strong>这两个任务REC 和 RES之间高度趋近且能够互相促进。</strong>比如，RES 任务详细的标签能指导视觉和文本之间的对齐而 REC 任务得到更好的定位能力也能帮助 RES 确定目标。因此，很自然地能想到把这两个任务放到一个单阶段网络里学习，在保证速度和精度的同时，又能使两个任务的学习互相促进。</li>
-<li><strong>two-stage的缺点</strong>：依赖于预训练目标检测器先提特征后利用语言特征和其进行交互检索的方式不仅仅费时费力，而且有如下弊端：1）两个任务无法在多模态学习中相互促进；2）frcnn/mrcnn 特征丢失了预训练 CNN 网络的关系先验和空间先验；3）当 proposals 中没有候选目标，检索网络将毫无疑问会失败。</li>
-</ul>
-<h4 id="Future-work"><a href="#Future-work" class="headerlink" title="Future work"></a>Future work</h4><ul>
-<li>实际上，RES 和 REC 只是 language+vision 任务中的一个重要分支，包括另外一些多模态任务在内，过去大家都非常青睐于 FRCNN 的特征，直觉上它可能会表现更好，但很多的事实表明它具有一些劣势并且性能上不会优于 Grid 特征。有兴趣的可以看一下 CVPR 2020 的一篇文章《In Defense of Grid Features for Visual Question Answering》（实验设计堪称典范）。</li>
-</ul>
-<p>  因此 <strong>single-stage 可能会成为一个趋势</strong>。除此之外，<strong>很多多模态任务之间都有着千丝万缕的关系，如何求同存异可能会是比 bert 这一类预训练模型更值得研究的方向。</strong>这两点同时也是本文的两个非常重要的支撑点，也可能是未来进一步发展的方向。</p>
-<h4 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h4><ul>
-<li>我个人认为本文提出的两点非常有价值</li>
-<li>one-stage 用于 多模态任务。<ul>
-<li>我认为他这里说的one-stage 并不适用于所有的多模态任务。以前的研究人员，是将 RES和REC转化为多阶段的检索任务。但是本文的思路是希望使用text and init-image 直接得到 object bbox/ segmentation. 假如，其他的多模态任务：VQA，则必然需要先将bbox 提取出来，因为假如也像这篇论文一样，则需要也对detection task 进行优化，优化的目标过于多了。</li>
-</ul>
-</li>
-<li>尝试不同的多模态任务的结合。在同一个网络中，同时优化多个任务。</li>
-</ul>
-
+        <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+<div id="hbe-security">
+  <div class="hbe-input-container">
+  <input type="password" class="hbe-form-control" id="pass" placeholder="Welcome to my blog, enter password to read.">
+    <label for="pass">Welcome to my blog, enter password to read.</label>
+    <div class="bottom-line"></div>
+  </div>
+</div>
+<div id="decryptionError" style="display: none;">Incorrect Password!</div>
+<div id="noContentError" style="display: none;">No content to display!</div>
+<div id="encrypt-blog" style="display:none">
+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
+</div>
+<script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
       
     </div>
 
@@ -586,17 +592,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <div class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -776,23 +773,6 @@
         </div>
       </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Motivation"><span class="nav-number">2.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Future-work"><span class="nav-number">3.</span> <span class="nav-text">Future work</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#yaya"><span class="nav-number">4.</span> <span class="nav-text">yaya</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
 
       
