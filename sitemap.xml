@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/04/01/ACL-2019-Putting-Evaluation-in-Context-Contextual-Embeddings-improve-Machine-Translation-Evaluation/</loc>
+    
+    <lastmod>2020-04-01T09:43:09.981Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/04/01/BERTScore-Evaluating-Text-Generation-with-BERT/</loc>
     
-    <lastmod>2020-04-01T08:55:13.115Z</lastmod>
+    <lastmod>2020-04-01T09:10:45.905Z</lastmod>
     
   </url>
   
