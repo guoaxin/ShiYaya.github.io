@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/04/01/BERTScore-Evaluating-Text-Generation-with-BERT/</loc>
+    
+    <lastmod>2020-04-01T08:55:13.115Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/03/31/Grounded-Situation-Recognition/</loc>
+    
+    <lastmod>2020-04-01T03:21:19.045Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/03/24/NLP-%E8%87%AA%E7%BC%96%E7%A0%81-and-%E8%87%AA%E5%9B%9E%E5%BD%92/</loc>
+    
+    <lastmod>2020-03-31T02:21:34.096Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/03/28/VIOLIN-A-Large-Scale-Dataset-for-Video-and-Language-Inference/</loc>
     
     <lastmod>2020-03-31T01:43:47.276Z</lastmod>
@@ -19,13 +40,6 @@
     <loc>http://yoursite.com/2020/03/25/Object-Hallucination-in-Image-Captioning/</loc>
     
     <lastmod>2020-03-27T03:03:36.395Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2020/03/24/NLP-%E8%87%AA%E7%BC%96%E7%A0%81-and-%E8%87%AA%E5%9B%9E%E5%BD%92/</loc>
-    
-    <lastmod>2020-03-24T05:51:42.008Z</lastmod>
     
   </url>
   
