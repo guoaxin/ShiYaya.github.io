@@ -2,9 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/05/09/Learning-to-Evaluate-Image-Captioning/</loc>
+    
+    <lastmod>2020-05-09T07:00:00.329Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/04/22/Cross-modal-Coherence-Modeling-for-Caption-Generation/</loc>
+    
+    <lastmod>2020-04-23T11:27:08.374Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/04/16/Oscar-Object-Semantics-Aligned-Pre-training-for-Vision-Language-Tasks/</loc>
+    
+    <lastmod>2020-04-17T01:26:40.517Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/04/15/A-negative-case-analysis-of-visual-grounding-methods-for-VQA/</loc>
     
-    <lastmod>2020-04-15T12:23:11.091Z</lastmod>
+    <lastmod>2020-04-16T00:26:21.276Z</lastmod>
     
   </url>
   
