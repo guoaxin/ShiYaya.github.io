@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/05/14/WMT-Shared-Tasks-Human-Evaluation/</loc>
+    
+    <lastmod>2020-05-14T01:15:33.933Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/05/10/Attacking-Visual-Language-Grounding-with-Adversarial-Examples-A-Case-Study-on-Neural-Image-Captioning/</loc>
+    
+    <lastmod>2020-05-11T05:50:38.137Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/05/09/Learning-to-Evaluate-Image-Captioning/</loc>
     
-    <lastmod>2020-05-09T07:00:00.329Z</lastmod>
+    <lastmod>2020-05-09T09:58:38.767Z</lastmod>
     
   </url>
   
