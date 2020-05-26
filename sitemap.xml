@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/04/04/%E5%8F%B2%E9%9B%85%E9%9B%85%E7%9A%84%E6%94%B6%E8%97%8F%E5%A4%B9/</loc>
+    
+    <lastmod>2020-05-26T10:30:14.644Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/05/16/From-Recognition-to-Cognition-Visual-Commonsense-Reasoning/</loc>
     
-    <lastmod>2020-05-17T02:46:26.021Z</lastmod>
+    <lastmod>2020-05-19T06:49:00.292Z</lastmod>
     
   </url>
   
@@ -166,13 +173,6 @@
     <loc>http://yoursite.com/2019/12/01/Learning-to-Generate-Grounded-Visual-Captions-without-Localization-Supervision/</loc>
     
     <lastmod>2019-12-01T10:47:20.570Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/04/04/%E5%8F%B2%E9%9B%85%E9%9B%85%E7%9A%84%E6%94%B6%E8%97%8F%E5%A4%B9/</loc>
-    
-    <lastmod>2019-12-01T03:18:18.012Z</lastmod>
     
   </url>
   
