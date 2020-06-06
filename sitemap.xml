@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/03/28/VIOLIN-A-Large-Scale-Dataset-for-Video-and-Language-Inference/</loc>
+    
+    <lastmod>2020-06-06T06:47:44.830Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/06/04/%E5%9B%BE%E5%83%8F%E6%8F%8F%E8%BF%B0-%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87-%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86%E6%B1%87%E6%80%BB/</loc>
     
     <lastmod>2020-06-04T10:27:32.777Z</lastmod>
@@ -110,13 +117,6 @@
     <loc>http://yoursite.com/2020/03/24/NLP-%E8%87%AA%E7%BC%96%E7%A0%81-and-%E8%87%AA%E5%9B%9E%E5%BD%92/</loc>
     
     <lastmod>2020-03-31T02:21:34.096Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2020/03/28/VIOLIN-A-Large-Scale-Dataset-for-Video-and-Language-Inference/</loc>
-    
-    <lastmod>2020-03-31T01:43:47.276Z</lastmod>
     
   </url>
   
