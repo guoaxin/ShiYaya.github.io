@@ -1,0 +1,1456 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Stanford Natural Language Inference 数据收集从Flickr 上的human written captions 作为 premises 。 （1）AMT workers 手工写 与 premises 相对应label下的句子：（不提供图像的前提下）Asked AMT workers to supply hypotheses for each of our thr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据集收集过程--各论文汇总">
+<meta property="og:url" content="http://yoursite.com/2020/06/06/数据集收集过程-各论文汇总/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="Stanford Natural Language Inference 数据收集从Flickr 上的human written captions 作为 premises 。 （1）AMT workers 手工写 与 premises 相对应label下的句子：（不提供图像的前提下）Asked AMT workers to supply hypotheses for each of our thr">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gfhjx642jrj30k90pk441.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gfhl3kdkdtj30gj0na42d.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gfijyrn8qsj30zw0gvwl7.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gepxhtqcpgj311h052abz.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gfil6timz7j31c60van7q.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gfil6tix9ij313e150na4.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gfil6tj9shj30ts14mtl2.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gfilt0g35qj316o128n4z.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gfioadgc3qj30r20pbn3e.jpg">
+<meta property="og:updated_time" content="2020-06-06T10:00:29.941Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据集收集过程--各论文汇总">
+<meta name="twitter:description" content="Stanford Natural Language Inference 数据收集从Flickr 上的human written captions 作为 premises 。 （1）AMT workers 手工写 与 premises 相对应label下的句子：（不提供图像的前提下）Asked AMT workers to supply hypotheses for each of our thr">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gfhjx642jrj30k90pk441.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/06/06/数据集收集过程-各论文汇总/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>数据集收集过程--各论文汇总 | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">35</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">30</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">152</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/06/数据集收集过程-各论文汇总/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据集收集过程--各论文汇总
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-06-06 17:58:30 / 修改时间：18:00:29" itemprop="dateCreated datePublished" datetime="2020-06-06T17:58:30+08:00">2020-06-06</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/06/06/数据集收集过程-各论文汇总/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2020/06/06/数据集收集过程-各论文汇总/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Stanford-Natural-Language-Inference"><a href="#Stanford-Natural-Language-Inference" class="headerlink" title=" Stanford Natural Language Inference "></a><font color="red"> Stanford Natural Language Inference </font></h3><h4 id="数据收集"><a href="#数据收集" class="headerlink" title="数据收集"></a><strong>数据收集</strong></h4><p>从Flickr 上的human written captions 作为 <strong>premises</strong> 。</p>
+<p>（1）AMT workers 手工写 与 premises 相对应label下的句子：（不提供图像的前提下）Asked AMT workers to supply hypotheses for each of our three labels entailment, neutral, and contradiction. 即得到<strong>hypotheses</strong> 。 (这种label, 称为 author label)</p>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gfhjx642jrj30k90pk441.jpg" style="zoom:50%">
+
+<p>（2）基于得到的premises-hypotheses pair，再由4个 AMT workers进行评估，从三种label中，选择一个label，基于此，则对于每个premises-hypotheses pair，有5个label，基于共识，为该pair选择一个最终的label–称为 gold label.</p>
+<h4 id="Data-validation"><a href="#Data-validation" class="headerlink" title="*Data validation  *"></a>*<em>Data validation  *</em></h4><p><strong>为了评估，基于上述的数据标注，得到的数据是否可靠</strong>。又从整个标注的数据中取了5%，再次由AMT workers做如（2）中的标注工作。看看前后两次标注的结果是否相关。这次AMT workers 选择的label 称为 Individual label 。得到如下的统计结果。可以看出Individual label 与之前的 gold label/ author’s label 有较高的一致性，即，之前的标注工作是可靠的。</p>
+<ul>
+<li><font color="red"><strong>yaya</strong> </font>个人觉得，这是一种马后炮的行为，没什么用，因为之前的标注，已经完成了，钱也花了。这种验证，即便是验证结果不好，那也没有什么修正措施。</li>
+</ul>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gfhl3kdkdtj30gj0na42d.jpg" style="zoom:50%">
+
+
+
+<h3 id="Visual-Entailment-Dataset"><a href="#Visual-Entailment-Dataset" class="headerlink" title=" Visual Entailment Dataset  "></a><font color="red"> Visual Entailment Dataset  </font></h3><h4 id="数据收集-1"><a href="#数据收集-1" class="headerlink" title="数据收集"></a>数据收集</h4><p>该数据集是在 Flickr 和 SNLI dataset 的一个简单集成。</p>
+<p>任务是，给出一个image-text pair，希望model 预测该pair 的匹配程度[Entailment, Contradiction, Neutral]。</p>
+<p>数据的收集：在 SNLI dataset 就是基于 Flickr30k image captions 构建的，</p>
+<ul>
+<li><strong>Entailment</strong> holds if there is enough evidence in image to conclude that text is true.</li>
+<li><strong>Contradiction</strong> holds if there is enough evidence in image to conclude that text is false.</li>
+<li><strong>Neutral</strong>, implying the evidence in image is insufficient to draw a conclusion about text.  </li>
+</ul>
+<h4 id="该文提出了几个构建数据集的准则"><a href="#该文提出了几个构建数据集的准则" class="headerlink" title="该文提出了几个构建数据集的准则"></a><strong>该文提出了几个构建数据集的准则</strong></h4><p>基于在SNLI, VQA-v1.0, VQA-v2.0, and CLEVR, 这个几个数据集上的经验， 这里提出了四个准则来开发一个新的数据集:</p>
+<ul>
+<li><strong>Structured set of real-world images.</strong> The dataset should be based on real-world images and the same image can be paired with different hypotheses to form different labels. </li>
+<li><strong>Fine-grained.</strong> The dataset should enforce fine-grained reasoning about subtle changes in hypotheses that could lead to distinct labels. </li>
+<li><strong>Sanitization.</strong> No instance overlapping across different dataset partitions. One image can only exist in a single partition.  </li>
+<li><strong>Account for any bias.</strong> Measure the dataset bias and  provide baselines to serve as the performance lower bound for potential future evaluations.  该文中提出了一些单纯仅仅使用</li>
+</ul>
+<h3 id="WMT-Shared-Task"><a href="#WMT-Shared-Task" class="headerlink" title="WMT Shared Task  "></a><font color="red">WMT Shared Task  </font></h3><h4 id="用户界面"><a href="#用户界面" class="headerlink" title="用户界面"></a>用户界面</h4><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gfijyrn8qsj30zw0gvwl7.jpg" style="zoom:50%">
+
+<h4 id="Human-judgement-quality-control"><a href="#Human-judgement-quality-control" class="headerlink" title="Human judgement quality control"></a>Human judgement quality control</h4><ul>
+<li><p>每个标注者，每次HIT任务：给定100个 （reference+ candidate）pair, 针对给定的reference, 评估生成的candidate的好坏。</p>
+</li>
+<li><p>100个pair中有60个用于quality control，40个由participating systems 生成的翻译组成。</p>
+<p>（1）这60个pair，是官方设计出来的，包括三类，repeat pairs (expecting a similar judgment), damage MT outputs/ bad reference (expecting significantly worse scores) and use references instead of MT outputs (expecting high scores). 因此仅仅会有20%的资源消耗：bad reference; good reference</p>
+<p>Specifically，先从正常的MT system 中 得到30个 （reference, MT output）pair，如 table 5 中的 original system output， 然后1)对1-10对，进行重复，得到10对。2）对11-20对，将MT output搞破坏。或者是对reference caption搞破坏，得到10对。3）对21-30对，取corresponding reference–&gt; (reference_1, reference_2)，得到10对。</p>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gepxhtqcpgj311h052abz.jpg">
+
+<p>（2）within each 100-translation HIT， 每个articipating system<strong>等比例的贡献</strong>a（within each 100-translation HIT, the same proportion of translations are included from each participating system for that language pair.  ）这是为了确保每个参与的 系统含有近似的相同数量的评估。同时，这也从三个方面得到了公平性的评估：1）每有一个workers做一个HIT, 则就会为所有参与的系统增加human judgement。2）不会轻易受到worker个性差异的影响，因为每个worker都会给所有参与的系统进行评估。3）尽管DA判断是绝对的，但众所周知，判断者会根据观察到的总体翻译质量来“校准”他们使用量表的方式。 对于每个HIT（包括所有参与的系统），这种影响都是平均的。</p>
+</li>
+</ul>
+<h4 id="Annotator-Agreement"><a href="#Annotator-Agreement" class="headerlink" title="Annotator Agreement"></a>Annotator Agreement</h4><p>（1）由于 bad reference pairs 的质量应该是显著偏低的，通过查看人类在这类pairs 上的评分是否也是显著偏低。来过滤掉可信赖度低的human assessors。</p>
+<p>set（A, bad reference） 与  set（A, translatin_B）这两个集合上的人类评估，计算一个p-value， 若p-value&gt;0.05 则说明该human assessor的可信度低。</p>
+<p>（2）对于 repeat pairs, 查看得到 repeat assessments的程度。</p>
+<h4 id="Producing-the-Human-Ranking"><a href="#Producing-the-Human-Ranking" class="headerlink" title="Producing the Human Ranking"></a>Producing the Human Ranking</h4><ul>
+<li><p>Standardized </p>
+<p>为了消除不同的人类评估者的评分策略的差异，首先根据每个人类评估者的总体平均得分和标准差得分对翻译的人类评估得分进行<strong>标准化</strong>。</p>
+</li>
+</ul>
+<h3 id="VIOLIN-Video-and-Language-Inference"><a href="#VIOLIN-Video-and-Language-Inference" class="headerlink" title="[VIOLIN] Video-and-Language Inference "></a><font color="red">[VIOLIN] Video-and-Language Inference </font></h3><p><a href="https://shiyaya.github.io/2020/03/28/VIOLIN-A-Large-Scale-Dataset-for-Video-and-Language-Inference/" target="_blank" rel="noopener">yaya blog</a></p>
+<h4 id="数据集收集简介"><a href="#数据集收集简介" class="headerlink" title="数据集收集简介"></a>数据集收集简介</h4><p> 该任务是在给定 Subtitles  和 video 的情况下，推断一个statement 是否与 video 相符合[entailed (label 1) ，contradicts (label 0) ]。</p>
+<p><strong>positive statements 的收集</strong>：给出 subtitles + video，然后annotators 写出与其想对应的 statements。</p>
+<p><strong>negative statements 的收集</strong>：（1）要求annotators通过只更改positive statements 的几个单词或短语来编写negative statements。（2）进行<strong>对抗匹配</strong>：对于每个视频，从其他视频的陈述库中选择具有挑战性和令人困惑的陈述作为否定陈述。具体地，对于video_i/j 已经分别有其相对应的 positive statement H_i/j , 则通过查找与H_i 最相近的H_j 作为 negative statements。 对抗匹配的方式可以消除 human bias的影响。</p>
+<h4 id="数据收集-Instruction"><a href="#数据收集-Instruction" class="headerlink" title="数据收集 Instruction"></a>数据收集 Instruction</h4><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gfil6timz7j31c60van7q.jpg">
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gfil6tix9ij313e150na4.jpg">
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gfil6tj9shj30ts14mtl2.jpg">
+
+<h4 id="用户界面-1"><a href="#用户界面-1" class="headerlink" title="用户界面"></a>用户界面</h4><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gfilt0g35qj316o128n4z.jpg" style="zoom:50%">
+
+
+
+
+
+<h3 id="VCR"><a href="#VCR" class="headerlink" title="VCR"></a><font color="red">VCR</font></h3><p><a href="shiyaya.github.io/2020/05/16/From-Recognition-to-Cognition-Visual-Commonsense-Reasoning/">yaya blog</a></p>
+<h4 id="用户界面-2"><a href="#用户界面-2" class="headerlink" title="用户界面"></a>用户界面</h4><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gfioadgc3qj30r20pbn3e.jpg">
+
+<h4 id="Crowdsourcing-quality-data"><a href="#Crowdsourcing-quality-data" class="headerlink" title="Crowdsourcing quality data"></a>Crowdsourcing quality data</h4><p><strong>Automated quality checks</strong></p>
+<p>在众包UI中加入了一些<strong>自动</strong>的检测，比如，workers 在写 question、answer、rationale 时，有单词数量的限制且必须要指定一个detection</p>
+<p>*<em>Instructions  *</em></p>
+<p>鼓励workers，编写的question，是比较high-level的（需要一定的推理步骤），同时不要编写一些general questions, 即不针对image 本身的那些问题。</p>
+<p>同时为workers 提供了一些例子展示。</p>
+<p>*<em>Qualification exam  *</em></p>
+<p>再进行正式的标注之前，先做一个测试，验证该worker 具有标注VCR数据的能努力。</p>
+<p>The qualification test included a mix of multiple-choice graded answers as well as a short written section, which was to provide a single question, answer, and rationale for an image.  </p>
+<p>在完成这个质量测试之后，由发布该任务的requester(即VCR论文作者)来手工看，这个worker是否具有资格。</p>
+<p><strong>Work verification</strong>  </p>
+<p>查看 workers 编写的 question、answer、rationales是否符合要求。由于这项检查工作，工作量也很大，因此，将这种检查工作也当做另外一种 HIT 当做任务进行发布，由那些outstanding workers in previous annotation work 来完成这项检查工作, 每为 一位another worker完成了检查工作，将得到 $0.4</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/04/图像描述-评价指标-中用到的数据集汇总/" rel="next" title="图像描述-评价指标-中用到的数据集汇总">
+                <i class="fa fa-chevron-left"></i> 图像描述-评价指标-中用到的数据集汇总
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">152</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">30</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Stanford-Natural-Language-Inference"><span class="nav-number">1.</span> <span class="nav-text"> Stanford Natural Language Inference </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据收集"><span class="nav-number">1.1.</span> <span class="nav-text">数据收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Data-validation"><span class="nav-number">1.2.</span> <span class="nav-text">*Data validation  *</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Visual-Entailment-Dataset"><span class="nav-number">2.</span> <span class="nav-text"> Visual Entailment Dataset  </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据收集-1"><span class="nav-number">2.1.</span> <span class="nav-text">数据收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#该文提出了几个构建数据集的准则"><span class="nav-number">2.2.</span> <span class="nav-text">该文提出了几个构建数据集的准则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WMT-Shared-Task"><span class="nav-number">3.</span> <span class="nav-text">WMT Shared Task  </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用户界面"><span class="nav-number">3.1.</span> <span class="nav-text">用户界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Human-judgement-quality-control"><span class="nav-number">3.2.</span> <span class="nav-text">Human judgement quality control</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Annotator-Agreement"><span class="nav-number">3.3.</span> <span class="nav-text">Annotator Agreement</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Producing-the-Human-Ranking"><span class="nav-number">3.4.</span> <span class="nav-text">Producing the Human Ranking</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VIOLIN-Video-and-Language-Inference"><span class="nav-number">4.</span> <span class="nav-text">[VIOLIN] Video-and-Language Inference </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据集收集简介"><span class="nav-number">4.1.</span> <span class="nav-text">数据集收集简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据收集-Instruction"><span class="nav-number">4.2.</span> <span class="nav-text">数据收集 Instruction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户界面-1"><span class="nav-number">4.3.</span> <span class="nav-text">用户界面</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VCR"><span class="nav-number">5.</span> <span class="nav-text">VCR</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用户界面-2"><span class="nav-number">5.1.</span> <span class="nav-text">用户界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Crowdsourcing-quality-data"><span class="nav-number">5.2.</span> <span class="nav-text">Crowdsourcing quality data</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+  
+    
+    <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+    <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+  
+<!-- END LOCAL -->
+
+  
+
+  
+    <script>
+    function renderGitment(){
+      var gitment = new Gitmint({
+        id: window.location.pathname,
+        owner: 'ShiYaya',
+        repo: 'comments',
+        
+        lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+        
+        oauth: {
+        
+        
+          client_secret: 'a099a7f19f7bcf33594408bd633813e69b200c3e',
+        
+          client_id: '894eb7d8fd0429ed57dc'
+        }});
+      gitment.render('gitment-container');
+    }
+
+    
+      renderGitment();
+    
+    </script>
+  
+
+
+
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
