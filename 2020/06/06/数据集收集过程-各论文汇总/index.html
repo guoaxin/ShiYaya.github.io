@@ -113,7 +113,9 @@
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gfil6tj9shj30ts14mtl2.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gfilt0g35qj316o128n4z.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gfioadgc3qj30r20pbn3e.jpg">
-<meta property="og:updated_time" content="2020-06-06T10:14:30.455Z">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gfiysqscgfj316r0e943t.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gfiysr0uf8j317i0g2an3.jpg">
+<meta property="og:updated_time" content="2020-06-07T03:10:04.368Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据集收集过程--各论文汇总">
 <meta name="twitter:description" content="Stanford Natural Language Inference 数据收集从Flickr 上的human written captions 作为 premises 。 （1）AMT workers 手工写 与 premises 相对应label下的句子：（不提供图像的前提下）Asked AMT workers to supply hypotheses for each of our thr">
@@ -432,12 +434,24 @@
                 
               
 
-              <time title="创建时间：2020-06-06 17:58:30 / 修改时间：18:14:30" itemprop="dateCreated datePublished" datetime="2020-06-06T17:58:30+08:00">2020-06-06</time>
+              <time title="创建时间：2020-06-06 17:58:30" itemprop="dateCreated datePublished" datetime="2020-06-06T17:58:30+08:00">2020-06-06</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-06-07 11:10:04" itemprop="dateModified" datetime="2020-06-07T11:10:04+08:00">2020-06-07</time>
               
             
           </span>
@@ -564,6 +578,25 @@
 <p>在完成这个质量测试之后，由发布该任务的requester(即VCR论文作者)来手工看，这个worker是否具有资格。</p>
 <p><strong>Work verification</strong>  </p>
 <p>查看 workers 编写的 question、answer、rationales是否符合要求。由于这项检查工作，工作量也很大，因此，将这种检查工作也当做另外一种 HIT 当做任务进行发布，由那些outstanding workers in previous annotation work 来完成这项检查工作, 每为 一位another worker完成了检查工作，将得到 $0.4</p>
+<h3 id="Composite-dataset"><a href="#Composite-dataset" class="headerlink" title="Composite dataset"></a><font color="red">Composite dataset</font></h3><p>From: <code>From Images to Sentences through Scene Description Graphs using Commonsense Reasoning and Knowledge</code></p>
+<h4 id="数据集介绍"><a href="#数据集介绍" class="headerlink" title="数据集介绍"></a>数据集介绍</h4><p>该篇文章是做 image captioning 任务，为了更好的评估该captioning model 的性能，将模型生成的预测上传到AMT，让人类去评估。（为了对比，除了评估our_captioning_model 的预测，本文还评估了gold-standard description 和 the output from a state-of-the-art image captioning system.  ）</p>
+<p>该文中从两个方面进行评估：相关性和全面性:  <strong>how much the description conveys the image content</strong> (relevance) and <strong>how much of the image content is conveyed by the description</strong> (thoroughness)。</p>
+<h4 id="Instruction"><a href="#Instruction" class="headerlink" title="Instruction"></a>Instruction</h4><ul>
+<li>很简单的 Instruction，也没有给范例。</li>
+</ul>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gfiysqscgfj316r0e943t.jpg">
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gfiysr0uf8j317i0g2an3.jpg">
+
+<ul>
+<li>没有说在数据标注过程中，加入一些监督workers的操作。（这主要是本篇的目的不是为了进行数据收集，而只是简单的去评估 captioning model）</li>
+</ul>
+<h3 id="Reinforcement-Learning-in-Image-QE"><a href="#Reinforcement-Learning-in-Image-QE" class="headerlink" title="Reinforcement Learning in Image QE"></a>Reinforcement Learning in Image QE</h3><p>From: Reinforcing an Image Caption Generator Using Off-Line Human Feedback  </p>
+<p>该文是引入强化学习，以及human judgement score, 来做 image captioning 任务</p>
+<p>为了评估提出的captioning model 的性能，将其在数据集上的预测结果，提交到众包平台，让人类进行打分。提出了两种评估方式：Single-caption evaluation  和 Side-by-side caption evaluation  </p>
+<p><strong>Single-caption evaluation</strong></p>
+<p>给出image-captioning pair,然后，让6个不同的raters进行打分[good, bad], 然后对这6个评分取平均，或者是取majority voting，作为该pair 的最终得分</p>
+<p><strong>Side-by-side caption evaluation</strong>  </p>
+<p>给出 (image, our_model_prediction, baseline_model_prediction) 这个三元组，然后让raters, 选一个更贴合image的sentence。<strong>并且，从三个方面进行评估，信息性、正确性、流畅性</strong></p>
 
       
     </div>
@@ -871,7 +904,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Stanford-Natural-Language-Inference"><span class="nav-number">1.</span> <span class="nav-text"> Stanford Natural Language Inference </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据收集"><span class="nav-number">1.1.</span> <span class="nav-text">数据收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Data-validation"><span class="nav-number">1.2.</span> <span class="nav-text">*Data validation  *</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Visual-Entailment-Dataset"><span class="nav-number">2.</span> <span class="nav-text"> Visual Entailment Dataset  </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据收集-1"><span class="nav-number">2.1.</span> <span class="nav-text">数据收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#该文提出了几个构建数据集的准则"><span class="nav-number">2.2.</span> <span class="nav-text">该文提出了几个构建数据集的准则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WMT-Shared-Task"><span class="nav-number">3.</span> <span class="nav-text">WMT Shared Task  </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用户界面"><span class="nav-number">3.1.</span> <span class="nav-text">用户界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Human-judgement-quality-control"><span class="nav-number">3.2.</span> <span class="nav-text">Human judgement quality control</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Annotator-Agreement"><span class="nav-number">3.3.</span> <span class="nav-text">Annotator Agreement</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Producing-the-Human-Ranking"><span class="nav-number">3.4.</span> <span class="nav-text">Producing the Human Ranking</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VIOLIN-Video-and-Language-Inference"><span class="nav-number">4.</span> <span class="nav-text">[VIOLIN] Video-and-Language Inference </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据集收集简介"><span class="nav-number">4.1.</span> <span class="nav-text">数据集收集简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据收集-Instruction"><span class="nav-number">4.2.</span> <span class="nav-text">数据收集 Instruction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户界面-1"><span class="nav-number">4.3.</span> <span class="nav-text">用户界面</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VCR"><span class="nav-number">5.</span> <span class="nav-text">VCR</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用户界面-2"><span class="nav-number">5.1.</span> <span class="nav-text">用户界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Crowdsourcing-quality-data"><span class="nav-number">5.2.</span> <span class="nav-text">Crowdsourcing quality data</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Stanford-Natural-Language-Inference"><span class="nav-number">1.</span> <span class="nav-text"> Stanford Natural Language Inference </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据收集"><span class="nav-number">1.1.</span> <span class="nav-text">数据收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Data-validation"><span class="nav-number">1.2.</span> <span class="nav-text">*Data validation  *</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Visual-Entailment-Dataset"><span class="nav-number">2.</span> <span class="nav-text"> Visual Entailment Dataset  </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据收集-1"><span class="nav-number">2.1.</span> <span class="nav-text">数据收集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#该文提出了几个构建数据集的准则"><span class="nav-number">2.2.</span> <span class="nav-text">该文提出了几个构建数据集的准则</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WMT-Shared-Task"><span class="nav-number">3.</span> <span class="nav-text">WMT Shared Task  </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用户界面"><span class="nav-number">3.1.</span> <span class="nav-text">用户界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Human-judgement-quality-control"><span class="nav-number">3.2.</span> <span class="nav-text">Human judgement quality control</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Annotator-Agreement"><span class="nav-number">3.3.</span> <span class="nav-text">Annotator Agreement</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Producing-the-Human-Ranking"><span class="nav-number">3.4.</span> <span class="nav-text">Producing the Human Ranking</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VIOLIN-Video-and-Language-Inference"><span class="nav-number">4.</span> <span class="nav-text">[VIOLIN] Video-and-Language Inference </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据集收集简介"><span class="nav-number">4.1.</span> <span class="nav-text">数据集收集简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据收集-Instruction"><span class="nav-number">4.2.</span> <span class="nav-text">数据收集 Instruction</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#用户界面-1"><span class="nav-number">4.3.</span> <span class="nav-text">用户界面</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VCR"><span class="nav-number">5.</span> <span class="nav-text">VCR</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#用户界面-2"><span class="nav-number">5.1.</span> <span class="nav-text">用户界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Crowdsourcing-quality-data"><span class="nav-number">5.2.</span> <span class="nav-text">Crowdsourcing quality data</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Composite-dataset"><span class="nav-number">6.</span> <span class="nav-text">Composite dataset</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据集介绍"><span class="nav-number">6.1.</span> <span class="nav-text">数据集介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Instruction"><span class="nav-number">6.2.</span> <span class="nav-text">Instruction</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reinforcement-Learning-in-Image-QE"><span class="nav-number">7.</span> <span class="nav-text">Reinforcement Learning in Image QE</span></a></li></ol></div>
             
 
           </div>
