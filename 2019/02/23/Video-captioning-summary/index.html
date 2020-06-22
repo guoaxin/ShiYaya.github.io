@@ -98,7 +98,7 @@
 
 
   <meta name="description" content="总结一下各论文使用的encoder的model分别是什么，是否采用了C3D，若采用了C3D,每16帧输出一个特征向量，这样的话，n_frames/16 个特征向量，那么论文中又是如何聚合特征来得到video 特征的？##   训练和测试的一般过程The training process predicts the next word given the previous words from gr">
-<meta name="keywords" content="视频描述,人工智能">
+<meta name="keywords" content="人工智能,视频描述">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Video captioning summary">
 <meta property="og:url" content="http://yoursite.com/2019/02/23/Video-captioning-summary/index.html">
@@ -469,16 +469,6 @@
           
 
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/02/23/Video-captioning-summary/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/02/23/Video-captioning-summary/" itemprop="commentsCount"></span>
-                </a>
-              </span>
             
           
 
@@ -881,9 +871,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/视频描述/" rel="tag"># 视频描述</a>
-          
             <a href="/tags/人工智能/" rel="tag"># 人工智能</a>
+          
+            <a href="/tags/视频描述/" rel="tag"># 视频描述</a>
           
         </div>
       
@@ -931,12 +921,9 @@
           
 
   
-    <div class="comments" id="comments">
-      
-        <div id="gitment-container"></div>
-      
+    <div id="gitalk-container">
     </div>
-
+    
   
 
 
@@ -1357,43 +1344,6 @@
 
 
 
-
-
-<!-- LOCAL: You can save these files to your site and update links -->
-  
-    
-    <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
-    <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
-  
-<!-- END LOCAL -->
-
-  
-
-  
-    <script>
-    function renderGitment(){
-      var gitment = new Gitmint({
-        id: window.location.pathname,
-        owner: 'ShiYaya',
-        repo: 'comments',
-        
-        lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
-        
-        oauth: {
-        
-        
-          client_secret: 'a099a7f19f7bcf33594408bd633813e69b200c3e',
-        
-          client_id: '894eb7d8fd0429ed57dc'
-        }});
-      gitment.render('gitment-container');
-    }
-
-    
-      renderGitment();
-    
-    </script>
-  
 
 
 

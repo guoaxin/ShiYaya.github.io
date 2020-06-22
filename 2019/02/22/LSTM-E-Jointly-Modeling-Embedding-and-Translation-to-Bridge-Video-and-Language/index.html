@@ -98,7 +98,7 @@
 
 
   <meta name="description" content="yaya本文的主要贡献：  同时使用了action feature of C3D and frames features。但是由于对C3D的特征也采用了mean pooling的方法，有缺陷，对action 特征的一种破坏。 提出了relevance loss ， 来加强整个句子的语义与视觉特征之间的关系。    Motivation目前存在的方法，依据给定的先前的单词以及视觉信息，来生成word">
-<meta name="keywords" content="视频描述,人工智能">
+<meta name="keywords" content="人工智能,视频描述">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(LSTM-E)Jointly Modeling Embedding and Translation to Bridge Video and Language">
 <meta property="og:url" content="http://yoursite.com/2019/02/22/LSTM-E-Jointly-Modeling-Embedding-and-Translation-to-Bridge-Video-and-Language/index.html">
@@ -478,16 +478,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/02/22/LSTM-E-Jointly-Modeling-Embedding-and-Translation-to-Bridge-Video-and-Language/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/02/22/LSTM-E-Jointly-Modeling-Embedding-and-Translation-to-Bridge-Video-and-Language/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -588,9 +578,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/视频描述/" rel="tag"># 视频描述</a>
-          
             <a href="/tags/人工智能/" rel="tag"># 人工智能</a>
+          
+            <a href="/tags/视频描述/" rel="tag"># 视频描述</a>
           
         </div>
       
@@ -638,12 +628,9 @@
           
 
   
-    <div class="comments" id="comments">
-      
-        <div id="gitment-container"></div>
-      
+    <div id="gitalk-container">
     </div>
-
+    
   
 
 
@@ -1064,43 +1051,6 @@
 
 
 
-
-
-<!-- LOCAL: You can save these files to your site and update links -->
-  
-    
-    <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
-    <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
-  
-<!-- END LOCAL -->
-
-  
-
-  
-    <script>
-    function renderGitment(){
-      var gitment = new Gitmint({
-        id: window.location.pathname,
-        owner: 'ShiYaya',
-        repo: 'comments',
-        
-        lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
-        
-        oauth: {
-        
-        
-          client_secret: 'a099a7f19f7bcf33594408bd633813e69b200c3e',
-        
-          client_id: '894eb7d8fd0429ed57dc'
-        }});
-      gitment.render('gitment-container');
-    }
-
-    
-      renderGitment();
-    
-    </script>
-  
 
 
 

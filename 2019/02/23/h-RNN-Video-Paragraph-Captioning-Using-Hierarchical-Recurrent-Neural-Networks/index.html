@@ -98,7 +98,7 @@
 
 
   <meta name="description" content="yaya 这篇文章主要针对于一个video 划分为多个interval，并分别对其进行caption这样的数据集。其中段落生成器的作用：可以捕捉句子之间的相互依赖关系，同时段落生成器的输出作为句子生成器的输入，可以使得下一个句子的生成是建立在当前句子的语境下生成的。 另外对于MSVD这种一个video直接由一个sentence来描述的数据集，段落生成器不起作用，只是在decoder的结构相较于其他">
-<meta name="keywords" content="视频描述,人工智能">
+<meta name="keywords" content="人工智能,视频描述">
 <meta property="og:type" content="article">
 <meta property="og:title" content="(h-RNN)Video Paragraph Captioning Using Hierarchical Recurrent Neural Networks">
 <meta property="og:url" content="http://yoursite.com/2019/02/23/h-RNN-Video-Paragraph-Captioning-Using-Hierarchical-Recurrent-Neural-Networks/index.html">
@@ -477,16 +477,6 @@
 
           
             
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2019/02/23/h-RNN-Video-Paragraph-Captioning-Using-Hierarchical-Recurrent-Neural-Networks/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count gitment-comments-count" data-xid="/2019/02/23/h-RNN-Video-Paragraph-Captioning-Using-Hierarchical-Recurrent-Neural-Networks/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
           
 
           
@@ -606,9 +596,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/视频描述/" rel="tag"># 视频描述</a>
-          
             <a href="/tags/人工智能/" rel="tag"># 人工智能</a>
+          
+            <a href="/tags/视频描述/" rel="tag"># 视频描述</a>
           
         </div>
       
@@ -656,12 +646,9 @@
           
 
   
-    <div class="comments" id="comments">
-      
-        <div id="gitment-container"></div>
-      
+    <div id="gitalk-container">
     </div>
-
+    
   
 
 
@@ -1082,43 +1069,6 @@
 
 
 
-
-
-<!-- LOCAL: You can save these files to your site and update links -->
-  
-    
-    <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
-    <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
-  
-<!-- END LOCAL -->
-
-  
-
-  
-    <script>
-    function renderGitment(){
-      var gitment = new Gitmint({
-        id: window.location.pathname,
-        owner: 'ShiYaya',
-        repo: 'comments',
-        
-        lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
-        
-        oauth: {
-        
-        
-          client_secret: 'a099a7f19f7bcf33594408bd633813e69b200c3e',
-        
-          client_id: '894eb7d8fd0429ed57dc'
-        }});
-      gitment.render('gitment-container');
-    }
-
-    
-      renderGitment();
-    
-    </script>
-  
 
 
 
