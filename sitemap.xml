@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/07/01/Full-Instructions/</loc>
+    
+    <lastmod>2020-07-01T03:17:29.661Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/05/31/Sentence-BERT-Sentence-Embeddings-using-Siamese-BERT-Networks/</loc>
     
     <lastmod>2020-06-29T10:23:05.655Z</lastmod>
