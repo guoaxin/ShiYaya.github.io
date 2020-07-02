@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="ShiYaya">
 <meta property="og:description" content="yaya 总结 本文提出了一个 GTD ， Grammaticality, Truthfulness and Diversity 三个方面对captioning model 进行评价，为未来 captioning model metric 提供了一个探索的方向。 本文需要特别说明的是，（1）本文是在自己设计的一个diagnostic dataset 上进行的实验，并不是在真实的captioning">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-07-02T03:19:10.703Z">
+<meta property="og:updated_time" content="2020-07-02T13:08:09.217Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Going Beneath the Surface: Evaluating Image Captioning for Grammaticality, Truthfulness and Diversity">
 <meta name="twitter:description" content="yaya 总结 本文提出了一个 GTD ， Grammaticality, Truthfulness and Diversity 三个方面对captioning model 进行评价，为未来 captioning model metric 提供了一个探索的方向。 本文需要特别说明的是，（1）本文是在自己设计的一个diagnostic dataset 上进行的实验，并不是在真实的captioning">
@@ -422,7 +422,7 @@
                 
               
 
-              <time title="创建时间：2020-07-02 11:18:07 / 修改时间：11:19:10" itemprop="dateCreated datePublished" datetime="2020-07-02T11:18:07+08:00">2020-07-02</time>
+              <time title="创建时间：2020-07-02 11:18:07 / 修改时间：21:08:09" itemprop="dateCreated datePublished" datetime="2020-07-02T11:18:07+08:00">2020-07-02</time>
             
 
             
@@ -467,17 +467,19 @@
       
 
       
-        <h4 id="yaya-总结"><a href="#yaya-总结" class="headerlink" title="yaya 总结"></a>yaya 总结</h4><ul>
+        <h3 id="yaya-总结"><a href="#yaya-总结" class="headerlink" title="yaya 总结"></a>yaya 总结</h3><ul>
 <li>本文提出了一个 GTD ， Grammaticality, Truthfulness and Diversity 三个方面对captioning model 进行评价，为未来 captioning model metric 提供了一个探索的方向。</li>
 <li>本文需要特别说明的是，（1）本文是在自己设计的一个diagnostic dataset 上进行的实验，并不是在真实的captioning dataset 上进行的实验。（2）本文并没有提出一个具体可用的评价指标，而是提出了一个类似于协议的东西，即，本文主要是探究，在未来的评价指标里，需要去评估captioning model 的哪些层面，来弥补当前评价指标的不足，与当前的评价指标做一个互为补充！（英文： GTD, consider it as an evaluation protocol covering necessary aspects of the multifaceted captioning task, rather than a specific metric.）</li>
 <li>该文选用 diagnostic dataset的原因：  <ul>
-<li>The primary motivation is to reduce complexity which is considered irrelevant to the evaluation focus, to enable better<br>control over the data, and to provide more detailed insights<br>into strengths and limitations of existing models.</li>
+<li>The primary motivation is to reduce complexity which is considered irrelevant to the evaluation focus, to enable better control over the data, and to provide more detailed insights into strengths and limitations of existing models.</li>
 </ul>
 </li>
 <li>该文不提出一个具体的评价指标：<ul>
-<li>这得抨击一下啊。。。这给未来的研究提供了一个方向。但是，，，，feel is bad<h4 id="yaya学到了"><a href="#yaya学到了" class="headerlink" title="yaya学到了"></a>yaya学到了</h4></li>
+<li>这得抨击一下啊。。。这给未来的研究提供了一个方向。但是，，，，feel is bad</li>
 </ul>
 </li>
+</ul>
+<h3 id="yaya学到了"><a href="#yaya学到了" class="headerlink" title="yaya学到了"></a>yaya学到了</h3><ul>
 <li>使用ERG进行语法分析，若能够获得语法分析，则该句子在语法上被认为是格式正确的。反之。。</li>
 </ul>
 <hr>
@@ -492,16 +494,19 @@
 <li>BLEU，METEOR，ROUGLE，CIDEr基于 n_gram 的评价指标仅能够评价cadidate caption 与 reference caption之间的<strong>表面相似性</strong>，</li>
 <li>SPICE，将 captions转化为 graph-based 语义表达，进而来评估候选与参考之间的<strong>语义相似性</strong>。</li>
 </ul>
-<h5 id="automatic-metric-使用的依据-reference-captions-来作为参照的使用依据"><a href="#automatic-metric-使用的依据-reference-captions-来作为参照的使用依据" class="headerlink" title="automatic metric 使用的依据 (reference captions 来作为参照的使用依据)"></a>automatic metric 使用的依据 (reference captions 来作为参照的使用依据)</h5><ul>
-<li>【1】The rationale behind these evaluation metrics is that human<br>reference captions serve as an approximate target and comparing model outputs to this target is a proxy for how well<br>a system performs. Thus, a candidate caption is not directly<br>evaluated with respect to image content, but compared to a<br>set of human statements about that image.</li>
+<p><strong style="color:red;">automatic metric 使用的依据 (reference captions 来作为参照的使用依据)</strong></p>
+<ul>
+<li>【1】The rationale behind these evaluation metrics is that human reference captions serve as an approximate target and comparing model outputs to this target is a proxy for how well<br>a system performs. Thus, a candidate caption is not directly evaluated with respect to image content, but compared to a set of human statements about that image.</li>
 <li>这里存在一个假设条件，即假设认为 human reference captions 是一个近似的target. 将caption model 输出与该target 进行比较是评估该model 性能好坏的一个proxy。基于这种假设，一个candidate caption 可以不直接与image content进行比较评估，而是与人类对image的statements 进行比较。</li>
 </ul>
-<h5 id="reference-captions-based-automatic-metric-存在的缺陷"><a href="#reference-captions-based-automatic-metric-存在的缺陷" class="headerlink" title="reference captions based automatic metric 存在的缺陷"></a>reference captions based automatic metric 存在的缺陷</h5><ul>
+<p><strong style="color:red;">reference captions based automatic metric 存在的缺陷</strong></p>
+<ul>
 <li>reference-based metrics</li>
 <li>由于视觉场景存在多个objects 和 relations，进而存在多个具有多样性的合理描述。但是由于reference caption 数量的限制，未必能够对图片的完整内容进行充分的描述。因此用reference captions 来近似替代 image 的内容是令人怀疑的。</li>
-<li>当前存在的评价指标对于真实世界的 captioning评估是非常有用的，这是不可置疑的。这些方法仅关注于近似的表面比较，限制了对captioning models 学习过程和最终行为的进一步分析 </li>
+<li>当前存在的评价指标对于真实世界的 captioning评估是非常有用的，这是不可置疑的。这些方法仅关注于近似的表面比较，限制了对captioning models 学习过程和最终行为的进一步分析 。</li>
 </ul>
-<h5 id="本文提出的解决办法"><a href="#本文提出的解决办法" class="headerlink" title="本文提出的解决办法"></a>本文提出的解决办法</h5><ul>
+<p><strong style="color:red;">本文提出的解决办法</strong></p>
+<ul>
 <li>为了解决这个问题，本文提出了几个原则性的评估准则，来对image captioning model 的语法性，真实性，多样性进行评估。这几个准则对应着image captioning systems的必要需求：（1）输出是符合语法规则的（2）对于image, 输出的陈述是对的（3）输出是多样化的, 反映training captions 的可变性。</li>
 <li>GTD 当前只能在人造的数据上进行实际的评估。本文设计了一系列的数据集来进行图像描述的评估。我们将这个诊断评估数据集称为ShapeWorldCE. </li>
 <li>BLEU 和 SPICE 不能捕捉 true caption-image agreement in all scenarios, 但是 GTD 对于现有模型如何很好地应对各种视觉环境和语言构造，却能有一个细粒度的观测。</li>
@@ -520,8 +525,10 @@
 <li>candidate caption 与 image content 之间是否相容。</li>
 </ul>
 </li>
+<li><p>truthfulness, that is, whether a candidate caption is compatible with the content of the image it is supposed to describe.  </p>
+</li>
 <li><p><strong style="color:red;">【Diversity】  </strong></p>
-<h4 id="一些实验结果的分析"><a href="#一些实验结果的分析" class="headerlink" title="一些实验结果的分析"></a>一些实验结果的分析</h4></li>
+<h3 id="一些实验结果的分析"><a href="#一些实验结果的分析" class="headerlink" title="一些实验结果的分析"></a>一些实验结果的分析</h3></li>
 <li><p>越高的BLEU得分，并不意味着准确性的提高。 换句话说，与reference captions的重叠度高（high n_gram overlap），并不代表语义内容是正确的. 仅仅是由于reference caption的词表有限所致。<strong>具体的分析可以查看论文实验部分：Correlation between the BLEU/SPICE scores and the<br>ground truth.</strong></p>
 </li>
 <li><p>虽然CNN可以为视觉任务提供丰富的视觉表达，但是对于多模态任务，其是否可以满足<br>但是这种浓缩的视觉表达对于需要higher-level 场景理解，视觉推理的多模态任务是否足够充分，仍然是一个开放性问题。</p>
@@ -835,7 +842,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#yaya-总结"><span class="nav-number">1.</span> <span class="nav-text">yaya 总结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#yaya学到了"><span class="nav-number">2.</span> <span class="nav-text">yaya学到了</span></a></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#摘要"><span class="nav-number"></span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction"><span class="nav-number"></span> <span class="nav-text">Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#automatic-metric-使用的依据-reference-captions-来作为参照的使用依据"><span class="nav-number">0.1.</span> <span class="nav-text">automatic metric 使用的依据 (reference captions 来作为参照的使用依据)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#reference-captions-based-automatic-metric-存在的缺陷"><span class="nav-number">0.2.</span> <span class="nav-text">reference captions based automatic metric 存在的缺陷</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#本文提出的解决办法"><span class="nav-number">0.3.</span> <span class="nav-text">本文提出的解决办法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GTD-evaluation-framework"><span class="nav-number"></span> <span class="nav-text">GTD evaluation framework</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一些实验结果的分析"><span class="nav-number">1.</span> <span class="nav-text">一些实验结果的分析</span></a></li></ol></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#yaya-总结"><span class="nav-number">1.</span> <span class="nav-text">yaya 总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#yaya学到了"><span class="nav-number">2.</span> <span class="nav-text">yaya学到了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#摘要"><span class="nav-number">3.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction"><span class="nav-number">4.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GTD-evaluation-framework"><span class="nav-number">5.</span> <span class="nav-text">GTD evaluation framework</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些实验结果的分析"><span class="nav-number">6.</span> <span class="nav-text">一些实验结果的分析</span></a></li></ol></div>
             
 
           </div>
