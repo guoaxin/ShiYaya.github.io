@@ -11,6 +11,14 @@
         <content type="html"><![CDATA[<h3 id="简单总结"><a href="#简单总结" class="headerlink" title="简单总结"></a>简单总结</h3><p>(AAAI 2020) Going Beneath the Surface Evaluating Image Captioning for Grammaticality,</p><ul><li>语法正确性</li><li>准确性</li><li>多样性</li></ul><p>(ACL 2019) VIFIDEL Evaluating the visual fidelity of image descriptions</p><ul><li>准确性</li></ul><p>(EMNLP2019) TIGEr Text-to-Image Grounding for Image Caption Evaluation</p><ul><li>没有针对，就是使用 image conten 作为 GT，设计了一个评价指标</li></ul><p>(EMNLP-IJCNLP 2019) REO-Relevance, Extraness, Omission A Fine-grained Evaluation for Image Captioning</p><ul><li>相关度  Relevance</li><li>多余  Extraness</li><li>缺少  Omission</li></ul><p>(ICLR 2020 workshop)Egoshots, an ego-vision life-logging dataset and semantic fidelity metric to evaluate diversity in image captioning models</p><ul><li>多样性？？</li></ul>]]></content>
       
       
+      <categories>
+          
+          <category> 图像描述 </category>
+          
+          <category> 评价指标 </category>
+          
+      </categories>
+      
       
     </entry>
     
@@ -24,6 +32,14 @@
         <content type="html"><![CDATA[<h3 id="yaya-总结"><a href="#yaya-总结" class="headerlink" title="yaya 总结"></a>yaya 总结</h3><ul><li>本文提出了一个 GTD ， Grammaticality, Truthfulness and Diversity 三个方面对captioning model 进行评价，为未来 captioning model metric 提供了一个探索的方向。</li><li>本文需要特别说明的是，（1）本文是在自己设计的一个diagnostic dataset 上进行的实验，并不是在真实的captioning dataset 上进行的实验。（2）本文并没有提出一个具体可用的评价指标，而是提出了一个类似于协议的东西，即，本文主要是探究，在未来的评价指标里，需要去评估captioning model 的哪些层面，来弥补当前评价指标的不足，与当前的评价指标做一个互为补充！（英文： GTD, consider it as an evaluation protocol covering necessary aspects of the multifaceted captioning task, rather than a specific metric.）</li><li>该文选用 diagnostic dataset的原因：  <ul><li>The primary motivation is to reduce complexity which is considered irrelevant to the evaluation focus, to enable better control over the data, and to provide more detailed insights into strengths and limitations of existing models.</li></ul></li><li>该文不提出一个具体的评价指标：<ul><li>这得抨击一下啊。。。这给未来的研究提供了一个方向。但是，，，，feel is bad</li></ul></li></ul><h3 id="yaya学到了"><a href="#yaya学到了" class="headerlink" title="yaya学到了"></a>yaya学到了</h3><ul><li>使用ERG进行语法分析，若能够获得语法分析，则该句子在语法上被认为是格式正确的。反之。。</li></ul><hr><h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><ul><li><strong style="color:red;">【当前评价指标存在的问题】</strong>: 当前存在的评价指标，只去关注于a candidate caption and<br>a set of reference captions之间的相似性，但是不去检查 generated caption 与 当前视觉内容之间的相关性。</li><li>本文提出了一个为 image captioning task 设计的 evaluation framework. 目的是直接评估生成caption的语法性、真实性和多样性(GTD).</li><li>使用本文新提出的evaluation framework 为 image caption models 进行评估, 并在多个数据集上进行测试，来证明本文提出的评估框架的潜力。</li><li>本文用实验来证明，与 <strong>diagnostic dataset</strong> 结合使用，本文的GTD 评估框架可以提供对 caption model 的 能力以及限制(capabilities and limit)的进一步思考。并补充 standard evaluations 的不足。</li><li></li></ul><h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><ul><li>BLEU，METEOR，ROUGLE，CIDEr基于 n_gram 的评价指标仅能够评价cadidate caption 与 reference caption之间的<strong>表面相似性</strong>，</li><li>SPICE，将 captions转化为 graph-based 语义表达，进而来评估候选与参考之间的<strong>语义相似性</strong>。</li></ul><p><strong style="color:red;">automatic metric 使用的依据 (reference captions 来作为参照的使用依据)</strong></p><ul><li>【1】The rationale behind these evaluation metrics is that human reference captions serve as an approximate target and comparing model outputs to this target is a proxy for how well<br>a system performs. Thus, a candidate caption is not directly evaluated with respect to image content, but compared to a set of human statements about that image.</li><li>这里存在一个假设条件，即假设认为 human reference captions 是一个近似的target. 将caption model 输出与该target 进行比较是评估该model 性能好坏的一个proxy。基于这种假设，一个candidate caption 可以不直接与image content进行比较评估，而是与人类对image的statements 进行比较。</li></ul><p><strong style="color:red;">reference captions based automatic metric 存在的缺陷</strong></p><ul><li>reference-based metrics</li><li>由于视觉场景存在多个objects 和 relations，进而存在多个具有多样性的合理描述。但是由于reference caption 数量的限制，未必能够对图片的完整内容进行充分的描述。因此用reference captions 来近似替代 image 的内容是令人怀疑的。</li><li>当前存在的评价指标对于真实世界的 captioning评估是非常有用的，这是不可置疑的。这些方法仅关注于近似的表面比较，限制了对captioning models 学习过程和最终行为的进一步分析 。</li></ul><p><strong style="color:red;">本文提出的解决办法</strong></p><ul><li>为了解决这个问题，本文提出了几个原则性的评估准则，来对image captioning model 的语法性，真实性，多样性进行评估。这几个准则对应着image captioning systems的必要需求：（1）输出是符合语法规则的（2）对于image, 输出的陈述是对的（3）输出是多样化的, 反映training captions 的可变性。</li><li>GTD 当前只能在人造的数据上进行实际的评估。本文设计了一系列的数据集来进行图像描述的评估。我们将这个诊断评估数据集称为ShapeWorldCE. </li><li>BLEU 和 SPICE 不能捕捉 true caption-image agreement in all scenarios, 但是 GTD 对于现有模型如何很好地应对各种视觉环境和语言构造，却能有一个细粒度的观测。</li></ul><h3 id="GTD-evaluation-framework"><a href="#GTD-evaluation-framework" class="headerlink" title="GTD evaluation framework"></a>GTD evaluation framework</h3><ul><li><p>将GVD视为涵盖多方面字幕任务的必要方面的评估协议, 而不是一个具体的评估指标。</p></li><li><p><strong style="color:red;">【Grammaticality】</strong></p><ul><li>在一般情况下，对语法的完全准确的评估本身是一项艰巨的任务，但在诸如我们的诊断语言数据这样的非常有限的情况下，变得更加可行。【即在真实场景下的数据集是无法实现的？！！！】</li><li>如果我们使用ERG获得语法分析，则该句子在语法上被认为是格式正确的。</li></ul></li><li><p><strong style="color:red;">【Truthfulness】</strong></p><ul><li>candidate caption 与 image content 之间是否相容。</li></ul></li><li><p>truthfulness, that is, whether a candidate caption is compatible with the content of the image it is supposed to describe.  </p></li><li><p><strong style="color:red;">【Diversity】  </strong></p><h3 id="一些实验结果的分析"><a href="#一些实验结果的分析" class="headerlink" title="一些实验结果的分析"></a>一些实验结果的分析</h3></li><li><p>越高的BLEU得分，并不意味着准确性的提高。 换句话说，与reference captions的重叠度高（high n_gram overlap），并不代表语义内容是正确的. 仅仅是由于reference caption的词表有限所致。<strong>具体的分析可以查看论文实验部分：Correlation between the BLEU/SPICE scores and the<br>ground truth.</strong></p></li><li><p>虽然CNN可以为视觉任务提供丰富的视觉表达，但是对于多模态任务，其是否可以满足<br>但是这种浓缩的视觉表达对于需要higher-level 场景理解，视觉推理的多模态任务是否足够充分，仍然是一个开放性问题。</p></li><li><p>生成句子的多样性受到训练数据是否多样性的影响</p></li><li><p>未来的工作：本文发现：the caption agreement 并不总是随着训练损失的下降而提高。<br>理想情况下，训练目标应该与模型最终被评估的方式保持一致。在未来，计划实现一个GTD-aware loss,进而研究如何把GTD信号融合到训练过程中。</p></li></ul>]]></content>
       
       
+      <categories>
+          
+          <category> 图像描述 </category>
+          
+          <category> 评价指标 </category>
+          
+      </categories>
+      
       
     </entry>
     
@@ -36,6 +52,14 @@
       
         <content type="html"><![CDATA[<h4 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h4><ul><li>BLEU 和 CIDEr 是当前广泛使用的评价指标，来评估模型的整体性能。</li><li>但是这个<strong style="color:red;">得分往往不具备充分的信息量来说明被评估系统的specific errors.</strong></li><li>该文提出了一个细粒度的评估方法REO来自动的评估图像描述系统的性能。REO从三个层面来分析captions的质量：（1）与Ground Truth 的相关性（2）与ground truth 无关的额外性（3）在images 和 human references 中被忽略的元素。</li><li>在三个benchmark datasets上进行实验，本文提出的方法实现了与human judgments的高度一致性；与当前可用的评价指标相对比，该文提出的方法可以提供更加直观的评估结果。</li></ul><h4 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h4><ul><li><p>当前研究方法存在的问题</p><ul><li>当前自动的评估图像描述系统仍然是一个挑战，尤其是在量化图像描述系统生成的error仍有难度。</li><li>当前存在的评价指标可以分为两类，（1）rule-based metrics, 基于确切的字符串匹配。（2）learning-based metrics, 通过学习来预测test-caption 是人类生成的可能性。</li><li>大体上，先前的工作评估一个文本生成系统时，主要关注的是，相对于 ground truth data, 生成的description是否充分。虽然这个方面在之前的评价指标中已经被强调，但是当前存在的评价指标存在的一个共同的限制是，由于只能为caption quality 提供一个合成的分数，因此缺乏对 description errors的一个可解释性。缺乏这种细粒度的分析，开发人员便不能得到他们开发系统的确切的description errors.</li></ul></li><li><p>本文的解决办法：</p><ul><li>因此本文提出了一个称为REO的评估方法，从三个层面来评估caption, (1) Relevance: 相对于ground truth, candidate caption 与其相关性。(2) Extraness: 与ground truth 无关的额外性（3）Omission: 相对于在image content和 human references, condidate caption 中被忽略的元素。</li><li>如果将 caption generation看做image imformation embedding 的编码过程，我们可以通过根据有关图像内容的解码信息的<strong>相关性</strong>以及<strong>丢失或多余</strong>信息的数量来衡量解码过程的有效性，从而评估图像字幕系统。</li><li><strong>同时使用image 和 reference captions 作为评估的ground truth information</strong>, 本文的方法建立在一个由 grounding model 定义的共享的image-text embedding space， 该grounding model在一个大的benchmark数据集上进行预训练。</li><li>基于向量相似性来计算candidate caption 与 ground truth 之间的相关性。通过应用向量正交映射，来等同在candidate caption中携带的多余的和丢失的信息。</li></ul></li><li><p>实验部分</p><ul><li>在三个数据集上测试我们的方法，实验结果证明我们提出的方法与现存的评价指标相比，our method 与人类的评估更加一致。</li><li><strong style="color:red;"><strong>在本文的研究中发现，相对于caption与given image的相关性，人类标注者对caption中多余或者丢失的信息更加关注。</strong></strong></li><li>相比于单独仅仅使用image 或者 references作为ground truth, 同时使用效果更佳。</li></ul></li></ul><h4 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h4><ul><li><p>Feature Extraction</p><ul><li>C: candidate caption; R: reference caption; V:region feature</li><li>Based on the SCAN model, extract the context information from the caption words for each detected region.</li></ul></li><li><p>Metric Scores</p><ul><li>具体的查看论文</li><li><strong style="color:red;">Relevance</strong> : The relevance between a candidate caption and a ground-truth reference based on the i-th region is computed by the cosine similarity</li><li><strong style="color:red;">Extraness</strong> : The extraness of C is captured by performing an orthogonal projection of a<sub>i</sub><sup>C</sup> to gi, which returns the vertical context vector a<sub>i</sub><sup>C</sup>? to represent the irrelevant content of C to the ground truth at the ith region.</li><li><strong style="color:red;">Omission</strong>: 类似于Extraness</li></ul></li></ul><h4 id="Experiments-Results"><a href="#Experiments-Results" class="headerlink" title="Experiments Results"></a>Experiments Results</h4><ul><li><p>==【yaya疑问】==</p><ul><li>关于pascal-50S 这个数据集，没太弄明白是怎么回事，如何计算accuracy</li><li>Kendall’s tau (τ) rank correlation 如何计算也不知道呢。。</li></ul></li><li><p><strong style="color:red;">【Can extra &amp; missing information be captured?】</strong></p><ul><li>在Extraness 和 Omission 这两个方面，本文提出的方法是用candidate caption 与 reference caption vector 上应用 orthogonal projection来计算 vector difference， 进而来得到Extraness/Omission representation。</li><li>但是这是<strong>一种</strong>本文设计的表征方式，为了评估该表征方式的合理性，本文作者又随机的采样了一些数据，手工标注出这些数据中真实的extraness和 omission。这样相当于得到了对于 extraness和omission的 ground truth</li><li>使用本文设计的方法而计算得到的 Extraness/Omission representation与 该文作者手工标注的  Extraness/Omission ground truth计算cosine similarity. 结果发现，相似度很高，说明本文提出的方法可以有效的捕捉 extraness和omission的表达。</li><li><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gc9jnm2041j30i90clq92.jpg" alt="搜狗截图20200226092626.png"></li><li>==【yaya疑问】== 该如何获得actual extraness E<sup>C</sup> 以及true omission O<sup>C</sup> 的特征表示？？？</li><li></li></ul></li><li><p><strong style="color:red;">【Do error-aware evaluation metrics help?】</strong></p><ul><li>相比于之前的评价指标，REO，尤其是extrance和omission, 在tau (τ) 上带来了显著的提高，</li><li>实验结果表明，human evaluation更加关注于候选caption 与 GT之间的无关性（相比于有关性而言）。</li><li>同时将image 和 reference captions作为 GT reference, 来评估candidate caption的效果好于单独使用这两个元素的效果。</li><li>human written descriptions 在单词的选择和句子的结构上更加灵活，当candidate caption与多样性的 reference  captions进行比较的时候，就会存在一个挑战。</li><li>extraness metric更加适合评估machine-generated captions</li><li>omission metric 更加适合评估testing data 是human-written descriptions</li><li></li></ul></li><li><p><strong style="color:red;">【What can we learn from the metric outputs?】</strong></p><ul><li>该段主要是想说明，本文提出的三个层面的评估，可以为开发者提供一个关于被开发模型的errors的具体分析，使开发者可以从evaluation score中分析model到底存在哪些specific error.</li><li>eg: 若generated caption是对图片内容的细节性描述，则Relevance 指标会提高，但是omission评价指标会降低.</li></ul></li></ul>]]></content>
       
+      
+      <categories>
+          
+          <category> 图像描述 </category>
+          
+          <category> 评价指标 </category>
+          
+      </categories>
       
       
     </entry>
@@ -133,19 +157,6 @@
     
     
     <entry>
-      <title>哔哩哔哩视频显示在Github的Markdown页方法</title>
-      <link href="/2020/06/20/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E8%A7%86%E9%A2%91%E6%98%BE%E7%A4%BA%E5%9C%A8Github%E7%9A%84Markdown%E9%A1%B5%E6%96%B9%E6%B3%95/"/>
-      <url>/2020/06/20/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E8%A7%86%E9%A2%91%E6%98%BE%E7%A4%BA%E5%9C%A8Github%E7%9A%84Markdown%E9%A1%B5%E6%96%B9%E6%B3%95/</url>
-      
-        <content type="html"><![CDATA[<ul><li>一个测试样例</li></ul>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>数据集收集过程--各论文汇总</title>
       <link href="/2020/06/06/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%94%B6%E9%9B%86%E8%BF%87%E7%A8%8B-%E5%90%84%E8%AE%BA%E6%96%87%E6%B1%87%E6%80%BB/"/>
       <url>/2020/06/06/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%94%B6%E9%9B%86%E8%BF%87%E7%A8%8B-%E5%90%84%E8%AE%BA%E6%96%87%E6%B1%87%E6%80%BB/</url>
@@ -167,6 +178,8 @@
       
       
       <categories>
+          
+          <category> 图像描述 </category>
           
           <category> 评价指标 </category>
           
@@ -268,14 +281,14 @@
       
       <categories>
           
-          <category> 机器翻译 </category>
+          <category> NLP </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 机器翻译 </tag>
+            <tag> NLP </tag>
             
         </tags>
       
@@ -381,14 +394,14 @@
       
       <categories>
           
-          <category> Grounding 相关 </category>
+          <category> Visual Grounding </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Grounding 相关 </tag>
+            <tag> Visual Grounding </tag>
             
         </tags>
       
@@ -407,6 +420,8 @@
       <categories>
           
           <category> 图像描述 </category>
+          
+          <category> 评价指标 </category>
           
       </categories>
       
@@ -431,14 +446,14 @@
       
       <categories>
           
-          <category> 自然语言理解 </category>
+          <category> NLP </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 自然语言理解 </tag>
+            <tag> NLP </tag>
             
         </tags>
       
@@ -456,14 +471,14 @@
       
       <categories>
           
-          <category> 自然语言理解 </category>
+          <category> NLP </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 自然语言理解 </tag>
+            <tag> NLP </tag>
             
         </tags>
       
@@ -572,6 +587,8 @@
           
           <category> 图像描述 </category>
           
+          <category> 评价指标 </category>
+          
       </categories>
       
       
@@ -596,6 +613,8 @@
       <categories>
           
           <category> 图像描述 </category>
+          
+          <category> 评价指标 </category>
           
       </categories>
       
@@ -942,16 +961,12 @@
           
           <category> 目标检测 </category>
           
-          <category> 机器学习 </category>
-          
       </categories>
       
       
         <tags>
             
             <tag> 目标检测 </tag>
-            
-            <tag> 机器学习 </tag>
             
         </tags>
       
@@ -1426,31 +1441,6 @@
     
     
     <entry>
-      <title>CMU课程上新：Neural Networks for NLP</title>
-      <link href="/2019/07/26/CMU%E8%AF%BE%E7%A8%8B%E4%B8%8A%E6%96%B0%EF%BC%9ANeural-Networks-for-NLP/"/>
-      <url>/2019/07/26/CMU%E8%AF%BE%E7%A8%8B%E4%B8%8A%E6%96%B0%EF%BC%9ANeural-Networks-for-NLP/</url>
-      
-        <content type="html"><![CDATA[<h1 id="CMU课程上新：Neural-Networks-for-NLP（18年视频课件放出）"><a href="#CMU课程上新：Neural-Networks-for-NLP（18年视频课件放出）" class="headerlink" title="CMU课程上新：Neural Networks for NLP（18年视频课件放出）"></a>CMU课程上新：Neural Networks for NLP（18年视频课件放出）</h1><p>今天文摘菌给大家推荐一门非常棒的课程《Neural Networks for NLP》。这个课程首先简要介绍一下神经网络的基本知识，然后课程的大部讲分如何将神经网络应用于自然语言处理。</p><p>课程中的每一节都会介绍自然语言中的特定问题和现象，并描述建模的难点，当然，并也会绍几个解决这些问题的模型。</p><p>总的来说，这个“神课”会涉及用神经网络建模过程中所使用的各种技术，包括如何处理结构化句子，如何处理大数据，以及半监督和无监督学习，结构化预测和多语言建模等等。</p><p>注意，修读本门课程需要有一定的自然语言处理的知识储备，按照课程的要求，就是应该上过《17-711，NLP算法》。</p><p>2018年的课程视频已经公开，无法上外网的同学，国内也有热心的小伙伴将课程搬到了国内的B站，通过下面的链接可以打开哟</p><p><a href="https://www.bilibili.com/video/av31156700/" target="_blank" rel="noopener">https://www.bilibili.com/video/av31156700/</a></p><p>19年的春季新课程新增了ELMo/BERT上下文词表示、模型可解释性等内容，PyTorch/DyNet代码示例。</p><p>19年课程的课程目录等详细信息，可以去课程主页去查看哟~~文摘菌在下面给大家简单介绍一下这门课程的师资以及作业等情况。</p><p><a href="https://phontron.com/class/nn4nlp2019/schedule.html" target="_blank" rel="noopener">https://phontron.com/class/nn4nlp2019/schedule.html</a></p><p><strong>师资力量</strong></p><p><img src="https://image.jiqizhixin.com/uploads/editor/6e56a929-53db-4396-bd4d-e42e2bd166cd/640.png" alt="img"></p><p>本课程有两位主讲教师，分别是：Graham Neubig、Antonios Anastasopoulos。其中Graham Neubig是卡内基梅陇大学的教授，主要研究自然语言处理，他对机器学习非常感兴趣。Antonios Anastasopoulos我是圣母大学的在读博士，目前David Chiang自然语言处理技术组的成员。专注于“濒危”语言的机器翻译和语音识别。</p><p><img src="https://image.jiqizhixin.com/uploads/editor/db527776-dbf8-4611-a415-1c94e99db32e/640.png" alt="img"></p><p>除了上课的教师外，还有一大批助教来解答同学们的疑惑。从助教安排，我们可以看出，课程在尽量做到有问必答。</p><h2 id="作业介绍及资料公开"><a href="#作业介绍及资料公开" class="headerlink" title="作业介绍及资料公开"></a>作业介绍及资料公开</h2><p>在课程的官网上，对课程的每一次作业都做了详细的说明，包括评分要求，完成作业的条件等等。除此之外还给出了作业示例。</p><p><img src="https://image.jiqizhixin.com/uploads/editor/0cf289f4-3ea8-43ad-b318-c97703e921ac/640.png" alt="img"></p><p>课程官网也贴心的给大家准备好了每一次讲课的PPT，在上课之前，大家多多预习哟~</p><p>PPT下载地址：<a href="https://phontron.com/class/nn4nlp2019/schedule.html" target="_blank" rel="noopener">https://phontron.com/class/nn4nlp2019/schedule.html</a></p><p>此次课程，初步是线下课程。请大家关注大数据文摘，如果后期有视频放出，文摘菌也一定会为大家更新的。</p><p>最后，再次给出课程主页：<a href="https://phontron.com/class/nn4nlp2019/schedule.html" target="_blank" rel="noopener">https://phontron.com/class/nn4nlp2019/schedule.html</a></p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 课程 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 课程 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Learning Video Representations from Correspondence Proposals</title>
       <link href="/2019/07/26/Learning-Video-Representations-from-Correspondence-Proposals/"/>
       <url>/2019/07/26/Learning-Video-Representations-from-Correspondence-Proposals/</url>
@@ -1707,14 +1697,14 @@
       
       <categories>
           
-          <category> 自然语言理解 </category>
+          <category> NLP </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 自然语言理解 </tag>
+            <tag> NLP </tag>
             
         </tags>
       
@@ -1783,14 +1773,14 @@
       
       <categories>
           
-          <category> 自然语言理解 </category>
+          <category> NLP </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 自然语言理解 </tag>
+            <tag> NLP </tag>
             
         </tags>
       
@@ -2175,14 +2165,14 @@
       
       <categories>
           
-          <category> 模型压缩 </category>
+          <category> 杂类 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 模型压缩 </tag>
+            <tag> 杂类 </tag>
             
         </tags>
       
@@ -2258,31 +2248,6 @@
         <tags>
             
             <tag> 行为识别 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>视频格式</title>
-      <link href="/2019/04/09/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F/"/>
-      <url>/2019/04/09/%E8%A7%86%E9%A2%91%E6%A0%BC%E5%BC%8F/</url>
-      
-        <content type="html"><![CDATA[ <img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1w907erjdj30800ffq31.jpg">  <h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><ul><li>为了更好的对视频进行传输，需要对视频进行压缩编码</li><li>当前的对video中<strong>图像</strong>的压缩方法有两大阵营，MPEG系列和H.26x系列，</li><li>得到压缩后的图像和音频之后，需要组合封装起来，这时就需要一个容器，可以使用AVI、MPEG等进行封装</li><li>最后为了将该video用系统上的某个视频播放器来开，还需要给其添加个后缀名，一般采用了某个封装格式就会有相应的后缀名，但是若我们更改某个video的文件名，也不会改变video的实质。</li><li>如在上图中视频流压缩采用的是H.26系列，但是文件类型却是mp4，即容器采用的是MPEG封装格式</li></ul><h2 id="转载"><a href="#转载" class="headerlink" title="转载"></a>转载</h2><p>作者：袁园<br>链接：<a href="https://www.zhihu.com/question/20997688/answer/30720197" target="_blank" rel="noopener">https://www.zhihu.com/question/20997688/answer/30720197</a><br>来源：知乎<br>在生活语境里所说的“视频格式”，在学术上有两个概念与之对应：Container format (封装格式)和Codec (暂且译为“编解码格式”)。</p><h3 id="1-Container-format-封装格式"><a href="#1-Container-format-封装格式" class="headerlink" title="1. Container format (封装格式)"></a><strong>1. Container format (封装格式)</strong></h3><p>Container format 描述了视频文件的结构。正如它的字面含义所说，它是对一个“容器”的规范。一个视频文件往往会包含图像和音频，还有一些配置信息(如图像和音频的关联，如何解码它们等)：这些内容需要按照一定的规则组织、存储起来，Container format就是这些规则。<br>如果一个视频文件是以某个Container format封装起来的，那么它的后缀名一般会体现出来。所以，后缀名只是形式，只是为了便于识别(例如，windows系统会根据文件的后缀名决定以什么程序打开它)，无决定性的意义。</p><h3 id="2-Codec-编解码格式"><a href="#2-Codec-编解码格式" class="headerlink" title="2. Codec (编解码格式)"></a><strong>2. Codec (编解码格式)</strong></h3><p>Codec是一种压缩标准。而文件的压缩/还原是通过编/解码实现的，所以Codec也可理解成编/解码标准。要知道，未经过处理的原始视频和音频文件十分巨大，不好存储、传输。为了节省磁盘空间和网络带宽，原始的视频和音频文件都会通过编码压缩体积，然后需要播放时再通过逆向过程解码还原。Codec就是规定编/解码实现细节(数字存储空间、帧速率、比特率、分辨率等)的标准，不同的标准对于压缩的质量和效率有影响。<br>世界上有两大制定这套标准的阵营：ITU-T VCEG(Visual Coding Experts Group，国际电联旗下的标准化组织)和MPEG(Moving Picture Experts Group, ISO旗下的组织)。MPEG系列标准是MPEG制定的，H.26x系列标准是ITU-T制定的。</p><h3 id="3-Container-format-封装格式-和Codec-编解码格式-有关系吗？"><a href="#3-Container-format-封装格式-和Codec-编解码格式-有关系吗？" class="headerlink" title="3. Container format (封装格式)**和Codec** (编解码格式)**有关系吗？**"></a><strong>3. Container format</strong> <strong>(封装格式)**</strong>和Codec** <strong>(编解码格式)**</strong>有关系吗？**</h3><p>不妨将视频文件看作容器(Container)，那么这个容器里盛放的就是遵循某种Codec的内容(Content)。一个容器里应该能放下视频、音频、数据信息，即使它们遵循的Codec不相同。例如，QuickTime File Format (.MOV)支持几乎所有的Codec，MPEG(.MP4)也支持相当广的Codec。所以，单从视频文件的格式是无法获知它的质量细节的，这些细节取决与采用的Codec。比较专业的说法是，“给我一个H.264 Quicktime文件(.mov)”。</p><h3 id="4-为何还是有点迷糊？"><a href="#4-为何还是有点迷糊？" class="headerlink" title="4. 为何还是有点迷糊？"></a><strong>4. 为何还是有点迷糊？</strong></h3><p>以上的解释是从学术角度出发的，在学术上区分它们没有一点障碍。但现实生活中人们不会一丝不苟地区分“Container format ”“Codec”，往往只会说“这是一个mov格式的文件”。这是将日常用语与学术术语混为一谈导致的理解混乱。</p><p>另外，Container format和Codec的命名法有点奇葩，明白人有时也会晕。例如，“MPEG-4”既是“Container format ”，也是“Codec”，这确实够烦的。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 视频处理 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 视频处理 </tag>
             
         </tags>
       
@@ -2607,33 +2572,6 @@
     
     
     <entry>
-      <title>刷题经验</title>
-      <link href="/2019/04/02/%E5%88%B7%E9%A2%98%E7%BB%8F%E9%AA%8C/"/>
-      <url>/2019/04/02/%E5%88%B7%E9%A2%98%E7%BB%8F%E9%AA%8C/</url>
-      
-        <content type="html"><![CDATA[<h3 id="输入输出的部分，需要注意："><a href="#输入输出的部分，需要注意：" class="headerlink" title="输入输出的部分，需要注意："></a>输入输出的部分，需要注意：</h3><ul><li>输出的地方，需要看人家是否<strong>保留固定的位数</strong>，否则输出的结果也是错误的</li></ul>]]></content>
-      
-      
-      <categories>
-          
-          <category> 刷题 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> python </tag>
-            
-            <tag> 刷题 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Stanford Scene Graph Parser</title>
       <link href="/2019/03/26/Stanford-Scene-Graph-Parser/"/>
       <url>/2019/03/26/Stanford-Scene-Graph-Parser/</url>
@@ -2643,14 +2581,14 @@
       
       <categories>
           
-          <category> 自然语言理解 </category>
+          <category> NLP </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 自然语言理解 </tag>
+            <tag> NLP </tag>
             
         </tags>
       
@@ -2666,31 +2604,6 @@
         <content type="html"><![CDATA[<h3 id="安装java-jdk"><a href="#安装java-jdk" class="headerlink" title="安装java jdk"></a>安装java jdk</h3><ul><li><p>更新软件包列表：</p><figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-<span class="built_in">get</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure></li><li><p>安装openjdk-8-jdk：</p><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-<span class="builtin-name">get</span> install openjdk-8-jdk</span><br></pre></td></tr></table></figure></li><li><p>查看java版本：</p><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -<span class="built_in">version</span></span><br></pre></td></tr></table></figure></li></ul><h3 id="下载并解压Stanford-coreNLP-包："><a href="#下载并解压Stanford-coreNLP-包：" class="headerlink" title="下载并解压Stanford coreNLP 包："></a>下载并解压Stanford coreNLP 包：</h3><ul><li>从这里下载<br><a href="https://stanfordnlp.github.io/CoreNLP/download.html" target="_blank" rel="noopener">https://stanfordnlp.github.io/CoreNLP/download.html</a><br>或者以命令行方式下载<blockquote><p>wget <a href="http://nlp.stanford.edu/software/stanford-corenlp-full-2018-02-27.zip" target="_blank" rel="noopener">http://nlp.stanford.edu/software/stanford-corenlp-full-2018-02-27.zip</a>  </p></blockquote></li></ul><ul><li><p>解压</p><blockquote><p>unzip stanford-corenlp-full-2018-02-27.zip</p></blockquote></li><li><p>转到文件目录</p></li></ul><blockquote><p>cd stanford-corenlp-full-2018-02-27/</p></blockquote><h3 id="配置环境变量："><a href="#配置环境变量：" class="headerlink" title="配置环境变量："></a>配置环境变量：</h3><p>把下列这行代码加到你的.bashrc里面(vim .bashrc)</p><blockquote><p> cd ~<br>vim .bashrc<br>export CLASSPATH=/path/to/stanford-corenlp-full-2018-02-27/stanford-corenlp-3.9.1.jar<br>source ~/.bashrc  ## 使之生效<br>把/path/to/替换为你保存stanford-corenlp-full-2016-10-31的地方的路径</p></blockquote><h3 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h3><blockquote><p>pip install stanfordcorenlp</p></blockquote><p>处理中文还需要下载中文的模型jar文件，然后放到stanford-corenlp-full-2018-02-27根目录下即可</p><p>wget <a href="http://nlp.stanford.edu/software/stanford-chinese-corenlp-2018-02-27-models.jar" target="_blank" rel="noopener">http://nlp.stanford.edu/software/stanford-chinese-corenlp-2018-02-27-models.jar</a></p><h3 id="检查自己是否装好了stanfordcorenlp"><a href="#检查自己是否装好了stanfordcorenlp" class="headerlink" title="检查自己是否装好了stanfordcorenlp"></a>检查自己是否装好了stanfordcorenlp</h3><p>进入python2或者python3</p><p>命令行下输入：</p><blockquote><p>python</p></blockquote><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> stanfordcorenlp <span class="keyword">import</span> StanfordCoreNLP</span><br></pre></td></tr></table></figure><p>能成功导入不报错，就是安装成功了。</p>]]></content>
       
       
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>java</title>
-      <link href="/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/"/>
-      <url>/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/</url>
-      
-        <content type="html"><![CDATA[<h2 id="java-的编译与执行"><a href="#java-的编译与执行" class="headerlink" title="java 的编译与执行"></a>java 的编译与执行</h2><ol><li><p>用文本编辑器新建一个yumhtest.java文件，在其中输入以下代码并保存：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">yumhtest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello world !"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>编译：在shell终端执行命令 <strong>javac yumhtest.java</strong></p></li><li><p>运行：在shell终端执行命令 <strong>java yumhtest</strong><br>当shell下出现“hello world !”字样</p></li></ol><p>注意事项：类名应和文件名相同。</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> java </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> java </tag>
-            
-        </tags>
       
     </entry>
     
@@ -2722,6 +2635,31 @@
     
     
     <entry>
+      <title>java</title>
+      <link href="/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/"/>
+      <url>/2019/03/26/java%20%E7%9A%84%E7%BC%96%E8%AF%91%E4%B8%8E%E6%89%A7%E8%A1%8C/</url>
+      
+        <content type="html"><![CDATA[<h2 id="java-的编译与执行"><a href="#java-的编译与执行" class="headerlink" title="java 的编译与执行"></a>java 的编译与执行</h2><ol><li><p>用文本编辑器新建一个yumhtest.java文件，在其中输入以下代码并保存：</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">yumhtest</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"hello world !"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li><p>编译：在shell终端执行命令 <strong>javac yumhtest.java</strong></p></li><li><p>运行：在shell终端执行命令 <strong>java yumhtest</strong><br>当shell下出现“hello world !”字样</p></li></ol><p>注意事项：类名应和文件名相同。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> java </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>SPICE</title>
       <link href="/2019/03/25/SPICE/"/>
       <url>/2019/03/25/SPICE/</url>
@@ -2731,14 +2669,14 @@
       
       <categories>
           
-          <category> 自然语言理解 </category>
+          <category> NLP </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 自然语言理解 </tag>
+            <tag> NLP </tag>
             
         </tags>
       
@@ -2965,6 +2903,31 @@
     
     
     <entry>
+      <title>计算机视觉学术会议</title>
+      <link href="/2019/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AD%A6%E6%9C%AF%E4%BC%9A%E8%AE%AE/"/>
+      <url>/2019/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AD%A6%E6%9C%AF%E4%BC%9A%E8%AE%AE/</url>
+      
+        <content type="html"><![CDATA[<h3 id="A类"><a href="#A类" class="headerlink" title="A类"></a>A类</h3><ul><li>(AAAI)   Conference on Artificial Intelligence  </li></ul><p>截稿日期：2019-8-30</p><ul><li>CVPR 2019: IEEE Conference on Computer Vision and Pattern Recognition    </li></ul><p><a href="http://cvpr2019.thecvf.com/" target="_blank" rel="noopener">http://cvpr2019.thecvf.com/</a> </p><p>截稿日期：2018-11-16<br>通知日期：2019-03-02<br>会议日期：2019-06-15</p><ul><li>IJCAI 2019: International Joint Conference on Artificial Intelligence</li></ul><p><a href="http://www.ijcai19.org" target="_blank" rel="noopener">http://www.ijcai19.org</a></p><p>截稿日期：2019-02-05<br>会议日期：Aug 10 - Aug 16, 2019</p><ul><li>ICCV2019: International Conference on Computer Vision</li></ul><p><a href="http://iccv2019.thecvf.com" target="_blank" rel="noopener">http://iccv2019.thecvf.com</a></p><p>截稿日期：2019-05-01<br>会议日期：Oct 27 - Nov 3, 2019</p><ul><li>ECCV</li></ul><p>截稿时间：3 月 14 日<br>会议时间：9 月 8-14 日</p><ul><li>ACM International Conference on Multimedia (ACM MM) </li></ul><p><a href="https://www.acmmm.org/2019/" target="_blank" rel="noopener">https://www.acmmm.org/2019/</a></p><p>截稿日期：2019.4.1</p><h3 id="B类"><a href="#B类" class="headerlink" title="B类"></a>B类</h3><ul><li>ICME 2019: International Conference on Multimedia and Expo</li></ul><p><a href="http://www.icme2019.org" target="_blank" rel="noopener">http://www.icme2019.org</a> </p><p>截稿日期：2018-12-03<br>通知日期：2019-03-11<br>会议日期：2019-07-08</p><h3 id="C类"><a href="#C类" class="headerlink" title="C类"></a>C类</h3><ul><li>BMVC</li></ul><p><a href="http://bmvc2018.org" target="_blank" rel="noopener">http://bmvc2018.org</a></p><p>截稿时间：4 月 30 日</p><ul><li>ICIP</li></ul><p>截稿时间：3 月 2 日</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 杂类 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 杂类 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>非极大值抑制(NMS)</title>
       <link href="/2019/03/20/%E9%9D%9E%E6%9E%81%E5%A4%A7%E5%80%BC%E6%8A%91%E5%88%B6-NMS/"/>
       <url>/2019/03/20/%E9%9D%9E%E6%9E%81%E5%A4%A7%E5%80%BC%E6%8A%91%E5%88%B6-NMS/</url>
@@ -2992,31 +2955,6 @@
     
     
     <entry>
-      <title>计算机视觉学术会议</title>
-      <link href="/2019/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AD%A6%E6%9C%AF%E4%BC%9A%E8%AE%AE/"/>
-      <url>/2019/03/20/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AD%A6%E6%9C%AF%E4%BC%9A%E8%AE%AE/</url>
-      
-        <content type="html"><![CDATA[<h3 id="A类"><a href="#A类" class="headerlink" title="A类"></a>A类</h3><ul><li>(AAAI)   Conference on Artificial Intelligence  </li></ul><p>截稿日期：2019-8-30</p><ul><li>CVPR 2019: IEEE Conference on Computer Vision and Pattern Recognition    </li></ul><p><a href="http://cvpr2019.thecvf.com/" target="_blank" rel="noopener">http://cvpr2019.thecvf.com/</a> </p><p>截稿日期：2018-11-16<br>通知日期：2019-03-02<br>会议日期：2019-06-15</p><ul><li>IJCAI 2019: International Joint Conference on Artificial Intelligence</li></ul><p><a href="http://www.ijcai19.org" target="_blank" rel="noopener">http://www.ijcai19.org</a></p><p>截稿日期：2019-02-05<br>会议日期：Aug 10 - Aug 16, 2019</p><ul><li>ICCV2019: International Conference on Computer Vision</li></ul><p><a href="http://iccv2019.thecvf.com" target="_blank" rel="noopener">http://iccv2019.thecvf.com</a></p><p>截稿日期：2019-05-01<br>会议日期：Oct 27 - Nov 3, 2019</p><ul><li>ECCV</li></ul><p>截稿时间：3 月 14 日<br>会议时间：9 月 8-14 日</p><ul><li>ACM International Conference on Multimedia (ACM MM) </li></ul><p><a href="https://www.acmmm.org/2019/" target="_blank" rel="noopener">https://www.acmmm.org/2019/</a></p><p>截稿日期：2019.4.1</p><h3 id="B类"><a href="#B类" class="headerlink" title="B类"></a>B类</h3><ul><li>ICME 2019: International Conference on Multimedia and Expo</li></ul><p><a href="http://www.icme2019.org" target="_blank" rel="noopener">http://www.icme2019.org</a> </p><p>截稿日期：2018-12-03<br>通知日期：2019-03-11<br>会议日期：2019-07-08</p><h3 id="C类"><a href="#C类" class="headerlink" title="C类"></a>C类</h3><ul><li>BMVC</li></ul><p><a href="http://bmvc2018.org" target="_blank" rel="noopener">http://bmvc2018.org</a></p><p>截稿时间：4 月 30 日</p><ul><li>ICIP</li></ul><p>截稿时间：3 月 2 日</p>]]></content>
-      
-      
-      <categories>
-          
-          <category> 杂类 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 杂类 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>CV vs PIL</title>
       <link href="/2019/03/20/CV-vs-PIL/"/>
       <url>/2019/03/20/CV-vs-PIL/</url>
@@ -3026,14 +2964,14 @@
       
       <categories>
           
-          <category> 图像处理 </category>
+          <category> python </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> 图像处理 </tag>
+            <tag> python </tag>
             
         </tags>
       
@@ -3499,33 +3437,6 @@
     
     
     <entry>
-      <title>Markdown用法</title>
-      <link href="/2019/02/22/Markdown%E7%94%A8%E6%B3%95/"/>
-      <url>/2019/02/22/Markdown%E7%94%A8%E6%B3%95/</url>
-      
-        <content type="html"><![CDATA[<ul><li><p>参考该网址：<br><a href="https://www.kancloud.cn/wizardforcel/markdown-simple-world/97375" target="_blank" rel="noopener">https://www.kancloud.cn/wizardforcel/markdown-simple-world/97375</a></p></li><li><p>在线编辑器<br><a href="https://stackedit.io/editor" target="_blank" rel="noopener">https://stackedit.io/editor</a></p></li><li><p>首行缩进两个字符：<br>切换至中文全角，shift+space 按一次，然后再摁space两次，即可出现首行缩进两个字符</p></li></ul>]]></content>
-      
-      
-      <categories>
-          
-          <category> 杂类 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> hexo </tag>
-            
-            <tag> markdown </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>(LSTM-E)Jointly Modeling Embedding and Translation to Bridge Video and Language</title>
       <link href="/2019/02/22/LSTM-E-Jointly-Modeling-Embedding-and-Translation-to-Bridge-Video-and-Language/"/>
       <url>/2019/02/22/LSTM-E-Jointly-Modeling-Embedding-and-Translation-to-Bridge-Video-and-Language/</url>
@@ -3557,7 +3468,7 @@
       <link href="/2019/02/21/GitHub-Hexo-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/"/>
       <url>/2019/02/21/GitHub-Hexo-%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B/</url>
       
-        <content type="html"><![CDATA[<p><a href="https://zhuanlan.zhihu.com/p/26625249" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/26625249</a></p><p><a href="https://blog.csdn.net/xuezhisdc/article/details/53130328" target="_blank" rel="noopener">https://blog.csdn.net/xuezhisdc/article/details/53130328</a></p><h3 id="增加本地搜索功能"><a href="#增加本地搜索功能" class="headerlink" title="增加本地搜索功能"></a>增加本地搜索功能</h3><h4 id="自定义站点内容搜索"><a href="#自定义站点内容搜索" class="headerlink" title="自定义站点内容搜索"></a>自定义站点内容搜索</h4><ol><li><p>安装 hexo-generator-searchdb，在站点的根目录下执行以下命令：</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> hexo-generator-searchdb <span class="comment">--save</span></span><br></pre></td></tr></table></figure></li><li><p>编辑博客配置文件，新增以下内容到任意位置：</p><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">search:</span></span><br><span class="line"><span class="symbol">      path:</span> search.xml</span><br><span class="line"><span class="symbol">      field:</span> post</span><br><span class="line"><span class="symbol">      format:</span> html</span><br><span class="line"><span class="symbol">      limit:</span> <span class="number">10000</span></span><br></pre></td></tr></table></figure></li><li><p>编辑主题配置文件，启用本地搜索功能：</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Local search</span></span><br><span class="line"><span class="attr">local_search:</span></span><br><span class="line"><span class="attr">  enable:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></li></ol><h3 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h3><p><a href="https://www.jianshu.com/p/44e211829447" target="_blank" rel="noopener">https://www.jianshu.com/p/44e211829447</a></p><p><a href="http://npm.taobao.org/package/hexo-blog-encrypt" target="_blank" rel="noopener">http://npm.taobao.org/package/hexo-blog-encrypt</a></p><p><a href="https://github.com/MikeCoder/hexo-blog-encrypt/" target="_blank" rel="noopener">https://github.com/MikeCoder/hexo-blog-encrypt/</a></p>]]></content>
+        <content type="html"><![CDATA[<p><a href="https://zhuanlan.zhihu.com/p/26625249" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/26625249</a></p><p><a href="https://blog.csdn.net/xuezhisdc/article/details/53130328" target="_blank" rel="noopener">https://blog.csdn.net/xuezhisdc/article/details/53130328</a></p><h3 id="部署在本地"><a href="#部署在本地" class="headerlink" title="部署在本地"></a>部署在本地</h3><ul><li><p>部署</p><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">hexo clean</span></span><br><span class="line"><span class="attribute">hexo g -s</span></span><br></pre></td></tr></table></figure></li><li><p>使用端口 5000</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo s -<span class="selector-tag">p</span> <span class="number">5000</span></span><br></pre></td></tr></table></figure></li></ul><h3 id="增加本地搜索功能"><a href="#增加本地搜索功能" class="headerlink" title="增加本地搜索功能"></a>增加本地搜索功能</h3><h4 id="自定义站点内容搜索"><a href="#自定义站点内容搜索" class="headerlink" title="自定义站点内容搜索"></a>自定义站点内容搜索</h4><ol><li><p>安装 hexo-generator-searchdb，在站点的根目录下执行以下命令：</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm <span class="keyword">install</span> hexo-generator-searchdb <span class="comment">--save</span></span><br></pre></td></tr></table></figure></li><li><p>编辑博客配置文件，新增以下内容到任意位置：</p><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">search:</span></span><br><span class="line"><span class="symbol">      path:</span> search.xml</span><br><span class="line"><span class="symbol">      field:</span> post</span><br><span class="line"><span class="symbol">      format:</span> html</span><br><span class="line"><span class="symbol">      limit:</span> <span class="number">10000</span></span><br></pre></td></tr></table></figure></li><li><p>编辑主题配置文件，启用本地搜索功能：</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Local search</span></span><br><span class="line"><span class="attr">local_search:</span></span><br><span class="line"><span class="attr">  enable:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></li></ol><h3 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h3><p><a href="https://www.jianshu.com/p/44e211829447" target="_blank" rel="noopener">https://www.jianshu.com/p/44e211829447</a></p><p><a href="http://npm.taobao.org/package/hexo-blog-encrypt" target="_blank" rel="noopener">http://npm.taobao.org/package/hexo-blog-encrypt</a></p><p><a href="https://github.com/MikeCoder/hexo-blog-encrypt/" target="_blank" rel="noopener">https://github.com/MikeCoder/hexo-blog-encrypt/</a></p>]]></content>
       
       
       <categories>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-07-02T13:53:01.351Z</updated>
+  <updated>2020-07-02T13:55:18.993Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://yoursite.com/2020/07/02/%E5%9B%BE%E5%83%8F%E6%8F%8F%E8%BF%B0%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87%E7%9A%84%E8%AE%BA%E6%96%87%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2020/07/02/图像描述评价指标的论文总结/</id>
     <published>2020-07-02T13:52:18.000Z</published>
-    <updated>2020-07-02T13:53:01.351Z</updated>
+    <updated>2020-07-02T13:55:18.993Z</updated>
     
     <content type="html"><![CDATA[<h3 id="简单总结"><a href="#简单总结" class="headerlink" title="简单总结"></a>简单总结</h3><p>(AAAI 2020) Going Beneath the Surface Evaluating Image Captioning for Grammaticality,</p><ul><li>语法正确性</li><li>准确性</li><li>多样性</li></ul><p>(ACL 2019) VIFIDEL Evaluating the visual fidelity of image descriptions</p><ul><li>准确性</li></ul><p>(EMNLP2019) TIGEr Text-to-Image Grounding for Image Caption Evaluation</p><ul><li>没有针对，就是使用 image conten 作为 GT，设计了一个评价指标</li></ul><p>(EMNLP-IJCNLP 2019) REO-Relevance, Extraness, Omission A Fine-grained Evaluation for Image Captioning</p><ul><li>相关度  Relevance</li><li>多余  Extraness</li><li>缺少  Omission</li></ul><p>(ICLR 2020 workshop)Egoshots, an ego-vision life-logging dataset and semantic fidelity metric to evaluate diversity in image captioning models</p><ul><li>多样性？？</li></ul>]]></content>
     
@@ -34,6 +34,10 @@
     
     </summary>
     
+      <category term="图像描述" scheme="http://yoursite.com/categories/%E5%9B%BE%E5%83%8F%E6%8F%8F%E8%BF%B0/"/>
+    
+      <category term="评价指标" scheme="http://yoursite.com/categories/%E5%9B%BE%E5%83%8F%E6%8F%8F%E8%BF%B0/%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/"/>
+    
     
   </entry>
   
@@ -42,7 +46,7 @@
     <link href="http://yoursite.com/2020/07/02/Going-Beneath-the-Surface-Evaluating-Image-Captioning-for-Grammaticality-Truthfulness-and-Diversity/"/>
     <id>http://yoursite.com/2020/07/02/Going-Beneath-the-Surface-Evaluating-Image-Captioning-for-Grammaticality-Truthfulness-and-Diversity/</id>
     <published>2020-07-02T03:18:07.000Z</published>
-    <updated>2020-07-02T13:08:39.310Z</updated>
+    <updated>2020-07-02T13:55:29.745Z</updated>
     
     <content type="html"><![CDATA[<h3 id="yaya-总结"><a href="#yaya-总结" class="headerlink" title="yaya 总结"></a>yaya 总结</h3><ul><li>本文提出了一个 GTD ， Grammaticality, Truthfulness and Diversity 三个方面对captioning model 进行评价，为未来 captioning model metric 提供了一个探索的方向。</li><li>本文需要特别说明的是，（1）本文是在自己设计的一个diagnostic dataset 上进行的实验，并不是在真实的captioning dataset 上进行的实验。（2）本文并没有提出一个具体可用的评价指标，而是提出了一个类似于协议的东西，即，本文主要是探究，在未来的评价指标里，需要去评估captioning model 的哪些层面，来弥补当前评价指标的不足，与当前的评价指标做一个互为补充！（英文： GTD, consider it as an evaluation protocol covering necessary aspects of the multifaceted captioning task, rather than a specific metric.）</li><li>该文选用 diagnostic dataset的原因：  <ul><li>The primary motivation is to reduce complexity which is considered irrelevant to the evaluation focus, to enable better control over the data, and to provide more detailed insights into strengths and limitations of existing models.</li></ul></li><li>该文不提出一个具体的评价指标：<ul><li>这得抨击一下啊。。。这给未来的研究提供了一个方向。但是，，，，feel is bad</li></ul></li></ul><h3 id="yaya学到了"><a href="#yaya学到了" class="headerlink" title="yaya学到了"></a>yaya学到了</h3><ul><li>使用ERG进行语法分析，若能够获得语法分析，则该句子在语法上被认为是格式正确的。反之。。</li></ul><hr><h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><ul><li><strong style="color:red;">【当前评价指标存在的问题】</strong>: 当前存在的评价指标，只去关注于a candidate caption and<br>a set of reference captions之间的相似性，但是不去检查 generated caption 与 当前视觉内容之间的相关性。</li><li>本文提出了一个为 image captioning task 设计的 evaluation framework. 目的是直接评估生成caption的语法性、真实性和多样性(GTD).</li><li>使用本文新提出的evaluation framework 为 image caption models 进行评估, 并在多个数据集上进行测试，来证明本文提出的评估框架的潜力。</li><li>本文用实验来证明，与 <strong>diagnostic dataset</strong> 结合使用，本文的GTD 评估框架可以提供对 caption model 的 能力以及限制(capabilities and limit)的进一步思考。并补充 standard evaluations 的不足。</li><li></li></ul><h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><ul><li>BLEU，METEOR，ROUGLE，CIDEr基于 n_gram 的评价指标仅能够评价cadidate caption 与 reference caption之间的<strong>表面相似性</strong>，</li><li>SPICE，将 captions转化为 graph-based 语义表达，进而来评估候选与参考之间的<strong>语义相似性</strong>。</li></ul><p><strong style="color:red;">automatic metric 使用的依据 (reference captions 来作为参照的使用依据)</strong></p><ul><li>【1】The rationale behind these evaluation metrics is that human reference captions serve as an approximate target and comparing model outputs to this target is a proxy for how well<br>a system performs. Thus, a candidate caption is not directly evaluated with respect to image content, but compared to a set of human statements about that image.</li><li>这里存在一个假设条件，即假设认为 human reference captions 是一个近似的target. 将caption model 输出与该target 进行比较是评估该model 性能好坏的一个proxy。基于这种假设，一个candidate caption 可以不直接与image content进行比较评估，而是与人类对image的statements 进行比较。</li></ul><p><strong style="color:red;">reference captions based automatic metric 存在的缺陷</strong></p><ul><li>reference-based metrics</li><li>由于视觉场景存在多个objects 和 relations，进而存在多个具有多样性的合理描述。但是由于reference caption 数量的限制，未必能够对图片的完整内容进行充分的描述。因此用reference captions 来近似替代 image 的内容是令人怀疑的。</li><li>当前存在的评价指标对于真实世界的 captioning评估是非常有用的，这是不可置疑的。这些方法仅关注于近似的表面比较，限制了对captioning models 学习过程和最终行为的进一步分析 。</li></ul><p><strong style="color:red;">本文提出的解决办法</strong></p><ul><li>为了解决这个问题，本文提出了几个原则性的评估准则，来对image captioning model 的语法性，真实性，多样性进行评估。这几个准则对应着image captioning systems的必要需求：（1）输出是符合语法规则的（2）对于image, 输出的陈述是对的（3）输出是多样化的, 反映training captions 的可变性。</li><li>GTD 当前只能在人造的数据上进行实际的评估。本文设计了一系列的数据集来进行图像描述的评估。我们将这个诊断评估数据集称为ShapeWorldCE. </li><li>BLEU 和 SPICE 不能捕捉 true caption-image agreement in all scenarios, 但是 GTD 对于现有模型如何很好地应对各种视觉环境和语言构造，却能有一个细粒度的观测。</li></ul><h3 id="GTD-evaluation-framework"><a href="#GTD-evaluation-framework" class="headerlink" title="GTD evaluation framework"></a>GTD evaluation framework</h3><ul><li><p>将GVD视为涵盖多方面字幕任务的必要方面的评估协议, 而不是一个具体的评估指标。</p></li><li><p><strong style="color:red;">【Grammaticality】</strong></p><ul><li>在一般情况下，对语法的完全准确的评估本身是一项艰巨的任务，但在诸如我们的诊断语言数据这样的非常有限的情况下，变得更加可行。【即在真实场景下的数据集是无法实现的？！！！】</li><li>如果我们使用ERG获得语法分析，则该句子在语法上被认为是格式正确的。</li></ul></li><li><p><strong style="color:red;">【Truthfulness】</strong></p><ul><li>candidate caption 与 image content 之间是否相容。</li></ul></li><li><p>truthfulness, that is, whether a candidate caption is compatible with the content of the image it is supposed to describe.  </p></li><li><p><strong style="color:red;">【Diversity】  </strong></p><h3 id="一些实验结果的分析"><a href="#一些实验结果的分析" class="headerlink" title="一些实验结果的分析"></a>一些实验结果的分析</h3></li><li><p>越高的BLEU得分，并不意味着准确性的提高。 换句话说，与reference captions的重叠度高（high n_gram overlap），并不代表语义内容是正确的. 仅仅是由于reference caption的词表有限所致。<strong>具体的分析可以查看论文实验部分：Correlation between the BLEU/SPICE scores and the<br>ground truth.</strong></p></li><li><p>虽然CNN可以为视觉任务提供丰富的视觉表达，但是对于多模态任务，其是否可以满足<br>但是这种浓缩的视觉表达对于需要higher-level 场景理解，视觉推理的多模态任务是否足够充分，仍然是一个开放性问题。</p></li><li><p>生成句子的多样性受到训练数据是否多样性的影响</p></li><li><p>未来的工作：本文发现：the caption agreement 并不总是随着训练损失的下降而提高。<br>理想情况下，训练目标应该与模型最终被评估的方式保持一致。在未来，计划实现一个GTD-aware loss,进而研究如何把GTD信号融合到训练过程中。</p></li></ul>]]></content>
     
@@ -56,6 +60,10 @@
     
     </summary>
     
+      <category term="图像描述" scheme="http://yoursite.com/categories/%E5%9B%BE%E5%83%8F%E6%8F%8F%E8%BF%B0/"/>
+    
+      <category term="评价指标" scheme="http://yoursite.com/categories/%E5%9B%BE%E5%83%8F%E6%8F%8F%E8%BF%B0/%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/"/>
+    
     
   </entry>
   
@@ -64,7 +72,7 @@
     <link href="http://yoursite.com/2020/07/02/REO-Relevance-Extraness-Omission-A-Fine-grained-Evaluation-for-Image-Captioning/"/>
     <id>http://yoursite.com/2020/07/02/REO-Relevance-Extraness-Omission-A-Fine-grained-Evaluation-for-Image-Captioning/</id>
     <published>2020-07-02T03:13:07.000Z</published>
-    <updated>2020-07-02T03:16:54.626Z</updated>
+    <updated>2020-07-02T13:55:45.527Z</updated>
     
     <content type="html"><![CDATA[<h4 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h4><ul><li>BLEU 和 CIDEr 是当前广泛使用的评价指标，来评估模型的整体性能。</li><li>但是这个<strong style="color:red;">得分往往不具备充分的信息量来说明被评估系统的specific errors.</strong></li><li>该文提出了一个细粒度的评估方法REO来自动的评估图像描述系统的性能。REO从三个层面来分析captions的质量：（1）与Ground Truth 的相关性（2）与ground truth 无关的额外性（3）在images 和 human references 中被忽略的元素。</li><li>在三个benchmark datasets上进行实验，本文提出的方法实现了与human judgments的高度一致性；与当前可用的评价指标相对比，该文提出的方法可以提供更加直观的评估结果。</li></ul><h4 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h4><ul><li><p>当前研究方法存在的问题</p><ul><li>当前自动的评估图像描述系统仍然是一个挑战，尤其是在量化图像描述系统生成的error仍有难度。</li><li>当前存在的评价指标可以分为两类，（1）rule-based metrics, 基于确切的字符串匹配。（2）learning-based metrics, 通过学习来预测test-caption 是人类生成的可能性。</li><li>大体上，先前的工作评估一个文本生成系统时，主要关注的是，相对于 ground truth data, 生成的description是否充分。虽然这个方面在之前的评价指标中已经被强调，但是当前存在的评价指标存在的一个共同的限制是，由于只能为caption quality 提供一个合成的分数，因此缺乏对 description errors的一个可解释性。缺乏这种细粒度的分析，开发人员便不能得到他们开发系统的确切的description errors.</li></ul></li><li><p>本文的解决办法：</p><ul><li>因此本文提出了一个称为REO的评估方法，从三个层面来评估caption, (1) Relevance: 相对于ground truth, candidate caption 与其相关性。(2) Extraness: 与ground truth 无关的额外性（3）Omission: 相对于在image content和 human references, condidate caption 中被忽略的元素。</li><li>如果将 caption generation看做image imformation embedding 的编码过程，我们可以通过根据有关图像内容的解码信息的<strong>相关性</strong>以及<strong>丢失或多余</strong>信息的数量来衡量解码过程的有效性，从而评估图像字幕系统。</li><li><strong>同时使用image 和 reference captions 作为评估的ground truth information</strong>, 本文的方法建立在一个由 grounding model 定义的共享的image-text embedding space， 该grounding model在一个大的benchmark数据集上进行预训练。</li><li>基于向量相似性来计算candidate caption 与 ground truth 之间的相关性。通过应用向量正交映射，来等同在candidate caption中携带的多余的和丢失的信息。</li></ul></li><li><p>实验部分</p><ul><li>在三个数据集上测试我们的方法，实验结果证明我们提出的方法与现存的评价指标相比，our method 与人类的评估更加一致。</li><li><strong style="color:red;"><strong>在本文的研究中发现，相对于caption与given image的相关性，人类标注者对caption中多余或者丢失的信息更加关注。</strong></strong></li><li>相比于单独仅仅使用image 或者 references作为ground truth, 同时使用效果更佳。</li></ul></li></ul><h4 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h4><ul><li><p>Feature Extraction</p><ul><li>C: candidate caption; R: reference caption; V:region feature</li><li>Based on the SCAN model, extract the context information from the caption words for each detected region.</li></ul></li><li><p>Metric Scores</p><ul><li>具体的查看论文</li><li><strong style="color:red;">Relevance</strong> : The relevance between a candidate caption and a ground-truth reference based on the i-th region is computed by the cosine similarity</li><li><strong style="color:red;">Extraness</strong> : The extraness of C is captured by performing an orthogonal projection of a<sub>i</sub><sup>C</sup> to gi, which returns the vertical context vector a<sub>i</sub><sup>C</sup>? to represent the irrelevant content of C to the ground truth at the ith region.</li><li><strong style="color:red;">Omission</strong>: 类似于Extraness</li></ul></li></ul><h4 id="Experiments-Results"><a href="#Experiments-Results" class="headerlink" title="Experiments Results"></a>Experiments Results</h4><ul><li><p>==【yaya疑问】==</p><ul><li>关于pascal-50S 这个数据集，没太弄明白是怎么回事，如何计算accuracy</li><li>Kendall’s tau (τ) rank correlation 如何计算也不知道呢。。</li></ul></li><li><p><strong style="color:red;">【Can extra &amp; missing information be captured?】</strong></p><ul><li>在Extraness 和 Omission 这两个方面，本文提出的方法是用candidate caption 与 reference caption vector 上应用 orthogonal projection来计算 vector difference， 进而来得到Extraness/Omission representation。</li><li>但是这是<strong>一种</strong>本文设计的表征方式，为了评估该表征方式的合理性，本文作者又随机的采样了一些数据，手工标注出这些数据中真实的extraness和 omission。这样相当于得到了对于 extraness和omission的 ground truth</li><li>使用本文设计的方法而计算得到的 Extraness/Omission representation与 该文作者手工标注的  Extraness/Omission ground truth计算cosine similarity. 结果发现，相似度很高，说明本文提出的方法可以有效的捕捉 extraness和omission的表达。</li><li><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gc9jnm2041j30i90clq92.jpg" alt="搜狗截图20200226092626.png"></li><li>==【yaya疑问】== 该如何获得actual extraness E<sup>C</sup> 以及true omission O<sup>C</sup> 的特征表示？？？</li><li></li></ul></li><li><p><strong style="color:red;">【Do error-aware evaluation metrics help?】</strong></p><ul><li>相比于之前的评价指标，REO，尤其是extrance和omission, 在tau (τ) 上带来了显著的提高，</li><li>实验结果表明，human evaluation更加关注于候选caption 与 GT之间的无关性（相比于有关性而言）。</li><li>同时将image 和 reference captions作为 GT reference, 来评估candidate caption的效果好于单独使用这两个元素的效果。</li><li>human written descriptions 在单词的选择和句子的结构上更加灵活，当candidate caption与多样性的 reference  captions进行比较的时候，就会存在一个挑战。</li><li>extraness metric更加适合评估machine-generated captions</li><li>omission metric 更加适合评估testing data 是human-written descriptions</li><li></li></ul></li><li><p><strong style="color:red;">【What can we learn from the metric outputs?】</strong></p><ul><li>该段主要是想说明，本文提出的三个层面的评估，可以为开发者提供一个关于被开发模型的errors的具体分析，使开发者可以从evaluation score中分析model到底存在哪些specific error.</li><li>eg: 若generated caption是对图片内容的细节性描述，则Relevance 指标会提高，但是omission评价指标会降低.</li></ul></li></ul>]]></content>
     
@@ -77,6 +85,10 @@
       
     
     </summary>
+    
+      <category term="图像描述" scheme="http://yoursite.com/categories/%E5%9B%BE%E5%83%8F%E6%8F%8F%E8%BF%B0/"/>
+    
+      <category term="评价指标" scheme="http://yoursite.com/categories/%E5%9B%BE%E5%83%8F%E6%8F%8F%E8%BF%B0/%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/"/>
     
     
   </entry>
@@ -204,30 +216,6 @@
   </entry>
   
   <entry>
-    <title>哔哩哔哩视频显示在Github的Markdown页方法</title>
-    <link href="http://yoursite.com/2020/06/20/%E5%93%94%E5%93%A9%E5%93%94%E5%93%A9%E8%A7%86%E9%A2%91%E6%98%BE%E7%A4%BA%E5%9C%A8Github%E7%9A%84Markdown%E9%A1%B5%E6%96%B9%E6%B3%95/"/>
-    <id>http://yoursite.com/2020/06/20/哔哩哔哩视频显示在Github的Markdown页方法/</id>
-    <published>2020-06-20T03:48:47.000Z</published>
-    <updated>2020-06-20T04:22:18.815Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li>一个测试样例</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;一个测试样例&lt;/li&gt;
-&lt;/ul&gt;
-
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>数据集收集过程--各论文汇总</title>
     <link href="http://yoursite.com/2020/06/06/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%94%B6%E9%9B%86%E8%BF%87%E7%A8%8B-%E5%90%84%E8%AE%BA%E6%96%87%E6%B1%87%E6%80%BB/"/>
     <id>http://yoursite.com/2020/06/06/数据集收集过程-各论文汇总/</id>
@@ -253,7 +241,7 @@
     <link href="http://yoursite.com/2020/06/04/%E5%9B%BE%E5%83%8F%E6%8F%8F%E8%BF%B0-%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87-%E4%B8%AD%E7%94%A8%E5%88%B0%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86%E6%B1%87%E6%80%BB/"/>
     <id>http://yoursite.com/2020/06/04/图像描述-评价指标-中用到的数据集汇总/</id>
     <published>2020-06-04T03:40:10.000Z</published>
-    <updated>2020-07-02T07:23:41.446Z</updated>
+    <updated>2020-07-02T13:55:35.969Z</updated>
     
     <content type="html"><![CDATA[<p>为了评估 提出的metric 与 human judgement的相关性，提出了一些数据集。这些数据集，包含image-text-human_score, 通过利用统计学分析 metric_evaluation 与 human_score 的相关性，来验证提出评价指标的合理性。</p><h1 id="Caption-level-Correlation"><a href="#Caption-level-Correlation" class="headerlink" title="Caption-level Correlation"></a>Caption-level Correlation</h1><h2 id="Flickr-8k-Dataset"><a href="#Flickr-8k-Dataset" class="headerlink" title="Flickr 8k Dataset"></a>Flickr 8k Dataset</h2><ul><li>website: <a href="http://academictorrents.com/details/9dea07ba660a722ae1008c4c8afdd303b6f6e53b" target="_blank" rel="noopener">http://academictorrents.com/details/9dea07ba660a722ae1008c4c8afdd303b6f6e53b</a></li><li>论文: Framing Image Description as a Ranking Task: Data, Models and Evaluation Metrics   </li></ul><p><font size="2"> <strong>数据集介绍</strong> </font></p><ul><li><p>Cite: Framing image description as a ranking task: Data, models and evaluation metrics.  </p></li><li><p>对于图像描述任务：该数据集包含8092张image。训练集6000张，验证集1000张，测试集1000张，，很奇怪。。数据加起来对不上。。每张image 都对应有人类标注的5个句子。</p></li><li><p>对于图像描述评价指标任务： </p><p><strong>测试集1000张</strong>，<font color="blue"><strong>通过image-text retrieval 算法</strong></font> 检索candidate caption，为每张图片从整个测试集的语料库上进行检索（检索的数量没有固定，像是根据检索结果阈值截取的）。由于是在整个测试集的预料库上进行检索，则，也有可能检索到自身image对应的groundtruth。This dataset also includes 5822 testing captions for 1000 images。  </p><p>得到这些新的image-text pair，对于每个pair，再由<strong>三个人工</strong>去标注image与text的匹配程度( give a score from 1 (not related to the image content) to 4 (very related))。</p><p>则，构建了一个可以衡量metric 与 human judgement 相关性的一个数据集。</p></li></ul><p><font size="2"> <strong>使用 Note</strong> </font></p><ul><li>在TIGER [1] : <strong>Because 158 candidates are actual references of target images, we excluded these for further analysis。</strong> <font color="red">在TIGER 的实验设置中：若Flickr 8k数据集中检索到了本image对应的reference，则去掉该条检索。</font>去掉了 158条，则剩余 5822-158=5664条</li></ul><p><font size="2"> <strong>评估方式</strong></font></p><p><code>Kendall</code> and <code>Spearman</code> rank correlations reflect the similarity of the pairwise rankings whereas <code>Pearson’s</code> p captures the linear association between data points.</p><h2 id="Composite-Dataset"><a href="#Composite-Dataset" class="headerlink" title="Composite Dataset"></a>Composite Dataset</h2><p>论文：From Images to Sentences through Scene Description Graphs using Commonsense Reasoning and Knowledge  </p><p><font size="2"> <strong>数据集介绍</strong> </font></p><p>这个数据集是由三个数据集组成的。包括：testing captions for 2007 MS-COCO images, 997 Flickr 8k pictures, and 991 Flickr 30k images.  </p><p>每张图片对应3个candidate captions，包括1个human written reference和 2个machine generated。</p><p>这里总计有11,985 candidates, 标注与image 之间的相关性，from 1 (not relevant) to 5 (very relevant)。</p><p><font size="2"> <strong>评估方式</strong></font></p><p><code>Kendall</code> and <code>Spearman</code> rank correlations reflect the similarity of the pairwise rankings whereas <code>Pearson’s</code> p captures the linear association between data points.</p><h2 id="Pascal-50s-Dataset"><a href="#Pascal-50s-Dataset" class="headerlink" title="Pascal 50s Dataset"></a>Pascal 50s Dataset</h2><ul><li>website: <a href="http://vrama91.github.io/cider/" target="_blank" rel="noopener">http://vrama91.github.io/cider/</a></li></ul><p><font size="2"> <strong>数据集介绍</strong> </font></p><p>Cite: <code>CIDEr: Consensus-based Image Description Evaluation</code></p><p>从 UIUC PASCAL Sentence Dataset中提取1000张image，原数据集中，每个image配有5个human written sentence。</p><p>对于图像描述评价指标任务： </p><p>在以上基础上每个image 又由 AMT workers标注了50个captions。以此构成了pascal 50s 数据集。</p><p>不同于以上的两个数据集评估image-text 之间的匹配，该数据集考量candidate 与 reference之间的匹配。具体地：对于一个image，（1）使用48 of 50 human written caption as <strong>reference</strong>。（2）剩下的两个human written caption as <strong>candidate</strong>，同时也使用 machine generated caption as <strong>candidate</strong>，另外other image 的 human written caption通过检索的方式也可以当 这样candidate可以当做<strong>candidate</strong>。</p><p>基于此，构建三元组：（A, (B, C)）–(reference, (candidate_1, candidate_2)) 根据(B, C) 组合方式的不同，分为四类：HC，HI，HM，MM。（1）human–human correct pairs (HC), where we pick two human sentences describing the same image. （2） human–human incorrect pairs (HI), where one of the sentences is a human description for the image and the other is also a human sentence but describing some other image from the dataset picked at random. （3）human–machine (HM) pairs formed by pairing a human sentence describing an image with a machine generated sentence describing the same image. （4）machine–machine (MM) pairs, where we compare two machine generated sentences describing the same image</p><p>则，可以得到 1000image × 48reference(A) × 4(B,C) = 192000个三元组</p><p><strong>human judgement 的标注</strong> 对于任意给出的一个三元组(A, B, C)。A 是一个reference sentence, (B, C) 是两个candidate captions pair. 标注者被要求从B和C中选择一个与A最相似的句子。这样就可以收集到一个human judgements for each triplet. 如果B的投票对于C则认为B is winner.</p><p><font size="2"> <strong>使用 Note</strong> </font></p><ul><li>解读如下的表格的acuracy是如何计算的吧！首先在PASCAL-50s数据集里含有4种模式：HC、HI、HM、MM， 即对于（A,(B, C)）中的pair（B, C）含有四种模式。当前AMT workers对pair(B, C)已经有了排序，当proposed metric也对这些B，C sentences进行评分的时候，自然也会有一个对B，C的排序，即score高的sentence, 排序就在前。基于人类已经给了人工的标注排序，即获得了GT，那么就可以去评判 proposed metric 对该pair的评分是否正确。进而可以得到对该类HC/HI/HM/MM的准确率。其实也可以在整个数据集上进行测试得到一个准确率。</li></ul><p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gcdc0x4s91j30ex04uaas.jpg" alt="搜狗截图20200229160306.png"></p><p><font size="2"> <strong>评估方式</strong></font></p><p>Pairwise Classification Accuracy</p><h1 id="System-Level-Correlation"><a href="#System-Level-Correlation" class="headerlink" title="System-Level Correlation"></a>System-Level Correlation</h1><h2 id="the-2015-COCO-Captioning-Challenge-for-12-teams"><a href="#the-2015-COCO-Captioning-Challenge-for-12-teams" class="headerlink" title="the 2015 COCO Captioning Challenge for 12 teams"></a>the 2015 COCO Captioning Challenge for 12 teams</h2><p><font size="2"> <strong>数据集介绍</strong> </font></p><ul><li><p>Cite: The coco 2015 captioning challenge. <a href="http://mscoco.org/dataset/#captions-challenge2015" target="_blank" rel="noopener">http://mscoco.org/dataset/#captions-challenge2015</a>.  </p></li><li><p><a href="https://panderson.me/spice/" target="_blank" rel="noopener">spice website</a> 提供的链接：<a href="https://cocodataset.org/#captions-leaderboard" target="_blank" rel="noopener">https://cocodataset.org/#captions-leaderboard</a></p></li><li><p>use human judgements collected in the 2015 COCO Captioning Challenge for 12 teams who participated in this captioning challenge.</p></li><li><p>We report</p><ul><li><p>M1: Percentage of captions that are evaluated as better or equal to human caption,</p></li><li><p>M2: Percentage of captions that pass the Turing Test,</p></li><li><p>M3: Average correctness of the captions on a scale of 1-5 (incorrect - correct),</p></li><li><p>M4: Average amount of detail of the captions on a scale of 1-5 (lack of details - very detailed) and</p></li><li><p>M5: Percentage of captions that are similar to human description.</p></li><li><p>While M1 and M2 were used to rank the captioning models in the COCO challenge.   </p><p>M3, M4 and M5  are not used to rank image captioning models , but are intended for an ablation study to understand the various aspects of caption quality.  </p></li></ul></li></ul><p><font size="2"><strong>使用 Note</strong> </font></p><p>计算system-level correlation, （1）需要为每个 caption model 来计算一个metric score, 这个分数聚合了由该model 生成的所有的caption 的 metric socre。（2） 然后，该captio model 的aggregate metric score 与 system-level human assessments之间的相关性被计算。</p><p><font size="2"> <strong>评估方式</strong></font></p><ul><li>Compare proposed metric with others on the <strong>Pearson’s ρ correlation</strong> between all common metrics and human judgments collected in the 2015 COCO Captioning Challenge. </li></ul><h1 id="论文引用情况"><a href="#论文引用情况" class="headerlink" title="论文引用情况"></a>论文引用情况</h1><table><thead><tr><th></th><th>Caption-level Correlation</th><th></th><th></th><th>System-Level Correlation</th></tr></thead><tbody><tr><td></td><td>Flickr 8k</td><td>Composite</td><td>pascal-50s</td><td>2015 COCO Captioning Challenge</td></tr><tr><td>CIDEr</td><td></td><td></td><td>√</td><td></td></tr><tr><td>SPICE</td><td>√</td><td>√</td><td>√</td><td>√</td></tr><tr><td>(CVPR 2018) Learning to Evaluate Image Captioning</td><td>√</td><td></td><td></td><td>√</td></tr><tr><td>(EMNLP-IJCNLP 2019) REO-Relevance, Extraness, Omission A Fine-grained Evaluation for Image Captioning</td><td></td><td>√</td><td>√</td><td></td></tr><tr><td>(ACL 2019) VIFIDEL Evaluating the visual fidelity of image descriptions</td><td></td><td>√</td><td>√</td><td></td></tr><tr><td>(EMNLP2019) TIGEr Text-to-Image Grounding for Image Caption Evaluation</td><td>√</td><td>√</td><td>√</td><td></td></tr><tr><td>(IJCV)Learning-based Composite Metrics for Improved Caption Evaluation</td><td>√</td><td>√</td><td>√</td><td>√</td></tr></tbody></table>]]></content>
     
@@ -266,7 +254,9 @@
     
     </summary>
     
-      <category term="评价指标" scheme="http://yoursite.com/categories/%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/"/>
+      <category term="图像描述" scheme="http://yoursite.com/categories/%E5%9B%BE%E5%83%8F%E6%8F%8F%E8%BF%B0/"/>
+    
+      <category term="评价指标" scheme="http://yoursite.com/categories/%E5%9B%BE%E5%83%8F%E6%8F%8F%E8%BF%B0/%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/"/>
     
     
       <category term="评价指标" scheme="http://yoursite.com/tags/%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/"/>
@@ -354,7 +344,7 @@
     <link href="http://yoursite.com/2020/05/14/WMT-Shared-Tasks-Human-Evaluation/"/>
     <id>http://yoursite.com/2020/05/14/WMT-Shared-Tasks-Human-Evaluation/</id>
     <published>2020-05-14T01:12:37.000Z</published>
-    <updated>2020-05-14T01:15:33.933Z</updated>
+    <updated>2020-07-02T14:15:18.741Z</updated>
     
     <content type="html"><![CDATA[<h3 id="WMT-Shared-Tasks-–-Human-Evaluation"><a href="#WMT-Shared-Tasks-–-Human-Evaluation" class="headerlink" title="WMT Shared Tasks – Human Evaluation"></a>WMT Shared Tasks – Human Evaluation</h3><h4 id="Human-Evaluation"><a href="#Human-Evaluation" class="headerlink" title="Human Evaluation"></a>Human Evaluation</h4><p>两种评估的方式：direct assessments (DA); language pairs evaluated with relative ranking (RR)</p><p>但是DA相比于RR更具有优势，namely，对翻译质量的评估采取 absolute score 的方式。可以<strong>实施quality control</strong> 。</p><h4 id="Human-judgement-quality-control"><a href="#Human-judgement-quality-control" class="headerlink" title="Human judgement quality control"></a>Human judgement quality control</h4><ul><li><p>每个标注者，每次任务：给定100个 （reference+ candidate）pair, 针对给定的reference, 评估生成的candidate的好坏。</p></li><li><p>100个pair中有60个用于quality control，40个由participating systems 生成的翻译组成。</p><p>（1）这60个pair，是官方设计出来的，包括三类，repeat pairs (expecting a similar judgment), damage MT outputs/ bad reference (expecting significantly worse scores) and use references instead of MT outputs (expecting high scores). 因此仅仅会有20%的资源消耗：bad reference; good reference</p><p>Specifically，先从正常的MT system 中 得到30个 （reference, MT output）pair，如 table 5 中的 original system output， 然后1)对1-10对，进行重复，得到10对。2）对11-20对，将MT output搞破坏。得到10对。3）对21-30对，取corresponding reference–&gt; (reference_1, reference_2)，得到10对。</p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gepxhtqcpgj311h052abz.jpg"><p>（2）within each 100-translation HIT， 每个articipating system<strong>等比例的贡献</strong>a（within each 100-translation HIT, the same proportion of translations are included from each participating system for that language pair.  ）这是为了确保每个参与的 系统含有近似的相同数量的评估。同时，这也从三个方面得到了公平性的评估：1）每有一个workers做一个HIT, 则就会为所有参与的系统增加human judgement。2）不会轻易受到worker个性差异的影响，因为每个worker都会给所有参与的系统进行评估。3）尽管DA判断是绝对的，但众所周知，判断者会根据观察到的总体翻译质量来“校准”他们使用量表的方式。 对于每个HIT（包括所有参与的系统），这种影响都是平均的。</p></li></ul><h4 id="Annotator-Agreement"><a href="#Annotator-Agreement" class="headerlink" title="Annotator Agreement"></a>Annotator Agreement</h4><ul><li><p><strong>【bad reference pairs】</strong> 由于 bad reference pairs 的质量应该是显著偏低的，通过查看人类在这类pairs 上的评分是否也是显著偏低。来过滤掉可信赖度低的human assessors。</p><p>set（A, bad reference） 与  set（A, translatin_B）这两个集合上的人类评估，计算一个p-value， 若p-value&gt;0.05 则说明该human assessor的可信度低。</p></li><li><p><strong>【repeat pairs】</strong> 对于 repeat pairs, 查看得到 repeat assessments的程度。</p></li></ul><h4 id="Producing-the-Human-Ranking"><a href="#Producing-the-Human-Ranking" class="headerlink" title="Producing the Human Ranking"></a>Producing the Human Ranking</h4><ul><li><p>Standardized </p><p>为了消除不同的人类评估者的评分策略的差异，首先根据每个人类评估者的总体平均得分和标准差得分对翻译的人类评估得分进行<strong>标准化</strong>。</p></li><li><p>system  score ……</p></li></ul>]]></content>
     
@@ -367,10 +357,10 @@
     
     </summary>
     
-      <category term="机器翻译" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E7%BF%BB%E8%AF%91/"/>
+      <category term="NLP" scheme="http://yoursite.com/categories/NLP/"/>
     
     
-      <category term="机器翻译" scheme="http://yoursite.com/tags/%E6%9C%BA%E5%99%A8%E7%BF%BB%E8%AF%91/"/>
+      <category term="NLP" scheme="http://yoursite.com/tags/NLP/"/>
     
   </entry>
   
@@ -470,6 +460,31 @@
     
     </summary>
     
+    
+  </entry>
+  
+  <entry>
+    <title>A negative case analysis of visual grounding methods for VQA</title>
+    <link href="http://yoursite.com/2020/04/15/A-negative-case-analysis-of-visual-grounding-methods-for-VQA/"/>
+    <id>http://yoursite.com/2020/04/15/A-negative-case-analysis-of-visual-grounding-methods-for-VQA/</id>
+    <published>2020-04-15T10:46:54.000Z</published>
+    <updated>2020-07-02T14:17:30.205Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="yaya简述"><a href="#yaya简述" class="headerlink" title="yaya简述"></a>yaya简述</h4><p>在VQA任务中，现在的方法尝试希望模型在回答问题时，同时能够关注到相对应的正确的物体（出发点：当模型关注到正确的物体时，能够更好的帮助模型选择出正确的答案）。于是，基于这样的方式，提出了一些方法 [1] [2]. 但是本文发现即便在模型中给了vision grounding 的监督，但是模型的grounding 能力却未必很好。那么提升VQA性能的真正原因其实是这个监督，仅仅是一种正则化效果。</p><p>作者使用了Grounding using irrelevant cues；Grounding using fixed random cues；Grounding using variable random cues 来说明，即使是错误的监督信息，相比于正确的监督也不会使得性能下降很多。</p><p>作者使用Regularization by zeroing out answers  来说明，给损失函数中加一个正则化项，使得training accuracy下降，就会达到正则化的效果，其VQA的性能与用grounding 监督的效果差距也不大。这就证明了使用grounding来监督，其实仅仅是起到了正则化的效果。</p><h4 id="Future-work"><a href="#Future-work" class="headerlink" title="Future work"></a>Future work</h4><ul><li><p>未来的方法必须设法通过使用与本文中介绍的类似的实验设置来验证性能增益不是源于spurious source.</p></li><li><p>创建一个数据集，使得能够评估  if methods are able to focus on relevant information.</p></li><li><p>Use tasks  that explicitly test grounding, e.g., in visual query detection an agent must output boxes around any regions of a scene that match the natural language query .</p></li></ul><h4 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h4><p>[1] Ramprasaath R Selvaraju, Stefan Lee, Yilin Shen, Hongxia Jin, Shalini Ghosh, Larry Heck, Dhruv Batra, and Devi Parikh. <strong>Taking a hint: Leveraging explanations to make vision and language models more grounded.</strong>  In ICCV 2019. </p><p>[2] Jialin Wu and Raymond Mooney. <strong>Self-critical reasoning for robust visual question answering.</strong> In NeurIPS 2019</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;yaya简述&quot;&gt;&lt;a href=&quot;#yaya简述&quot; class=&quot;headerlink&quot; title=&quot;yaya简述&quot;&gt;&lt;/a&gt;yaya简述&lt;/h4&gt;&lt;p&gt;在VQA任务中，现在的方法尝试希望模型在回答问题时，同时能够关注到相对应的正确的物体（出发点：当模型关注到正
+      
+    
+    </summary>
+    
+      <category term="Visual Grounding" scheme="http://yoursite.com/categories/Visual-Grounding/"/>
+    
+    
+      <category term="Visual Grounding" scheme="http://yoursite.com/tags/Visual-Grounding/"/>
     
   </entry>
   
