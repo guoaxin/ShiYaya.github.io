@@ -106,7 +106,7 @@
 <meta property="og:description" content="为了评估 提出的metric 与 human judgement的相关性，提出了一些数据集。这些数据集，包含image-text-human_score, 通过利用统计学分析 metric_evaluation 与 human_score 的相关性，来验证提出评价指标的合理性。 Caption-level CorrelationFlickr 8k Dataset website: http://a">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gcdc0x4s91j30ex04uaas.jpg">
-<meta property="og:updated_time" content="2020-06-06T10:26:37.665Z">
+<meta property="og:updated_time" content="2020-07-01T10:55:59.722Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图像描述-评价指标-中用到的数据集汇总">
 <meta name="twitter:description" content="为了评估 提出的metric 与 human judgement的相关性，提出了一些数据集。这些数据集，包含image-text-human_score, 通过利用统计学分析 metric_evaluation 与 human_score 的相关性，来验证提出评价指标的合理性。 Caption-level CorrelationFlickr 8k Dataset website: http://a">
@@ -301,7 +301,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">159</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">161</span></a>
 
   </li>
 
@@ -442,7 +442,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-06-06 18:26:37" itemprop="dateModified" datetime="2020-06-06T18:26:37+08:00">2020-06-06</time>
+                <time title="修改时间：2020-07-01 18:55:59" itemprop="dateModified" datetime="2020-07-01T18:55:59+08:00">2020-07-01</time>
               
             
           </span>
@@ -512,14 +512,14 @@
 <li><p>对于图像描述任务：该数据集包含8092张image。训练集6000张，验证集1000张，测试集1000张，，很奇怪。。数据加起来对不上。。每张image 都对应有人类标注的5个句子。</p>
 </li>
 <li><p>对于图像描述评价指标任务： </p>
-<p><strong>测试集1000张</strong>，<font color="blue"><strong>通过image-text retrieval 算法</strong></font> 检索candidate caption，为每张图片从整个测试集的语料库上进行检索（检索的数量没有固定，像是根据检索结果阈值截取的）。由于是在整个测试集的预料库上进行检索，则，也有可能检索到自身image对应的groundtruth。</p>
+<p><strong>测试集1000张</strong>，<font color="blue"><strong>通过image-text retrieval 算法</strong></font> 检索candidate caption，为每张图片从整个测试集的语料库上进行检索（检索的数量没有固定，像是根据检索结果阈值截取的）。由于是在整个测试集的预料库上进行检索，则，也有可能检索到自身image对应的groundtruth。This dataset also includes 5822 testing captions for 1000 images。  </p>
 <p>得到这些新的image-text pair，对于每个pair，再由<strong>三个人工</strong>去标注image与text的匹配程度( give a score from 1 (not related to the image content) to 4 (very related))。</p>
 <p>则，构建了一个可以衡量metric 与 human judgement 相关性的一个数据集。</p>
 </li>
 </ul>
 <p><font size="2"> <strong>使用 Note</strong> </font></p>
 <ul>
-<li>在TIGER [1] : <strong>Because 158 candidates are actual references of target images, we excluded these for further analysis。</strong> <font color="red">在TIGER 的实验设置中：若Flickr 8k数据集中检索到了本image对应的reference，则去掉该条检索。</font></li>
+<li>在TIGER [1] : <strong>Because 158 candidates are actual references of target images, we excluded these for further analysis。</strong> <font color="red">在TIGER 的实验设置中：若Flickr 8k数据集中检索到了本image对应的reference，则去掉该条检索。</font>去掉了 158条，则剩余 5822-158=5664条</li>
 </ul>
 <p><font size="2"> <strong>评估方式</strong></font></p>
 <p><code>Kendall</code> and <code>Spearman</code> rank correlations reflect the similarity of the pairwise rankings whereas <code>Pearson’s</code> p captures the linear association between data points.</p>
@@ -768,7 +768,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">159</span>
+                    <span class="site-state-item-count">161</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
