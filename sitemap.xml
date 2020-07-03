@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/07/03/%E5%AE%8C%E6%95%B4%E6%80%A7%E5%88%86%E6%9E%90/</loc>
+    
+    <lastmod>2020-07-03T08:01:30.807Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/07/02/%E5%9B%BE%E5%83%8F%E6%8F%8F%E8%BF%B0%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87%E7%9A%84%E8%AE%BA%E6%96%87%E6%80%BB%E7%BB%93/</loc>
     
-    <lastmod>2020-07-03T04:59:06.205Z</lastmod>
+    <lastmod>2020-07-03T07:48:03.056Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/01/16/VIFIDEL-Evaluating-the-Visual-Fidelity-of-Image-Descriptions/</loc>
+    
+    <lastmod>2020-07-03T05:08:46.865Z</lastmod>
     
   </url>
   
@@ -124,13 +138,6 @@
     <loc>http://yoursite.com/2020/07/02/Going-Beneath-the-Surface-Evaluating-Image-Captioning-for-Grammaticality-Truthfulness-and-Diversity/</loc>
     
     <lastmod>2020-07-02T13:55:29.745Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2020/01/16/VIFIDEL-Evaluating-the-Visual-Fidelity-of-Image-Descriptions/</loc>
-    
-    <lastmod>2020-07-02T13:53:43.007Z</lastmod>
     
   </url>
   

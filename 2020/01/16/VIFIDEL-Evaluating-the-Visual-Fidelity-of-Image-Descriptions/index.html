@@ -105,7 +105,7 @@
 <meta property="og:site_name" content="ShiYaya">
 <meta property="og:description" content="当前指标存在的问题 BLEU, ROUGE, Meteor, CIDEr 这些指标， 他们依靠精确的字符串匹配来测量 condidate 文本和reference文献之间的surface-level 、 n-gram 重叠。当 references 有限的情况下，这会导致样本稀疏问题 （reference数量对 metric 得分有很大影响，因为reference 数量越多，多样性更好）。Mete">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2020-07-02T13:53:43.007Z">
+<meta property="og:updated_time" content="2020-07-03T05:08:46.865Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="VIFIDEL: Evaluating the Visual Fidelity of Image Descriptions">
 <meta name="twitter:description" content="当前指标存在的问题 BLEU, ROUGE, Meteor, CIDEr 这些指标， 他们依靠精确的字符串匹配来测量 condidate 文本和reference文献之间的surface-level 、 n-gram 重叠。当 references 有限的情况下，这会导致样本稀疏问题 （reference数量对 metric 得分有很大影响，因为reference 数量越多，多样性更好）。Mete">
@@ -299,7 +299,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">157</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">158</span></a>
 
   </li>
 
@@ -440,7 +440,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-07-02 21:53:43" itemprop="dateModified" datetime="2020-07-02T21:53:43+08:00">2020-07-02</time>
+                <time title="修改时间：2020-07-03 13:08:46" itemprop="dateModified" datetime="2020-07-03T13:08:46+08:00">2020-07-03</time>
               
             
           </span>
@@ -519,7 +519,8 @@
 </ul>
 <h3 id="本文的方法简述"><a href="#本文的方法简述" class="headerlink" title="本文的方法简述"></a>本文的方法简述</h3><p>我们认为，衡量特定标准的细粒度度量标准对于理解IDG系统如何比另一个系统更有用。 </p>
 <p>我们专注于这样一种标准，即视觉保真度。 </p>
-<p>该标准旨在衡量<strong>description相对于图像中所描述内容的真实性</strong>（即系统应因描述图像中所描述的元素而受到奖励，而由于描述未描述的事物而受到惩罚）。</p>
+<p>该标准旨在衡量<strong>description相对于图像中所描述内容的真实性</strong>，对description中多余的信息进行惩罚，对正确的信息进行奖励</p>
+<p>This criterion aims to measure how faithful a description is with respect to what is depicted in the image (i.e.<strong style="color:red;"> <strong>systems should be rewarded for describing elements depicted in the image and penalised for describing things that are not depicted</strong></strong>). </p>
 <blockquote>
 <p>Introduction</p>
 </blockquote>
@@ -651,7 +652,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">157</span>
+                    <span class="site-state-item-count">158</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
