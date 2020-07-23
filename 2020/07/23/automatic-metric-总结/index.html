@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="automatic metric 总结转载：肝了1W字！文本生成评价指标的进化与推翻 基于词重叠率的方法机器翻译 &amp;amp; 摘要 常用指标基于词重叠率的方法是指基于词汇的级别计算模型的生成文本和人工的参考文本之间的相似性，比较经典的代表有BLEU、METEOR和ROUGE，其中BLEU和METEOR常用于机器翻译任务，ROUGE常用于自动文本摘要。 BLEUBLEU （Bilingual Eva">
+<meta name="keywords" content="评价指标">
+<meta property="og:type" content="article">
+<meta property="og:title" content="automatic metric 总结">
+<meta property="og:url" content="http://yoursite.com/2020/07/23/automatic-metric-总结/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="automatic metric 总结转载：肝了1W字！文本生成评价指标的进化与推翻 基于词重叠率的方法机器翻译 &amp;amp; 摘要 常用指标基于词重叠率的方法是指基于词汇的级别计算模型的生成文本和人工的参考文本之间的相似性，比较经典的代表有BLEU、METEOR和ROUGE，其中BLEU和METEOR常用于机器翻译任务，ROUGE常用于自动文本摘要。 BLEUBLEU （Bilingual Eva">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAg4GOn0EZAicLNZY3lw97TdibGCPyA09s0Ms9KZT1CpypiaZ0EwLuG5ZGrA/640?wx_fmt=jpeg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgXmshfK57WrgarjibbBcy4ZdtxHS9Y3EtyDfTzjTNNl2GMxwJAIPmfbA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgaghJVhQZHwspVre1F1yyaAkZj4UnUwUDIurNHI8aPb8vlNP3GWg0Lw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgfXBibHaKdNJDXNPgWhZ0L9FKG1b8LuabowzXZiaMhGXB3WQSepe0gYiaw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxernqjrj30pe0hut9u.jpg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgruCbgRHd3tQITE2N2mQsfJUficbIQav7TBGZA7wvUpnyiaoMlwfYYxrg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxernte4j307d04fmx0.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxersvbuj307s04h745.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxerunotj30eo054jre.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxeruhhij30dj05pwei.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxertdasj30fn02xjrb.jpg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgicMuoIiabcIRSiaXj1tLEmgWU5ysVK6ZO4FlTJmfc5S3j3vS7tyzuibkEg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAg6qxl9VK30SIG0T4LBfVOkbrqRlx4DyBcDK9tRk9vMrwCKfvZYC1ZBw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgl3KCxN5scYCpo7RnLCVOWpTmaG8scssC1iaibPwzaNCQNATuOsU7Dq3g/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgRYbeW3NVtIAQDicktJATMl9o5KkyImngjsiaIdnX8SdvwFEibsxA59UyQ/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gh01gh6umpj313d0fx408.jpg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgwIdbmLATA8Zk5uKHZDAAGkyJlf0J0ZDHPicGUibNgAlUCdrPlT82javA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:updated_time" content="2020-07-23T09:40:03.239Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="automatic metric 总结">
+<meta name="twitter:description" content="automatic metric 总结转载：肝了1W字！文本生成评价指标的进化与推翻 基于词重叠率的方法机器翻译 &amp;amp; 摘要 常用指标基于词重叠率的方法是指基于词汇的级别计算模型的生成文本和人工的参考文本之间的相似性，比较经典的代表有BLEU、METEOR和ROUGE，其中BLEU和METEOR常用于机器翻译任务，ROUGE常用于自动文本摘要。 BLEUBLEU （Bilingual Eva">
+<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAg4GOn0EZAicLNZY3lw97TdibGCPyA09s0Ms9KZT1CpypiaZ0EwLuG5ZGrA/640?wx_fmt=jpeg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/23/automatic-metric-总结/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>automatic metric 总结 | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">27</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">21</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">161</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/23/automatic-metric-总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">automatic metric 总结
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-07-23 17:39:04 / 修改时间：17:40:03" itemprop="dateCreated datePublished" datetime="2020-07-23T17:39:04+08:00">2020-07-23</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/图像描述/" itemprop="url" rel="index"><span itemprop="name">图像描述</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/图像描述/评价指标/" itemprop="url" rel="index"><span itemprop="name">评价指标</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="automatic-metric-总结"><a href="#automatic-metric-总结" class="headerlink" title="automatic metric 总结"></a>automatic metric 总结</h1><p>转载：<code>肝了1W字！文本生成评价指标的进化与推翻</code></p>
+<h2 id="基于词重叠率的方法"><a href="#基于词重叠率的方法" class="headerlink" title="基于词重叠率的方法"></a>基于词重叠率的方法</h2><h2 id="机器翻译-amp-摘要-常用指标"><a href="#机器翻译-amp-摘要-常用指标" class="headerlink" title="机器翻译 &amp; 摘要 常用指标"></a><strong>机器翻译 &amp; 摘要 常用指标</strong></h2><p>基于词重叠率的方法是指基于词汇的级别计算模型的生成文本和人工的参考文本之间的相似性，比较经典的代表有BLEU、METEOR和ROUGE，其中BLEU和METEOR常用于机器翻译任务，ROUGE常用于自动文本摘要。</p>
+<h3 id="BLEU"><a href="#BLEU" class="headerlink" title="BLEU"></a><strong>BLEU</strong></h3><p>BLEU （Bilingual Evaluation Understudy，双语评估辅助工具）可以说是所有评价指标的鼻祖，它的核心思想是比较候选译文和参考译文里的 n-gram 的重合程度，重合程度越高就认为译文质量越高。unigram用于衡量单词翻译的准确性，高阶n-gram用于衡量句子翻译的流畅性。实践中，通常是取N=1~4，然后对进行加权平均。<img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAg4GOn0EZAicLNZY3lw97TdibGCPyA09s0Ms9KZT1CpypiaZ0EwLuG5ZGrA/640?wx_fmt=jpeg" alt="img" style="zoom: 50%;"></p>
+<ul>
+<li>BLEU 需要计算译文 1-gram，2-gram，…，N-gram 的精确率，一般 N 设置为 4 即可，公式中的 <em>Pn 指 n-gram 的精确率</em>。</li>
+<li>Wn 指 n-gram 的权重，一般设为均匀权重，即对于任意 n 都有 Wn = 1/N。</li>
+<li>BP 是惩罚因子，如果译文的长度小于最短的参考译文，则 BP 小于 1。</li>
+<li>BLEU 的 1-gram 精确率表示译文忠于原文的程度，而其他 n-gram 表示翻译的流畅程度。</li>
+</ul>
+<p>不过BLEU对词重复和短句有着非常不好的表现，所以改进的BLEU分别使用 <strong>改进的多元精度（n-gram precision）</strong> 和<strong>短句惩罚因子</strong>进行了优化。</p>
+<h4 id="1-改进的多元精度（n-gram-precision）"><a href="#1-改进的多元精度（n-gram-precision）" class="headerlink" title="1. 改进的多元精度（n-gram precision）"></a>1. 改进的多元精度（n-gram precision）</h4><p>假设机器翻译的译文C和一个参考翻译S1如下：</p>
+<blockquote>
+<p>C: a cat is on the table<br>S1: there is a cat on the table</p>
+</blockquote>
+<p>则可以计算出 1-gram，2-gram，… 的精确率（参考文献里写的是准确率(accuracy),我理解是写错了，此处应该是精确率(precision)）</p>
+<p>p1 计算 a cat is on the table 分别都在参考翻译S1中 所以 p1 = 1</p>
+<p>p2  (a, cat)在, (cat is) 没在, (is on) 没在, (on the) 在, (the table)在 所以p2 = 3/5</p>
+<p>p3  (a cat is)不在, (cat is on)不在, (is on the)不在, (on the table)在 所以 p3 = 1/4</p>
+<p>依次类推(上面的在或者不在, 说的都是当前词组有没有在参考翻译中)。直接这样算, 会存在很大的问题. 例如:</p>
+<blockquote>
+<p>C: there there there there there S1: there is a cat on the table</p>
+</blockquote>
+<p>这时候机器翻译的结果明显是不正确的，但是其 1-gram 的 Precision 为1，因此 BLEU 一般会使用修正的方法。给定参考译文S1,S2, …,S<em>m</em>，可以计算C里面 n 元组的 Precision，计算公式如下：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgXmshfK57WrgarjibbBcy4ZdtxHS9Y3EtyDfTzjTNNl2GMxwJAIPmfbA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+<p>针对上面的例子  p1 = 1/5  (因为there在C和S1中都出现了 我们按最少的次数来)</p>
+<p><strong style="color:red;">yaya: 从公式中，可以看到，对于m个reference，取max 的方式，进行聚合</strong></p>
+<h4 id="2-惩罚因子"><a href="#2-惩罚因子" class="headerlink" title="2. 惩罚因子"></a>2. 惩罚因子</h4><p>上面介绍了 BLEU 计算 n-gram 精确率的方法， 但是仍然存在一些问题，当机器翻译的长度比较短时，BLEU 得分也会比较高，但是这个翻译是会损失很多信息的，例如：</p>
+<blockquote>
+<p>C: a cat<br>S1: there is a cat on the table</p>
+</blockquote>
+<p>因此需要在 BLEU 分数乘上惩罚因子</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgaghJVhQZHwspVre1F1yyaAkZj4UnUwUDIurNHI8aPb8vlNP3GWg0Lw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+<h4 id="3-优点"><a href="#3-优点" class="headerlink" title="3. 优点"></a>3. 优点</h4><ul>
+<li>它的易于计算且速度快，特别是与人工翻译模型的输出对比；</li>
+<li>它应用范围广泛，这可以让你很轻松将模型与相同任务的基准作对比。</li>
+</ul>
+<h4 id="4-缺点"><a href="#4-缺点" class="headerlink" title="4. 缺点"></a>4. 缺点</h4><ul>
+<li>它不考虑语义，句子结构</li>
+<li>不能很好地处理形态丰富的语句（BLEU原文建议大家配备4条翻译参考译文）</li>
+<li>BLEU 指标偏向于较短的翻译结果（brevity penalty 没有想象中那么强）</li>
+</ul>
+<h3 id="ROUGE"><a href="#ROUGE" class="headerlink" title="ROUGE"></a><strong>ROUGE</strong></h3><p>英文全称Recall-Oriented Understudy for Gisting Evaluation，可以看做是BLEU 的改进版，专注于<strong>召回率而非精度</strong>。换句话说，它会查看有多少个参考译句中的 n 元词组出现在了输出之中。</p>
+<p>ROUGE大致分为四种（常用的是前两种）：</p>
+<ul>
+<li>ROUGE-N （将BLEU的精确率优化为召回率）</li>
+<li>ROUGE-L （将BLEU的n-gram优化为公共子序列）</li>
+<li>ROUGE-W （将ROUGE-L的连续匹配给予更高的奖励）</li>
+<li>ROUGE-S  （允许n-gram出现跳词(skip)）</li>
+</ul>
+<p>ROUGE 用作机器翻译评价指标的初衷是这样的：在 SMT（统计机器翻译）时代，机器翻译效果稀烂，需要同时评价翻译的准确度和流畅度；等到 NMT （神经网络机器翻译）出来以后，神经网络脑补能力极强，翻译出的结果都是通顺的，但是有时候容易瞎翻译。</p>
+<p>ROUGE的出现很大程度上是为了解决NMT的漏翻问题（低召回率）。所以 ROUGE 只适合评价 NMT，而不适用于 SMT，因为它不管候选译文流不流畅</p>
+<p>这里只介绍 ROUGE_L</p>
+<h4 id="ROUGE-L"><a href="#ROUGE-L" class="headerlink" title="ROUGE-L"></a>ROUGE-L</h4><p>ROUGE-L 中的 L 指最长公共子序列 (longest common subsequence, LCS)，ROUGE-L 计算的时候使用了机器译文C和参考译文S的最长公共子序列，计算公式如下：</p>
+<img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgfXBibHaKdNJDXNPgWhZ0L9FKG1b8LuabowzXZiaMhGXB3WQSepe0gYiaw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" style="zoom:33%;">
+
+<p>公式中的 RLCS 表示召回率，而 PLCS 表示精确率，FLCS 就是 ROUGE-L。一般 beta 会设置为很大的数，因此 FLCS 几乎只考虑了 RLCS (即召回率)。注意这里 beta 大，则 F 会更加关注 R，而不是 P，可以看下面的公式。如果 beta 很大，则 PLCS 那一项可以忽略不计。</p>
+<p><strong style="color:red;">yaya: 对于含有多个reference的情况，先分别计算 R<sub>LCS</sub> 和 P<sub>LCS</sub>， 再分别取max，得到 max_R, max_P之后，再带入 F<sub>LCS</sub> 中。</strong></p>
+<p>### </p>
+<h3 id="METEOR"><a href="#METEOR" class="headerlink" title="METEOR"></a><strong>METEOR</strong></h3><p>和BLEU不同，METEOR同时考虑了基于整个语料库上的准确率和召回率，而最终得出测度。</p>
+<p>METEOR也包括其他指标没有发现一些其他功能，如<strong>同义词匹配</strong>等。METEOR用 WordNet 等知识源扩充了一下同义词集，同时考虑了单词的词形（词干相同的词也认为是部分匹配的，也应该给予一定的奖励，比如说把 likes 翻译成了 like 总比翻译成别的乱七八糟的词要好吧？）</p>
+<p><strong>在评价句子流畅性的时候，用了 chunk 的概念</strong>（候选译文和参考译文能够对齐的、空间排列上连续的单词形成一个 chunk，这个对齐算法是一个有点复杂的启发式 beam serach），chunk 的数目越少意味着每个 chunk 的平均长度越长，也就是说候选译文和参考译文的语序越一致。</p>
+<p>最后，METEOR计算为对应最佳候选译文和参考译文之间的准确率和召回率的调和平均：</p>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxernqjrj30pe0hut9u.jpg" style="zoom:33%;">
+
+<h4 id="1-理解"><a href="#1-理解" class="headerlink" title="1. 理解"></a>1. 理解</h4><p>看公式总是挺抽象的，下面我们还是看看来自维基百科的例子吧。计算的最基本单元是句子。算法首先从待评价字符串和参考字符串之间创建一个平面图如下：<img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgruCbgRHd3tQITE2N2mQsfJUficbIQav7TBGZA7wvUpnyiaoMlwfYYxrg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+<p>所谓<strong>平面图</strong>，就是1元组之间的映射集。平面图有如下的一些限制：在待评价翻译中的每个1元组必须映射到参考翻译中的1个或0个一元组，然后根据这个定义创建平面图。<strong>如果有两个平面图的映射数量相同，那么选择映射交叉数目较少的那个。</strong> 也就是说，上面左侧平面图会被选择。状态会持续运行，在每个状态下只会向平面图加入那些在前一个状态中尚未匹配的1元组。<em>一旦最终的平面图计算完毕，就开始计算METEOR得分</em>：</p>
+<p>1元组精度：</p>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxernte4j307d04fmx0.jpg" style="zoom:33%;">
+
+<p>其中m是<em>在参考句子中同样存在的，*</em>待评价句子中的一元组的数量<em>。wt是</em>待评价翻译中一元组的数量*。</p>
+<p>1元组召回率：</p>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxersvbuj307s04h745.jpg" style="zoom:33%;">
+
+
+
+<p>m同上，是参考翻译中一元组的数量。</p>
+<p>然后使用调和平均来计算F-mean，且召回的权重是精度的9（上面说的超参数α）倍。</p>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxerunotj30eo054jre.jpg" style="zoom:33%;">
+
+<p>到目前为止，这个方法只对单个单词的一致性进行了衡量，还没有用到为了评价流畅性的 <strong>chunk</strong> 。chunk 块的定义是在待评价语句和参考语句中毗邻的一元组集合。</p>
+<p>在参考和待评价句子中的没有毗连的映射越多，惩罚就越高。为了计算惩罚，1元组被分组成最少可能的块（chunks）。<em>在待评价语句和参考语句之间的毗邻映射越长，块的数量就越少</em>。一个待评价翻译如果和参考翻译相同，那么就只有一个块。惩罚p的计算如下：</p>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxeruhhij30dj05pwei.jpg" style="zoom:33%;">
+
+<p>（假设参数都已经设置好了）其中c就是块的数量，Um是被映射的一元组的数量。p可以减少F-mean的值。最后：</p>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxertdasj30fn02xjrb.jpg" style="zoom:33%;">
+
+<h4 id="2-优点"><a href="#2-优点" class="headerlink" title="2. 优点"></a>2. 优点</h4><ul>
+<li>该方法基于一元组的精度和召回的调和平均，召回的权重比精度要高一点 ， 与人类判断相关性高</li>
+<li><em>引入了外部知识，评价更加友好了。</em></li>
+</ul>
+<h4 id="3-缺点"><a href="#3-缺点" class="headerlink" title="3. 缺点"></a>3. 缺点</h4><ul>
+<li>实现非常复杂，目前只有java版本</li>
+<li>α、γ和θ 均为用于评价的默认参数。这些都是对着某个数据集调出来的（让算法的结果和人的主观评价尽可能一致，方法我记得是 grid search）。参数一多听起来就不靠谱（给个眼神体会一下）</li>
+<li>需要有外部知识。如果很多词不在wordnet，那其实就没什么意义了</li>
+</ul>
+<h2 id="image-caption-常用指标"><a href="#image-caption-常用指标" class="headerlink" title="image caption 常用指标"></a><strong>image caption 常用指标</strong></h2><h3 id="CIDEr"><a href="#CIDEr" class="headerlink" title="CIDEr"></a><strong>CIDEr</strong></h3><p>CIDEr 是专门设计出来用于图像标注问题的。这个指标将每个句子都看作“文档”，将其表示成 Term Frequency Inverse Document Frequency（tf-idf）向量的形式，通过对每个n元组进行(TF-IDF) 权重计算，计算参考 caption 与模型生成的 caption 的余弦相似度，来衡量图像标注的一致性的。</p>
+<ul>
+<li>公式<br><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgicMuoIiabcIRSiaXj1tLEmgWU5ysVK6ZO4FlTJmfc5S3j3vS7tyzuibkEg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></li>
+<li>举例<img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAg6qxl9VK30SIG0T4LBfVOkbrqRlx4DyBcDK9tRk9vMrwCKfvZYC1ZBw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></li>
+</ul>
+<h4 id="1-好处"><a href="#1-好处" class="headerlink" title="1. 好处"></a>1. 好处</h4><p>是一种加权的评价指标，他更关注你是否说到了重点，而常见的词权重则没有那么高。在 Kaustav_slides image caption的综述里，也提到这个评价指标和人类的评价相关性更高一些</p>
+<h3 id="SPICE"><a href="#SPICE" class="headerlink" title="SPICE"></a><strong>SPICE</strong></h3><p>SPICE 也是专门设计出来用于 image caption 问题的。全称是 Semantic Propositional Image Caption Evaluation。</p>
+<p>我们考虑如下图片：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgl3KCxN5scYCpo7RnLCVOWpTmaG8scssC1iaibPwzaNCQNATuOsU7Dq3g/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+<p>你很快会发现尽管生成的句子与参考句极为相似（只有basketball一词不一样），但我们仍认为这是一个糟糕的生成。原因在于考虑了语义的情况下，模型把网球场错误的识别成了篮球场。这个时候BLEU或者其他指标就不能很好的评价生成效果了。</p>
+<p>SPICE 使用基于图的语义表示来编码 caption 中的 objects, attributes 和 relationships。它先将待评价 caption 和参考 captions 用 Probabilistic Context-Free Grammar (PCFG) dependency parser parse 成 syntactic dependencies trees，然后用基于规则的方法把 dependency tree 映射成 scene graphs。最后计算待评价的 caption 中 objects, attributes 和 relationships 的 F-score 值。</p>
+<p>还是已上图为例，a young girl standing on top of a tennis court (参考句) 可以被SPICE做如下处理：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgRYbeW3NVtIAQDicktJATMl9o5KkyImngjsiaIdnX8SdvwFEibsxA59UyQ/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img">得到了若干个三元组之后，我们通过下面的公式来计算候选句c和参考句（或集合）S的得分：</p>
+<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gh01gh6umpj313d0fx408.jpg" style="zoom:33%;">
+
+<p>这里有一个例子：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgwIdbmLATA8Zk5uKHZDAAGkyJlf0J0ZDHPicGUibNgAlUCdrPlT82javA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+<h4 id="1-好处-1"><a href="#1-好处-1" class="headerlink" title="1. 好处"></a>1. 好处</h4><ul>
+<li>对目标，属性，关系有更多的考虑；</li>
+<li>和基于n-gram的评价模式相比，有更高的和人类评价的相关性</li>
+</ul>
+<h4 id="2-缺点"><a href="#2-缺点" class="headerlink" title="2. 缺点"></a>2. 缺点</h4><ul>
+<li>不考虑语法问题</li>
+<li>依赖于semantic parsers ， 但是他不总是对的</li>
+<li>每个目标，属性，关系的权重都是一样的（一幅画的物体显然有主次之分）</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/评价指标/" rel="tag"># 评价指标</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/17/Describing-like-Humans-on-Diversity-in-Image-Captioning/" rel="next" title="Describing like Humans on Diversity in Image Captioning">
+                <i class="fa fa-chevron-left"></i> Describing like Humans on Diversity in Image Captioning
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div id="gitalk-container">
+    </div>
+    
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">161</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">21</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">27</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#automatic-metric-总结"><span class="nav-number">1.</span> <span class="nav-text">automatic metric 总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于词重叠率的方法"><span class="nav-number">1.1.</span> <span class="nav-text">基于词重叠率的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#机器翻译-amp-摘要-常用指标"><span class="nav-number">1.2.</span> <span class="nav-text">机器翻译 &amp; 摘要 常用指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BLEU"><span class="nav-number">1.2.1.</span> <span class="nav-text">BLEU</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-改进的多元精度（n-gram-precision）"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">1. 改进的多元精度（n-gram precision）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-惩罚因子"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">2. 惩罚因子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-优点"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">3. 优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-缺点"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">4. 缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ROUGE"><span class="nav-number">1.2.2.</span> <span class="nav-text">ROUGE</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ROUGE-L"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">ROUGE-L</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#METEOR"><span class="nav-number">1.2.3.</span> <span class="nav-text">METEOR</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-理解"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">1. 理解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-优点"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2. 优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-缺点"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">3. 缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#image-caption-常用指标"><span class="nav-number">1.3.</span> <span class="nav-text">image caption 常用指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CIDEr"><span class="nav-number">1.3.1.</span> <span class="nav-text">CIDEr</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-好处"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">1. 好处</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SPICE"><span class="nav-number">1.3.2.</span> <span class="nav-text">SPICE</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-好处-1"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">1. 好处</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-缺点"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">2. 缺点</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+		var gitalk = new Gitalk({
+		  clientID: '',
+		  clientSecret: '',
+		  repo: 'ShiYaya.github.io',
+		  owner: '',
+		  admin: [''], 
+		  id: location.pathname,
+		  distractionFreeMode: ''
+		})
+		gitalk.render('gitalk-container')           
+       </script>
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
