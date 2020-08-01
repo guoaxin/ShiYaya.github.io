@@ -309,7 +309,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -518,24 +518,11 @@
 <li><strong>Motivation</strong><br>大多数视频描述的不仅仅是一个事件。只用一个简短的句子来描述一个语义丰富的视频通常会产生信息不多甚至无聊的结果。例如，一个video 应该描述成<strong>那个人把土豆切成片，把洋葱切成块，把洋葱和土豆放进锅里</strong>，但是只产生one sentence的方法可能会说<strong>这个人在做饭</strong>。</li>
 <li><strong>Idea</strong><br>我们想要利用句子之间的时域依赖性，这样，在生成段落时，句子就不会独立地生成。相反，一个句子的生成可能会受到前几句所提供的语义上下文的影响。<br>我们的分层RNN结构包括两个生成器，一个句子生成器和一个段落生成器，这两个生成器都使用RNN layers<br>据我们所知，这是分层RNN在视频字幕任务中的首次应用。  </li>
 </ul>
-<h2 id="Hierarchical-RNN-for-Video-Captioning"><a href="#Hierarchical-RNN-for-Video-Captioning" class="headerlink" title="Hierarchical RNN for Video Captioning"></a>Hierarchical RNN for Video Captioning</h2><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0gmi1zayjj314o0h2n1f.jpg">
-***designed by yaya:***
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0k7r1p5ygj316f0jyq47.jpg">
-我们的方法：在句子生成器之上堆叠了一个段落生成器
-**句子生成器**：1) RNN 用来语言建模 2) 多模态层对多源信息进行聚合 3) 注意力模型
-
+<h2 id="Hierarchical-RNN-for-Video-Captioning"><a href="#Hierarchical-RNN-for-Video-Captioning" class="headerlink" title="Hierarchical RNN for Video Captioning"></a>Hierarchical RNN for Video Captioning</h2><p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0gmi1zayjj314o0h2n1f.jpg"><br><strong><em>designed by yaya:</em></strong><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0k7r1p5ygj316f0jyq47.jpg"><br>我们的方法：在句子生成器之上堆叠了一个段落生成器<br><strong>句子生成器</strong>：1) RNN 用来语言建模 2) 多模态层对多源信息进行聚合 3) 注意力模型</p>
 <ul>
 <li>RNN1：word embedding 作为RNN的输入，并更新 hidden state </li>
-<li>Attention layer: RNN 的hidden state 作为attention layer 的输入，来计算weight:   <img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0gohii8woj30xx02saab.jpg" style="zoom:30%">
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0gom9zybsj30kg04mwes.jpg" style="zoom:45%">
-假设视频中有M帧，每帧有K个objects，则features：  
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0go2kemkqj30bq01pt8m.jpg" style="zoom:50%">
-若计算出了一组权重:  
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0go382u2qj309m0250so.jpg" style="zoom:50%">
-则 video feature：  
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0go5n8g7dj30if036mx8.jpg" style="zoom:30%">
-得到的video feature是一个特征通道，完整的模型是两个特征通道，一个由 object appearance 生成，另一个由action 生成</li>
-<li>Multimodal<br>输入：RNN 的hidden state <strong>concate</strong> 2个Attention 的输出（两个特征通道Ua  C3D，action feature；Uo aggregate object appearance）。既有语言，又有视觉，因此成为多模态。<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0gpaasqgmj30sb022dg0.jpg" style="zoom:50%"></li>
+<li>Attention layer: RNN 的hidden state 作为attention layer 的输入，来计算weight:<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0gohii8woj30xx02saab.jpg" style="zoom:30%"><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0gom9zybsj30kg04mwes.jpg" style="zoom:45%"><br>假设视频中有M帧，每帧有K个objects，则features：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0go2kemkqj30bq01pt8m.jpg" style="zoom:50%"><br>若计算出了一组权重:<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0go382u2qj309m0250so.jpg" style="zoom:50%"><br>则 video feature：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0go5n8g7dj30if036mx8.jpg" style="zoom:30%"><br>得到的video feature是一个特征通道，完整的模型是两个特征通道，一个由 object appearance 生成，另一个由action 生成</li>
+<li>Multimodal<br>输入：RNN 的hidden state <strong>concate</strong> 2个Attention 的输出（两个特征通道Ua  C3D，action feature；Uo aggregate object appearance）。既有语言，又有视觉，因此成为多模态。<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0gpaasqgmj30sb022dg0.jpg" style="zoom:50%"></li>
 <li>Hidden layer<br>-输出维度512 与 word embdeding 的维度一致</li>
 <li>Softmax layer<br>输出维度与vocabulary size 一致</li>
 <li>Maxid layer<br>Maxid layer 在softmax layer 的输出中挑选了最大值所在的索引，该索引将会被作为predicted word 的id(对应到vocabulary 的 索引)</li>
@@ -558,9 +545,7 @@
 <li>由于YouTubeClips数据集中的object 十分显著，因此不进行提取object的操作，只对frame 提取特征，这样attention 只包括temporal attention ，而不包括 spatial attention。</li>
 <li>对于TACoS-MultiLevel 数据集，首先使用光流大体的提取boundinig box，然后沿着bounding box 的边，提取220*220的image patches，保证相邻两个box 重合度为50%。使用VGG模型对每个patch提取特征，并使用attention的权重，对这些patches进行加权求和。此时，attention同时包括temporal 和 spatial。</li>
 <li>C3D 提取 action/motion feature of video<br>C3D 模型：输入frames of video ，每16帧输出一个固定长度的特征向量。然后采用attention机制对C3D特征进行polling（加权求和）<br><strong>实验结果对比分析</strong></li>
-<li>YouTubeClips  <img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0hdv8rde9j30i7099jtg.jpg">   
-相比于**LSTM-E[2]**（同样同时利用了VGG和C3D特征），我们的模型效果更好。
-相比于**SA[3]**（同样利用了temporal attention）我们的方法更好，原因：RNN的输入不包括视频特征，换句话说， hidden state的更新不建立在video feature的基础上。video feature直接的输入到multimodal layer。</li>
+<li>YouTubeClips<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0hdv8rde9j30i7099jtg.jpg"><br>相比于<strong>LSTM-E[2]</strong>（同样同时利用了VGG和C3D特征），我们的模型效果更好。<br>相比于<strong>SA[3]</strong>（同样利用了temporal attention）我们的方法更好，原因：RNN的输入不包括视频特征，换句话说， hidden state的更新不建立在video feature的基础上。video feature直接的输入到multimodal layer。</li>
 <li>TACoS-MultiLevel<br>这里不做分析（可以自行参考论文）</li>
 </ul>
 <h2 id="Discussions-and-Limitations"><a href="#Discussions-and-Limitations" class="headerlink" title="Discussions and Limitations"></a>Discussions and Limitations</h2><ol>
@@ -696,7 +681,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1394,6 +1379,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

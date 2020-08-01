@@ -310,7 +310,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -524,33 +524,20 @@
 </ul>
 <h2 id="Video-Description-with-Relevance-and-Coherence"><a href="#Video-Description-with-Relevance-and-Coherence" class="headerlink" title="Video Description with Relevance and Coherence"></a>Video Description with Relevance and Coherence</h2><ul>
 <li><strong>Visual-Semantic Embedding: Relevance</strong><br><strong><em>v</em></strong> 和 <strong><em>s</em></strong> 分别是视频的特征和sentences的特征（即，都是已知的），Ts和Tv用来降维到相同的维度，为了度量视频内容与句子语义之间的相关性，一个自然地方法是计算embedding之间的距离，因此定义relevance loss:<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0f8zoni8tj30bc01pmx2.jpg" 　style="zoom:45%"></li>
-<li><strong>Translation by Sequence Learning: Coherence</strong><br>coherence loss：即为在给定视频特征的条件下，生成sentences的最大似然概率。  <img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0f9l8bbvoj30ph02pglq.jpg" style="zoom:50%">  
-由overview的图可知，在实际的情况下LSTM的输入是：第一个LSTM输入是视频特征，其余的是前一个time step 生成的单词（在train时：是caption中给定的第t个单词，在test时：是前一个time step 生成的单词）。因此似然函数可以具体的表示为：  　　
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0f9lgy6nfj317806fgm5.jpg" style="zoom:40%">
-
-
-</li>
+<li><strong>Translation by Sequence Learning: Coherence</strong><br>coherence loss：即为在给定视频特征的条件下，生成sentences的最大似然概率。<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0f9l8bbvoj30ph02pglq.jpg" style="zoom:50%"><br>由overview的图可知，在实际的情况下LSTM的输入是：第一个LSTM输入是视频特征，其余的是前一个time step 生成的单词（在train时：是caption中给定的第t个单词，在test时：是前一个time step 生成的单词）。因此似然函数可以具体的表示为：  　　<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0f9lgy6nfj317806fgm5.jpg" style="zoom:40%"></li>
 </ul>
 <h2 id="Joint-Modeling-Embedding-and-Translation"><a href="#Joint-Modeling-Embedding-and-Translation" class="headerlink" title="Joint Modeling Embedding and Translation"></a>Joint Modeling Embedding and Translation</h2><ul>
-<li><p><strong>simultaneously minimizing the relevance loss and coherence loss.</strong>  </p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0fa1y3nkgj30nu05pq3p.jpg" style="zoom:70%"></li>
-<li><p>*<em>LSTM结构 *</em><br>这里有多种方式来结合visual content 和 word of last time step。法一：each time step 都输入视频特征；法二：只在第一步输入视频特征。但是在[ 1 ]中指出，由于网络可以显式地利用噪声和更容易覆盖，所以每次输入图像都会产生劣质的效果。 因此，采用第二种方法，在给定视频特征v 和相对应的 sentence W ≡ [w0, w1, …, wNs]，LSTM的更新步骤如下：  </p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0fcc8tiqej30z708l0t3.jpg">  
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0faic2fuzj30n508njs2.jpg" style="width: 50%; height: 50%">  
-在初始的第一步，视频特征作为LSTM的输入；在第二步，<#start#>开始的标志作为LSTM的输入，同时接受上一步的hidden state, cell state，以后每一步，都将上一步生成的word 作为输入，直至生成<#end#>。
-从第二步开始，使用LSTM cell 的hidden state 来预测 word( 对于LSTM output 与 hidden[0] 是一样的，参考：[https://mp.csdn.net/postedit/87516958](https://mp.csdn.net/postedit/87516958))
-
+<li><strong>simultaneously minimizing the relevance loss and coherence loss.</strong><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0fa1y3nkgj30nu05pq3p.jpg" style="zoom:70%"></li>
+<li><p><strong>LSTM结构 </strong><br>这里有多种方式来结合visual content 和 word of last time step。法一：each time step 都输入视频特征；法二：只在第一步输入视频特征。但是在[ 1 ]中指出，由于网络可以显式地利用噪声和更容易覆盖，所以每次输入图像都会产生劣质的效果。 因此，采用第二种方法，在给定视频特征v 和相对应的 sentence W ≡ [w0, w1, …, wNs]，LSTM的更新步骤如下：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0fcc8tiqej30z708l0t3.jpg"><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0faic2fuzj30n508njs2.jpg" style="width: 50%; height: 50%"><br>在初始的第一步，视频特征作为LSTM的输入；在第二步，&lt;#start#&gt;开始的标志作为LSTM的输入，同时接受上一步的hidden state, cell state，以后每一步，都将上一步生成的word 作为输入，直至生成&lt;#end#&gt;。<br>从第二步开始，使用LSTM cell 的hidden state 来预测 word( 对于LSTM output 与 hidden[0] 是一样的，参考：<a href="https://mp.csdn.net/postedit/87516958" target="_blank" rel="noopener">https://mp.csdn.net/postedit/87516958</a>)</p>
 <blockquote>
 <p><code>output, hidden = self.rnn(input, hidden)</code></p>
 </blockquote>
-</#end#></#start#></li>
+</li>
 </ul>
 <h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2><ul>
 <li><strong>dataset</strong><br>MSVD:<br>Microsoft Research Video Description Corpus (YouTube2Text) , which contains 1,970 YouTube snippets. There are roughly 40 available English descriptions per video. In our experiments, we follow the setting used in prior works, taking 1,200 videos for training, 100 for validation and 670 for testing.</li>
-<li><strong>result</strong><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0fcs7kt8cj31ap0bhgow.jpg"></li>
-<li><strong>The effect of hidden layer size</strong>  <img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0fcvqbzvsj30qz09x760.jpg" style="width: 70%; height: 70%">  
-
-</li>
+<li><strong>result</strong><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0fcs7kt8cj31ap0bhgow.jpg"></li>
+<li><strong>The effect of hidden layer size</strong><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0fcvqbzvsj30qz09x760.jpg" style="width: 70%; height: 70%">  </li>
 </ul>
 <h2 id="Conclusions"><a href="#Conclusions" class="headerlink" title="Conclusions"></a>Conclusions</h2><p>a visual-semantic embedding space is additionally incorporated into LSTM learning. In this way, <strong>a global relationship between the video content and sentence semantics</strong> is simultaneously measured in addition to <strong>the local contextual relationship between the word at each step and the previous ones</strong> in LSTM learning. On the popular YouTube2Text dataset, the results of our experiments demonstrate the success of our approach, outperforming the current state-ofthe-art models </p>
 <h2 id="Future-Work"><a href="#Future-Work" class="headerlink" title="Future Work"></a>Future Work</h2><p>视频作为一个时域序列，未来将会探究使用RNN来获得更好的特征；另外，如果有更大的数据集，更多的video sentences pairs ，那么可以使用更深的RNN，来得到更好的视频描述</p>
@@ -678,7 +665,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1376,6 +1363,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

@@ -97,13 +97,13 @@
 
 
 
-  <meta name="description" content="参看：https://blog.csdn.net/donkey_1993/article/details/81871132参看：https://zhuanlan.zhihu.com/p/34879333 BN层的原理 在训练阶段，输入到网络中的是mini batch  解析： Normalization操作我们虽然缓解了ICS问题，让每一层网络的输入数据分布都变得稳定，但却导致了数据表达能力的缺失">
+  <meta name="description" content="参看：https://blog.csdn.net/donkey_1993/article/details/81871132参看：https://zhuanlan.zhihu.com/p/34879333 BN层的原理 在训练阶段，输入到网络中的是mini batch解析： Normalization操作我们虽然缓解了ICS问题，让每一层网络的输入数据分布都变得稳定，但却导致了数据表达能力的缺失。也">
 <meta name="keywords" content="深度学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Batch Normalization(BN层)">
 <meta property="og:url" content="http://yoursite.com/2019/03/23/Batch-Normalization-BN层/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="参看：https://blog.csdn.net/donkey_1993/article/details/81871132参看：https://zhuanlan.zhihu.com/p/34879333 BN层的原理 在训练阶段，输入到网络中的是mini batch  解析： Normalization操作我们虽然缓解了ICS问题，让每一层网络的输入数据分布都变得稳定，但却导致了数据表达能力的缺失">
+<meta property="og:description" content="参看：https://blog.csdn.net/donkey_1993/article/details/81871132参看：https://zhuanlan.zhihu.com/p/34879333 BN层的原理 在训练阶段，输入到网络中的是mini batch解析： Normalization操作我们虽然缓解了ICS问题，让每一层网络的输入数据分布都变得稳定，但却导致了数据表达能力的缺失。也">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1chneox3hj30dv0bddgx.jpg">
 <meta property="og:image" content="https://www.zhihu.com/equation?tex=%5Ctilde%7BZ_j%7D%3D%5Cgamma_j+%5Chat%7BZ%7D_j%2B%5Cbeta_j">
@@ -113,7 +113,7 @@
 <meta property="og:updated_time" content="2019-07-16T03:29:46.206Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Batch Normalization(BN层)">
-<meta name="twitter:description" content="参看：https://blog.csdn.net/donkey_1993/article/details/81871132参看：https://zhuanlan.zhihu.com/p/34879333 BN层的原理 在训练阶段，输入到网络中的是mini batch  解析： Normalization操作我们虽然缓解了ICS问题，让每一层网络的输入数据分布都变得稳定，但却导致了数据表达能力的缺失">
+<meta name="twitter:description" content="参看：https://blog.csdn.net/donkey_1993/article/details/81871132参看：https://zhuanlan.zhihu.com/p/34879333 BN层的原理 在训练阶段，输入到网络中的是mini batch解析： Normalization操作我们虽然缓解了ICS问题，让每一层网络的输入数据分布都变得稳定，但却导致了数据表达能力的缺失。也">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1chneox3hj30dv0bddgx.jpg">
 
 
@@ -305,7 +305,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -506,9 +506,7 @@
       
         <p>参看：<a href="https://blog.csdn.net/donkey_1993/article/details/81871132" target="_blank" rel="noopener">https://blog.csdn.net/donkey_1993/article/details/81871132</a><br>参看：<a href="https://zhuanlan.zhihu.com/p/34879333" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/34879333</a></p>
 <h2 id="BN层的原理"><a href="#BN层的原理" class="headerlink" title="BN层的原理"></a>BN层的原理</h2><ul>
-<li><p>在训练阶段，输入到网络中的是mini batch</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1chneox3hj30dv0bddgx.jpg">
-解析：</li>
+<li>在训练阶段，输入到网络中的是mini batch<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1chneox3hj30dv0bddgx.jpg"><br>解析：</li>
 <li><p>Normalization操作我们虽然缓解了ICS问题，让每一层网络的输入数据分布都变得稳定，但却导致了数据表达能力的缺失。也就是我们通过变换操作改变了原有数据的信息表达（representation ability of the network），使得底层网络学习到的参数信息丢失。另一方面，通过让每一层的输入分布均值为0，方差为1，会使得输入在经过sigmoid或tanh激活函数时，容易陷入非线性激活函数的线性区域。  </p>
 </li>
 <li><p>因此，BN又引入了两个可学习（learnable）的参数  γ与β  。这两个参数的引入是为了恢复数据本身的表达能力，对规范化后的数据进行线性变换，即<img src="https://www.zhihu.com/equation?tex=%5Ctilde%7BZ_j%7D%3D%5Cgamma_j+%5Chat%7BZ%7D_j%2B%5Cbeta_j" alt="\tilde{Z_j}=\gamma_j \hat{Z}_j+\beta_j">。特别地，当  γ<sup>2</sup>=σ<sup>2</sup> ， β=μ 时，可以实现等价变换（identity transform）并且保留了原始输入特征的分布信息。</p>
@@ -520,7 +518,7 @@
 <p><img src="https://www.zhihu.com/equation?tex=%5Csigma%5E2_%7Btest%7D%3D%5Cfrac%7Bm%7D%7Bm-1%7D%5Cmathbb%7BE%7D%28%5Csigma%5E2_%7Bbatch%7D%29" alt="\sigma^2_{test}=\frac{m}{m-1}\mathbb{E}(\sigma^2_{batch})"></p>
 <p>得到每个特征的均值与方差的无偏估计后，我们对test数据采用同样的normalization方法：</p>
 <p><img src="https://www.zhihu.com/equation?tex=BN%28X_%7Btest%7D%29%3D%5Cgamma%5Ccdot+%5Cfrac%7BX_%7Btest%7D-%5Cmu_%7Btest%7D%7D%7B%5Csqrt%7B%5Csigma%5E2_%7Btest%7D%2B%5Cepsilon%7D%7D%2B%5Cbeta" alt="BN(X_{test})=\gamma\cdot \frac{X_{test}-\mu_{test}}{\sqrt{\sigma^2_{test}+\epsilon}}+\beta"></p>
-<p>另外，除了采用整体样本的无偏估计外。吴恩达在Coursera上的Deep Learning课程指出可以对train阶段每个batch计算的mean/variance采用<a href="[https://zhuanlan.zhihu.com/p/29895933](https://zhuanlan.zhihu.com/p/29895933)"><font color="#0099ff" size="5" face="楷体"> 指数加权平均</font></a>来得到test阶段mean/variance的估计。</p>
+<p>另外，除了采用整体样本的无偏估计外。吴恩达在Coursera上的Deep Learning课程指出可以对train阶段每个batch计算的mean/variance采用<a href="[https://zhuanlan.zhihu.com/p/29895933](https://zhuanlan.zhihu.com/p/29895933"><font color="#0099ff" size="5" face="楷体"> 指数加权平均</font></a>)来得到test阶段mean/variance的估计。</p>
 <h2 id="Batch-Normalization的优势"><a href="#Batch-Normalization的优势" class="headerlink" title="Batch Normalization的优势"></a>Batch Normalization的优势</h2><p>Batch Normalization在实际工程中被证明了能够缓解神经网络难以训练的问题，BN具有的有事可以总结为以下三点：</p>
 <p><strong>（1）BN使得网络中每层输入数据的分布相对稳定，加速模型学习速度</strong></p>
 <p>BN通过规范化与线性变换使得每一层网络的输入数据的均值与方差都在一定范围内，使得后一层网络不必不断去适应底层网络中输入的变化，从而实现了网络中层与层之间的解耦，允许每一层进行独立学习，有利于提高整个神经网络的学习速度。</p>
@@ -652,7 +650,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1350,6 +1348,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

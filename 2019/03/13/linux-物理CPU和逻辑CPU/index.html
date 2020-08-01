@@ -97,19 +97,19 @@
 
 
 
-  <meta name="description" content="通过cat /proc/cpuinfo 来查看CPU的信息  cpu.png physical id 表示物理CPU的编号 CPU cores 表示每个物理CPU上的内核数 core id 表示每个内核的编号 processor 表示每个逻辑CPU的编号 逻辑CPU的总数=物理CPU的数量 * 每个物理CPU上的核数 * 超线程数 如果 逻辑CPU的总数=物理CPU的数量 * 每个物理CPU上的核">
+  <meta name="description" content="通过cat /proc/cpuinfo 来查看CPU的信息  cpu.png physical id 表示物理CPU的编号 CPU cores 表示每个物理CPU上的内核数 core id 表示每个内核的编号 processor 表示每个逻辑CPU的编号 逻辑CPU的总数=物理CPU的数量  每个物理CPU上的核数  超线程数 如果 逻辑CPU的总数=物理CPU的数量 * 每个物理CPU上的核数">
 <meta name="keywords" content="linux">
 <meta property="og:type" content="article">
 <meta property="og:title" content="linux-物理CPU和逻辑CPU">
 <meta property="og:url" content="http://yoursite.com/2019/03/13/linux-物理CPU和逻辑CPU/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="通过cat /proc/cpuinfo 来查看CPU的信息  cpu.png physical id 表示物理CPU的编号 CPU cores 表示每个物理CPU上的内核数 core id 表示每个内核的编号 processor 表示每个逻辑CPU的编号 逻辑CPU的总数=物理CPU的数量 * 每个物理CPU上的核数 * 超线程数 如果 逻辑CPU的总数=物理CPU的数量 * 每个物理CPU上的核">
+<meta property="og:description" content="通过cat /proc/cpuinfo 来查看CPU的信息  cpu.png physical id 表示物理CPU的编号 CPU cores 表示每个物理CPU上的内核数 core id 表示每个内核的编号 processor 表示每个逻辑CPU的编号 逻辑CPU的总数=物理CPU的数量  每个物理CPU上的核数  超线程数 如果 逻辑CPU的总数=物理CPU的数量 * 每个物理CPU上的核数">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/5262207-4e29a8e7da45169c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/837/format/webp">
 <meta property="og:updated_time" content="2019-03-20T13:13:31.393Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux-物理CPU和逻辑CPU">
-<meta name="twitter:description" content="通过cat /proc/cpuinfo 来查看CPU的信息  cpu.png physical id 表示物理CPU的编号 CPU cores 表示每个物理CPU上的内核数 core id 表示每个内核的编号 processor 表示每个逻辑CPU的编号 逻辑CPU的总数=物理CPU的数量 * 每个物理CPU上的核数 * 超线程数 如果 逻辑CPU的总数=物理CPU的数量 * 每个物理CPU上的核">
+<meta name="twitter:description" content="通过cat /proc/cpuinfo 来查看CPU的信息  cpu.png physical id 表示物理CPU的编号 CPU cores 表示每个物理CPU上的内核数 core id 表示每个内核的编号 processor 表示每个逻辑CPU的编号 逻辑CPU的总数=物理CPU的数量  每个物理CPU上的核数  超线程数 如果 逻辑CPU的总数=物理CPU的数量 * 每个物理CPU上的核数">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/5262207-4e29a8e7da45169c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/837/format/webp">
 
 
@@ -301,7 +301,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -504,7 +504,7 @@
 <p><img src="https:////upload-images.jianshu.io/upload_images/5262207-4e29a8e7da45169c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/837/format/webp" alt="img"></p>
 <p>cpu.png</p>
 <p>physical id 表示物理CPU的编号<br> CPU cores 表示每个物理CPU上的内核数<br> core id 表示每个内核的编号<br> processor 表示每个逻辑CPU的编号</p>
-<p>逻辑CPU的总数=物理CPU的数量 * 每个物理CPU上的核数 * 超线程数<br> 如果 逻辑CPU的总数=物理CPU的数量 * 每个物理CPU上的核数 则表示超线程没开，否则表示超线程以开</p>
+<p>逻辑CPU的总数=物理CPU的数量 <em> 每个物理CPU上的核数 </em> 超线程数<br> 如果 逻辑CPU的总数=物理CPU的数量 * 每个物理CPU上的核数 则表示超线程没开，否则表示超线程以开</p>
 <p>作者：君子亮剑</p>
 <p>链接：<a href="https://www.jianshu.com/p/ff8e8be262ac" target="_blank" rel="noopener">https://www.jianshu.com/p/ff8e8be262ac</a></p>
 <p>来源：简书</p>
@@ -620,7 +620,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1301,6 +1301,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

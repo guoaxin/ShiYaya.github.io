@@ -305,7 +305,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -503,31 +503,22 @@
 <h3 id="Improving-Image-Captioning-with-Conditional-Generative-Adversarial-Nets"><a href="#Improving-Image-Captioning-with-Conditional-Generative-Adversarial-Nets" class="headerlink" title="Improving Image Captioning with Conditional Generative Adversarial Nets"></a><strong>Improving Image Captioning with Conditional Generative Adversarial Nets</strong></h3><h4 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h4><p>本文提出了一种新的基于条件生成对抗网络的图像字幕框架，作为传统的基于增强学习(RL)的编解码结构的扩展。为了应对不同的目标语言的指标之间不一致的评价问题，，论文设计了两种鉴别器网络来自动地、逐步地确定生成的描述是人工描述的还是机器生成的。</p>
 <p>生成器是采用传统图像描述的模型，<strong>在强化学习自我批判算法（SCST）下进行优化</strong>。</p>
 <p>由于基于CNN和RNN的结构各有其优点，因此引入了两种鉴别器结构。</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha02tza7dj31im0hvtk0.jpg">
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha02tza7dj31im0hvtk0.jpg"></p>
 <h4 id="CNN-discriminator："><a href="#CNN-discriminator：" class="headerlink" title="CNN discriminator："></a><strong>CNN discriminator：</strong></h4><p>（1）首先创建了一个feature map,编码了图像与句子特征。</p>
 <p>（2）接着采用了m组有不同窗大小，核数目的卷积核来获取不同的特征，</p>
 <p>（3）然后把所有特征作max pooling操作再联结在一起，并用一个highway架构提升性能。</p>
 <p>（4）最后激活特征通过全连接层与sigmoid 转换来获得决策器的输出。输出在[0,1]之间。</p>
 <h4 id="RNN-discriminator："><a href="#RNN-discriminator：" class="headerlink" title="RNN discriminator："></a><strong>RNN discriminator：</strong></h4><p>基于RNN的决策器采用了一种标准的LSTM架构，把图像特征输入到第一个LSTM，接下来输入的LSTM是输入是单词编码信息。最后通过全连接层与softmax层获得RNN决策器的输出。</p>
 <h4 id="固定G，更新D："><a href="#固定G，更新D：" class="headerlink" title="固定G，更新D："></a>固定G，更新D：</h4><p>Discriminator的目标函数为：</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha04mt3u7j31m4070tal.jpg">
-
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha02tyrdqj31j50kxdv1.jpg">
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha04mt3u7j31m4070tal.jpg"></p>
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha02tyrdqj31j50kxdv1.jpg"></p>
 <h4 id="固定D，更新G"><a href="#固定D，更新G" class="headerlink" title="固定D，更新G"></a>固定D，更新G</h4><p>设计reward，以强化学习来更新generator。</p>
 <p>在强化学习的设定下，本文采用GAN与RL结合的reward来权衡<strong style="color:red;">图像描述的保真度</strong>（在评价标准下获得高得分）与<strong style="color:red;">自然性</strong>（生成描述符合人类的风格）。</p>
 <blockquote>
 <p><strong style="color:blue;">这也是本文主要的创新点，结合 保真度 的评价</strong></p>
 </blockquote>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha06jgm6tj31e409cmz3.jpg" style="zoom: 50%;">
-
-
-
-<h4 id="整个算法的伪代码如下："><a href="#整个算法的伪代码如下：" class="headerlink" title="整个算法的伪代码如下："></a>整个算法的伪代码如下：</h4><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha09ceqgkj30ns0wg13f.jpg" style="zoom: 50%;">
-
-
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha06jgm6tj31e409cmz3.jpg" style="zoom: 50%;"></p>
+<h4 id="整个算法的伪代码如下："><a href="#整个算法的伪代码如下：" class="headerlink" title="整个算法的伪代码如下："></a>整个算法的伪代码如下：</h4><p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha09ceqgkj30ns0wg13f.jpg" style="zoom: 50%;"></p>
 <h3 id="GAN-image-captioning-task"><a href="#GAN-image-captioning-task" class="headerlink" title="GAN + image captioning task"></a>GAN + image captioning task</h3><p><strong>[1703.06029] Towards Diverse and Natural Image Descriptions via a Conditional GAN</strong></p>
 <p><strong>[1703.10476] Speaking the Same Language Matching Machine to Human Captions by Adversarial Training</strong></p>
 <p><strong>[1705.00930] Show, Adapt and Tell Adversarial Training of Cross-domain Image Captioner</strong></p>
@@ -654,7 +645,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1352,6 +1343,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

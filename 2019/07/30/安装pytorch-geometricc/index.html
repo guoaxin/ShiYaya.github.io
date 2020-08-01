@@ -298,7 +298,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -489,7 +489,7 @@
 <p>Note</p>
 <p>We do not recommend installation as root user on your system python. Please setup an <a href="https://conda.io/docs/user-guide/install/index.html/" target="_blank" rel="noopener">Anaconda/Miniconda</a> environment or create a <a href="https://www.docker.com/" target="_blank" rel="noopener">Docker image</a>.</p>
 <p>Please follow the steps below for a successful installation:</p>
-<ol start="0">
+<ol>
 <li><p>Added  by yaya:</p>
 <ul>
 <li><p>may be you can select a conda environments, will be more fine</p>
@@ -497,8 +497,6 @@
 </li>
 <li><p>after into env: pytorch_geometric</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">pip</span> <span class="selector-tag">install</span> <span class="selector-tag">torch-1</span><span class="selector-class">.1</span><span class="selector-class">.0-cp37-cp37m-manylinux1_x86_64</span><span class="selector-class">.whl</span>  # <span class="selector-tag">download</span> <span class="selector-tag">at</span> <span class="selector-tag">first</span></span><br><span class="line"><span class="selector-tag">pip</span> <span class="selector-tag">installl</span> <span class="selector-tag">numpy-1</span><span class="selector-class">.17</span><span class="selector-class">.0-cp37-cp37m-manylinux1_x86_64</span><span class="selector-class">.whl</span>  # <span class="selector-tag">download</span> <span class="selector-tag">at</span> <span class="selector-tag">first</span></span><br><span class="line"><span class="selector-tag">pip</span> <span class="selector-tag">install</span> <span class="selector-tag">scipy-1</span><span class="selector-class">.3</span><span class="selector-class">.0-cp37-cp37m-manylinux1_x86_64</span><span class="selector-class">.whl</span>  # <span class="selector-tag">download</span> <span class="selector-tag">at</span> <span class="selector-tag">first</span></span><br></pre></td></tr></table></figure>
-
-
 </li>
 </ul>
 </li>
@@ -519,8 +517,9 @@
 </li>
 </ol>
 </blockquote>
+<p>&gt;</p>
 <blockquote>
-<ol start="2">
+<ol>
 <li><p>Add CUDA to <code>$PATH</code> and <code>$CPATH</code> (note that your actual CUDA path may vary from <code>/usr/local/cuda</code>):</p>
 <blockquote>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt; $ <span class="built_in">export</span> PATH=/usr/<span class="built_in">local</span>/cuda/bin:<span class="variable">$PATH</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt; $ <span class="built_in">echo</span> <span class="variable">$PATH</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt; &gt;&gt;&gt; /usr/<span class="built_in">local</span>/cuda/bin:...</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt; </span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt; $ <span class="built_in">export</span> CPATH=/usr/<span class="built_in">local</span>/cuda/include:<span class="variable">$CPATH</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt; $ <span class="built_in">echo</span> <span class="variable">$CPATH</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt; &gt;&gt;&gt; /usr/<span class="built_in">local</span>/cuda/include:...</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt;</span></span><br></pre></td></tr></table></figure>
@@ -528,8 +527,9 @@
 </li>
 </ol>
 </blockquote>
+<p>&gt;</p>
 <blockquote>
-<ol start="3">
+<ol>
 <li><p>Add CUDA to <code>$LD_LIBRARY_PATH</code> on Linux and to <code>$DYLD_LIBRARY_PATH</code> on macOS (note that your actual CUDA path may vary from <code>/usr/local/cuda</code>):</p>
 <blockquote>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt; $ <span class="built_in">export</span> LD_LIBRARY_PATH=/usr/<span class="built_in">local</span>/cuda/lib64:<span class="variable">$LD_LIBRARY_PATH</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt; $ <span class="built_in">echo</span> <span class="variable">$LD_LIBRARY_PATH</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt; &gt;&gt;&gt; /usr/<span class="built_in">local</span>/cuda/lib64:...</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt; </span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt; $ <span class="built_in">export</span> DYLD_LIBRARY_PATH=/usr/<span class="built_in">local</span>/cuda/lib:<span class="variable">$DYLD_LIBRARY_PATH</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt; $ <span class="built_in">echo</span> <span class="variable">$DYLD_LIBRARY_PATH</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt; &gt;&gt;&gt; /usr/<span class="built_in">local</span>/cuda/lib:...</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash">    &gt;</span></span><br></pre></td></tr></table></figure>
@@ -537,8 +537,9 @@
 </li>
 </ol>
 </blockquote>
+<p>&gt;</p>
 <blockquote>
-<ol start="4">
+<ol>
 <li><p>Verify that <code>nvcc</code> is accessible from terminal:</p>
 <blockquote>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="quote">&gt;    &gt; $ nvcc --version</span></span><br><span class="line"><span class="quote">&gt;    &gt; &gt;&gt;&gt; 10.0</span></span><br><span class="line"><span class="quote">&gt;    &gt;</span></span><br></pre></td></tr></table></figure>
@@ -546,8 +547,9 @@
 </li>
 </ol>
 </blockquote>
+<p>&gt;</p>
 <blockquote>
-<ol start="5">
+<ol>
 <li><p>Ensure that PyTorch and system CUDA versions match:</p>
 <blockquote>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;    &gt; $ python -c <span class="string">"import torch; print(torch.version.cuda)"</span></span><br><span class="line">&gt;    &gt; <span class="meta">&gt;&gt;&gt; </span><span class="number">10.0</span></span><br><span class="line">&gt;    &gt; </span><br><span class="line">&gt;    &gt; $ nvcc --version</span><br><span class="line">&gt;    &gt; <span class="meta">&gt;&gt;&gt; </span><span class="number">10.0</span></span><br><span class="line">&gt;    &gt;</span><br></pre></td></tr></table></figure>
@@ -682,7 +684,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1380,6 +1382,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

@@ -298,7 +298,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -472,12 +472,10 @@
 <p>For all users, that is done by opening up cmd.exe, bash, or whatever shell you use and typing:<br><code>pip install nltk</code></p>
 <p>These are the words you will most commonly hear upon entering the Natural Language Processing (NLP) space, but there are many more that we will be covering in time. With that, let’s show an example of how one might actually tokenize something into tokens with the NLTK module.</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">from nltk<span class="selector-class">.tokenize</span> import sent_tokenize, word_tokenize</span><br><span class="line"></span><br><span class="line">EXAMPLE_TEXT = <span class="string">"Hello Mr. Smith, how are you doing today? The weather is great, and Python is awesome. The sky is pinkish-blue. You shouldn't eat cardboard."</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">print</span><span class="params">(sent_tokenize(EXAMPLE_TEXT)</span></span>)</span><br></pre></td></tr></table></figure>
-
 <p>At first, you may think tokenizing by things like words or sentences is a rather trivial enterprise. For many sentences it can be. The first step would be likely doing a simple .split(‘. ‘), or splitting by period followed by a space. Then maybe you would bring in some <a href="https://pythonprogramming.net/regular-expressions-regex-tutorial-python-3/" target="_blank" rel="noopener"><strong>regular expressions</strong></a> to split by period, space, and then a capital letter. The problem is that things like Mr. Smith would cause you trouble, and many other things. Splitting by word is also a challenge, especially when considering things like concatenations like we and are to we’re. NLTK is going to go ahead and just save you a ton of time with this seemingly simple, yet very complex, operation.</p>
 <p>The above code will output the sentences, split up into a list of sentences, which you can do things like iterate through with a <a href="https://pythonprogramming.net/loop-python-3-basics-tutorial/" target="_blank" rel="noopener"><strong>for loop</strong></a>.<br><code>[&#39;Hello Mr. Smith, how are you doing today?&#39;, &#39;The weather is great, and Python is awesome.&#39;, &#39;The sky is pinkish-blue.&#39;, &quot;You shouldn&#39;t eat cardboard.&quot;]</code></p>
 <p>So there, we have created tokens, which are sentences. Let’s tokenize by word instead this time:</p>
 <figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="name">word_tokenize</span>(<span class="name">EXAMPLE_TEXT</span>))</span><br></pre></td></tr></table></figure>
-
 <p>Now our output is: <code>[&#39;Hello&#39;, &#39;Mr.&#39;, &#39;Smith&#39;, &#39;,&#39;, &#39;how&#39;, &#39;are&#39;, &#39;you&#39;, &#39;doing&#39;, &#39;today&#39;, &#39;?&#39;, &#39;The&#39;, &#39;weather&#39;, &#39;is&#39;, &#39;great&#39;, &#39;,&#39;, &#39;and&#39;, &#39;Python&#39;, &#39;is&#39;, &#39;awesome&#39;, &#39;.&#39;, &#39;The&#39;, &#39;sky&#39;, &#39;is&#39;, &#39;pinkish-blue&#39;, &#39;.&#39;, &#39;You&#39;, &#39;should&#39;, &quot;n&#39;t&quot;, &#39;eat&#39;, &#39;cardboard&#39;, &#39;.&#39;]</code></p>
 <p>There are a few things to note here. First, notice that punctuation is treated as a separate token. Also, notice the separation of the word “shouldn’t” into “should” and “n’t.” Finally, notice that “pinkish-blue” is indeed treated like the “one word” it was meant to be turned into. Pretty cool!</p>
 
@@ -586,7 +584,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1267,6 +1265,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

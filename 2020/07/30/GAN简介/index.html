@@ -303,7 +303,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -503,7 +503,7 @@
 
       
         <blockquote>
-<p>From: <a href="https://blog.csdn.net/shanlepu6038/article/details/84335117?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param" target="_blank" rel="noopener">GAN（一）:基本框架</a></p>
+<p>From: <a href="https://blog.csdn.net/shanlepu6038/article/details/84335117?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-1.channel_param" target="_blank" rel="noopener">GAN（一）:基本框架</a></p>
 </blockquote>
 <p>一个GAN包含两部分，一个generator,一个discriminator（互相对抗）<br>generator和discriminator就像是猎食者和猎物之间的关系，一个产生图片，一个辨别图片的真假，互相促进，使得最终产生的图片接近realistic</p>
 <h3 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h3><ol>
@@ -519,17 +519,14 @@
 </ul>
 </li>
 </ol>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gh9bgltng3j30hu0djage.jpg">
-
-
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gh9bgltng3j30hu0djage.jpg"></p>
 <h3 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h3><p><strong>G和D是互相促进的：</strong>G的目的是产生的图像让D感到模糊不知道该分成realistic（看起来像是现实的）还是fake（看起来是假的），D的目的是将realistic和fake的图像准确分辨。所以G产生的图像会越来越真，D的辨别能力会越来越强，最终达到一个平衡。</p>
 <p>P<sub>data</sub> 表示真实数据的分布，P<sub>g</sub> 表示generator产生的分布，最终的目的就是让P<sub>g</sub> 的分布尽可能的和P<sub>data</sub> 相同。<br>我们用D(x)表示真实图像经过discriminator后的分数，G(z)表示随机变量z经过generator后产生的图像，那么有：D(G(z)) 表示generator产生的图像经过discriminator后的分数</p>
 <p>第一阶段，固定 generator，更新discriminator，最大化下面对的这个式子：</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gh9bxggo1rj30gv01lwf1.jpg">
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gh9bxggo1rj30gv01lwf1.jpg"></p>
 <p>第二阶段，固定discriminator，更新generator，最大化下面的这个式子：</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gh9bxgfqjnj30ad01s3yt.jpg">
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gh9bxgfqjnj30ad01s3yt.jpg"></p>
+
       
     </div>
 
@@ -650,7 +647,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1348,6 +1345,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

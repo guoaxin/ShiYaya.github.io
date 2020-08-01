@@ -97,13 +97,13 @@
 
 
 
-  <meta name="description" content="现在想要得到某个文件夹下的一些图片，并按照顺序排列，如下图所示：         第一种方法：（得到的frames_list是不包含路径的）1frames_list = sorted(os.listdir(video_path))       第二种方法：（得到的frames_list包含路径的）1frames_list = sorted(glob.glob(os.path.join(video">
+  <meta name="description" content="现在想要得到某个文件夹下的一些图片，并按照顺序排列，如下图所示：        第一种方法：（得到的frames_list是不包含路径的）1frames_list = sorted(os.listdir(video_path))     第二种方法：（得到的frames_list包含路径的）1frames_list = sorted(glob.glob(os.path.join(video_pa">
 <meta name="keywords" content="python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="glob.glob vs os.listdir">
 <meta property="og:url" content="http://yoursite.com/2019/04/05/glob-glob-vs-os-listdir/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="现在想要得到某个文件夹下的一些图片，并按照顺序排列，如下图所示：         第一种方法：（得到的frames_list是不包含路径的）1frames_list = sorted(os.listdir(video_path))       第二种方法：（得到的frames_list包含路径的）1frames_list = sorted(glob.glob(os.path.join(video">
+<meta property="og:description" content="现在想要得到某个文件夹下的一些图片，并按照顺序排列，如下图所示：        第一种方法：（得到的frames_list是不包含路径的）1frames_list = sorted(os.listdir(video_path))     第二种方法：（得到的frames_list包含路径的）1frames_list = sorted(glob.glob(os.path.join(video_pa">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1rl9d9xq9j30ia0cbjri.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1rlb8uq8aj309h0a8q2z.jpg">
@@ -111,7 +111,7 @@
 <meta property="og:updated_time" content="2019-04-05T03:23:29.212Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="glob.glob vs os.listdir">
-<meta name="twitter:description" content="现在想要得到某个文件夹下的一些图片，并按照顺序排列，如下图所示：         第一种方法：（得到的frames_list是不包含路径的）1frames_list = sorted(os.listdir(video_path))       第二种方法：（得到的frames_list包含路径的）1frames_list = sorted(glob.glob(os.path.join(video">
+<meta name="twitter:description" content="现在想要得到某个文件夹下的一些图片，并按照顺序排列，如下图所示：        第一种方法：（得到的frames_list是不包含路径的）1frames_list = sorted(os.listdir(video_path))     第二种方法：（得到的frames_list包含路径的）1frames_list = sorted(glob.glob(os.path.join(video_pa">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1rl9d9xq9j30ia0cbjri.jpg">
 
 
@@ -303,7 +303,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -493,22 +493,17 @@
         <ul>
 <li>现在想要得到某个文件夹下的一些图片，并按照顺序排列，如下图所示：  </li>
 </ul>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1rl9d9xq9j30ia0cbjri.jpg">  
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1rl9d9xq9j30ia0cbjri.jpg">  </p>
 <ul>
 <li>第一种方法：（得到的frames_list是不包含路径的）<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">frames_list = sorted(os.listdir(video_path))</span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1rlb8uq8aj309h0a8q2z.jpg">
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1rlb8uq8aj309h0a8q2z.jpg"></p>
 <ul>
 <li>第二种方法：（得到的frames_list包含路径的）<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">frames_list = sorted(glob.glob(os.path.join(video_path, <span class="string">'*.jpg'</span>)))</span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1rlbroiqmj30nt0b40u9.jpg">
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1rlbroiqmj30nt0b40u9.jpg"></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>os.listdir 仅可以得到对当前路径下文件名称，但是不包含路径信息<br>glob.glob 可以得到对当前路径下文件名称，并包含路径信息</p>
 
       
@@ -631,7 +626,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1329,6 +1324,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

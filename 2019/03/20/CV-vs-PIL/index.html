@@ -302,7 +302,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -502,23 +502,20 @@
 
       
         <h2 id="PIL"><a href="#PIL" class="headerlink" title="PIL"></a>PIL</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image  </span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np  </span><br><span class="line">pil_image = Image.open(<span class="string">'test.jpg'</span>) <span class="comment"># 图片是360x480 宽x高  </span></span><br><span class="line">print(type(pil_image)) <span class="comment"># out: PIL.JpegImagePlugin.JpegImageFile  </span></span><br><span class="line">print(pil_image.size)  <span class="comment"># out: (360,480) # w,h  </span></span><br><span class="line">print(pil_image.mode) <span class="comment"># out: 'RGB'  </span></span><br><span class="line">  </span><br><span class="line">pil_image = np.array(pil_image,dtype=np.float32) <span class="comment"># image = np.array(image)默认是uint8  </span></span><br><span class="line">print(pil_image.shape) <span class="comment"># out: (480, 360, 3)  </span></span><br><span class="line"><span class="comment"># 神奇的事情发生了，w和h换了，变成(h,w,c)了  </span></span><br><span class="line"><span class="comment"># 注意ndarray中是 行row x 列col x 维度dim 所以行数是高，列数是宽</span></span><br></pre></td></tr></table></figure>
-
 <blockquote>
 <pre><code>输出结果：
-&lt;class &apos;PIL.JpegImagePlugin.JpegImageFile&apos;&gt;
+&lt;class &#39;PIL.JpegImagePlugin.JpegImageFile&#39;&gt;
 (360, 480)
 RGB
-(480, 360, 3)</code></pre></blockquote>
+(480, 360, 3)
+</code></pre></blockquote>
 <p>这里截图在pycharm下调试的信息（未转化成numpy array之前）</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g193y86ko4j30lt0ixmy8.jpg">  
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g193y86ko4j30lt0ixmy8.jpg">  </p>
 <blockquote>
 <p>可以看到PIL.Image读出的image格式为（w,h,c）且image.mode = ‘RGB’<br>并且由代码的注释可以看到，当PIL.Image转化成numpy.array格式之后，image.size将转为（h,w,c）,c 仍为“RGB”</p>
 </blockquote>
 <h2 id="CV"><a href="#CV" class="headerlink" title="CV"></a>CV</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2  </span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np  </span><br><span class="line">cv_image = cv2.imread(<span class="string">'test.jpg'</span>)  </span><br><span class="line">print(type(cv_image)) <span class="comment"># out: numpy.ndarray  </span></span><br><span class="line">print(cv_image.dtype) <span class="comment"># out: dtype('uint8')  </span></span><br><span class="line">print(cv_image.shape) <span class="comment"># out: (360,480, 3) (h,w,c) 和skimage类似  </span></span><br><span class="line"><span class="comment"># print(image) # BGR</span></span><br></pre></td></tr></table></figure>
-
 <h2 id="为了比较PIL-和-CV"><a href="#为了比较PIL-和-CV" class="headerlink" title="为了比较PIL 和 CV"></a>为了比较PIL 和 CV</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(cv_image == pil_image)</span><br></pre></td></tr></table></figure>
-
 <p>可以看到 分别是 False True False<br><strong>原因是PIL提取的是“RGB”，而CV提取的是“BGR”</strong><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g194ap1lw4j306d07zmx0.jpg"></p>
 <p>综上，可以凝练为以下几点：</p>
 <ol>
@@ -532,7 +529,6 @@ RGB
 <li>在caffe中输入的是“BGR”</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pytorch_normalze</span><span class="params">(img)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    https://github.com/pytorch/vision/issues/223</span></span><br><span class="line"><span class="string">    return appr -1~1 RGB</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    normalize = tvtsf.Normalize(mean=[<span class="number">0.485</span>, <span class="number">0.456</span>, <span class="number">0.406</span>],</span><br><span class="line">                                std=[<span class="number">0.229</span>, <span class="number">0.224</span>, <span class="number">0.225</span>])</span><br><span class="line">    img = normalize(t.from_numpy(img))</span><br><span class="line">    <span class="keyword">return</span> img.numpy()</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">caffe_normalize</span><span class="params">(img)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    return appr -125-125 BGR</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    img = img[[<span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>], :, :]  <span class="comment"># RGB-BGR</span></span><br><span class="line">    img = img * <span class="number">255</span></span><br><span class="line">    mean = np.array([<span class="number">122.7717</span>, <span class="number">115.9465</span>, <span class="number">102.9801</span>]).reshape(<span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">    img = (img - mean).astype(np.float32, copy=<span class="literal">True</span>)</span><br><span class="line">    <span class="keyword">return</span> img</span><br></pre></td></tr></table></figure>
-
 
       
     </div>
@@ -654,7 +650,7 @@ RGB
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1352,6 +1348,13 @@ RGB
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

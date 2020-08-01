@@ -97,13 +97,13 @@
 
 
 
-  <meta name="description" content="MotivationUnderstanding the image, which necessitates the acquisition of grounded image representations.  以下，提供了几种方式来 表达image content.   [1] 基于 R-CNN 的方法可以获得 regions，但是却没有与 actual words关联起来，这将会造成两个域之间">
+  <meta name="description" content="MotivationUnderstanding the image, which necessitates the acquisition of grounded image representations.  以下，提供了几种方式来 表达image content.  [1] 基于 R-CNN 的方法可以获得 regions，但是却没有与 actual words关联起来，这将会造成两个域之间的">
 <meta name="keywords" content="图像描述">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Aligning Visual Regions and Textual Concepts for Semantic-Grounded Image Representations">
 <meta property="og:url" content="http://yoursite.com/2020/07/31/Aligning-Visual-Regions-and-Textual-Concepts-for-Semantic-Grounded-Image-Representations/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="MotivationUnderstanding the image, which necessitates the acquisition of grounded image representations.  以下，提供了几种方式来 表达image content.   [1] 基于 R-CNN 的方法可以获得 regions，但是却没有与 actual words关联起来，这将会造成两个域之间">
+<meta property="og:description" content="MotivationUnderstanding the image, which necessitates the acquisition of grounded image representations.  以下，提供了几种方式来 表达image content.  [1] 基于 R-CNN 的方法可以获得 regions，但是却没有与 actual words关联起来，这将会造成两个域之间的">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gha8v7kk80j316b0ciqmw.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gha9crz1pbj30de0s4jxg.jpg">
@@ -111,7 +111,7 @@
 <meta property="og:updated_time" content="2020-07-31T09:09:05.184Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Aligning Visual Regions and Textual Concepts for Semantic-Grounded Image Representations">
-<meta name="twitter:description" content="MotivationUnderstanding the image, which necessitates the acquisition of grounded image representations.  以下，提供了几种方式来 表达image content.   [1] 基于 R-CNN 的方法可以获得 regions，但是却没有与 actual words关联起来，这将会造成两个域之间">
+<meta name="twitter:description" content="MotivationUnderstanding the image, which necessitates the acquisition of grounded image representations.  以下，提供了几种方式来 表达image content.  [1] 基于 R-CNN 的方法可以获得 regions，但是却没有与 actual words关联起来，这将会造成两个域之间的">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gha8v7kk80j316b0ciqmw.jpg">
 
 
@@ -303,7 +303,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -492,22 +492,15 @@
       
         <h3 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h3><p>Understanding the image, which necessitates the acquisition of grounded image representations. </p>
 <p>以下，提供了几种方式来 表达image content.</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha8v7kk80j316b0ciqmw.jpg">
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha8v7kk80j316b0ciqmw.jpg"></p>
 <p><strong style="color:blue;">[1]</strong> 基于 R-CNN 的方法可以获得 regions，但是却没有与 actual words关联起来，这将会造成两个域之间的语义不一致，并且需要由 downstream systems 自己学习 alignments。</p>
 <p><strong style="color:blue;">[2]</strong> 此外，这些representations 仅包含局部特征，缺少全局结构信息。 这些问题 使system 难以有效地理解图像。</p>
 <p>因此，本文提出一个 Mutual Iterative Attention (MIA) 模块，在编码阶段，从<strong style="color:red;">视觉域和语言域</strong>（解决[1]） 构建<strong style="color:red;">聚合的 image representations</strong>(解决[2])。</p>
 <p>we perform mutual attention <strong style="color:blue;">iteratively </strong> between the two domains to realize the procedure <strong>without annotated alignment data.</strong> </p>
 <p>The visual receptive fields gradually concentrate on salient visual regions, and the original word-level concepts are gradually merged to recapitulate corresponding visual regions. </p>
 <p>In addition, the aligned visual features and textual concepts provide a more clear definition of the image aspects they represent. </p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha9crz1pbj30de0s4jxg.jpg" style="zoom:50%;">
-
-
-
-<h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha9gjk5vbj31h50j3jvs.jpg">
-
-
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha9crz1pbj30de0s4jxg.jpg" style="zoom:50%;"></p>
+<h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gha9gjk5vbj31h50j3jvs.jpg"></p>
 <h3 id="textual-concepts"><a href="#textual-concepts" class="headerlink" title="textual concepts"></a>textual concepts</h3><p>从下面这篇论文中提取 text concepts</p>
 <blockquote>
 <p> <strong>From captions to visual concepts and back.</strong> In CVPR, 2015</p>
@@ -557,6 +550,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/08/01/Bridging-by-Word-Image-Grounded-Vocabulary-Construction-for-Visual-Captioning/" rel="prev" title="Bridging by Word Image Grounded Vocabulary Construction for Visual Captioning">
+                Bridging by Word Image Grounded Vocabulary Construction for Visual Captioning <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -629,7 +626,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1327,6 +1324,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

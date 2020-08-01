@@ -302,7 +302,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -507,9 +507,7 @@
 </ul>
 <p><strong>- 转载： <a href="https://draapho.github.io/2016/11/21/1618-python-variable/" target="_blank" rel="noopener">https://draapho.github.io/2016/11/21/1618-python-variable/</a></strong></p>
 <h3 id="可变对象：list-dict-set-（引用传递）"><a href="#可变对象：list-dict-set-（引用传递）" class="headerlink" title="可变对象：list dict set  （引用传递）"></a>可变对象：list dict set  （引用传递）</h3><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta"># list</span></span><br><span class="line">a= [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">b = a</span><br><span class="line">b[<span class="number">0</span>] = <span class="number">9</span></span><br><span class="line"><span class="keyword">print</span>(b) <span class="meta"># [9, 2, 3]</span></span><br><span class="line"><span class="keyword">print</span>(a) <span class="meta"># [9, 2, 3]</span></span><br><span class="line"></span><br><span class="line"><span class="meta"># dict</span></span><br><span class="line">a = &#123;&#125;</span><br><span class="line">a['key1'] = <span class="number">1</span></span><br><span class="line">b = a</span><br><span class="line">b['key1'] = <span class="number">9</span></span><br><span class="line"><span class="keyword">print</span>(b) <span class="meta"># &#123;'key1': 9&#125;</span></span><br><span class="line"><span class="keyword">print</span>(a) <span class="meta"># &#123;'key1': 9&#125;</span></span><br></pre></td></tr></table></figure>
-
 <figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">values = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>]  </span><br><span class="line">values[<span class="number">1</span>] = values  </span><br><span class="line">values  </span><br><span class="line">[<span class="number">0</span>, [...], <span class="number">2</span>] # 实际结果, 为何要赋值无限次?  </span><br><span class="line">[<span class="number">0</span>, [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>], <span class="number">2</span>] # 预想结果</span><br></pre></td></tr></table></figure>
-
 <p>   Python 没有赋值，只有引用。你这样相当于创建了一个引用自身的结构，所以导致了无限循环</p>
 <h3 id="不可变对象：tuple-string-int-float-bool-（值传递）"><a href="#不可变对象：tuple-string-int-float-bool-（值传递）" class="headerlink" title="不可变对象：tuple string int float bool （值传递）"></a>不可变对象：<strong><em>tuple</em></strong> string int float bool （值传递）</h3><p>对于可变对象，对象的操作不会重建对象，而对于不可变对象，每一次操作就重建新的对象。</p>
 <pre><code>def func_int(a):
@@ -526,7 +524,8 @@ print t
 t_list = [1, 2, 3]
 func_list(t_list)
 print t_list
-# output: [4, 2, 3]</code></pre><h3 id="Dictionary-与-List-与-Tuple的区别"><a href="#Dictionary-与-List-与-Tuple的区别" class="headerlink" title="Dictionary 与 List 与 Tuple的区别"></a>Dictionary 与 List 与 Tuple的区别</h3><p>元组和列表在结构上没有什么区别，唯一的差异在于元组是只读的，不能修改。</p>
+# output: [4, 2, 3]
+</code></pre><h3 id="Dictionary-与-List-与-Tuple的区别"><a href="#Dictionary-与-List-与-Tuple的区别" class="headerlink" title="Dictionary 与 List 与 Tuple的区别"></a>Dictionary 与 List 与 Tuple的区别</h3><p>元组和列表在结构上没有什么区别，唯一的差异在于元组是只读的，不能修改。</p>
 <p><strong>Dictionary</strong> </p>
 <ol>
 <li>Dictionary 是 Python 的内置数据类型之一, 它定义了键和值之间一对一的关系。</li>
@@ -691,7 +690,7 @@ print t_list
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1389,6 +1388,13 @@ print t_list
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

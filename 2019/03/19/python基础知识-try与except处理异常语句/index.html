@@ -299,7 +299,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -516,22 +516,18 @@
 <p>​     if no exception,get here</p>
 <p>finally:</p>
 <p>​     print(“finally”)   </p>
-</blockquote>
-<blockquote>
 <p>说明：</p>
 <p>正常执行的程序在try下面的Normal execution block执行块中执行，在执行过程中如果发生了异常，则<strong>中断当前在Normal execution block中的执行</strong>，跳转到对应的异常处理块中开始执行；</p>
 <p>python<strong>从第一个except X处开始查找</strong>，如果找到了对应的exception类型则进入其提供的exception handle中进行处理，如果没有找到则直接进入except块处进行处理。except块是可选项，如果没有提供，该exception将会被提交给python进行默认处理，处理方式则是<strong>终止应用程序并打印提示信息</strong>；</p>
 <p>如果在Normal execution block执行块中执行过程中没有发生任何异常，则在执行完Normal execution block后会进入else执行块中（如果存在的话）执行。</p>
-</blockquote>
-<blockquote>
 <p>无论是否发生了异常，只要提供了finally语句，以上try/except/else/finally代码块执行的最后一步总是执行finally所对应的代码块。</p>
 <p>需要注意的是：</p>
-<p>1.在上面所示的完整语句中try/except/else/finally所出现的顺序必须是try–&gt;except X–&gt;except–&gt;else–&gt;finally，即所有的<strong>except必须在else和finally之前</strong>，<strong>else（如果有的话）必须在finally之前</strong>，而<strong>except X必须在except之前</strong>。否则会出现语法错误。</p>
+<p>1.在上面所示的完整语句中try/except/else/finally所出现的顺序必须是try—&gt;except X—&gt;except—&gt;else—&gt;finally，即所有的<strong>except必须在else和finally之前</strong>，<strong>else（如果有的话）必须在finally之前</strong>，而<strong>except X必须在except之前</strong>。否则会出现语法错误。</p>
 <p>2.对于上面所展示的try/except完整格式而言，else和finally都是可选的，而不是必须的，但是如果存在的话e<strong>lse必须在finally之前</strong>，<strong>finally</strong>（如果存在的话）<strong>必须在整个语句的最后位置</strong>。</p>
 <p>3.在上面的完整语句中，else语句的存在必须以except X或者except语句为前提，<strong>如果在没有except语句的try block中使用else语句会引发语法错误</strong>。也就是说<strong>else不能与try/finally配合使用</strong>。</p>
 </blockquote>
 <p>4.except的使用要非常小心，慎用。</p>
-<p>class AError(Exception):<br>     “””AError—exception”””<br>     print(‘AError’)</p>
+<p>class AError(Exception):<br>     “””AError—-exception”””<br>     print(‘AError’)</p>
 <blockquote>
 <p>try:</p>
 <p>​     #raise AError</p>
@@ -668,7 +664,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1366,6 +1362,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

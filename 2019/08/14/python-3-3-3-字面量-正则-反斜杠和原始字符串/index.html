@@ -310,7 +310,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -505,42 +505,34 @@
 </ul>
 <p>当反斜杠及其紧接字符无法构成一个具有特殊含义的序列(‘recognized escape sequences’)时,Python选择保留全部字符.直接看例子:</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; <span class="string">'\c'</span></span><br><span class="line"><span class="string">'\\c'</span></span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; <span class="string">'\d'</span></span><br><span class="line"><span class="string">'\\d'</span></span><br></pre></td></tr></table></figure>
-
 <p>官方管’\c’这种序列叫’unrecognized escape sequences’.官方文档相应部分:</p>
 <p>Unlike Standard C, all unrecognized escape sequences are left in the string unchanged, i.e., <em>the backslash is left in the string</em>. (This behavior is useful when debugging: if an escape sequence is mistyped, the resulting output is more easily recognized as broken.) </p>
-<p>按这段英文的意思,估计C语言里面,’c’和’\c’是等同的.Python是’\c’和’\c’等同.这个等以后学C语言再确定.</p>
+<p>按这段英文的意思,估计C语言里面,’c’和’\c’是等同的.Python是’\\c’和’\c’等同.这个等以后学C语言再确定.</p>
 <p>与上面对应的是,如果紧接字符能够和反斜杠构成’recognized escape sequences’的<strong>全部</strong>或者<strong>起始部分</strong>,中文就叫’被承认的转义序列’吧.比如:</p>
-<p><a href="javascript:void(0);" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; <span class="string">'\b'</span></span><br><span class="line"><span class="string">'\x08'</span></span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; <span class="string">'\n'</span></span><br><span class="line"><span class="string">'\n'</span></span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; <span class="string">'\x'</span></span><br><span class="line"><span class="symbol">SyntaxError:</span> (unicode error) <span class="string">'unicodeescape'</span> codec can<span class="string">'t decode bytes in position 0-1: truncated \xXX escape</span></span><br><span class="line"><span class="string">&gt;&gt;&gt; '</span>\N<span class="string">'</span></span><br><span class="line"><span class="string">SyntaxError: (unicode error) '</span>unicodeescape<span class="string">' codec can'</span>t decode bytes <span class="keyword">in</span> position <span class="number">0</span>-<span class="number">1</span>: malformed \N character escape</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; <span class="string">'\U'</span></span><br><span class="line"><span class="symbol">SyntaxError:</span> (unicode error) <span class="string">'unicodeescape'</span> codec can<span class="string">'t decode bytes in position 0-1: truncated \UXXXXXXXX escape</span></span><br><span class="line"><span class="string">&gt;&gt;&gt; '</span>\u<span class="string">'</span></span><br><span class="line"><span class="string">SyntaxError: (unicode error) '</span>unicodeescape<span class="string">' codec can'</span>t decode bytes <span class="keyword">in</span> position <span class="number">0</span>-<span class="number">1</span>: truncated \uXXXX escape</span><br></pre></td></tr></table></figure>
-
-<p><a href="javascript:void(0);" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
 <ul>
 <li>Python re模块正则表达式解释器</li>
 </ul>
 <p>当反斜杠及其紧接字符无法构成一个具有特殊含义的序列(special sequences)时,re选择忽略反斜杠,例如:</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\e'</span>,<span class="string">'eee'</span>)</span><br><span class="line">[<span class="string">'e'</span>, <span class="string">'e'</span>, <span class="string">'e'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'e'</span>,<span class="string">'eee'</span>)</span><br><span class="line">[<span class="string">'e'</span>, <span class="string">'e'</span>, <span class="string">'e'</span>]</span><br></pre></td></tr></table></figure>
-
 <p>可见,’\e’和’e’起到了完全一样的效果.Python相关文档描述是:</p>
 <p>If the ordinary character is not on the list, then the resulting RE will match the second character. For example, <code>\$</code> matches the character <code>&#39;$&#39;</code>.</p>
 <p>与上面对应的是,如果能够构成special sequences,那么re会解释为相应含义.例如:</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\w'</span>,<span class="string">'abcdefghijklmnopqrstuvwxyz'</span>)</span><br><span class="line">[<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'e'</span>, <span class="string">'f'</span>, <span class="string">'g'</span>, <span class="string">'h'</span>, <span class="string">'i'</span>, <span class="string">'j'</span>, <span class="string">'k'</span>, <span class="string">'l'</span>, <span class="string">'m'</span>, <span class="string">'n'</span>, <span class="string">'o'</span>, <span class="string">'p'</span>, <span class="string">'q'</span>, <span class="string">'r'</span>, <span class="string">'s'</span>, <span class="string">'t'</span>, <span class="string">'u'</span>, <span class="string">'v'</span>, <span class="string">'w'</span>, <span class="string">'x'</span>, <span class="string">'y'</span>, <span class="string">'z'</span>]</span><br></pre></td></tr></table></figure>
-
-
-
-
-
 <h1 id="字面量"><a href="#字面量" class="headerlink" title="字面量"></a>字面量</h1><p>字面量(Literals),是用于表示一些Python内建类型的常量的符号.最常见的字面量类型是str literals 和 bytes literals.</p>
 <p>比如:</p>
-<p><a href="javascript:void(0);" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'abc'</span></span><br><span class="line"><span class="string">'abc'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">"abc"</span></span><br><span class="line"><span class="string">'abc'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'啊哦额'</span></span><br><span class="line"><span class="string">'啊哦额'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">b'abc'</span></span><br><span class="line"><span class="string">b'abc'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">r'\n'</span></span><br><span class="line"><span class="string">'\\n'</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">b'啊哦额'</span></span><br><span class="line">SyntaxError: bytes can only contain ASCII literal characters.</span><br></pre></td></tr></table></figure>
-
-<p><a href="javascript:void(0);" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
 <p>反斜杠\的用途按紧接其后的字符种类可划分为3类:</p>
 <p>1.将特殊字符转换为字面量.这特殊字符包括(单引号,双引号,反斜杠):’”\</p>
 <p>2.将普通字符转换为特殊序列.包括:abfNnrtuUvx0123456789.</p>
 <p>(注意,bytes字面量中,NuU这三个普通字符无法被转义成特殊序列)</p>
 <p>3.将”新行”和自身忽略掉.这个比较抽象,举例说明:py文件中,某个字符串太长了,以至于需要分两行写,那么你可以插个反斜杠,紧接着换行,然后写剩余字符串.</p>
 <p>下面是官方文档归纳的表:</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -549,7 +541,8 @@
 <th>Notes</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td><code>\newline</code></td>
 <td>Backslash and newline ignored</td>
 <td></td>
@@ -614,8 +607,11 @@
 <td>Character with hex value <em>hh</em></td>
 <td>(2,3)</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>Escape sequences only recognized in string literals are:</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -624,7 +620,8 @@
 <th>Notes</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td><code>\N{name}</code></td>
 <td>Character named <em>name</em> in the Unicode database</td>
 <td>(4)</td>
@@ -639,12 +636,13 @@
 <td>Character with 32-bit hex value <em>xxxxxxxx</em></td>
 <td>(6)</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>举例:</p>
-<p><a href="javascript:void(0);" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; <span class="string">'\N&#123;END OF LINE&#125;'</span></span><br><span class="line"><span class="string">'\n'</span></span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; <span class="string">'\N&#123;HORIZONTAL TABULATION&#125;'</span></span><br><span class="line"><span class="string">'\t'</span></span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; <span class="string">'\u9f6a'</span>==<span class="string">'齪'</span></span><br><span class="line">True</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; <span class="string">'\1'</span>==<span class="string">'\01'</span></span><br><span class="line">True</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; <span class="string">'\1'</span>==<span class="string">'\001'</span></span><br><span class="line">True</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; <span class="string">'\1'</span>==<span class="string">'\0000001'</span></span><br><span class="line">False</span><br></pre></td></tr></table></figure>
-
-<p><a href="javascript:void(0);" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
 <h1 id="正则"><a href="#正则" class="headerlink" title="正则"></a>正则</h1><ul>
 <li>正则表达式的反斜杠的作用</li>
 </ul>
@@ -653,31 +651,24 @@
 <p>另一种是使紧跟在后面的普通字符变得具有特殊含义.这些普通字符是:</p>
 <p>AbBdDsSwWZ0123456789</p>
 <p>以及在str字面量中能被反斜杠转义的字符:</p>
-<p>&#39;“abfnrtuUvx0123456789</p>
+<p>\’”abfnrtuUvx0123456789</p>
 <p>例如:</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\"'</span>,<span class="string">'"'</span>)</span><br><span class="line">[<span class="string">'"'</span>]</span><br></pre></td></tr></table></figure>
-
-<p>正则pattern的反斜杠的作用和Python字面量的反斜杠类似,这据说是带来”反斜杠灾难”的根源.最典型的莫过于你需要用正则’\\‘才能匹配字面量反斜杠’\‘.</p>
+<p>正则pattern的反斜杠的作用和Python字面量的反斜杠类似,这据说是带来”反斜杠灾难”的根源.最典型的莫过于你需要用正则’\\\\’才能匹配字面量反斜杠’\\’.</p>
 <p>为方便说明,我们假设re.search(pattern,string)中,pattern表示正则表达式字符串,string表示待匹配的字符串.</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; re.search(<span class="string">'\\\\'</span>,<span class="string">'\\'</span>)</span><br><span class="line">&lt;_sre<span class="selector-class">.SRE_Match</span> <span class="selector-tag">object</span> at <span class="number">0</span>x02858528&gt;</span><br></pre></td></tr></table></figure>
-
-<p>详细来说就是一个文本层级的反斜杠’&#39;(比如你在txt文件中看到的反斜杠),对应Python str 字面量的’\‘,对应正则pattern的’\\‘.这个确实比较难以理解,实在不行就住这点就好:<strong>如果不是最简单的正则类型(比如’ab’),强烈推荐对pattern使用r前缀符</strong>.这样容易理解:</p>
+<p>详细来说就是一个文本层级的反斜杠’\’(比如你在txt文件中看到的反斜杠),对应Python str 字面量的’\\’,对应正则pattern的’\\\\’.这个确实比较难以理解,实在不行就住这点就好:<strong>如果不是最简单的正则类型(比如’ab’),强烈推荐对pattern使用r前缀符</strong>.这样容易理解:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>re.search(<span class="string">r'\\'</span>,<span class="string">'\\'</span>)</span><br><span class="line">&lt;_sre.SRE_Match object at <span class="number">0x02858448</span>&gt;</span><br></pre></td></tr></table></figure>
-
-
-
 <p>注意:</p>
 <ul>
 <li>1.多重含义的特殊序列处理机制</li>
 </ul>
 <p>b0123456789比较特殊,它们在Python字面量和re正则中都能和反斜杠构成作用不同的特殊序列.例如\b,在python 字面量中解释为”退格键”.re正则中解释为’单词边界’.<strong>python 字面量有优先解释权</strong>,如下可证:</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\b'</span>,<span class="string">'\b'</span>)  <span class="comment">#'\b'被优先解释为退格键,而不是单词边界</span></span><br><span class="line">[<span class="string">'\x08'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\\b'</span>,<span class="string">'\b'</span>)</span><br><span class="line">[]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\\b'</span>,<span class="string">'b'</span>) </span><br><span class="line">[<span class="string">''</span>, <span class="string">''</span>]</span><br></pre></td></tr></table></figure>
-
 <p>再比如:</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'(a)\1\1'</span>,<span class="string">'aaa'</span>) <span class="comment">#\1按字面量优先解释为八进制字符串,因此无匹配结果</span></span><br><span class="line">[]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'(a)\\1\\1'</span>,<span class="string">'aaa'</span>)  <span class="comment">#\\1按正则引擎层级的反斜杠解释为第一个匹配组提取到的字符,相当于'(a)aa'</span></span><br><span class="line">[<span class="string">'a'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'a\1\1'</span>,<span class="string">'a\1\1'</span>) <span class="comment">#\1按字面量优先解释为八进制字符串,所以有匹配结果</span></span><br><span class="line">[<span class="string">'a\x01\x01'</span>]</span><br></pre></td></tr></table></figure>
-
 <p>了解这个设置有什么用?</p>
-<p>1.当你想使用正则层级的特殊序列\1时,如果你没有使用r作为前缀,那么你必须使用\1才能如愿.</p>
+<p>1.当你想使用正则层级的特殊序列\1时,如果你没有使用r作为前缀,那么你必须使用\\1才能如愿.</p>
 <p>2.当你想使用字面量层级的特殊序列\1时,则不能使用r作为pattern前缀.</p>
 <p>想想,你有可能在一个r前缀的字符串中写出能够匹配值为1的八进制字符串的pattern吗?</p>
 <p>也许我太较真了,因为实践中好像从没遇到过需要匹配值为1的八进制字符串的情况,但理论上就是这样的.</p>
@@ -688,18 +679,17 @@
 <p>Note that <code>\b</code> is used to represent word boundaries, and means “backspace” only inside character classes</p>
 <p>意思是说\b只有在[…]里面时才表示退格键,这显然是错的.比如下面这个例子,\b没有在[]之内,但它是按”退格键”解释的,并非”单词边界”:</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\b'</span>,<span class="string">'\b'</span>)</span><br><span class="line">[<span class="string">'\x08'</span>]</span><br></pre></td></tr></table></figure>
-
 <p>除非官方文档描述的\b是指文本层面的数据(比如你在txt文档里看到的\b).</p>
-<p>由此引出了一个猜想,re的正则pattern中”反斜杠+普通字符”构成特殊序列或”反斜杠+特殊字符”构成字面量–这种描述中的反斜杠准确来说是指两个反斜杠!</p>
+<p>由此引出了一个猜想,re的正则pattern中”反斜杠+普通字符”构成特殊序列或”反斜杠+特殊字符”构成字面量—这种描述中的反斜杠准确来说是指两个反斜杠!</p>
 <p>仍然是举例说明:</p>
-<p><a href="javascript:void(0);" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\\b\w+\\b'</span>,<span class="string">'one two three'</span>)  <span class="comment">#必须用\\b才能表示单词边界</span></span><br><span class="line">[<span class="string">'one'</span>, <span class="string">'two'</span>, <span class="string">'three'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\\b\\w+\\b'</span>,<span class="string">'one two three'</span>)  <span class="comment">#想想,为什么\w和\\w都一样</span></span><br><span class="line">[<span class="string">'one'</span>, <span class="string">'two'</span>, <span class="string">'three'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\d'</span>,<span class="string">'123'</span>)</span><br><span class="line">[<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\\d'</span>,<span class="string">'123'</span>)</span><br><span class="line">[<span class="string">'1'</span>, <span class="string">'2'</span>, <span class="string">'3'</span>]</span><br></pre></td></tr></table></figure>
-
-<p><a href="javascript:void(0);" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
 <ul>
 <li>3.u和U只在str字面量中才能被转义,bytes字面量中是普通字符.</li>
 </ul>
 <p>以下是我猜测的正则表达式分析器和Python字面量分析器的传递规则表格:</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -710,7 +700,8 @@
 <th>real meaning for regular expression</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>\e</td>
 <td>\e</td>
 <td>2</td>
@@ -718,7 +709,7 @@
 <td>e</td>
 </tr>
 <tr>
-<td>\e</td>
+<td>\\e</td>
 <td>\e</td>
 <td>2</td>
 <td>ignore the backslash</td>
@@ -739,7 +730,7 @@
 <td>换行符</td>
 </tr>
 <tr>
-<td>\n</td>
+<td>\\n</td>
 <td>\n</td>
 <td>2</td>
 <td>\n is special</td>
@@ -753,7 +744,7 @@
 <td>退格键</td>
 </tr>
 <tr>
-<td>\b</td>
+<td>\\b</td>
 <td>\b</td>
 <td>2</td>
 <td>\b is special</td>
@@ -767,15 +758,15 @@
 <td>Unicode whitespace characters</td>
 </tr>
 <tr>
-<td>\</td>
+<td>\\</td>
 <td>\</td>
 <td>1</td>
 <td>must followed by a charcter</td>
 <td>Can’t form any meaning</td>
 </tr>
 <tr>
+<td>\\\\</td>
 <td>\\</td>
-<td>\</td>
 <td>2</td>
 <td>remove all special meanning of \</td>
 <td>\</td>
@@ -794,12 +785,13 @@
 <td>remove all special meanning of *</td>
 <td>*</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>最后是待探究的例子:</p>
-<p><a href="javascript:void(0);" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
 <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\n'</span>,<span class="string">'\n\n'</span>)</span><br><span class="line">[<span class="string">'\n'</span>, <span class="string">'\n'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\\n'</span>,<span class="string">'\n\n'</span>)</span><br><span class="line">[<span class="string">'\n'</span>, <span class="string">'\n'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\\\n'</span>,<span class="string">'\n\n'</span>)</span><br><span class="line">[<span class="string">'\n'</span>, <span class="string">'\n'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\\\\n'</span>,<span class="string">'\n\n'</span>)</span><br><span class="line">[]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\b'</span>,<span class="string">'\b\b'</span>)</span><br><span class="line">[<span class="string">'\x08'</span>, <span class="string">'\x08'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\\b'</span>,<span class="string">'\b\b'</span>)</span><br><span class="line">[]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\\\b'</span>,<span class="string">'\b\b'</span>)</span><br><span class="line">[<span class="string">'\x08'</span>, <span class="string">'\x08'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\\\\b'</span>,<span class="string">'\b\b'</span>)</span><br><span class="line">[]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\c'</span>,<span class="string">'\c\c'</span>)</span><br><span class="line">[<span class="string">'c'</span>, <span class="string">'c'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\\c'</span>,<span class="string">'\c\c'</span>)</span><br><span class="line">[<span class="string">'c'</span>, <span class="string">'c'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\\\c'</span>,<span class="string">'\c\c'</span>)</span><br><span class="line">[<span class="string">'\\c'</span>, <span class="string">'\\c'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;</span>&gt; re.findall(<span class="string">'\\\\c'</span>,<span class="string">'\c\c'</span>)</span><br><span class="line">[<span class="string">'\\c'</span>, <span class="string">'\\c'</span>]</span><br></pre></td></tr></table></figure>
-
-<p><a href="javascript:void(0);" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0" target="_blank" rel="noopener"><img src="https://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a>;)</p>
 <p>参考:</p>
 <p>Python 3.3.3 官方文档</p>
 
@@ -923,7 +915,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1621,6 +1613,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

@@ -97,19 +97,19 @@
 
 
 
-  <meta name="description" content="WMT Shared Tasks – Human EvaluationHuman Evaluation两种评估的方式：direct assessments (DA); language pairs evaluated with relative ranking (RR) 但是DA相比于RR更具有优势，namely，对翻译质量的评估采取 absolute score 的方式。可以实施quality">
+  <meta name="description" content="WMT Shared Tasks — Human EvaluationHuman Evaluation两种评估的方式：direct assessments (DA); language pairs evaluated with relative ranking (RR) 但是DA相比于RR更具有优势，namely，对翻译质量的评估采取 absolute score 的方式。可以实施quality">
 <meta name="keywords" content="NLP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WMT Shared Tasks -- Human Evaluation ">
 <meta property="og:url" content="http://yoursite.com/2020/05/14/WMT-Shared-Tasks-Human-Evaluation/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="WMT Shared Tasks – Human EvaluationHuman Evaluation两种评估的方式：direct assessments (DA); language pairs evaluated with relative ranking (RR) 但是DA相比于RR更具有优势，namely，对翻译质量的评估采取 absolute score 的方式。可以实施quality">
+<meta property="og:description" content="WMT Shared Tasks — Human EvaluationHuman Evaluation两种评估的方式：direct assessments (DA); language pairs evaluated with relative ranking (RR) 但是DA相比于RR更具有优势，namely，对翻译质量的评估采取 absolute score 的方式。可以实施quality">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gepxhtqcpgj311h052abz.jpg">
 <meta property="og:updated_time" content="2020-07-02T14:15:18.741Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WMT Shared Tasks -- Human Evaluation ">
-<meta name="twitter:description" content="WMT Shared Tasks – Human EvaluationHuman Evaluation两种评估的方式：direct assessments (DA); language pairs evaluated with relative ranking (RR) 但是DA相比于RR更具有优势，namely，对翻译质量的评估采取 absolute score 的方式。可以实施quality">
+<meta name="twitter:description" content="WMT Shared Tasks — Human EvaluationHuman Evaluation两种评估的方式：direct assessments (DA); language pairs evaluated with relative ranking (RR) 但是DA相比于RR更具有优势，namely，对翻译质量的评估采取 absolute score 的方式。可以实施quality">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gepxhtqcpgj311h052abz.jpg">
 
 
@@ -301,7 +301,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -500,16 +500,15 @@
       
 
       
-        <h3 id="WMT-Shared-Tasks-–-Human-Evaluation"><a href="#WMT-Shared-Tasks-–-Human-Evaluation" class="headerlink" title="WMT Shared Tasks – Human Evaluation"></a>WMT Shared Tasks – Human Evaluation</h3><h4 id="Human-Evaluation"><a href="#Human-Evaluation" class="headerlink" title="Human Evaluation"></a>Human Evaluation</h4><p>两种评估的方式：direct assessments (DA); language pairs evaluated with relative ranking (RR)</p>
+        <h3 id="WMT-Shared-Tasks-—-Human-Evaluation"><a href="#WMT-Shared-Tasks-—-Human-Evaluation" class="headerlink" title="WMT Shared Tasks — Human Evaluation"></a>WMT Shared Tasks — Human Evaluation</h3><h4 id="Human-Evaluation"><a href="#Human-Evaluation" class="headerlink" title="Human Evaluation"></a>Human Evaluation</h4><p>两种评估的方式：direct assessments (DA); language pairs evaluated with relative ranking (RR)</p>
 <p>但是DA相比于RR更具有优势，namely，对翻译质量的评估采取 absolute score 的方式。可以<strong>实施quality control</strong> 。</p>
 <h4 id="Human-judgement-quality-control"><a href="#Human-judgement-quality-control" class="headerlink" title="Human judgement quality control"></a>Human judgement quality control</h4><ul>
 <li><p>每个标注者，每次任务：给定100个 （reference+ candidate）pair, 针对给定的reference, 评估生成的candidate的好坏。</p>
 </li>
 <li><p>100个pair中有60个用于quality control，40个由participating systems 生成的翻译组成。</p>
 <p>（1）这60个pair，是官方设计出来的，包括三类，repeat pairs (expecting a similar judgment), damage MT outputs/ bad reference (expecting significantly worse scores) and use references instead of MT outputs (expecting high scores). 因此仅仅会有20%的资源消耗：bad reference; good reference</p>
-<p>Specifically，先从正常的MT system 中 得到30个 （reference, MT output）pair，如 table 5 中的 original system output， 然后1)对1-10对，进行重复，得到10对。2）对11-20对，将MT output搞破坏。得到10对。3）对21-30对，取corresponding reference–&gt; (reference_1, reference_2)，得到10对。</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gepxhtqcpgj311h052abz.jpg">
-
+<p>Specifically，先从正常的MT system 中 得到30个 （reference, MT output）pair，如 table 5 中的 original system output， 然后1)对1-10对，进行重复，得到10对。2）对11-20对，将MT output搞破坏。得到10对。3）对21-30对，取corresponding reference—&gt; (reference_1, reference_2)，得到10对。</p>
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gepxhtqcpgj311h052abz.jpg"></p>
 <p>（2）within each 100-translation HIT， 每个articipating system<strong>等比例的贡献</strong>a（within each 100-translation HIT, the same proportion of translations are included from each participating system for that language pair.  ）这是为了确保每个参与的 系统含有近似的相同数量的评估。同时，这也从三个方面得到了公平性的评估：1）每有一个workers做一个HIT, 则就会为所有参与的系统增加human judgement。2）不会轻易受到worker个性差异的影响，因为每个worker都会给所有参与的系统进行评估。3）尽管DA判断是绝对的，但众所周知，判断者会根据观察到的总体翻译质量来“校准”他们使用量表的方式。 对于每个HIT（包括所有参与的系统），这种影响都是平均的。</p>
 </li>
 </ul>
@@ -648,7 +647,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -808,7 +807,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#WMT-Shared-Tasks-–-Human-Evaluation"><span class="nav-number">1.</span> <span class="nav-text">WMT Shared Tasks – Human Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Human-Evaluation"><span class="nav-number">1.1.</span> <span class="nav-text">Human Evaluation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Human-judgement-quality-control"><span class="nav-number">1.2.</span> <span class="nav-text">Human judgement quality control</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Annotator-Agreement"><span class="nav-number">1.3.</span> <span class="nav-text">Annotator Agreement</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Producing-the-Human-Ranking"><span class="nav-number">1.4.</span> <span class="nav-text">Producing the Human Ranking</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#WMT-Shared-Tasks-—-Human-Evaluation"><span class="nav-number">1.</span> <span class="nav-text">WMT Shared Tasks — Human Evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Human-Evaluation"><span class="nav-number">1.1.</span> <span class="nav-text">Human Evaluation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Human-judgement-quality-control"><span class="nav-number">1.2.</span> <span class="nav-text">Human judgement quality control</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Annotator-Agreement"><span class="nav-number">1.3.</span> <span class="nav-text">Annotator Agreement</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Producing-the-Human-Ranking"><span class="nav-number">1.4.</span> <span class="nav-text">Producing the Human Ranking</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -1346,6 +1345,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

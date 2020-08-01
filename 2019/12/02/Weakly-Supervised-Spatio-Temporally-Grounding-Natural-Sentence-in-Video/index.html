@@ -301,7 +301,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -548,8 +548,7 @@
 </li>
 <li><p><strong>ranking loss</strong>： aiming at distinguishing aligned video-sentence pairs from the unaligned ones.  这个损失是希望不匹配的video-sentence之间计算出来的匹配度差一些，比如给网络输入不与该视频对应的句子。</p>
 </li>
-<li><p><strong>novel diversity loss</strong> ：to strengthen the matching behaviors between reliable instance-sentence pairs and penalize the unreliable ones from the aligned video-sentence pair.  这个损失主要是希望对一个video，在计算tube 与 sentence之间的匹配度时，希望不同的 tube之间的差异性（diversity）大一些！</p>
-</li>
+<li><strong>novel diversity loss</strong> ：to strengthen the matching behaviors between reliable instance-sentence pairs and penalize the unreliable ones from the aligned video-sentence pair.  这个损失主要是希望对一个video，在计算tube 与 sentence之间的匹配度时，希望不同的 tube之间的差异性（diversity）大一些！</li>
 </ul>
 <h3 id="Inference"><a href="#Inference" class="headerlink" title="Inference"></a>Inference</h3><ul>
 <li>一个video 给出了N个 tube proposal，当计算完匹配度之后，选取匹配度最大的那个proposal，然后计算与GT之间的 overlap【4】，若overlap 大于一个阈值，则任务预测正确。</li>
@@ -693,7 +692,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1391,6 +1390,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

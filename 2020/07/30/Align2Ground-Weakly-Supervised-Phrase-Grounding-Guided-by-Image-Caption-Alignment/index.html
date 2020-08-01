@@ -302,7 +302,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -500,8 +500,6 @@
 <p><strong>weakly supervised paradigm 的一个关键是，紧密耦合监督学习任务（image-caption matching）和无法获得显示标签的任务（region-phrase matching）。联合推理确保前者的监督损失可以有效的引导后者的学习。</strong></p>
 <blockquote>
 <p>[1] Andrej Karpathy and Li Fei-Fei. <strong>Deep visual-semantic alignments for generating image descriptions.</strong> In CVPR, 2015</p>
-</blockquote>
-<blockquote>
 <p>[2] AndrejKarpathy,ArmandJoulin,andLiFFei-Fei. <strong>Deep fragment embeddings for bidirectional image sentence mapping.</strong> In NIPS,  2014</p>
 </blockquote>
 <p>[ 1 ] [ 2 ] 采用了 such paradigm，一般地，这种模型存在两个阶段：（1）local matching mudule: 得到 region-phrase 的隐式对应，进而生成local matching information.（2）gobal matching module: 使用（1）中得到的information来得到 image-caption matching.</p>
@@ -509,8 +507,7 @@
 <p>这将会<strong>使得模型不去学习 准确的ground <strong style="color:red;">所有的</strong> phrases</strong>。分析可得，将visual grounding 作为 primary aim 不是一个有效的解决办法。<strong>这种“作弊”倾向，使模型学会了在下游任务上做得很好而不必在中间任务上做得更好。</strong></p>
 <p>本文将这种现象称之为：“selective amplification” behavior</p>
 <p>本文解决这个问题：我们通过提出一种novel mechanism 来解决这一问题，该机制以使两个阶段之间更紧密耦合的方式 to relay this information about the latent, inferred correspondences</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gh8vyf8slej30wt0q914q.jpg" style="zoom: 50%;">
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gh8vyf8slej30wt0q914q.jpg" style="zoom: 50%;"></p>
 <p>Our novelty lies in designing this effective transfer of  information between the supervised and unsupervised parts  of the model such that the quality of image representations for the supervised matching task is a direct consequence of  <strong>the correct localization of all phrases.</strong> </p>
 <h3 id="Approach"><a href="#Approach" class="headerlink" title="Approach"></a>Approach</h3><p>our proposed model uses a novel technique that builds a discriminative image representation from the matched RoIs and uses this representation for the image-caption matching. </p>
 <p>Specifically, the image representation that is used to match an image with a caption is conditioned only on <strong style="color:red;">the subset of image regions</strong> that align semantically with <strong style="color:red;">all the phrases</strong> in that caption. </p>
@@ -523,10 +520,7 @@
 <p>设计的模块：a two-layer Multilayer Perceptron (MLP) with a mean operation. </p>
 <p>这个模块的输入，是从上一步中得到的 matched RoIs for correspondance phrases.</p>
 <h4 id="The-Global-Matching-module"><a href="#The-Global-Matching-module" class="headerlink" title="The Global Matching module"></a>The Global Matching module</h4><p>将 caption 映射到与 上一步中得到  representation of the image 相同的空间，然后利用 cosine similarity</p>
-<h4 id="Loss-Function"><a href="#Loss-Function" class="headerlink" title="Loss Function"></a>Loss Function</h4><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gh939pfhcgj30tq040wen.jpg" style="zoom:33%;">
-
-
-
+<h4 id="Loss-Function"><a href="#Loss-Function" class="headerlink" title="Loss Function"></a>Loss Function</h4><p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gh939pfhcgj30tq040wen.jpg" style="zoom:33%;"></p>
 <h3 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h3><p>motivation 挺好的 ，但是local aggregator 的设计比较朴素。</p>
 
       
@@ -649,7 +643,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1347,6 +1341,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

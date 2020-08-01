@@ -301,7 +301,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -494,32 +494,15 @@
 <h1 id="NumPy-广播-Broadcast"><a href="#NumPy-广播-Broadcast" class="headerlink" title="NumPy 广播(Broadcast)"></a>NumPy 广播(Broadcast)</h1><p>广播(Broadcast)是 numpy 对不同形状(shape)的数组进行数值计算的方式， 对数组的算术运算通常在相应的元素上进行。</p>
 <p>如果两个数组 a 和 b 形状相同，即满足 <strong>a.shape == b.shape</strong>，那么 a*b 的结果就是 a 与 b 数组对应位相乘。这要求维数相同，且各维度的长度相同。</p>
 <h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>import numpy as np    a = np.array([1,2,3,4])  b = np.array([10,20,30,40])  c = a * b  print (c)</p>
-<p>输出结果为：</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ <span class="number">10</span>  <span class="number">40</span>  <span class="number">90</span> <span class="number">160</span>]</span><br></pre></td></tr></table></figure>
-
+<p>输出结果为：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[ <span class="number">10</span>  <span class="number">40</span>  <span class="number">90</span> <span class="number">160</span>]</span><br></pre></td></tr></table></figure></p>
 <p>当运算中的 2 个数组的形状不同时，numpy 将自动触发广播机制。如：</p>
 <h2 id="实例-1"><a href="#实例-1" class="headerlink" title="实例"></a>实例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np    </span><br><span class="line">a = np.array([[ <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],            [<span class="number">10</span>,<span class="number">10</span>,<span class="number">10</span>],            [<span class="number">20</span>,<span class="number">20</span>,<span class="number">20</span>],            [<span class="number">30</span>,<span class="number">30</span>,<span class="number">30</span>]]) </span><br><span class="line">b = np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]) print(a + b)</span><br></pre></td></tr></table></figure>
-
-<p>输出结果为：</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[[ <span class="number">1</span>  <span class="number">2</span>  <span class="number">3</span>]</span><br><span class="line"> [<span class="number">11</span> <span class="number">12</span> <span class="number">13</span>]</span><br><span class="line"> [<span class="number">21</span> <span class="number">22</span> <span class="number">23</span>]</span><br><span class="line"> [<span class="number">31</span> <span class="number">32</span> <span class="number">33</span>]]</span><br></pre></td></tr></table></figure>
-
+<p>输出结果为：<br><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[[ <span class="number">1</span>  <span class="number">2</span>  <span class="number">3</span>]</span><br><span class="line"> [<span class="number">11</span> <span class="number">12</span> <span class="number">13</span>]</span><br><span class="line"> [<span class="number">21</span> <span class="number">22</span> <span class="number">23</span>]</span><br><span class="line"> [<span class="number">31</span> <span class="number">32</span> <span class="number">33</span>]]</span><br></pre></td></tr></table></figure></p>
 <p>下面的图片展示了数组 b 如何通过广播来与数组 a 兼容。</p>
 <p><img src="http://www.runoob.com/wp-content/uploads/2018/10/image0020619.gif" alt="img"></p>
 <p>4x3 的二维数组与长为 3 的一维数组相加，等效于把数组 b 在二维上重复 4 次再运算。</p>
-<h2 id="yayay实例"><a href="#yayay实例" class="headerlink" title="yayay实例"></a>yayay实例</h2><p>在few-shot gnn任务中，想要计算邻接矩阵A，其公式为：<strong>a<sub>ij</sub> = fc(v<sub>i</sub>-v<sub>j</sub>)</strong><br>那么问题来了得到的邻接矩阵是N×N的，则计算的差值矩阵也应该是N×N的。那么该如何高效的计算出来这个差值矩阵。</p>
-<pre><code class="python"><span class="keyword">import</span> numpy <span class="keyword">as</span> np
-N = <span class="number">10</span>
-D = <span class="number">7</span>
-X = np.ones((N,D))
-X1 = np.expand_dims(X, axis=<span class="number">0</span>)
-X2 = np.expand_dims(X, axis=<span class="number">1</span>)
-X_abs = np.abs(X1-X2)
-X_abs = np.reshape(X_abs, (N,N,D))
-X_T = X_abs 
-
-?????????????????需要考虑一下这个转置问题
-
-</code></pre>
+<h2 id="yayay实例"><a href="#yayay实例" class="headerlink" title="yayay实例"></a>yayay实例</h2><p>在few-shot gnn任务中，想要计算邻接矩阵A，其公式为：<strong>a<sub>ij</sub> = fc(v<sub>i</sub>-v<sub>j</sub>)</strong><br>那么问题来了得到的邻接矩阵是N×N的，则计算的差值矩阵也应该是N×N的。那么该如何高效的计算出来这个差值矩阵。<br>```python<br>import numpy as np<br>N = 10<br>D = 7<br>X = np.ones((N,D))<br>X1 = np.expand_dims(X, axis=0)<br>X2 = np.expand_dims(X, axis=1)<br>X_abs = np.abs(X1-X2)<br>X_abs = np.reshape(X_abs, (N,N,D))<br>X_T = X_abs </p>
+<p>?????????????????需要考虑一下这个转置问题</p>
 
       
     </div>
@@ -641,7 +624,7 @@ X_T = X_abs
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1339,6 +1322,13 @@ X_T = X_abs
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

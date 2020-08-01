@@ -299,7 +299,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -500,10 +500,10 @@
 </li>
 </ul>
 <h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><ul>
-<li><p><strong>当前的评价指标</strong>–over penalize：对于M个reference，metric 通过one-to-one 的方式得到M个得分，通过 pooling 操作，得到最终得分。<br>但是不同的reference caption关注到image的不同方面，因此会存在 variance。所以基于 pooling 的操作，太过简单。</p>
+<li><p><strong>当前的评价指标</strong>—over penalize：对于M个reference，metric 通过one-to-one 的方式得到M个得分，通过 pooling 操作，得到最终得分。<br>但是不同的reference caption关注到image的不同方面，因此会存在 variance。所以基于 pooling 的操作，太过简单。</p>
 <p>如果度量标准仅查看一个参考字幕，那么为这种过度惩罚而寻找补救措施是一项挑战。</p>
 </li>
-<li><p><strong>bertscore</strong>–under penalize</p>
+<li><p><strong>bertscore</strong>—under penalize</p>
 <p>由于在计算 bertscore 时，采用了贪婪搜索的方式，而且对于每个reference word, pick 一个最大值，这里有可能 没有candidate word 与 reference word相匹配，却给了一个高分。因此，导致 under-penalize</p>
 </li>
 <li><p><strong>分析</strong>： In one-to-one evaluation，尽管很难直接考虑所有reference，但可以使用来自预训练语言模型的上下文嵌入将references 合并为单个reference。</p>
@@ -514,12 +514,9 @@
 </li>
 <li><p>3.2 Mismatch detection with overlap and<br>cosine similarity  </p>
 </li>
-<li><p>3.3 The combination of references  </p>
-</li>
-<li><p>3.4 Importance of different words</p>
-</li>
-<li><p>3.5 Summary and metric formula   </p>
-</li>
+<li>3.3 The combination of references  </li>
+<li>3.4 Importance of different words</li>
+<li>3.5 Summary and metric formula   </li>
 </ul>
 
       
@@ -642,7 +639,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1340,6 +1337,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

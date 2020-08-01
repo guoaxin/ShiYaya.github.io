@@ -302,7 +302,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -520,12 +520,11 @@
 <li><p>从人类的角度</p>
 <ul>
 <li>丢失对显著物体的描述是一个 failure mode，但是captions is summaries，<strong>因此一般不期待其描述出场景中的所有的objects.</strong> 另外在人类的标注数据中，也不偏向于标注出所有出现在scene 中的objects</li>
-<li>研究报告表明，human judgements 比较不待见那些caption中包含了image content中未出现的 object，*<em>Correctness is more important to human judges than specificity.   *</em></li>
-<li>Many visually impaired who *<em>value correctness over coverage, *</em>hallucination is an obvious concern.  </li>
+<li>研究报告表明，human judgements 比较不待见那些caption中包含了image content中未出现的 object，<strong>Correctness is more important to human judges than specificity.   </strong></li>
+<li>Many visually impaired who <strong>value correctness over coverage, </strong>hallucination is an obvious concern.  </li>
 </ul>
 </li>
-<li><p>从模型的角度</p>
-<ul>
+<li>从模型的角度<ul>
 <li>object hallucination  揭示了caption model 存在的一个问题，可能caption model并没有对视觉场景学习到一个很好的视觉表征，而是对损失函数过拟合。</li>
 </ul>
 </li>
@@ -539,7 +538,7 @@
 <li>一个新的评价指标来评估object hallucination：CHAIR (Caption Hallucination Assessment with Image Relevance)  </li>
 </ul>
 </li>
-<li>(2) *<em>What are the likely causes of hallucination?   *</em><ul>
+<li>(2) <strong>What are the likely causes of hallucination?   </strong><ul>
 <li>造成object hallucination这一现象的原因主要有两点：visual misclassification and over-reliance on language priors  <ul>
 <li>提出：image and language model consistency scores  </li>
 </ul>
@@ -609,12 +608,10 @@
 </li>
 <li><p>Models with stronger image consistency frequently hallucinate fewer objects, suggesting that strong visual processing is important for  avoiding hallucination.  </p>
 </li>
-<li><p><strong>Advises for captioning task:</strong> 仅使用CE-loss/ standard sentence metrics来优化，不太能解决object hallucination 这个问题，若同时以 image relevance 来优化，会更好。</p>
-</li>
+<li><strong>Advises for captioning task:</strong> 仅使用CE-loss/ standard sentence metrics来优化，不太能解决object hallucination 这个问题，若同时以 image relevance 来优化，会更好。</li>
 </ul>
 <h4 id="yaya-总结"><a href="#yaya-总结" class="headerlink" title="yaya 总结"></a>yaya 总结</h4><ul>
-<li><p>在设计评价指标上给我的几点启发</p>
-<ul>
+<li>在设计评价指标上给我的几点启发<ul>
 <li>(1) 不需要要求machine generated caption 可以概括所有的objects which have been occurred in the vision scene</li>
 <li>(2) machine generated caption 进行评价时，正确性比全面性更加重要</li>
 </ul>
@@ -625,10 +622,8 @@
 <li>另外对于GT sentences，也提出一个list，这个地方不太知道它说的什么意思？？？？？  </li>
 </ul>
 </li>
-<li><p>GVD 好像也类似的提到过类似的思想</p>
-</li>
-<li><p>关于the image consistency and language consistency scores.</p>
-<ul>
+<li>GVD 好像也类似的提到过类似的思想</li>
+<li>关于the image consistency and language consistency scores.<ul>
 <li>在这个得分的计算方式上，是否还有什么可以改进的地方？</li>
 </ul>
 </li>
@@ -754,7 +749,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1452,6 +1447,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

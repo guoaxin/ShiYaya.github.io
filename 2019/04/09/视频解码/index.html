@@ -97,19 +97,19 @@
 
 
 
-  <meta name="description" content="opencv提取关键帧（banet）  ffmpeg提取关键帧 （video to text）  i帧、P帧、B帧  参考：https://blog.csdn.net/huangblog/article/details/8739876I帧，Intra-coded frame：是一张完整的图片P帧，predictive frame: 记录了与之前真的差别，在解码P帧之前需要参考之前的图片帧B帧，B">
+  <meta name="description" content="opencv提取关键帧（banet） ffmpeg提取关键帧 （video to text）  i帧、P帧、B帧  参考：https://blog.csdn.net/huangblog/article/details/8739876I帧，Intra-coded frame：是一张完整的图片P帧，predictive frame: 记录了与之前真的差别，在解码P帧之前需要参考之前的图片帧B帧，Bi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="视频解码">
 <meta property="og:url" content="http://yoursite.com/2019/04/09/视频解码/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="opencv提取关键帧（banet）  ffmpeg提取关键帧 （video to text）  i帧、P帧、B帧  参考：https://blog.csdn.net/huangblog/article/details/8739876I帧，Intra-coded frame：是一张完整的图片P帧，predictive frame: 记录了与之前真的差别，在解码P帧之前需要参考之前的图片帧B帧，B">
+<meta property="og:description" content="opencv提取关键帧（banet） ffmpeg提取关键帧 （video to text）  i帧、P帧、B帧  参考：https://blog.csdn.net/huangblog/article/details/8739876I帧，Intra-coded frame：是一张完整的图片P帧，predictive frame: 记录了与之前真的差别，在解码P帧之前需要参考之前的图片帧B帧，Bi">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1w7ki6x02j30ra0ge0st.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1w7ki8pfvj30nm0fk77r.jpg">
 <meta property="og:updated_time" content="2019-04-09T04:07:23.503Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="视频解码">
-<meta name="twitter:description" content="opencv提取关键帧（banet）  ffmpeg提取关键帧 （video to text）  i帧、P帧、B帧  参考：https://blog.csdn.net/huangblog/article/details/8739876I帧，Intra-coded frame：是一张完整的图片P帧，predictive frame: 记录了与之前真的差别，在解码P帧之前需要参考之前的图片帧B帧，B">
+<meta name="twitter:description" content="opencv提取关键帧（banet） ffmpeg提取关键帧 （video to text）  i帧、P帧、B帧  参考：https://blog.csdn.net/huangblog/article/details/8739876I帧，Intra-coded frame：是一张完整的图片P帧，predictive frame: 记录了与之前真的差别，在解码P帧之前需要参考之前的图片帧B帧，Bi">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1w7ki6x02j30ra0ge0st.jpg">
 
 
@@ -301,7 +301,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -471,43 +471,35 @@
 
       
         <ul>
-<li><p>opencv提取关键帧（banet）</p>
-</li>
+<li>opencv提取关键帧（banet）</li>
 <li><p>ffmpeg提取关键帧 （video to text）</p>
 </li>
 <li><p>i帧、P帧、B帧</p>
 </li>
-<li><p>参考：<a href="https://blog.csdn.net/huangblog/article/details/8739876" target="_blank" rel="noopener">https://blog.csdn.net/huangblog/article/details/8739876</a><br>I帧，Intra-coded frame：是一张完整的图片<br>P帧，predictive frame: 记录了与之前真的差别，在解码P帧之前需要参考之前的图片帧<br>B帧，Bi-Predictive frame: 不仅需要参考之前的图片帧，还需要参考之后的图片帧，才能完整解码。<br>因此解码P帧、B帧的速度相对较慢，直接解码I帧可以获得更快的速度。</p>
-</li>
+<li>参考：<a href="https://blog.csdn.net/huangblog/article/details/8739876" target="_blank" rel="noopener">https://blog.csdn.net/huangblog/article/details/8739876</a><br>I帧，Intra-coded frame：是一张完整的图片<br>P帧，predictive frame: 记录了与之前真的差别，在解码P帧之前需要参考之前的图片帧<br>B帧，Bi-Predictive frame: 不仅需要参考之前的图片帧，还需要参考之后的图片帧，才能完整解码。<br>因此解码P帧、B帧的速度相对较慢，直接解码I帧可以获得更快的速度。<br><strong>简单地讲，I帧是一个完整的画面，而P帧和B帧记录的是相对于I帧的变化。没有I帧，P帧和B帧就无法解码</strong>  </li>
 </ul>
-<p><strong>简单地讲，I帧是一个完整的画面，而P帧和B帧记录的是相对于I帧的变化。没有I帧，P帧和B帧就无法解码</strong>  </p>
 <h3 id="GOP"><a href="#GOP" class="headerlink" title="GOP"></a>GOP</h3><p>所谓GOP，意思是画面组，一个GOP就是一组连续的画面。从一个I帧到下一个I帧之间的所有帧的组合称为一个GOP。</p>
 <ul>
-<li><p><strong>I帧</strong><br>I帧是参考帧，一个GOP中必须含有I帧，它是一个全帧压缩编码帧。它将全帧图像信息进行JPEG压缩编码及传输。</p>
-</li>
-<li><p><strong>P帧的预测与重构:</strong><br>P帧是以I帧为参考帧,在I帧中找出P帧“某点”的预测值和运动矢量,取预测差值和运动矢量一起传送。在接收端根据运动矢量从I帧中找出P帧“某点”的预测值并与差值相加以得到P帧“某点”样值,从而可得到完整的P帧。</p>
-</li>
+<li><strong>I帧</strong><br>I帧是参考帧，一个GOP中必须含有I帧，它是一个全帧压缩编码帧。它将全帧图像信息进行JPEG压缩编码及传输。</li>
+<li><strong>P帧的预测与重构:</strong><br>P帧是以I帧为参考帧,在I帧中找出P帧“某点”的预测值和运动矢量,取预测差值和运动矢量一起传送。在接收端根据运动矢量从I帧中找出P帧“某点”的预测值并与差值相加以得到P帧“某点”样值,从而可得到完整的P帧。</li>
 <li><p><strong>B帧的预测与重构：</strong><br>B帧以前面的I或P帧和后面的P帧为参考帧,“找出”B帧“某点”的预测值和两个运动矢量,并取预测差值和运动矢量传送。接收端根据运动矢量在两个参考帧中“找出(算出)”预测值并与差值求和,得到B帧“某点”样值,从而可得到完整的B帧。</p>
 </li>
 <li><p><strong>用下图中的1234567帧来表达</strong><br>首先由1：I帧，<br>再由1、4帧得到第4帧所在位置处的图像信息<br>最后由1、4、2得到第2帧所在位置处的图像信息，由1、4、3得到第3帧所在位置处的图像信息</p>
 </li>
 </ul>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1w7ki6x02j30ra0ge0st.jpg">  
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1w7ki6x02j30ra0ge0st.jpg">  </p>
 <ul>
 <li>另外一张图  </li>
 </ul>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1w7ki8pfvj30nm0fk77r.jpg">
-
-
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1w7ki8pfvj30nm0fk77r.jpg"></p>
 <hr>
 <h3 id="视频压缩：I帧、P帧、B帧"><a href="#视频压缩：I帧、P帧、B帧" class="headerlink" title="视频压缩：I帧、P帧、B帧"></a>视频压缩：I帧、P帧、B帧</h3><ul>
 <li>来源： <a href="https://blog.csdn.net/huangblog/article/details/8739876" target="_blank" rel="noopener">https://blog.csdn.net/huangblog/article/details/8739876</a></li>
 </ul>
 <p>视频压缩中，每帧代表一幅静止的图像。而在实际压缩时，会采取各种算法减少数据的容量，其中IPB就是最常见的。</p>
 <pre><code>简单地说，I帧是关键帧，属于帧内压缩。就是和AVI的压缩是一样的。
-P是向前搜索的意思。B是双向搜索。他们都是基于I帧来压缩数据。</code></pre><p>   I帧表示关键帧，你可以理解为这一帧画面的完整保留；解码时只需要本帧数据就可以完成（因为包含完整画面）</p>
+P是向前搜索的意思。B是双向搜索。他们都是基于I帧来压缩数据。
+</code></pre><p>   I帧表示关键帧，你可以理解为这一帧画面的完整保留；解码时只需要本帧数据就可以完成（因为包含完整画面）</p>
 <p>   P帧表示的是这一帧跟之前的一个关键帧（或P帧）的差别，解码时需要用之前缓存的画面叠加上本帧定义的差别，生成最终画面。（也就是差别帧，P帧没有完整画面数据，只有与前一帧的画面差别的数据）</p>
 <p>   B帧是双向差别帧，也就是B帧记录的是本帧与前后帧的差别（具体比较复杂，有4种情况），换言之，要解码B帧，不仅要取得之前的缓存画面，还要解码之后的画面，通过前后画面的与本帧数据的叠加取得最终的画面。B帧压缩率高，但是解码时CPU会比较累~。</p>
 <pre><code>采用的压缩方法: 分组:把几帧图像分为一组(GOP),为防止运动变化,帧数不宜取多。
@@ -516,7 +508,8 @@ P是向前搜索的意思。B是双向搜索。他们都是基于I帧来压缩�
 
     2.预测帧:以I帧做为基础帧,以I帧预测P帧,再由I帧和P帧预测B帧;
 
-    3.数据传输:最后将I帧数据与预测的差值信息进行存储和传输。</code></pre><p>一、I帧  </p>
+    3.数据传输:最后将I帧数据与预测的差值信息进行存储和传输。
+</code></pre><p>一、I帧  </p>
 <pre><code>I图像（帧）是靠尽可能去除图像空间冗余信息来压缩传输数据量的帧内编码图像。
 
 I帧又称为内部画面 (intra picture)，I 帧通常是每个 GOP（MPEG 所使用的一种视频压缩技术）的第一个帧，经过适度地压缩（做为随机访问的参考点）可以当成图象。在MPEG编码的过程中部分视频帧序列压缩成为I帧，部分压缩成P帧，还有部分压缩成B帧。I帧法是帧内压缩法（P、B为帧间），也称为“关键帧”压缩法。I帧法是基于离散余弦变换DCT（Discrete Cosine Transform）的压缩技术，这种算法与JPEG压缩算法类似。采用I帧压缩可达到1/6的压缩比而无明显的压缩痕迹。
@@ -549,7 +542,8 @@ I帧编码流程：
 
     (4)变长编码和算术编码。
 
-    (5)重构图像并滤波，得到的图像作为其它帧的参考帧。</code></pre><p>二、P帧</p>
+    (5)重构图像并滤波，得到的图像作为其它帧的参考帧。
+</code></pre><p>二、P帧</p>
 <pre><code> P图像（帧）是通过充分降低于图像序列中前面已编码帧的时间冗余信息来压缩传输数据量的编码图像，也叫预测帧。
 
 在针对连续动态图像编码时，将连续若干幅图像分成P,B,I三种类型，P帧由在它前面的P帧或者I帧预测而来，它比较与它前面的P帧或者I帧之间的相同信息或数据，也即考虑运动的特性进行帧间压缩。P帧法是根据本帧与相邻的前一帧（I帧或P帧）的不同点来压缩本帧数据。采取P帧和I帧联合压缩的方法可达到更高的压缩且无明显的压缩痕迹。
@@ -572,7 +566,8 @@ P帧特点：
 
     ⑥由于P帧是参考帧，它可能造成解码错误的扩散。 
 
-    ⑦由于是差值传送，P帧的压缩比较高。</code></pre><p>三、B帧</p>
+    ⑦由于是差值传送，P帧的压缩比较高。
+</code></pre><p>三、B帧</p>
 <pre><code>B图像（帧）是既考虑与源图像序列前面已编码帧，也顾及源图像序列后面已编码帧之间的时间冗余信息来压缩传输数据量的编码图像，也叫双向预测帧。   
 
 B帧法是双向预测的帧间压缩算法。当把一帧压缩成B帧时，它根据相邻的前一帧、本帧以及后一帧数据的不同点来压缩本帧，也即仅记录本帧与前后帧的差值。只有采用B帧压缩才能达到200：1的高压缩。一般地，I帧压缩效率最低，P帧较高，B帧最高。
@@ -605,12 +600,14 @@ P 帧和 B 帧编码的基本流程为：
 
     (5)若编码，如果是帧间编码模式，编码运动矢量。
 
-注:I、B、P各帧是根据压缩算法的需要,是人为定义的,它们都是实实在在的物理帧,至于图像中的哪一帧是I帧,是随机的,一但确定了I帧,以后的各帧就严格按规定顺序排列。 </code></pre><p>四、实际应用</p>
+注:I、B、P各帧是根据压缩算法的需要,是人为定义的,它们都是实实在在的物理帧,至于图像中的哪一帧是I帧,是随机的,一但确定了I帧,以后的各帧就严格按规定顺序排列。 
+</code></pre><p>四、实际应用</p>
 <pre><code>从上面的解释看，我们知道I和P的解码算法比较简单，资源占用也比较少，I只要自己完成就行了，P呢，也只需要解码器把前一个画面缓存一下，遇到P时就使用之前缓存的画面就好了，如果视频流只有I和P，解码器可以不管后面的数据，边读边解码，线性前进，大家很舒服。
 
 但网络上的电影很多都采用了B帧，因为B帧记录的是前后帧的差别，比P帧能节约更多的空间，但这样一来，文件小了，解码器就麻烦了，因为在解码时，不仅要用之前缓存的画面，还要知道下一个I或者P的画面（也就是说要预读预解码），而且，B帧不能简单地丢掉，因为B帧其实也包含了画面信息，如果简单丢掉，并用之前的画面简单重复，就会造成画面卡（其实就是丢帧了），并且由于网络上的电影为了节约空间，往往使用相当多的B帧，B帧用的多，对不支持B帧的播放器就造成更大的困扰，画面也就越卡。
 
-一般平均来说，I的压缩率是7（跟JPG差不多），P是20，B可以达到50，可见使用B帧能节省大量空间，节省出来的空间可以用来保存多一些I帧，这样在相同码率下，可以提供更好的画质。</code></pre>
+一般平均来说，I的压缩率是7（跟JPG差不多），P是20，B可以达到50，可见使用B帧能节省大量空间，节省出来的空间可以用来保存多一些I帧，这样在相同码率下，可以提供更好的画质。
+</code></pre>
       
     </div>
 
@@ -725,7 +722,7 @@ P 帧和 B 帧编码的基本流程为：
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1423,6 +1420,13 @@ P 帧和 B 帧编码的基本流程为：
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

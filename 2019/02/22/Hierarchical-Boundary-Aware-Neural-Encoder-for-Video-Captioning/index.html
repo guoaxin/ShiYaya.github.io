@@ -97,20 +97,20 @@
 
 
 
-  <meta name="description" content="Introduction   In this paper, we focus on the video encoding stage. we propose a recurrent network which can learn to adapt its temporal structure to input data.Our network is the first proposal which">
+  <meta name="description" content="IntroductionIn this paper, we focus on the video encoding stage. we propose a recurrent network which can learn to adapt its temporal structure to input data.Our network is the first proposal which ex">
 <meta name="keywords" content="视频描述,人工智能">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hierarchical Boundary-Aware Neural Encoder for Video Captioning">
 <meta property="og:url" content="http://yoursite.com/2019/02/22/Hierarchical-Boundary-Aware-Neural-Encoder-for-Video-Captioning/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="Introduction   In this paper, we focus on the video encoding stage. we propose a recurrent network which can learn to adapt its temporal structure to input data.Our network is the first proposal which">
+<meta property="og:description" content="IntroductionIn this paper, we focus on the video encoding stage. we propose a recurrent network which can learn to adapt its temporal structure to input data.Our network is the first proposal which ex">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g0g5c5cwmxj30l00mh45o.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g0g57reyepj316c0m7k74.jpg">
 <meta property="og:updated_time" content="2019-02-23T08:04:20.002Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hierarchical Boundary-Aware Neural Encoder for Video Captioning">
-<meta name="twitter:description" content="Introduction   In this paper, we focus on the video encoding stage. we propose a recurrent network which can learn to adapt its temporal structure to input data.Our network is the first proposal which">
+<meta name="twitter:description" content="IntroductionIn this paper, we focus on the video encoding stage. we propose a recurrent network which can learn to adapt its temporal structure to input data.Our network is the first proposal which ex">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g0g5c5cwmxj30l00mh45o.jpg">
 
 
@@ -302,7 +302,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -501,22 +501,17 @@
       
 
       
-        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0g5c5cwmxj30l00mh45o.jpg">  
-In this paper, we focus on the video encoding stage. we propose a recurrent network which can learn to adapt its temporal structure to input data.Our network is the first proposal which exploits temporal segments in
-video captioning。
-在这篇文章中，给出了一个循环视频编码方案，该方案可以发现和利用视频的分层结构。不同于经典的编码解码方法（视频由一个循环层来连续的编码），我们提出了一个新颖的LSTM单元， 其可以识别帧/段之间非连续的点，相应地修改编码层的时间连接。
-Encoder Model
----------
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0g57reyepj316c0m7k74.jpg">  
- - **traditional lstm network**
-使用LSTM来获得video feature，将每个frames 按每time step 依次送入LSTM，最后一个LSTM cell 的hidden state 用来得到video feature。  
-- **Time Boundary-aware LSTM network** ***(ours)***
-figure1 与 figure2 结合来看，存在BD（boundary detection ）来检测该帧是否为一个边界（an appearance or action change），若BD检测到存在一个边界，则**保存当前LSTM的输出**，并开始一个新的LSTM（即，hidden state and the cell memory 被重新初始化）。这就确保了在边界之后的输入数据，不受边界之前数据的影响。
-经过对all frames of video 进行这样的操作，于是得到可变长度的输出 (s1; s2; ...; sm), m是检测到segments的数量。
-这组输出又经过另外一个LSTM层（称为第二LSTM层），第二LSTM层的hidden state 作为整个视频的特征（参考figure1）。
-Decoder model
--------------
-A Gated Recurrent Unit (GRU) layer
+        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0g5c5cwmxj30l00mh45o.jpg"><br>In this paper, we focus on the video encoding stage. we propose a recurrent network which can learn to adapt its temporal structure to input data.Our network is the first proposal which exploits temporal segments in<br>video captioning。<br>在这篇文章中，给出了一个循环视频编码方案，该方案可以发现和利用视频的分层结构。不同于经典的编码解码方法（视频由一个循环层来连续的编码），我们提出了一个新颖的LSTM单元， 其可以识别帧/段之间非连续的点，相应地修改编码层的时间连接。</p>
+<h2 id="Encoder-Model"><a href="#Encoder-Model" class="headerlink" title="Encoder Model"></a>Encoder Model</h2><p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g0g57reyepj316c0m7k74.jpg">  </p>
+<ul>
+<li><strong>traditional lstm network</strong><br>使用LSTM来获得video feature，将每个frames 按每time step 依次送入LSTM，最后一个LSTM cell 的hidden state 用来得到video feature。  <ul>
+<li><strong>Time Boundary-aware LSTM network</strong> <strong><em>(ours)</em></strong><br>figure1 与 figure2 结合来看，存在BD（boundary detection ）来检测该帧是否为一个边界（an appearance or action change），若BD检测到存在一个边界，则<strong>保存当前LSTM的输出</strong>，并开始一个新的LSTM（即，hidden state and the cell memory 被重新初始化）。这就确保了在边界之后的输入数据，不受边界之前数据的影响。<br>经过对all frames of video 进行这样的操作，于是得到可变长度的输出 (s1; s2; …; sm), m是检测到segments的数量。<br>这组输出又经过另外一个LSTM层（称为第二LSTM层），第二LSTM层的hidden state 作为整个视频的特征（参考figure1）。<br>Decoder model</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p>A Gated Recurrent Unit (GRU) layer</p>
+
       
     </div>
 
@@ -639,7 +634,7 @@ A Gated Recurrent Unit (GRU) layer
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -799,7 +794,7 @@ A Gated Recurrent Unit (GRU) layer
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Encoder-Model"><span class="nav-number">2.</span> <span class="nav-text">Encoder Model</span></a></li></ol></div>
             
 
           </div>
@@ -1337,6 +1332,13 @@ A Gated Recurrent Unit (GRU) layer
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

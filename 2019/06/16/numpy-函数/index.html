@@ -298,7 +298,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -469,14 +469,9 @@
       
         <h2 id="np-round"><a href="#np-round" class="headerlink" title="np.round "></a><font color="#0099ff" size="7" face="黑体">np.round </font></h2><h3 id="round函数概念："><a href="#round函数概念：" class="headerlink" title="round函数概念："></a>round函数概念：</h3><p>英文：圆，四舍五入<br>是python内置函数，它在哪都能用，对数字取四舍五入。<br>round(number[, ndigits])<br>round 对传入的数据进行四舍五入，如果ngigits不传，默认是0（就是说保留整数部分）.ngigits&lt;0 的时候是来对整数部分进行四舍五入，返回的结果是浮点数.</p>
 <h3 id="round-负数"><a href="#round-负数" class="headerlink" title="round 负数"></a>round 负数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 四舍五入是围绕着0来计算的，  </span></span><br><span class="line">round(<span class="number">0.5</span>) <span class="comment"># 1.0  </span></span><br><span class="line">round(<span class="number">-0.5</span>) <span class="comment">#-1.0</span></span><br></pre></td></tr></table></figure>
-
 <h3 id="round-的陷阱"><a href="#round-的陷阱" class="headerlink" title="round 的陷阱"></a>round 的陷阱</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">round(<span class="number">1.675</span>, <span class="number">2</span>) <span class="comment">#1.68  </span></span><br><span class="line">round(<span class="number">2.675</span>, <span class="number">2</span>) <span class="comment">#2.67</span></span><br></pre></td></tr></table></figure>
-
 <h3 id="举例："><a href="#举例：" class="headerlink" title="举例："></a>举例：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">round(<span class="number">3.4</span>) <span class="comment"># 3.0  </span></span><br><span class="line">round(<span class="number">3.5</span>) <span class="comment"># 4.0  </span></span><br><span class="line">round(<span class="number">3.6</span>) <span class="comment"># 4.0  </span></span><br><span class="line">round(<span class="number">3.6</span>, <span class="number">0</span>) <span class="comment"># 4.0  </span></span><br><span class="line">round(<span class="number">1.95583</span>, <span class="number">2</span>) <span class="comment"># 1.96  </span></span><br><span class="line">round(<span class="number">1241757</span>, <span class="number">-3</span>) <span class="comment"># 1242000.0  </span></span><br><span class="line">round(<span class="number">5.045</span>, <span class="number">2</span>) <span class="comment"># 5.05  </span></span><br><span class="line">round(<span class="number">5.055</span>, <span class="number">2</span>) <span class="comment"># 5.06</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="np-clip"><a href="#np-clip" class="headerlink" title="np.clip"></a><font color="#0099ff" size="7" face="黑体">np.clip</font></h2><p>numpy.clip(a, a_min, a_max, out=None)[source]<br>其中a是一个数组，后面两个参数分别表示最小和最大值，怎么用呢，老规矩，我们看代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">x=np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>])</span><br><span class="line">np.clip(x,<span class="number">3</span>,<span class="number">8</span>)</span><br><span class="line">Out[<span class="number">88</span>]:</span><br><span class="line">array([<span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">8</span>])</span><br></pre></td></tr></table></figure>
-
+<h2 id="np-clip"><a href="#np-clip" class="headerlink" title="np.clip"></a><font color="#0099ff" size="7" face="黑体">np.clip</font></h2><p>numpy.clip(a, a_min, a_max, out=None)[source]<br>其中a是一个数组，后面两个参数分别表示最小和最大值，怎么用呢，老规矩，我们看代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">x=np.array([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>])</span><br><span class="line">np.clip(x,<span class="number">3</span>,<span class="number">8</span>)</span><br><span class="line">Out[<span class="number">88</span>]:</span><br><span class="line">array([<span class="number">3</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">8</span>])</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -592,7 +587,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1290,6 +1285,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

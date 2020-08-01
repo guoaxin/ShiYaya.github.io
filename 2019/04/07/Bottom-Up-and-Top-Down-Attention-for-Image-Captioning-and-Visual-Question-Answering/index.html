@@ -302,7 +302,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -491,9 +491,7 @@
       
         <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>在object级别上计算 attention<br><strong>bottom-up</strong>: 使用Faster R-CNN 来提取 object，并得到相对应的特征向量。<br><strong>top-down</strong>: 用来计算attention 的系数，作为bottom-up中得到的每个object feature 的权重。</p>
 <h2 id="概括："><a href="#概括：" class="headerlink" title="概括："></a>概括：</h2><p><strong>（1）Bottom-Up</strong><br>使用Faster R-CNN 中的R-CNN来得到object feature。<br><strong>（2）Top-Down Attention</strong><br>得到了该层的隐层状态，并与object features  中的每一个<strong>v<sub>i</sub></strong>来计算一个attention 系数。<br><strong>（3）对object features 进行attention 权重求和</strong><br>得到image feature<br><strong>（4）Decoder：language LSTM</strong><br>输出预测单词</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g19d1x7kiij30im0bvaat.jpg" style="zoom:60%">  
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14xg3jwvdj30mo0h2wfi.jpg" style="zoom:60%">
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g19d1x7kiij30im0bvaat.jpg" style="zoom:60%"><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14xg3jwvdj30mo0h2wfi.jpg" style="zoom:60%"></p>
 <h2 id="Bottom-Up"><a href="#Bottom-Up" class="headerlink" title="Bottom-Up"></a>Bottom-Up</h2><ul>
 <li><strong>主要介绍一下Faster R-CNN 的训练过程</strong><br>（1）首先Resnet-101 是在ImageNet上预训练的<br>（2）Faster R-CNN在MS COCO上进行预训练<br>rpn 的score classification loss，bbox regression loss<br>r-cnn 的score classification loss，bbox regression loss<br>（3）Faster R-CNN在Visual Genome上再进行预训练<br>为了得到更好的特征表达，增加一个预测属性的输出： </li>
 <li><strong>具体的网络：</strong><br>To predict attributes for region i, we concatenate the mean  pooled convolutional feature vi with a learned embedding  of the ground-truth object class, and feed this into an additional output layer defining a softmax distribution over each  attribute class plus a ‘no attributes’ class.</li>
@@ -621,7 +619,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1319,6 +1317,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

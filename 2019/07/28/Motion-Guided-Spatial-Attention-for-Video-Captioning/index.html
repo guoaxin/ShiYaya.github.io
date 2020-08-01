@@ -303,7 +303,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -509,10 +509,7 @@
 <h3 id="本文的工作"><a href="#本文的工作" class="headerlink" title="本文的工作"></a>本文的工作</h3><ul>
 <li>两个贡献： MGSA、GARU</li>
 <li>The proposed MGSA utilize motion information between consecutive frames by applying CNN to stacked optical flows. </li>
-<li>In addition, a gated recurrent unit named GARU is designed to adaptively relate spatial attention maps across time. <img src="https://i.loli.net/2019/07/28/5d3d877e9c0d546970.png" alt="搜狗截图20190728193057.png" title="搜狗截图20190728193057.png">    
-
-
-</li>
+<li>In addition, a gated recurrent unit named GARU is designed to adaptively relate spatial attention maps across time.<br><img src="https://i.loli.net/2019/07/28/5d3d877e9c0d546970.png" alt="搜狗截图20190728193057.png" title="搜狗截图20190728193057.png">    </li>
 </ul>
 <h3 id="Encoder-部分我的理解"><a href="#Encoder-部分我的理解" class="headerlink" title="Encoder 部分我的理解"></a>Encoder 部分我的理解</h3><ul>
 <li>对一个video 采取N帧，对这N帧提取appearences feature，得到<code>N*H*W*D</code>的特征向量</li>
@@ -520,14 +517,9 @@
 <li>==构造一个长度为N的GRU时域序列，每次送入一帧==  appearence feature 和 optical flow cnn feature，并得到一个输出,维度为<code>H*W</code>，</li>
 <li>该输出作为一个attention系数，并与 ==当前帧== frame feature 相乘。得到一个为该帧的每个像素点（<code>H*W</code>）分配的权重系数。即进行加权求和，则可以得到该帧的spatial attention</li>
 </ul>
-<h3 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h3><img src="https://i.loli.net/2019/07/28/5d3d87b91afaa36288.png" alt="搜狗截图20190728193156.png" title="搜狗截图20190728193156.png" width="440px" height="400px">    
-
-
-
+<h3 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h3><p><img src="https://i.loli.net/2019/07/28/5d3d87b91afaa36288.png" alt="搜狗截图20190728193156.png" title="搜狗截图20190728193156.png" width="440px" height="400px">    </p>
 <h3 id="Experimental-results"><a href="#Experimental-results" class="headerlink" title="Experimental results"></a>Experimental results</h3><ul>
-<li>这里只是想提一点，就是有一些论文在MSR-VTT上的实验结果，是使用了==音频信息==。<img src="https://i.loli.net/2019/07/28/5d3d80835814750581.png" alt="搜狗截图20190728190107.png" title="搜狗截图20190728190107.png">
-
-</li>
+<li>这里只是想提一点，就是有一些论文在MSR-VTT上的实验结果，是使用了==音频信息==。<br><img src="https://i.loli.net/2019/07/28/5d3d80835814750581.png" alt="搜狗截图20190728190107.png" title="搜狗截图20190728190107.png"></li>
 </ul>
 <h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ul>
 <li><p>基于 spatial attention的 video captioning model</p>
@@ -658,7 +650,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1356,6 +1348,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

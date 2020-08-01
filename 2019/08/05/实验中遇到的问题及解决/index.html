@@ -97,18 +97,18 @@
 
 
 
-  <meta name="description" content="问题 1 问题描述：首先表现为：在pycharm debug下和在running模式下的实验结果不一致，后来，在训练阶段将预训练的模型保存下来，载入evaluate.py 文件中再次进行评估，得到的分数与在训练阶段评估的分数不一致 解决思路：由于第二个现象，更加容易解决，因此先解决他，师兄提出一个办法，将保存的模型再次载入，这样就可以有两个网络，然后比较两个网络的数据是在哪里出现差异的，这样可以找">
+  <meta name="description" content="问题 1 问题描述：首先表现为：在pycharm debug下和在running模式下的实验结果不一致，&amp;lt;/br&amp;gt;后来，在训练阶段将预训练的模型保存下来，载入evaluate.py 文件中再次进行评估，得到的分数与在训练阶段评估的分数不一致 解决思路：由于第二个现象，更加容易解决，因此先解决他，师兄提出一个办法，将保存的模型再次载入，这样就可以有两个网络，然后比较两个网络的数据是在哪里">
 <meta name="keywords" content="问题总结">
 <meta property="og:type" content="article">
 <meta property="og:title" content="实验中遇到的问题及解决">
 <meta property="og:url" content="http://yoursite.com/2019/08/05/实验中遇到的问题及解决/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="问题 1 问题描述：首先表现为：在pycharm debug下和在running模式下的实验结果不一致，后来，在训练阶段将预训练的模型保存下来，载入evaluate.py 文件中再次进行评估，得到的分数与在训练阶段评估的分数不一致 解决思路：由于第二个现象，更加容易解决，因此先解决他，师兄提出一个办法，将保存的模型再次载入，这样就可以有两个网络，然后比较两个网络的数据是在哪里出现差异的，这样可以找">
+<meta property="og:description" content="问题 1 问题描述：首先表现为：在pycharm debug下和在running模式下的实验结果不一致，&amp;lt;/br&amp;gt;后来，在训练阶段将预训练的模型保存下来，载入evaluate.py 文件中再次进行评估，得到的分数与在训练阶段评估的分数不一致 解决思路：由于第二个现象，更加容易解决，因此先解决他，师兄提出一个办法，将保存的模型再次载入，这样就可以有两个网络，然后比较两个网络的数据是在哪里">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-08-05T11:41:45.360Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实验中遇到的问题及解决">
-<meta name="twitter:description" content="问题 1 问题描述：首先表现为：在pycharm debug下和在running模式下的实验结果不一致，后来，在训练阶段将预训练的模型保存下来，载入evaluate.py 文件中再次进行评估，得到的分数与在训练阶段评估的分数不一致 解决思路：由于第二个现象，更加容易解决，因此先解决他，师兄提出一个办法，将保存的模型再次载入，这样就可以有两个网络，然后比较两个网络的数据是在哪里出现差异的，这样可以找">
+<meta name="twitter:description" content="问题 1 问题描述：首先表现为：在pycharm debug下和在running模式下的实验结果不一致，&amp;lt;/br&amp;gt;后来，在训练阶段将预训练的模型保存下来，载入evaluate.py 文件中再次进行评估，得到的分数与在训练阶段评估的分数不一致 解决思路：由于第二个现象，更加容易解决，因此先解决他，师兄提出一个办法，将保存的模型再次载入，这样就可以有两个网络，然后比较两个网络的数据是在哪里">
 
 
 
@@ -299,7 +299,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -487,14 +487,14 @@
 
       
         <h3 id="问题-1"><a href="#问题-1" class="headerlink" title="问题 1"></a>问题 1</h3><ul>
-<li>问题描述：首先表现为：在pycharm debug下和在running模式下的实验结果不一致，<br><br>后来，在训练阶段将预训练的模型保存下来，载入evaluate.py 文件中再次进行评估，得到的分数与在训练阶段评估的分数不一致</li>
+<li>问题描述：首先表现为：在pycharm debug下和在running模式下的实验结果不一致，&lt;/br&gt;<br>后来，在训练阶段将预训练的模型保存下来，载入evaluate.py 文件中再次进行评估，得到的分数与在训练阶段评估的分数不一致</li>
 <li>解决思路：由于第二个现象，更加容易解决，因此先解决他，师兄提出一个办法，将保存的模型再次载入，这样就可以有两个网络，然后比较两个网络的数据是在哪里出现差异的，这样可以找到问题。</li>
 <li>解决办法：</li>
 </ul>
 <ol>
-<li>在训练一个epoch 后，将模型保存了下来，然后用两个网络，一个时train.py中重新加载这个网络，一个是在evaluate.py中加载这个网络，将得到的结果，进行比较，（看输出的结果是否一致），然后发现，在一些video 输出的结果是一样的，在一些video是不一样的。<br></li>
-<li>找到那些video对应的结果不一样的所对应的iteration，在该iteration打印出了网络中的部分变量的数据，发现，在dataloader的数据就是不一样的.<br></li>
-<li>那么问题就是出现在数据加载上。通过对数据加载部分的代码进行调试，发现，仅在num_workers=0时，两个dataloader的数据才一样，而采用多线程的话，两个dataloader的数据不完全一样。而又在其他的代码上测试，多线程不会影响数据加载，那么问题就是出现在，自己设计的dataset上，<br></li>
+<li>在训练一个epoch 后，将模型保存了下来，然后用两个网络，一个时train.py中重新加载这个网络，一个是在evaluate.py中加载这个网络，将得到的结果，进行比较，（看输出的结果是否一致），然后发现，在一些video 输出的结果是一样的，在一些video是不一样的。&lt;/br&gt;</li>
+<li>找到那些video对应的结果不一样的所对应的iteration，在该iteration打印出了网络中的部分变量的数据，发现，在dataloader的数据就是不一样的.&lt;/br&gt;</li>
+<li>那么问题就是出现在数据加载上。通过对数据加载部分的代码进行调试，发现，仅在num_workers=0时，两个dataloader的数据才一样，而采用多线程的话，两个dataloader的数据不完全一样。而又在其他的代码上测试，多线程不会影响数据加载，那么问题就是出现在，自己设计的dataset上，&lt;/br&gt;</li>
 <li>又发现在加载h5py文件时，没有取切片，而self.critical pytorch代码时加上了的，通过加上切片 <code>[:]</code> 发现在多线程时，是正常的。</li>
 </ol>
 
@@ -618,7 +618,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1316,6 +1316,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

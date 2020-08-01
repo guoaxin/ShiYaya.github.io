@@ -302,7 +302,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -509,18 +509,15 @@
 <li>bagging是一种集成方法（ensemble methods）,可以通过集成来减小泛化误差（generalization error）。 </li>
 <li>bagging的<strong>最基本的思想</strong>是通过分别训练几个不同分类器，最后对测试的样本，每个分类器对其进行投票。在机器学习上这种策略叫model averaging。 </li>
 <li>model averaging 之所以有效，是因为并非所有的分类器都会产生相同的误差，只要有不同的分类器产生的误差不同就会对减小泛化误差非常有效。 </li>
-<li>对于bagging方法，允许采用相同的分类器，相同的训练算法，相同的目标函数。但是在<strong>数据集方面</strong>，<a href="https://www.baidu.com/s?wd=%E6%96%B0%E6%95%B0%E6%8D%AE&tn=24004469_oem_dg&rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">新数据</a>集与原始数据集的大小是相等的。每个数据集都是通过在原始数据集中随机选择一个样本进行替换而得到的。意味着，每个新数据集中会<strong>存在重复</strong>的样本。 </li>
+<li>对于bagging方法，允许采用相同的分类器，相同的训练算法，相同的目标函数。但是在<strong>数据集方面</strong>，<a href="https://www.baidu.com/s?wd=%E6%96%B0%E6%95%B0%E6%8D%AE&amp;tn=24004469_oem_dg&amp;rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">新数据</a>集与原始数据集的大小是相等的。每个数据集都是通过在原始数据集中随机选择一个样本进行替换而得到的。意味着，每个新数据集中会<strong>存在重复</strong>的样本。 </li>
 <li>在数据集建好之后，用<strong>相同的学习算法</strong>分别作用于每个数据集就得到了几个分类器。 </li>
 <li>下面这幅图片很好的解释了bagging的工作方式：我们想实现一个对数字8进行分类的分类器。此时构造了两个数据集，使用相同的学习算法，第一个分类器学习到的是8的上面那部分而第二个分类器学习的是8的下面那个部分。当我们把两个分类器集合起来的时候，此时的分类才是比较好的。 </li>
 <li>Each of these individual classification ruls is brittle, but if we average there output then the detector is robust.<br><img src="https://img-blog.csdn.net/20170813153102572?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbTBfMzc0NzcxNzU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></li>
 </ul>
 <h2 id="dropout"><a href="#dropout" class="headerlink" title="dropout"></a>dropout</h2><ul>
-<li><p>我们可以把dropout类比成将许多大的神经网络进行集成的一种bagging方法。 </p>
-</li>
-<li><p>但是每一个神经网络的训练是非常耗时和占用很多内存的，训练很多的神经网络进行集合分类就显得太不实际了。 </p>
-</li>
-<li><p>但是，dropout可以训练所有子网络的集合，这些子网络通过去除整个网络中的一些<a href="https://www.baidu.com/s?wd=%E7%A5%9E%E7%BB%8F%E5%85%83&tn=24004469_oem_dg&rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">神经元</a>来获得。 </p>
-</li>
+<li>我们可以把dropout类比成将许多大的神经网络进行集成的一种bagging方法。 </li>
+<li>但是每一个神经网络的训练是非常耗时和占用很多内存的，训练很多的神经网络进行集合分类就显得太不实际了。 </li>
+<li>但是，dropout可以训练所有子网络的集合，这些子网络通过去除整个网络中的一些<a href="https://www.baidu.com/s?wd=%E7%A5%9E%E7%BB%8F%E5%85%83&amp;tn=24004469_oem_dg&amp;rsv_dl=gh_pl_sl_csd" target="_blank" rel="noopener">神经元</a>来获得。 </li>
 <li><p>如下图所示：<br><img src="https://img-blog.csdn.net/20170813154717429?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbTBfMzc0NzcxNzU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
 </li>
 <li><p>可能有些人会问上图的有些子网络，从输入到不了最终的输出，怎么办？其实对于比较宽的层（wider layers）从输入到输出都切断的概率是非常小的，多以影响不是很大。</p>
@@ -660,7 +657,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1358,6 +1355,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

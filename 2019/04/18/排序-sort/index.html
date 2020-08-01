@@ -299,7 +299,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -497,7 +497,6 @@
 </blockquote>
 <h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">partition</span><span class="params">(nums, left, right)</span>:</span></span><br><span class="line">    tmp = left</span><br><span class="line">    reference = nums[left]  <span class="comment"># 以最左端的nums[left] 作为中位数</span></span><br><span class="line">    left = left</span><br><span class="line">    <span class="keyword">while</span> left &lt; right:</span><br><span class="line">        <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> nums[left] &lt;= reference:</span><br><span class="line">            left = left + <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> left &lt; right <span class="keyword">and</span> nums[right] &gt; reference:</span><br><span class="line">            right = right - <span class="number">1</span></span><br><span class="line">        nums[left], nums[right] = nums[right], nums[left]</span><br><span class="line">    <span class="keyword">if</span> nums[left] &lt; reference:</span><br><span class="line">        nums[left], nums[tmp] = nums[tmp], nums[left]</span><br><span class="line">        <span class="keyword">return</span> left</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        nums[left<span class="number">-1</span>], nums[tmp] = nums[tmp], nums[left<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">return</span> left<span class="number">-1</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">QuickSort</span><span class="params">(nums , left, right)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> left &lt; right:</span><br><span class="line">        index = partition(nums, left, right)</span><br><span class="line">        QuickSort(nums, left, index<span class="number">-1</span>)</span><br><span class="line">        QuickSort(nums, index+<span class="number">1</span>, right)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">nums = [<span class="number">6</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">3</span>]</span><br><span class="line"><span class="comment"># nums = [1,2,3,4]</span></span><br><span class="line"><span class="comment"># nums = [3,2,5,6,4,4,4,5,6]</span></span><br><span class="line">left = <span class="number">0</span></span><br><span class="line">right = len(nums)<span class="number">-1</span></span><br><span class="line">QuickSort(nums, left, right)</span><br><span class="line">print(nums)</span><br></pre></td></tr></table></figure>
 
-
       
     </div>
 
@@ -618,7 +617,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1316,6 +1315,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

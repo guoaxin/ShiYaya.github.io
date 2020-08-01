@@ -97,19 +97,19 @@
 
 
 
-  <meta name="description" content="yaya 这是CVPR 2019 做视频描述的一篇文章，该文的主要贡献是对已有的ActivityNet dense caption数据集进行加强—对其中的帧进行了object bbox的标注，这就为视频描述任务增加了非常有用的信息。 总的来说，该文的出发点是：1. 利用object 信息来生成句子. 2. 希望生成的句子中的名词，在video中可以找到相对应的证据(object)。 grounde">
+  <meta name="description" content="yaya 这是CVPR 2019 做视频描述的一篇文章，该文的主要贡献是对已有的ActivityNet dense caption数据集进行加强—-对其中的帧进行了object bbox的标注，这就为视频描述任务增加了非常有用的信息。 总的来说，该文的出发点是：1. 利用object 信息来生成句子. 2. 希望生成的句子中的名词，在video中可以找到相对应的证据(object)。 ground">
 <meta name="keywords" content="视频描述">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Grounded Video Description">
 <meta property="og:url" content="http://yoursite.com/2019/05/10/Grounded-Video-Description/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="yaya 这是CVPR 2019 做视频描述的一篇文章，该文的主要贡献是对已有的ActivityNet dense caption数据集进行加强—对其中的帧进行了object bbox的标注，这就为视频描述任务增加了非常有用的信息。 总的来说，该文的出发点是：1. 利用object 信息来生成句子. 2. 希望生成的句子中的名词，在video中可以找到相对应的证据(object)。 grounde">
+<meta property="og:description" content="yaya 这是CVPR 2019 做视频描述的一篇文章，该文的主要贡献是对已有的ActivityNet dense caption数据集进行加强—-对其中的帧进行了object bbox的标注，这就为视频描述任务增加了非常有用的信息。 总的来说，该文的出发点是：1. 利用object 信息来生成句子. 2. 希望生成的句子中的名词，在video中可以找到相对应的证据(object)。 ground">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g2x5hlq801j30l20ezq4v.jpg">
 <meta property="og:updated_time" content="2019-05-12T09:50:06.760Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Grounded Video Description">
-<meta name="twitter:description" content="yaya 这是CVPR 2019 做视频描述的一篇文章，该文的主要贡献是对已有的ActivityNet dense caption数据集进行加强—对其中的帧进行了object bbox的标注，这就为视频描述任务增加了非常有用的信息。 总的来说，该文的出发点是：1. 利用object 信息来生成句子. 2. 希望生成的句子中的名词，在video中可以找到相对应的证据(object)。 grounde">
+<meta name="twitter:description" content="yaya 这是CVPR 2019 做视频描述的一篇文章，该文的主要贡献是对已有的ActivityNet dense caption数据集进行加强—-对其中的帧进行了object bbox的标注，这就为视频描述任务增加了非常有用的信息。 总的来说，该文的出发点是：1. 利用object 信息来生成句子. 2. 希望生成的句子中的名词，在video中可以找到相对应的证据(object)。 ground">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g2x5hlq801j30l20ezq4v.jpg">
 
 
@@ -301,7 +301,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -501,7 +501,7 @@
 
       
         <h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><ul>
-<li>这是CVPR 2019 做视频描述的一篇文章，该文的主要贡献是对已有的ActivityNet dense caption数据集进行加强—对其中的帧进行了object bbox的标注，这就为视频描述任务增加了非常有用的信息。</li>
+<li>这是CVPR 2019 做视频描述的一篇文章，该文的主要贡献是对已有的ActivityNet dense caption数据集进行加强—-对其中的帧进行了object bbox的标注，这就为视频描述任务增加了非常有用的信息。</li>
 <li>总的来说，<font color="#dd00dd">该文的出发点是：1. 利用object 信息来生成句子. 2. 希望生成的句子中的名词，在video中可以找到相对应的证据(object)。</font><br></li>
 <li>grounded-based video description model ：联合生成的单词，并微调在description中生成的object。可以探索这种显式的监督对视频描述带来的益处，并与无监督（可能利用region feature，但是没有 penalize grounding）的方法进行对比。</li>
 </ul>
@@ -529,10 +529,7 @@
 <li>本文的decoder 部分采用 [1] 中提到的decoder，与bottom up[3] 的结构大致近似，但是<strong>在[1]中</strong>第二层 language lstm的输入部分，不仅包括attention of region feature， 还包括attention of 最后一个卷积层k girds的特征。对应到本文的视频描述任务上，第二层language lstm的输入，不仅包括attention of region features ，还包括 attention of frames features。即region attention 和 temporal attention</li>
 <li>需要注意的是该文中使用的<font color="#0099ff" size="5" face="黑体">temporal attention</font>是[2]中提到的self-attention context encoder with Bidirectional GRU (Bi-GRU)，而不是[1]中使用的attention机制。</li>
 <li><font color="#0099ff" size="5" face="黑体">region attention</font>采用的就是bottom up 中的attention结构</li>
-<li>下面将[1] 中的原图贴一下：   <img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2x5hlq801j30l20ezq4v.jpg">   
-
-
-</li>
+<li>下面将[1] 中的原图贴一下：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2x5hlq801j30l20ezq4v.jpg">   </li>
 </ul>
 <h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2><h3 id="Region-proposal-and-features"><a href="#Region-proposal-and-features" class="headerlink" title="Region proposal and features"></a>Region proposal and features</h3><p>For each frame, we use a Faster  R-CNN detector [24] with ResNeXt-101 backbone [30] for  region proposal and feature extraction (fc6). The detector is  pretrained on Visual Genome。</p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>[1] Neural baby talk. In CVPR 2018.<br>[2] End-to-end dense video captioning with masked transformer. In CVPR 2018.<br>[3] Bottom-up and top-down attention for image captioning and  visual question answering. In CVPR 2018.</p>
@@ -657,7 +654,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1355,6 +1352,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

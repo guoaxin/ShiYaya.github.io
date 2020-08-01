@@ -298,7 +298,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -504,11 +504,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="yaya学到了"><a href="#yaya学到了" class="headerlink" title="yaya学到了"></a>yaya学到了</h3><ul>
-<li>使用ERG进行语法分析，若能够获得语法分析，则该句子在语法上被认为是格式正确的。反之。。</li>
-</ul>
-<hr>
-<h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><ul>
+<h3 id="yaya学到了"><a href="#yaya学到了" class="headerlink" title="yaya学到了"></a>yaya学到了</h3><h2 id="使用ERG进行语法分析，若能够获得语法分析，则该句子在语法上被认为是格式正确的。反之。。"><a href="#使用ERG进行语法分析，若能够获得语法分析，则该句子在语法上被认为是格式正确的。反之。。" class="headerlink" title="- 使用ERG进行语法分析，若能够获得语法分析，则该句子在语法上被认为是格式正确的。反之。。"></a>- 使用ERG进行语法分析，若能够获得语法分析，则该句子在语法上被认为是格式正确的。反之。。</h2><h3 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h3><ul>
 <li><strong style="color:red;">【当前评价指标存在的问题】</strong>: 当前存在的评价指标，只去关注于a candidate caption and<br>a set of reference captions之间的相似性，但是不去检查 generated caption 与 当前视觉内容之间的相关性。</li>
 <li>本文提出了一个为 image captioning task 设计的 evaluation framework. 目的是直接评估生成caption的语法性、真实性和多样性(GTD).</li>
 <li>使用本文新提出的evaluation framework 为 image caption models 进行评估, 并在多个数据集上进行测试，来证明本文提出的评估框架的潜力。</li>
@@ -537,8 +533,7 @@
 <li>BLEU 和 SPICE 不能捕捉 true caption-image agreement in all scenarios, 但是 GTD 对于现有模型如何很好地应对各种视觉环境和语言构造，却能有一个细粒度的观测。</li>
 </ul>
 <h3 id="GTD-evaluation-framework"><a href="#GTD-evaluation-framework" class="headerlink" title="GTD evaluation framework"></a>GTD evaluation framework</h3><ul>
-<li><p>将GVD视为涵盖多方面字幕任务的必要方面的评估协议, 而不是一个具体的评估指标。</p>
-</li>
+<li>将GVD视为涵盖多方面字幕任务的必要方面的评估协议, 而不是一个具体的评估指标。</li>
 <li><p><strong style="color:red;">【Grammaticality】</strong></p>
 <ul>
 <li>在一般情况下，对语法的完全准确的评估本身是一项艰巨的任务，但在诸如我们的诊断语言数据这样的非常有限的情况下，变得更加可行。【即在真实场景下的数据集是无法实现的？！！！】</li>
@@ -554,14 +549,10 @@
 </li>
 <li><p><strong style="color:red;">【Diversity】  </strong></p>
 <h3 id="一些实验结果的分析"><a href="#一些实验结果的分析" class="headerlink" title="一些实验结果的分析"></a>一些实验结果的分析</h3></li>
-<li><p>越高的BLEU得分，并不意味着准确性的提高。 换句话说，与reference captions的重叠度高（high n_gram overlap），并不代表语义内容是正确的. 仅仅是由于reference caption的词表有限所致。<strong>具体的分析可以查看论文实验部分：Correlation between the BLEU/SPICE scores and the<br>ground truth.</strong></p>
-</li>
-<li><p>虽然CNN可以为视觉任务提供丰富的视觉表达，但是对于多模态任务，其是否可以满足<br>但是这种浓缩的视觉表达对于需要higher-level 场景理解，视觉推理的多模态任务是否足够充分，仍然是一个开放性问题。</p>
-</li>
-<li><p>生成句子的多样性受到训练数据是否多样性的影响</p>
-</li>
-<li><p>未来的工作：本文发现：the caption agreement 并不总是随着训练损失的下降而提高。<br>理想情况下，训练目标应该与模型最终被评估的方式保持一致。在未来，计划实现一个GTD-aware loss,进而研究如何把GTD信号融合到训练过程中。</p>
-</li>
+<li>越高的BLEU得分，并不意味着准确性的提高。 换句话说，与reference captions的重叠度高（high n_gram overlap），并不代表语义内容是正确的. 仅仅是由于reference caption的词表有限所致。<strong>具体的分析可以查看论文实验部分：Correlation between the BLEU/SPICE scores and the<br>ground truth.</strong></li>
+<li>虽然CNN可以为视觉任务提供丰富的视觉表达，但是对于多模态任务，其是否可以满足<br>但是这种浓缩的视觉表达对于需要higher-level 场景理解，视觉推理的多模态任务是否足够充分，仍然是一个开放性问题。</li>
+<li>生成句子的多样性受到训练数据是否多样性的影响</li>
+<li>未来的工作：本文发现：the caption agreement 并不总是随着训练损失的下降而提高。<br>理想情况下，训练目标应该与模型最终被评估的方式保持一致。在未来，计划实现一个GTD-aware loss,进而研究如何把GTD信号融合到训练过程中。</li>
 </ul>
 
       
@@ -678,7 +669,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -838,7 +829,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#yaya-总结"><span class="nav-number">1.</span> <span class="nav-text">yaya 总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#yaya学到了"><span class="nav-number">2.</span> <span class="nav-text">yaya学到了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#摘要"><span class="nav-number">3.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction"><span class="nav-number">4.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GTD-evaluation-framework"><span class="nav-number">5.</span> <span class="nav-text">GTD evaluation framework</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些实验结果的分析"><span class="nav-number">6.</span> <span class="nav-text">一些实验结果的分析</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#yaya-总结"><span class="nav-number">1.</span> <span class="nav-text">yaya 总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#yaya学到了"><span class="nav-number">2.</span> <span class="nav-text">yaya学到了</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#使用ERG进行语法分析，若能够获得语法分析，则该句子在语法上被认为是格式正确的。反之。。"><span class="nav-number"></span> <span class="nav-text">- 使用ERG进行语法分析，若能够获得语法分析，则该句子在语法上被认为是格式正确的。反之。。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#摘要"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Introduction"><span class="nav-number">2.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GTD-evaluation-framework"><span class="nav-number">3.</span> <span class="nav-text">GTD evaluation framework</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些实验结果的分析"><span class="nav-number">4.</span> <span class="nav-text">一些实验结果的分析</span></a></li></ol></li></div>
             
 
           </div>
@@ -1376,6 +1367,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

@@ -301,7 +301,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -514,8 +514,7 @@
 <p>The key idea of Adversarial Matching is to <strong>recycle</strong> each correct answer for a question exactly three times — as a <strong>negative answer</strong> for three other questions.  这样每个answer 将会有1/4的机会是正例。这可以<strong>解决掉 answer-only bais 的问题</strong>，从而避免了模型总是选择 most generic answer. </p>
 <p>在为每个image 选择negative answer时，希望<strong>negative answer: relevant as possible to the context/question (so that they appeal to machines), while they cannot be overly similar to the correct response (so that they don’t become correct answers incidentally).</strong> </p>
 <p>因此计算一个weight，能够同时考虑到与query中的questeion相关度大，但是与query 的correct answer的相似性小。在本文中使用bert来计算相关度，用ESIM+ELM来计算相似性。</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1geuprb6zmvj310305qwfg.jpg">
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1geuprb6zmvj310305qwfg.jpg"></p>
 <p>为了获得多个negative answer，需要执行多次的双向匹配。为了确保nagetive pairs是多样性的，在依次获得negative answer的过程中，在下一次从其他的image中查找negative answer时，需要遍历当前所有的negative answer，然后取最大值。（replace the similarity term with the maximum similarity between a candidate response rj and all responses currently assigned to qi.）</p>
 <h4 id="Language-Priors-and-Annotation-Artifacts-Discussion"><a href="#Language-Priors-and-Annotation-Artifacts-Discussion" class="headerlink" title="Language Priors and Annotation Artifacts Discussion"></a>Language Priors and Annotation Artifacts Discussion</h4><p><strong>Answer Priors</strong>: A model can select a correct answer without even looking at the question. </p>
 <p><strong>Non-Visual Priors ：</strong>A model can select a correct answer using only non-visual elements of the question. </p>
@@ -650,7 +649,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1348,6 +1347,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

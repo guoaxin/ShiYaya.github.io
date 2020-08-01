@@ -97,13 +97,13 @@
 
 
 
-  <meta name="description" content="积累梯度那里没有看明白 – 解决内存占用多的问题我认为可能是积累 loss, 直到达到某一个batch size才进行反向传播说是为了解决内存占用多的问题，可是这样，就解决了吗？？？ 灵魂反问为什么要是end-to-end，我最终需要的是一个效果比较好的模型，但是为了只得到这样的一点提升，反而会需要很多的GPU计算资源。这个end-to-end fine-tune 是否有必要。 目前方法存在的问题">
+  <meta name="description" content="积累梯度那里没有看明白 — 解决内存占用多的问题我认为可能是积累 loss, 直到达到某一个batch size才进行反向传播说是为了解决内存占用多的问题，可是这样，就解决了吗？？？ 灵魂反问为什么要是end-to-end，我最终需要的是一个效果比较好的模型，但是为了只得到这样的一点提升，反而会需要很多的GPU计算资源。这个end-to-end fine-tune 是否有必要。 目前方法存在的问题">
 <meta name="keywords" content="视频描述">
 <meta property="og:type" content="article">
 <meta property="og:title" content="An End-to-End Baseline for Video Captioning">
 <meta property="og:url" content="http://yoursite.com/2019/04/20/An-End-to-End-Baseline-for-Video-Captioning/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="积累梯度那里没有看明白 – 解决内存占用多的问题我认为可能是积累 loss, 直到达到某一个batch size才进行反向传播说是为了解决内存占用多的问题，可是这样，就解决了吗？？？ 灵魂反问为什么要是end-to-end，我最终需要的是一个效果比较好的模型，但是为了只得到这样的一点提升，反而会需要很多的GPU计算资源。这个end-to-end fine-tune 是否有必要。 目前方法存在的问题">
+<meta property="og:description" content="积累梯度那里没有看明白 — 解决内存占用多的问题我认为可能是积累 loss, 直到达到某一个batch size才进行反向传播说是为了解决内存占用多的问题，可是这样，就解决了吗？？？ 灵魂反问为什么要是end-to-end，我最终需要的是一个效果比较好的模型，但是为了只得到这样的一点提升，反而会需要很多的GPU计算资源。这个end-to-end fine-tune 是否有必要。 目前方法存在的问题">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g2ad637ykjj30hy0h677d.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeagi7o3j30a30280sl.jpg">
@@ -121,7 +121,7 @@
 <meta property="og:updated_time" content="2019-08-22T08:31:06.483Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="An End-to-End Baseline for Video Captioning">
-<meta name="twitter:description" content="积累梯度那里没有看明白 – 解决内存占用多的问题我认为可能是积累 loss, 直到达到某一个batch size才进行反向传播说是为了解决内存占用多的问题，可是这样，就解决了吗？？？ 灵魂反问为什么要是end-to-end，我最终需要的是一个效果比较好的模型，但是为了只得到这样的一点提升，反而会需要很多的GPU计算资源。这个end-to-end fine-tune 是否有必要。 目前方法存在的问题">
+<meta name="twitter:description" content="积累梯度那里没有看明白 — 解决内存占用多的问题我认为可能是积累 loss, 直到达到某一个batch size才进行反向传播说是为了解决内存占用多的问题，可是这样，就解决了吗？？？ 灵魂反问为什么要是end-to-end，我最终需要的是一个效果比较好的模型，但是为了只得到这样的一点提升，反而会需要很多的GPU计算资源。这个end-to-end fine-tune 是否有必要。 目前方法存在的问题">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g2ad637ykjj30hy0h677d.jpg">
 
 
@@ -313,7 +313,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -512,11 +512,11 @@
       
 
       
-        <h3 id="积累梯度那里没有看明白-–-解决内存占用多的问题"><a href="#积累梯度那里没有看明白-–-解决内存占用多的问题" class="headerlink" title="积累梯度那里没有看明白 – 解决内存占用多的问题"></a>积累梯度那里没有看明白 – 解决内存占用多的问题</h3><p>我认为可能是积累 loss, 直到达到某一个batch size才进行反向传播<br>说是为了解决内存占用多的问题，可是这样，就解决了吗？？？</p>
+        <h3 id="积累梯度那里没有看明白-—-解决内存占用多的问题"><a href="#积累梯度那里没有看明白-—-解决内存占用多的问题" class="headerlink" title="积累梯度那里没有看明白 — 解决内存占用多的问题"></a>积累梯度那里没有看明白 — 解决内存占用多的问题</h3><p>我认为可能是积累 loss, 直到达到某一个batch size才进行反向传播<br>说是为了解决内存占用多的问题，可是这样，就解决了吗？？？</p>
 <h3 id="灵魂反问"><a href="#灵魂反问" class="headerlink" title="灵魂反问"></a>灵魂反问</h3><p>为什么要是end-to-end，我最终需要的是一个效果比较好的模型，但是为了只得到这样的一点提升，反而会需要很多的GPU计算资源。这个end-to-end fine-tune 是否有必要。</p>
 <h3 id="目前方法存在的问题"><a href="#目前方法存在的问题" class="headerlink" title="目前方法存在的问题"></a>目前方法存在的问题</h3><p>encoder：比如 CNN， 一般是在不同任务上的其他数据集上进行预训练的，之后，在训练video captioning任务时，得到的video/image feature就不再fine tune。这样得到的结果是次优的。<br>目前改进这一缺陷的文章有：[1][2][3]，他们尝试捕捉不同帧之间的动态时域，但是，他们没有从根本上改变一个事实：视频描述任务需要一个与该任务相关的特征。</p>
 <h4 id="当前没有人去fine-tune-encoder的原因"><a href="#当前没有人去fine-tune-encoder的原因" class="headerlink" title="当前没有人去fine-tune encoder的原因"></a>当前没有人去fine-tune encoder的原因</h4><p>（1）because of the amount of memory required to process  video data for each batch。是因为每个批次都要处理视频数据，所需要的存储空间会很大。<br>（2）batch sizes for video captioning can become very high (e.g. 512), making training  prohibitive on a small number of GPUs。同时，视频描述的批次一般都比较大，使得所需要的GPU数量会很多。</p>
-<h4 id="本文提取出的解决方案—-即训练过程"><a href="#本文提取出的解决方案—-即训练过程" class="headerlink" title="本文提取出的解决方案—-即训练过程"></a>本文提取出的解决方案—-即训练过程</h4><p>In this paper we address this issue by accumulating gradients over multiple steps, to update parameters only after  the required effective batch size is achieved.<br>在多步积累梯度，并只在达到有效的批次大小之后(当神经网络训练完512个examples)，才进行梯度更新。<br>这种训练方案相比于分别训练两部分收敛速度会慢，因为所需的迭代次数增加了。但是这里采用了一个加速训练过程的方案，先分别训练encoder和decoder，然后再end-to-end进行fine-tune。</p>
+<h4 id="本文提取出的解决方案——即训练过程"><a href="#本文提取出的解决方案——即训练过程" class="headerlink" title="本文提取出的解决方案——即训练过程"></a>本文提取出的解决方案——即训练过程</h4><p>In this paper we address this issue by accumulating gradients over multiple steps, to update parameters only after  the required effective batch size is achieved.<br>在多步积累梯度，并只在达到有效的批次大小之后(当神经网络训练完512个examples)，才进行梯度更新。<br>这种训练方案相比于分别训练两部分收敛速度会慢，因为所需的迭代次数增加了。但是这里采用了一个加速训练过程的方案，先分别训练encoder和decoder，然后再end-to-end进行fine-tune。</p>
 <h4 id="主要的贡献"><a href="#主要的贡献" class="headerlink" title="主要的贡献"></a>主要的贡献</h4><ol>
 <li>可以得到与具体任务（视频描述）相关的特征</li>
 <li>积累梯度来限制GPU存储消耗，因此可以处理大批次，这是基于RNN的decoders所需的。</li>
@@ -534,55 +534,46 @@
 <h3 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h3><p> Inception-ResNet-v2[5] as an encoder，and a modified version of  Soft-Attention LSTM as a decoder.<br> <img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ad637ykjj30hy0h677d.jpg">    </p>
 <ul>
 <li>decoder<ul>
-<li>输入LSTM的input: <strong>x<sup>t</sup></strong> ：<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeagi7o3j30a30280sl.jpg">    
-- 该step 生成的word：
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeiriwanj30jd014mx7.jpg">
-
+<li>输入LSTM的input: <strong>x<sup>t</sup></strong> ：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeagi7o3j30a30280sl.jpg">    <ul>
+<li>该step 生成的word：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeiriwanj30jd014mx7.jpg"></li>
+</ul>
 </li>
 </ul>
 </li>
 </ul>
 <p>soft-attention这里，原文是采用attention机制进行加权求和 ，这里与原soft-attention[2] 略有不同。</p>
 <ul>
-<li><p>原soft-attention论文：</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeagheogj308o03ct8l.jpg">     
+<li><p>原soft-attention论文：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeagheogj308o03ct8l.jpg">     </p>
 </li>
 <li><p>现修改为：（增加了β<sub>t</sub>）</p>
 </li>
 </ul>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeagka0rj30h504dq37.jpg">   
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeaggzpdj309302xdfq.jpg">   
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeagka0rj30h504dq37.jpg"><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeaggzpdj309302xdfq.jpg">   </p>
 <ul>
-<li><font color="#0099ff" size="5" face="黑体">这里与Figure2 图中显示的结构并不一致，这里是全权求和，但是在图中却是concatenate !</font></li>
-</ul>
-<ul>
-<li>还有一些其他的修改<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aes6w62rj30il09xwgp.jpg">
+<li><font color="#0099ff" size="5" face="黑体">这里与Figure2 图中显示的结构并不一致，这里是全权求和，但是在图中却是concatenate !</font>
 
 </li>
+</ul>
+<ul>
+<li>还有一些其他的修改<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aes6w62rj30il09xwgp.jpg"></li>
 </ul>
 <h3 id="实验效果"><a href="#实验效果" class="headerlink" title="实验效果"></a>实验效果</h3><ul>
 <li>step1 : encoder先训练，然后固定encoder的参数，训练decoder的参数，不进行联合训练</li>
 <li>step2：在step1的基础上，联合训练encoder-decoder。</li>
-<li>MSR-VTT的实验结果<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ajqfodpkj30kl0b9acc.jpg">  </li>
-<li>MSVD的实验结果<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ajqfqhbjj30ks0icn0q.jpg">
-
-</li>
+<li>MSR-VTT的实验结果<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ajqfodpkj30kl0b9acc.jpg">  </li>
+<li>MSVD的实验结果<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ajqfqhbjj30ks0icn0q.jpg"></li>
 </ul>
 <h4 id="yaya：-本文step1训练效果比较好的原因（相较于soft-attention-lstm-原论文）"><a href="#yaya：-本文step1训练效果比较好的原因（相较于soft-attention-lstm-原论文）" class="headerlink" title=" yaya： 本文step1训练效果比较好的原因（相较于soft-attention lstm 原论文）"></a><font color="#0099ff" size="5" face="黑体"> yaya： 本文step1训练效果比较好的原因（相较于soft-attention lstm 原论文）</font></h4><p>这里step1的意思是：encoder、decoder 分开训练，并不进行联合训练</p>
 <ol>
 <li>该文使用的 Inception-ResNet-v2作为encoder来提取特征。会比其他论文中使用的encoder更复杂。</li>
-<li>初始化的细节<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ak8as8u4j309703pglo.jpg"></li>
-<li>对SA-LSTM[2]而言，进行了一些修改：<br>（1）frame features 转为一个特征向量，使用的注意力机制，但是该文在soft-attention的基础上，还增加了一个系数β<sub>t</sub><br>（2）LSTM的内部结构的计算公式增加了一项，如下图<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ajg7vn8rj31fi0ci427.jpg">
-（3）在生成word时，主要差别就是E[y<sub>t-1</sub>]前边是否有权重的问题
- - soft-attention 使用的公式：
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeiriwanj30jd014mx7.jpg">
- - 但是在本文中使用的公式为：
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ajjxtsplj30d103v74i.jpg">
-- 但是就该文3.3.2节中说：These changes are inspired by  the original code repository by Yao et al [2]，也就是有可能人家的源代码和在论文中提到的不一致。
-
-
-
+<li>初始化的细节<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ak8as8u4j309703pglo.jpg"></li>
+<li>对SA-LSTM[2]而言，进行了一些修改：<br>（1）frame features 转为一个特征向量，使用的注意力机制，但是该文在soft-attention的基础上，还增加了一个系数β<sub>t</sub><br>（2）LSTM的内部结构的计算公式增加了一项，如下图<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ajg7vn8rj31fi0ci427.jpg"><br>（3）在生成word时，主要差别就是E[y<sub>t-1</sub>]前边是否有权重的问题<ul>
+<li>soft-attention 使用的公式：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2aeiriwanj30jd014mx7.jpg"></li>
+<li>但是在本文中使用的公式为：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g2ajjxtsplj30d103v74i.jpg"><ul>
+<li>但是就该文3.3.2节中说：These changes are inspired by  the original code repository by Yao et al [2]，也就是有可能人家的源代码和在论文中提到的不一致。</li>
+</ul>
+</li>
+</ul>
 </li>
 </ol>
 <h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p>[1] Video captioning with  transferred semantic attributes. CVPR, 2017<br>[2] Describing videos by exploiting temporal  structure. ICCV, 2015.<br>[3] Task-driven dynamic fusion: Reducing ambiguity in video description. CVPR, 2017.<br>[4] Show and  tell: Lessons learned from the 2015 mscoco image captioning challenge. TPAMI, 2016.<br>[5] Inception-v4, inception-resnet and the impact of residual  connections on learning. AAAI, 2017</p>
@@ -707,7 +698,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -867,7 +858,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#积累梯度那里没有看明白-–-解决内存占用多的问题"><span class="nav-number">1.</span> <span class="nav-text">积累梯度那里没有看明白 – 解决内存占用多的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#灵魂反问"><span class="nav-number">2.</span> <span class="nav-text">灵魂反问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目前方法存在的问题"><span class="nav-number">3.</span> <span class="nav-text">目前方法存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#当前没有人去fine-tune-encoder的原因"><span class="nav-number">3.1.</span> <span class="nav-text">当前没有人去fine-tune encoder的原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#本文提取出的解决方案—-即训练过程"><span class="nav-number">3.2.</span> <span class="nav-text">本文提取出的解决方案—-即训练过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主要的贡献"><span class="nav-number">3.3.</span> <span class="nav-text">主要的贡献</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#训练过程"><span class="nav-number">4.</span> <span class="nav-text">训练过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络结构"><span class="nav-number">5.</span> <span class="nav-text">网络结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验效果"><span class="nav-number">6.</span> <span class="nav-text">实验效果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#yaya：-本文step1训练效果比较好的原因（相较于soft-attention-lstm-原论文）"><span class="nav-number">6.1.</span> <span class="nav-text"> yaya： 本文step1训练效果比较好的原因（相较于soft-attention lstm 原论文）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">7.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#积累梯度那里没有看明白-—-解决内存占用多的问题"><span class="nav-number">1.</span> <span class="nav-text">积累梯度那里没有看明白 — 解决内存占用多的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#灵魂反问"><span class="nav-number">2.</span> <span class="nav-text">灵魂反问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目前方法存在的问题"><span class="nav-number">3.</span> <span class="nav-text">目前方法存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#当前没有人去fine-tune-encoder的原因"><span class="nav-number">3.1.</span> <span class="nav-text">当前没有人去fine-tune encoder的原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#本文提取出的解决方案——即训练过程"><span class="nav-number">3.2.</span> <span class="nav-text">本文提取出的解决方案——即训练过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主要的贡献"><span class="nav-number">3.3.</span> <span class="nav-text">主要的贡献</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#训练过程"><span class="nav-number">4.</span> <span class="nav-text">训练过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网络结构"><span class="nav-number">5.</span> <span class="nav-text">网络结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验效果"><span class="nav-number">6.</span> <span class="nav-text">实验效果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#yaya：-本文step1训练效果比较好的原因（相较于soft-attention-lstm-原论文）"><span class="nav-number">6.1.</span> <span class="nav-text"> yaya： 本文step1训练效果比较好的原因（相较于soft-attention lstm 原论文）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Reference"><span class="nav-number">7.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>
@@ -1405,6 +1396,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

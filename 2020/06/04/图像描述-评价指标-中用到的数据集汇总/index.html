@@ -301,7 +301,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -512,7 +512,8 @@
 <li>website: <a href="http://academictorrents.com/details/9dea07ba660a722ae1008c4c8afdd303b6f6e53b" target="_blank" rel="noopener">http://academictorrents.com/details/9dea07ba660a722ae1008c4c8afdd303b6f6e53b</a></li>
 <li>论文: Framing Image Description as a Ranking Task: Data, Models and Evaluation Metrics   </li>
 </ul>
-<p><font size="2"> <strong>数据集介绍</strong> </font></p>
+<font size="2"> **数据集介绍** </font>
+
 <ul>
 <li><p>Cite: Framing image description as a ranking task: Data, models and evaluation metrics.  </p>
 </li>
@@ -524,39 +525,47 @@
 <p>则，构建了一个可以衡量metric 与 human judgement 相关性的一个数据集。</p>
 </li>
 </ul>
-<p><font size="2"> <strong>使用 Note</strong> </font></p>
+<font size="2"> **使用 Note** </font>
+
 <ul>
 <li>在TIGER [1] : <strong>Because 158 candidates are actual references of target images, we excluded these for further analysis。</strong> <font color="red">在TIGER 的实验设置中：若Flickr 8k数据集中检索到了本image对应的reference，则去掉该条检索。</font>去掉了 158条，则剩余 5822-158=5664条</li>
 </ul>
-<p><font size="2"> <strong>评估方式</strong></font></p>
+<font size="2"> **评估方式**</font>
+
 <p><code>Kendall</code> and <code>Spearman</code> rank correlations reflect the similarity of the pairwise rankings whereas <code>Pearson’s</code> p captures the linear association between data points.</p>
 <h2 id="Composite-Dataset"><a href="#Composite-Dataset" class="headerlink" title="Composite Dataset"></a>Composite Dataset</h2><p>论文：From Images to Sentences through Scene Description Graphs using Commonsense Reasoning and Knowledge  </p>
-<p><font size="2"> <strong>数据集介绍</strong> </font></p>
+<font size="2"> **数据集介绍** </font>
+
 <p>这个数据集是由三个数据集组成的。包括：testing captions for 2007 MS-COCO images, 997 Flickr 8k pictures, and 991 Flickr 30k images.  </p>
 <p>每张图片对应3个candidate captions，包括1个human written reference和 2个machine generated。</p>
 <p>这里总计有11,985 candidates, 标注与image 之间的相关性，from 1 (not relevant) to 5 (very relevant)。</p>
-<p><font size="2"> <strong>评估方式</strong></font></p>
+<font size="2"> **评估方式**</font>
+
 <p><code>Kendall</code> and <code>Spearman</code> rank correlations reflect the similarity of the pairwise rankings whereas <code>Pearson’s</code> p captures the linear association between data points.</p>
 <h2 id="Pascal-50s-Dataset"><a href="#Pascal-50s-Dataset" class="headerlink" title="Pascal 50s Dataset"></a>Pascal 50s Dataset</h2><ul>
 <li>website: <a href="http://vrama91.github.io/cider/" target="_blank" rel="noopener">http://vrama91.github.io/cider/</a></li>
 </ul>
-<p><font size="2"> <strong>数据集介绍</strong> </font></p>
+<font size="2"> **数据集介绍** </font>
+
 <p>Cite: <code>CIDEr: Consensus-based Image Description Evaluation</code></p>
 <p>从 UIUC PASCAL Sentence Dataset中提取1000张image，原数据集中，每个image配有5个human written sentence。</p>
 <p>对于图像描述评价指标任务： </p>
 <p>在以上基础上每个image 又由 AMT workers标注了50个captions。以此构成了pascal 50s 数据集。</p>
 <p>不同于以上的两个数据集评估image-text 之间的匹配，该数据集考量candidate 与 reference之间的匹配。具体地：对于一个image，（1）使用48 of 50 human written caption as <strong>reference</strong>。（2）剩下的两个human written caption as <strong>candidate</strong>，同时也使用 machine generated caption as <strong>candidate</strong>，另外other image 的 human written caption通过检索的方式也可以当 这样candidate可以当做<strong>candidate</strong>。</p>
-<p>基于此，构建三元组：（A, (B, C)）–(reference, (candidate_1, candidate_2)) 根据(B, C) 组合方式的不同，分为四类：HC，HI，HM，MM。（1）human–human correct pairs (HC), where we pick two human sentences describing the same image. （2） human–human incorrect pairs (HI), where one of the sentences is a human description for the image and the other is also a human sentence but describing some other image from the dataset picked at random. （3）human–machine (HM) pairs formed by pairing a human sentence describing an image with a machine generated sentence describing the same image. （4）machine–machine (MM) pairs, where we compare two machine generated sentences describing the same image</p>
+<p>基于此，构建三元组：（A, (B, C)）—(reference, (candidate_1, candidate_2)) 根据(B, C) 组合方式的不同，分为四类：HC，HI，HM，MM。（1）human–human correct pairs (HC), where we pick two human sentences describing the same image. （2） human–human incorrect pairs (HI), where one of the sentences is a human description for the image and the other is also a human sentence but describing some other image from the dataset picked at random. （3）human–machine (HM) pairs formed by pairing a human sentence describing an image with a machine generated sentence describing the same image. （4）machine–machine (MM) pairs, where we compare two machine generated sentences describing the same image</p>
 <p>则，可以得到 1000image × 48reference(A) × 4(B,C) = 192000个三元组</p>
 <p><strong>human judgement 的标注</strong> 对于任意给出的一个三元组(A, B, C)。A 是一个reference sentence, (B, C) 是两个candidate captions pair. 标注者被要求从B和C中选择一个与A最相似的句子。这样就可以收集到一个human judgements for each triplet. 如果B的投票对于C则认为B is winner.</p>
-<p><font size="2"> <strong>使用 Note</strong> </font></p>
+<font size="2"> **使用 Note** </font>
+
 <ul>
 <li>解读如下的表格的acuracy是如何计算的吧！首先在PASCAL-50s数据集里含有4种模式：HC、HI、HM、MM， 即对于（A,(B, C)）中的pair（B, C）含有四种模式。当前AMT workers对pair(B, C)已经有了排序，当proposed metric也对这些B，C sentences进行评分的时候，自然也会有一个对B，C的排序，即score高的sentence, 排序就在前。基于人类已经给了人工的标注排序，即获得了GT，那么就可以去评判 proposed metric 对该pair的评分是否正确。进而可以得到对该类HC/HI/HM/MM的准确率。其实也可以在整个数据集上进行测试得到一个准确率。</li>
 </ul>
 <p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gcdc0x4s91j30ex04uaas.jpg" alt="搜狗截图20200229160306.png"></p>
-<p><font size="2"> <strong>评估方式</strong></font></p>
+<font size="2"> **评估方式**</font>
+
 <p>Pairwise Classification Accuracy</p>
-<h1 id="System-Level-Correlation"><a href="#System-Level-Correlation" class="headerlink" title="System-Level Correlation"></a>System-Level Correlation</h1><h2 id="the-2015-COCO-Captioning-Challenge-for-12-teams"><a href="#the-2015-COCO-Captioning-Challenge-for-12-teams" class="headerlink" title="the 2015 COCO Captioning Challenge for 12 teams"></a>the 2015 COCO Captioning Challenge for 12 teams</h2><p><font size="2"> <strong>数据集介绍</strong> </font></p>
+<h1 id="System-Level-Correlation"><a href="#System-Level-Correlation" class="headerlink" title="System-Level Correlation"></a>System-Level Correlation</h1><h2 id="the-2015-COCO-Captioning-Challenge-for-12-teams"><a href="#the-2015-COCO-Captioning-Challenge-for-12-teams" class="headerlink" title="the 2015 COCO Captioning Challenge for 12 teams"></a>the 2015 COCO Captioning Challenge for 12 teams</h2><font size="2"> **数据集介绍** </font>
+
 <ul>
 <li><p>Cite: The coco 2015 captioning challenge. <a href="http://mscoco.org/dataset/#captions-challenge2015" target="_blank" rel="noopener">http://mscoco.org/dataset/#captions-challenge2015</a>.  </p>
 </li>
@@ -582,13 +591,16 @@
 </ul>
 </li>
 </ul>
-<p><font size="2"><strong>使用 Note</strong> </font></p>
+<font size="2">**使用 Note** </font>
+
 <p>计算system-level correlation, （1）需要为每个 caption model 来计算一个metric score, 这个分数聚合了由该model 生成的所有的caption 的 metric socre。（2） 然后，该captio model 的aggregate metric score 与 system-level human assessments之间的相关性被计算。</p>
-<p><font size="2"> <strong>评估方式</strong></font></p>
+<font size="2"> **评估方式**</font>
+
 <ul>
 <li>Compare proposed metric with others on the <strong>Pearson’s ρ correlation</strong> between all common metrics and human judgments collected in the 2015 COCO Captioning Challenge. </li>
 </ul>
-<h1 id="论文引用情况"><a href="#论文引用情况" class="headerlink" title="论文引用情况"></a>论文引用情况</h1><table>
+<h1 id="论文引用情况"><a href="#论文引用情况" class="headerlink" title="论文引用情况"></a>论文引用情况</h1><div class="table-container">
+<table>
 <thead>
 <tr>
 <th></th>
@@ -598,7 +610,8 @@
 <th>System-Level Correlation</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td></td>
 <td>Flickr 8k</td>
 <td>Composite</td>
@@ -654,7 +667,9 @@
 <td>√</td>
 <td>√</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 
       
     </div>
@@ -776,7 +791,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1474,6 +1489,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

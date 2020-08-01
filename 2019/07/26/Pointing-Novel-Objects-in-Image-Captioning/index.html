@@ -97,13 +97,13 @@
 
 
 
-  <meta name="description" content="Overview  Motivation问题 当前的模型，都是以image-caption对来进行训练，因此训练模型只能输出in-domain objects，但是，在实际应用中有些图片含有丰富的信息，但是用现有的模型却不能充分的表达。     解决1 希望可以生成新的words,(没有出现在training dataset)    本文提出了解决办法：用object learner 来扩增标准的">
+  <meta name="description" content="Overview Motivation问题 当前的模型，都是以image-caption对来进行训练，因此训练模型只能输出in-domain objects，但是，在实际应用中有些图片含有丰富的信息，但是用现有的模型却不能充分的表达。     解决1 希望可以生成新的words,(没有出现在training dataset)    本文提出了解决办法：用object learner 来扩增标准的d">
 <meta name="keywords" content="图像描述">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Pointing Novel Objects in Image Captioning">
 <meta property="og:url" content="http://yoursite.com/2019/07/26/Pointing-Novel-Objects-in-Image-Captioning/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="Overview  Motivation问题 当前的模型，都是以image-caption对来进行训练，因此训练模型只能输出in-domain objects，但是，在实际应用中有些图片含有丰富的信息，但是用现有的模型却不能充分的表达。     解决1 希望可以生成新的words,(没有出现在training dataset)    本文提出了解决办法：用object learner 来扩增标准的">
+<meta property="og:description" content="Overview Motivation问题 当前的模型，都是以image-caption对来进行训练，因此训练模型只能输出in-domain objects，但是，在实际应用中有些图片含有丰富的信息，但是用现有的模型却不能充分的表达。     解决1 希望可以生成新的words,(没有出现在training dataset)    本文提出了解决办法：用object learner 来扩增标准的d">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2019/07/27/5d3c1676f301a18995.png">
 <meta property="og:image" content="https://i.loli.net/2019/07/27/5d3c1c012cccc48971.png">
@@ -112,7 +112,7 @@
 <meta property="og:updated_time" content="2019-07-27T09:42:59.022Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Pointing Novel Objects in Image Captioning">
-<meta name="twitter:description" content="Overview  Motivation问题 当前的模型，都是以image-caption对来进行训练，因此训练模型只能输出in-domain objects，但是，在实际应用中有些图片含有丰富的信息，但是用现有的模型却不能充分的表达。     解决1 希望可以生成新的words,(没有出现在training dataset)    本文提出了解决办法：用object learner 来扩增标准的">
+<meta name="twitter:description" content="Overview Motivation问题 当前的模型，都是以image-caption对来进行训练，因此训练模型只能输出in-domain objects，但是，在实际应用中有些图片含有丰富的信息，但是用现有的模型却不能充分的表达。     解决1 希望可以生成新的words,(没有出现在training dataset)    本文提出了解决办法：用object learner 来扩增标准的d">
 <meta name="twitter:image" content="https://i.loli.net/2019/07/27/5d3c1676f301a18995.png">
 
 
@@ -304,7 +304,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -503,8 +503,7 @@
       
 
       
-        <h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><img src="https://i.loli.net/2019/07/27/5d3c1676f301a18995.png" alt="搜狗截图20190727171628.png" title="搜狗截图20190727171628.png">
-
+        <h3 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h3><p><img src="https://i.loli.net/2019/07/27/5d3c1676f301a18995.png" alt="搜狗截图20190727171628.png" title="搜狗截图20190727171628.png"></p>
 <h3 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h3><h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><ul>
 <li>当前的模型，都是以image-caption对来进行训练，因此训练模型只能输出in-domain objects，但是，在实际应用中有些图片含有丰富的信息，但是用现有的模型却不能充分的表达。   </li>
 </ul>
@@ -512,9 +511,7 @@
 <li>希望可以生成新的words,(没有出现在training dataset)   </li>
 <li>本文提出了解决办法：用object learner 来扩增标准的deep caption 结构。即，由一个图像分类任务，则可以得到该图像中出现的obects。这可以作为一个补充信息，加入到当前现有的deep caption Model 中。   </li>
 <li>具体地：（1）标准的LSTM decoder 会输出一个predicted word,  （2）objects learner 通过一个copying layer 也可以得到一个预测单词。那么该选谁，本文并不硬选择，而是软选择，即给一个系数，来给这两个分配个概率，然后加和。这个选择的过程称为 <strong>Pointing Mechanism</strong>   </li>
-<li>loss:   <img src="https://i.loli.net/2019/07/27/5d3c1c012cccc48971.png" alt="搜狗截图20190727173939.png" title="搜狗截图20190727173939.png">   
-
-</li>
+<li>loss:<br><img src="https://i.loli.net/2019/07/27/5d3c1c012cccc48971.png" alt="搜狗截图20190727173939.png" title="搜狗截图20190727173939.png">   </li>
 </ul>
 <h4 id="解决2"><a href="#解决2" class="headerlink" title="解决2:"></a>解决2:</h4><ul>
 <li>希望将image中的所有信息，在句子中都可以覆盖到</li>
@@ -522,10 +519,7 @@
 <li>那么可以根据预测的单词是否生成了 target caption 中的名词，来计算损失（文章中这里在计算损失的时候忽略了语法结构，即不要求名词出现的在句子中的位置，只要求出现就可以）.   </li>
 <li>loss:</li>
 </ul>
-<img src="https://i.loli.net/2019/07/27/5d3c1c754b56a83488.png" alt="搜狗截图20190727174134.png" title="搜狗截图20190727174134.png">    
-<img src="https://i.loli.net/2019/07/27/5d3c1c7536e6674709.png" alt="搜狗截图20190727174147.png" title="搜狗截图20190727174147.png"> 
-
-
+<p><img src="https://i.loli.net/2019/07/27/5d3c1c754b56a83488.png" alt="搜狗截图20190727174134.png" title="搜狗截图20190727174134.png"><br><img src="https://i.loli.net/2019/07/27/5d3c1c7536e6674709.png" alt="搜狗截图20190727174147.png" title="搜狗截图20190727174147.png"> </p>
 
       
     </div>
@@ -647,7 +641,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1345,6 +1339,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

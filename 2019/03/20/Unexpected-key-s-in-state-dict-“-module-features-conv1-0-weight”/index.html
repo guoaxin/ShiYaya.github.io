@@ -97,18 +97,18 @@
 
 
 
-  <meta name="description" content="参考此处[link]  问题描述：在使用pytorch 加载预训练的模型时: 1decoder.load_state_dict(checkpoint[&apos;dec&apos;])    出现错误： 12Missing key(s) in state_dict: “features.conv1.0.weight”,Unexpected key(s) in state_dict: “**module**.feat">
+  <meta name="description" content="参考此处[link]  问题描述：在使用pytorch 加载预训练的模型时: 1decoder.load_state_dict(checkpoint[&apos;dec&apos;])   出现错误：12Missing key(s) in state_dict: “features.conv1.0.weight”,Unexpected key(s) in state_dict: “**module**.featur">
 <meta name="keywords" content="pytorch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Unexpected key(s) in state_dict: “**module**.features.conv1.0.weight”">
 <meta property="og:url" content="http://yoursite.com/2019/03/20/Unexpected-key-s-in-state-dict-“-module-features-conv1-0-weight”/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="参考此处[link]  问题描述：在使用pytorch 加载预训练的模型时: 1decoder.load_state_dict(checkpoint[&apos;dec&apos;])    出现错误： 12Missing key(s) in state_dict: “features.conv1.0.weight”,Unexpected key(s) in state_dict: “**module**.feat">
+<meta property="og:description" content="参考此处[link]  问题描述：在使用pytorch 加载预训练的模型时: 1decoder.load_state_dict(checkpoint[&apos;dec&apos;])   出现错误：12Missing key(s) in state_dict: “features.conv1.0.weight”,Unexpected key(s) in state_dict: “**module**.featur">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-04-05T12:21:43.795Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Unexpected key(s) in state_dict: “**module**.features.conv1.0.weight”">
-<meta name="twitter:description" content="参考此处[link]  问题描述：在使用pytorch 加载预训练的模型时: 1decoder.load_state_dict(checkpoint[&apos;dec&apos;])    出现错误： 12Missing key(s) in state_dict: “features.conv1.0.weight”,Unexpected key(s) in state_dict: “**module**.feat">
+<meta name="twitter:description" content="参考此处[link]  问题描述：在使用pytorch 加载预训练的模型时: 1decoder.load_state_dict(checkpoint[&apos;dec&apos;])   出现错误：12Missing key(s) in state_dict: “features.conv1.0.weight”,Unexpected key(s) in state_dict: “**module**.featur">
 
 
 
@@ -299,7 +299,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -503,12 +503,9 @@
 </li>
 <li><p>问题描述：在使用pytorch 加载预训练的模型时:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">decoder.load_state_dict(checkpoint[<span class="string">'dec'</span>])</span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
-<p>出现错误：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">Missing</span> <span class="selector-tag">key</span>(<span class="selector-tag">s</span>) <span class="selector-tag">in</span> <span class="selector-tag">state_dict</span>: “<span class="selector-tag">features</span><span class="selector-class">.conv1</span><span class="selector-class">.0</span><span class="selector-class">.weight</span>”,</span><br><span class="line"><span class="selector-tag">Unexpected</span> <span class="selector-tag">key</span>(<span class="selector-tag">s</span>) <span class="selector-tag">in</span> <span class="selector-tag">state_dict</span>: “**<span class="selector-tag">module</span>**<span class="selector-class">.features</span><span class="selector-class">.conv1</span><span class="selector-class">.0</span><span class="selector-class">.weight</span>”,</span><br></pre></td></tr></table></figure>
-
+<p>出现错误：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">Missing</span> <span class="selector-tag">key</span>(<span class="selector-tag">s</span>) <span class="selector-tag">in</span> <span class="selector-tag">state_dict</span>: “<span class="selector-tag">features</span><span class="selector-class">.conv1</span><span class="selector-class">.0</span><span class="selector-class">.weight</span>”,</span><br><span class="line"><span class="selector-tag">Unexpected</span> <span class="selector-tag">key</span>(<span class="selector-tag">s</span>) <span class="selector-tag">in</span> <span class="selector-tag">state_dict</span>: “**<span class="selector-tag">module</span>**<span class="selector-class">.features</span><span class="selector-class">.conv1</span><span class="selector-class">.0</span><span class="selector-class">.weight</span>”,</span><br></pre></td></tr></table></figure></p>
 <ul>
 <li>原因：<br>在训练阶段，使用的是多GPU，采用了nn.DataParallel，因此在测试阶段，对应的模型也需要是多GPU的。</li>
 </ul>
@@ -624,7 +621,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1305,6 +1302,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

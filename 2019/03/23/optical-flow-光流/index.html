@@ -303,7 +303,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -493,23 +493,17 @@
         <p>参考：<a href="https://blog.csdn.net/zouxy09/article/details/8683859" target="_blank" rel="noopener">https://blog.csdn.net/zouxy09/article/details/8683859</a></p>
 <h2 id="光流的定义"><a href="#光流的定义" class="headerlink" title="光流的定义"></a>光流的定义</h2><p>在人的眼睛在观察物体时，物体的景象在人的视网膜上形成一系列连续变化的图像，这一系列连续变化的信息不断“流过”视网膜，好像一种光的流，故称之为光流。<br>一般，光流是由于场景中前景目标本身的移动、相机的移动，或者两者的共同运动所产生的。<br>定义：它是空间运动物体在观察成像平面上的像素运动的瞬时速度，是利用图像序列中<strong>像素在时间域上的变化以及相邻帧之间的相关性</strong>来找到上一帧跟当前帧之间存在的<strong>对应关系</strong>，从而计算出<strong>相邻帧</strong>之间物体的运动信息的一种方法。</p>
 <h2 id="如何计算光流"><a href="#如何计算光流" class="headerlink" title="如何计算光流"></a>如何计算光流</h2><ul>
-<li><p>那通俗的讲就是通过一个图片序列，把每张图像中每个像素的运动速度和运动方向找出来就是光流场。那怎么找呢？咱们直观理解肯定是：第t帧的时候A点的位置是(x1, y1)，那么我们在第t+1帧的时候再找到A点，假如它的位置是(x2,y2)，那么我们就可以确定A点的运动了：(ux, vy) = (x2, y2) - (x1,y1)。</p>
-</li>
-<li><p>那怎么知道第t+1帧的时候A点的位置呢？ 这就存在很多的光流计算方法了。</p>
-</li>
-<li><p>1981年，Horn和Schunck创造性地将二维速度场与灰度相联系，引入光流约束方程，得到光流计算的基本算法。人们基于不同的理论基础提出各种光流计算方法，算法性能各有不同。Barron等人对多种光流计算技术进行了总结，按照理论基础与数学方法的区别把它们分成四种：<strong>基于梯度的方法、基于匹配的方法、基于能量的方法、基于相位的方法</strong>。近年来神经动力学方法也颇受学者重视。</p>
-</li>
+<li>那通俗的讲就是通过一个图片序列，把每张图像中每个像素的运动速度和运动方向找出来就是光流场。那怎么找呢？咱们直观理解肯定是：第t帧的时候A点的位置是(x1, y1)，那么我们在第t+1帧的时候再找到A点，假如它的位置是(x2,y2)，那么我们就可以确定A点的运动了：(ux, vy) = (x2, y2) - (x1,y1)。</li>
+<li>那怎么知道第t+1帧的时候A点的位置呢？ 这就存在很多的光流计算方法了。</li>
+<li>1981年，Horn和Schunck创造性地将二维速度场与灰度相联系，引入光流约束方程，得到光流计算的基本算法。人们基于不同的理论基础提出各种光流计算方法，算法性能各有不同。Barron等人对多种光流计算技术进行了总结，按照理论基础与数学方法的区别把它们分成四种：<strong>基于梯度的方法、基于匹配的方法、基于能量的方法、基于相位的方法</strong>。近年来神经动力学方法也颇受学者重视。</li>
 <li><p>yaya: 即光流法计算的是：相邻两帧之间的对应像素点之间的<strong>速度矢量</strong>，但是如何得到相邻帧对应的像素点是一个问题。<br>光流法主要依赖于三个假设：</p>
 <p>  [亮度恒定] 图像中目标的像素强度在连续帧之间不会发生变化。<br>  [时间规律] 相邻帧之间的时间足够短，以至于在考虑运行变化时可以忽略它们之间的差异。该假设用于导出下面的核心方程。<br>  [空间一致性] 相邻像素具有相似的运动。  </p>
 </li>
 </ul>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1cgxrjz19j30hi0h90uo.jpg">  
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1cgxrjz19j30hi0h90uo.jpg">  </p>
 <p>上式中，I<sub>x</sub>,  I<sub>y</sub>可以通过图像沿x方向和y方向的导数计算，I<sub>t</sub>可以通过I(x,y,t)−I(x,y,t−1)计算。未知数是(u,v)， 正是我们想要求解的每个像素在前后相邻两帧的位移。</p>
 <p>这里只有一个方程，却有两个未知数（实际是NN个方程，2N2N个未知数，NN是图像中待估计的像素点的个数，但是我们通过矩阵表示，将它们写成了如上式所述的紧凑形式），所以是一个不定方程。我们需要找出其它的约束求解方程。</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1cgxrjo7dj30g00e6ta4.jpg">
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1cgxrhmkgj30gh05swej.jpg">  
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1cgxrjo7dj30g00e6ta4.jpg"><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1cgxrhmkgj30gh05swej.jpg">  </p>
 <p>如上图所示，H中的像素点(x,y)在I中的移动到了(x+u,y+v)的位置，偏移量为(u,v)。速度=位移在极短时间你内的位移量。  </p>
 <p>参看：<a href="https://xmfbit.github.io/2017/05/03/cs131-opticalflow/" target="_blank" rel="noopener">https://xmfbit.github.io/2017/05/03/cs131-opticalflow/</a><br>参看：<a href="https://blog.csdn.net/carson2005/article/details/7581642" target="_blank" rel="noopener">https://blog.csdn.net/carson2005/article/details/7581642</a></p>
 
@@ -635,7 +629,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1333,6 +1327,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

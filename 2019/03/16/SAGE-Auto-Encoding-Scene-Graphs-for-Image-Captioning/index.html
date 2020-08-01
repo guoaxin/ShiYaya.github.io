@@ -320,7 +320,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -530,15 +530,11 @@
 </ul>
 <p>下面说正文：</p>
 <h1 id="General-encoder-decoder-network-for-image-captioning"><a href="#General-encoder-decoder-network-for-image-captioning" class="headerlink" title="General encoder-decoder network for image captioning"></a>General encoder-decoder network for image captioning</h1><ul>
-<li><p>目前一般的encoder-decoder network for image captioning 是<strong>CNN提取image的特征，然后RNN来生成句子</strong>，例如下图所示。</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14r211sidj30kb0fy0v3.jpg" style="zoom:80%">
+<li><p>目前一般的encoder-decoder network for image captioning 是<strong>CNN提取image的特征，然后RNN来生成句子</strong>，例如下图所示。<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14r211sidj30kb0fy0v3.jpg" style="zoom:80%"></p>
 </li>
-<li><p>进一步有<strong>加入attention</strong> [1]，下图是提取14×14×512 feature map of the fourth  convolutional layer，然后 flatten to 196 × 512 before feed into decoder。在输入到decoder时对这196个feature vector进行attention的加权求和。</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14rdh7wg7j33ak1ep7wj.jpg" style="zoom:50%">
+<li><p>进一步有<strong>加入attention</strong> [1]，下图是提取14×14×512 feature map of the fourth  convolutional layer，然后 flatten to 196 × 512 before feed into decoder。在输入到decoder时对这196个feature vector进行attention的加权求和。<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14rdh7wg7j33ak1ep7wj.jpg" style="zoom:50%"></p>
 </li>
-<li><p>也有<strong>提取images 中的object，以此来提取显著信息，对object feature 进行attention的加权求和并送入decoder</strong>。具体地，使用RPN 的ROI pooling来提取objects feature，然后对LSTM的每一个step ,对这所有的object features进行attention操作，再作为输入送入LSTM[2]。如下图</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14u74yahwj30q30modsg.jpg" style="zoom:70%">
-
+<li><p>也有<strong>提取images 中的object，以此来提取显著信息，对object feature 进行attention的加权求和并送入decoder</strong>。具体地，使用RPN 的ROI pooling来提取objects feature，然后对LSTM的每一个step ,对这所有的object features进行attention操作，再作为输入送入LSTM[2]。如下图<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14u74yahwj30q30modsg.jpg" style="zoom:70%"></p>
 </li>
 </ul>
 <h1 id="本文的encoder-decoder-baseline"><a href="#本文的encoder-decoder-baseline" class="headerlink" title="本文的encoder-decoder baseline"></a>本文的encoder-decoder baseline</h1><h2 id="1-Encoder"><a href="#1-Encoder" class="headerlink" title="1. Encoder"></a><strong>1.</strong> <strong>Encoder</strong></h2><p>本文有两个encoder ： image-encoder；sentence-encoder<br>本文sentence-encoder  是用来预训练Dictionary，并共享给 image-encoder。但是在baseline中不用GCN/MGCN 和 Dictionary，因此image-encoder与sentence-encoder 之间是没有交集的。（我猜测 baseline中没有用到sentence-encoder）</p>
@@ -549,16 +545,13 @@
 <li>relationship classifier：使用在[5] 中提到的LSTM结构来作为关系分类器，来为两个object 分配一个relationship label。</li>
 <li>attribute classifier : 为某个object 分配属性标签，将该object feature输入fc-relu-fc-softmax网络，则得到属性标签。</li>
 </ul>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14vip74y0j311l09eq4y.jpg" style="zoom:60%">      
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14vip74y0j311l09eq4y.jpg" style="zoom:60%">      </p>
 <ul>
 <li><p>以上三个输出的所有构成一个image scene graph  </p>
 </li>
 <li><p>需要说明以上三个是在<strong>Visual Genome数据集</strong>上预训练的，该数据集具有丰富的scene graph 标注，含有obejct’s categories，obejct’s attributes and pairwise relationships，因此可以用来训练目标检测器、属性分类器、关系分类器。但是由于这些标注含有很多噪声，因此采用一定的措施进行过滤：对于在数据集中出现超过2000次的objects，attributes，relationships保留下来，其余的去掉。经过这样的处理，则得到305个objects类，103个属性类，64个关系类  </p>
 </li>
-<li><p>经过分类器得到 label 之后，还需要得到相对应的embedding: <strong>u<sub>o</sub> , u<sub>r</sub> , u<sub>a</sub></strong> 。<br>其中 label 的维度472 = 305 + 103 + 64，即object/realation/attribute label的one hot vector 维度是三种节点的总类别数。</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14w80gi8tj30w70ik0xu.jpg" style="zoom:70%">  
-
+<li><p>经过分类器得到 label 之后，还需要得到相对应的embedding: <strong>u<sub>o</sub> , u<sub>r</sub> , u<sub>a</sub></strong> 。<br>其中 label 的维度472 = 305 + 103 + 64，即object/realation/attribute label的one hot vector 维度是三种节点的总类别数。<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14w80gi8tj30w70ik0xu.jpg" style="zoom:70%">  </p>
 </li>
 </ul>
 <p><strong>（2）对于sentence encoder 使用[6] 来得到 parse scene graph，进而得到object embedding，relationship embedding , attribute embedding</strong><br>注意这里的sentences使用的是<strong>MS COCO</strong>中的caption，而不是Visual Genome中的caption。同样对其进行过滤，过滤掉在all parsed scene graph中出现的objects、attributes、relationships次数少于10的，则剩下5364个objects类，1308个realtionships类，3430个attributes类。<br>sentence encoder 使用[6] 来得到 parse scene graph，但实际上，[6]又是使用[7]中的方法，所以读者最好看[7]<br>这里介绍 一下[6] SPICE 是用来评价image caption的一个性能指标，这里为什么使用它，它是用来做为一个评价指标的吗？首先回答第二个问题，不是用来作为评价指标的，而是利用了它的原理：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1dwj56im1j30iq0nmk00.jpg"></p>
@@ -569,45 +562,28 @@
 <li>在[4]中encoder output是GCN输出的object features（两个graph生成的encoder output分别送入decoder）。</li>
 <li>但是在本文中encoder output是 <strong>u<sub>o</sub> , u<sub>r</sub> , u<sub>a</sub></strong> 组合成的d×M 矩阵，或者是 <strong>e<sub>o</sub> , e<sub>r</sub> , e<sub>a</sub></strong> 组合成的d×M 矩阵 。M = num_objects + num_relationships + num_attributes  注意：在sentence-encoder中的输出，这里的M是该句子的parse scene graph实际生成的object、relation、attribute的数量（有可能baseline 中不使用 sentence-encoder）；在image-encoder中的输出，这里也是实际的object detector、relationship classifier、attribute classifier 输出的实际数量总和</li>
 </ul>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14xg3jwvdj30mo0h2wfi.jpg" style="zoom:60%">
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g19d1x7kiij30im0bvaat.jpg" style="zoom:60%">
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14v8kb8kmj30sr0gzwgz.jpg" style="zoom:60%">
-具体地，这里也给出本文的表达方式如下表:
-这里的10369是对MS COCO中的captions 进行预处理之后，得到的 len of vocabulary
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14wrwfzplj30ze0hcjwe.jpg" style="zoom:60%">
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14xg3jwvdj30mo0h2wfi.jpg" style="zoom:60%"><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g19d1x7kiij30im0bvaat.jpg" style="zoom:60%"><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14v8kb8kmj30sr0gzwgz.jpg" style="zoom:60%"><br>具体地，这里也给出本文的表达方式如下表:<br>这里的10369是对MS COCO中的captions 进行预处理之后，得到的 len of vocabulary<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14wrwfzplj30ze0hcjwe.jpg" style="zoom:60%"></p>
 <h1 id="在baseline-上加东西"><a href="#在baseline-上加东西" class="headerlink" title="在baseline 上加东西"></a>在baseline 上加东西</h1><ul>
-<li>一般的encoder-decoder如下图中的top所示，本文提出加入MGCN for image和GCN for sentence，同时加入Dictionary（共享参数 betwen sentence and image）<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14yn2vbtej30k40jzac6.jpg" style="zoom:50%">
-由以上可知，构建了image scene graph 和 sentence scene graph，下面将本文的主要创新点，加入GCN和Dictionary  
-
-</li>
+<li>一般的encoder-decoder如下图中的top所示，本文提出加入MGCN for image和GCN for sentence，同时加入Dictionary（共享参数 betwen sentence and image）<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14yn2vbtej30k40jzac6.jpg" style="zoom:50%"><br>由以上可知，构建了image scene graph 和 sentence scene graph，下面将本文的主要创新点，加入GCN和Dictionary  </li>
 </ul>
 <h2 id="sentence-graph-gt-GCN-更新embedding"><a href="#sentence-graph-gt-GCN-更新embedding" class="headerlink" title="sentence graph -&gt; GCN (更新embedding )"></a>sentence graph -&gt; GCN (更新embedding )</h2><p>经上面的分析构建的sentence scene graph 在得到了object、relation、attribute label 对应的word embedding之后，将通过GCN来更新embedding。</p>
 <ul>
-<li>表中的（7）（8）（9）可以认为是三个relationship、attribute、object graph。<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14y1f5p02j31370e1jw1.jpg" style="zoom:60%"></li>
+<li>表中的（7）（8）（9）可以认为是三个relationship、attribute、object graph。<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14y1f5p02j31370e1jw1.jpg" style="zoom:60%"></li>
 <li>解释这里的<strong>g<sub>r</sub> g<sub>a</sub> g<sub>o</sub> g<sub>s</sub></strong><br>以<strong>g<sub>r</sub></strong> 为例：g<sub>r</sub> (D<sub>in</sub>，D<sub>out</sub>）。输入维度为什么是3000？因为e<sub>oi</sub> , e<sub>rij</sub> , e<sub>oj</sub>的维度分别均是1000，论文中省略了将其concatenate的操作的说明，但是实际上是进行了concatenate操作，使得维度变为3000，并作为g<sub>r</sub>的输入。输出是1000维度。</li>
-<li><strong>因此这里图卷积层，可以认为是 该graph中所有的节点v<sub>i</sub>，经过concatenate之后，再经过一个全连接层。<br>g(.) = fc( concatenate(v1, v2, … , vn) )</strong><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14y594pa8j30og0ksdi2.jpg" style="zoom:50%">  
-
-</li>
+<li><strong>因此这里图卷积层，可以认为是 该graph中所有的节点v<sub>i</sub>，经过concatenate之后，再经过一个全连接层。<br>g(.) = fc( concatenate(v1, v2, … , vn) )</strong><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14y594pa8j30og0ksdi2.jpg" style="zoom:50%">  </li>
 </ul>
 <h2 id="image-graph-gt-Multi-modal-GCN-更新embedding"><a href="#image-graph-gt-Multi-modal-GCN-更新embedding" class="headerlink" title="image graph -&gt; Multi-modal GCN (更新embedding )"></a>image graph -&gt; Multi-modal GCN (更新embedding )</h2><p>与sentence graph 对应的GCN类似，这里的 multimodal 也没什么意思，就是特征融合时（9）（10）（11），既使用了label 对应的word embedding，又使用了feature。<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14yf14p1mj30sp0k0ten.jpg">  </p>
 <ul>
-<li>解释这里的<strong>f<sub>r</sub> f<sub>a</sub> f<sub>o</sub> f<sub>s</sub></strong><br>与sentence scene graph 对应的g一致，首先对输入进行了concatenate操作<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14yhc6gpzj314l0gktax.jpg">
-
-</li>
+<li>解释这里的<strong>f<sub>r</sub> f<sub>a</sub> f<sub>o</sub> f<sub>s</sub></strong><br>与sentence scene graph 对应的g一致，首先对输入进行了concatenate操作<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14yhc6gpzj314l0gktax.jpg"></li>
 </ul>
 <h2 id="Dictionary"><a href="#Dictionary" class="headerlink" title="Dictionary"></a>Dictionary</h2><ul>
 <li><strong>该部分的作用</strong>是一个memory network。首先Dictionary在<strong>S-&gt;G-&gt;D-&gt;S</strong>上预训练，之后才被用于<strong>I-&gt;G-&gt;D-&gt;S</strong>  。即是参数共享的。而在<strong>S-&gt;G-&gt;D-&gt;S</strong>中，输入的sentence是由human generated。因此Dictionary中就preserve human’s inductive bias。进而与<strong>I-&gt;G-&gt;D-&gt;S</strong>  共享，使得由image 生成的predict caption也含有 human’s inductive bias</li>
-<li>由上文分析可知，经过GCN/MGCN更新的embedding的维度均是1000，则Dictionary的输入维度均是1000，D是可学习参数矩阵1000*10000，输入的x经过Dictionary得到 x^<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14yrlt89sj310c07e40b.jpg">  
-
-</li>
+<li>由上文分析可知，经过GCN/MGCN更新的embedding的维度均是1000，则Dictionary的输入维度均是1000，D是可学习参数矩阵1000*10000，输入的x经过Dictionary得到 x^<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14yrlt89sj310c07e40b.jpg">  </li>
 </ul>
 <h2 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h2><p>经过encoder 结合GCN/MGCN之后，输出发生了改变，这里再讲一下decoder的输入。</p>
 <ul>
 <li>在<strong>S-&gt;G-&gt;D-&gt;S</strong> 这个序列过程中由D-&gt;S 即输入decoder LSTM的过程，输入的是D的输出。</li>
-<li>而在<strong>I-&gt;G-&gt;D-&gt;S</strong> 这个序列过程中，输入decoder LSTM的过程，输入的是D的输出v’和G的输出v^，即concate[v’, v^]<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1507wpmlij30zf0h8dku.jpg">
-
-</li>
+<li>而在<strong>I-&gt;G-&gt;D-&gt;S</strong> 这个序列过程中，输入decoder LSTM的过程，输入的是D的输出v’和G的输出v^，即concate[v’, v^]<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1507wpmlij30zf0h8dku.jpg"></li>
 </ul>
 <h1 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h1><ul>
 <li>首先使用交叉熵损失函数训练 <strong>S-&gt;G-&gt;S</strong>  20 epoch。注意D不参与训练</li>
@@ -621,9 +597,7 @@
 <h1 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h1><ul>
 <li>由下表可知，实验结果并不突出，尤其是与GCN-LSTM[7]对比可知，GCN-LSTM的结构更加简单的情况下，两个模型的结果却相差不多。</li>
 <li>可以看到表中有三个GCN-LSTM， 最上边那个是本文作者的复现，由于GCN-LSTM的作者batch_size 太大，本文作者觉得对比不公平，因此重新复现了代码（没公开代码）并减小了bs进行实验得到的结果。第二个GCN-LSTM（sem graph）是原作者论文中的实验数据。第三个GCN-LSTM是融合了semantic graph 和saptial graph。</li>
-<li>对于SGAE的融合应该是输入decoder的不仅是<strong>I-&gt;G-&gt;D-&gt;S</strong> 中D的输出v’，而且也输入G的输出 v^，即concate[v’,  v^]<img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14zjng66yj30oc0f0djs.jpg">   
-
-</li>
+<li>对于SGAE的融合应该是输入decoder的不仅是<strong>I-&gt;G-&gt;D-&gt;S</strong> 中D的输出v’，而且也输入G的输出 v^，即concate[v’,  v^]<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14zjng66yj30oc0f0djs.jpg">   </li>
 </ul>
 <h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>[1] Bottom-up and top-down attention for image captioning and visual question answering<br>[2] Show, Attend and Tell: Neural Image Caption  Generation with Visual Attention<br>[3] Image Captioning with Object Detection and Localization<br>[4] Exploring Visual Relationship  for Image Captioning<br><strong>[5] Neural motifs: Scene graph parsing with global context</strong><br><strong>[6] Spice:  Semantic propositional image caption evaluation</strong><br><strong>[7] Generating Semantically Precise Scene Graphs from Textual Descriptions for Improved Image Retrieval</strong></p>
 
@@ -749,7 +723,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1447,6 +1421,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

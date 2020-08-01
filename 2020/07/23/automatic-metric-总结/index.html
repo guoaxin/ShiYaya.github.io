@@ -317,7 +317,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -534,7 +534,7 @@
 <p>C: there there there there there S1: there is a cat on the table</p>
 </blockquote>
 <p>这时候机器翻译的结果明显是不正确的，但是其 1-gram 的 Precision 为1，因此 BLEU 一般会使用修正的方法。给定参考译文S1,S2, …,S<em>m</em>，可以计算C里面 n 元组的 Precision，计算公式如下：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgXmshfK57WrgarjibbBcy4ZdtxHS9Y3EtyDfTzjTNNl2GMxwJAIPmfbA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgXmshfK57WrgarjibbBcy4ZdtxHS9Y3EtyDfTzjTNNl2GMxwJAIPmfbA/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img"></p>
 <p>针对上面的例子  p1 = 1/5  (因为there在C和S1中都出现了 我们按最少的次数来)</p>
 <p><strong style="color:red;">yaya: 从公式中，可以看到，对于m个reference，取max 的方式，进行聚合</strong></p>
 <h4 id="2-惩罚因子"><a href="#2-惩罚因子" class="headerlink" title="2. 惩罚因子"></a>2. 惩罚因子</h4><p>上面介绍了 BLEU 计算 n-gram 精确率的方法， 但是仍然存在一些问题，当机器翻译的长度比较短时，BLEU 得分也会比较高，但是这个翻译是会损失很多信息的，例如：</p>
@@ -542,7 +542,7 @@
 <p>C: a cat<br>S1: there is a cat on the table</p>
 </blockquote>
 <p>因此需要在 BLEU 分数乘上惩罚因子</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgaghJVhQZHwspVre1F1yyaAkZj4UnUwUDIurNHI8aPb8vlNP3GWg0Lw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgaghJVhQZHwspVre1F1yyaAkZj4UnUwUDIurNHI8aPb8vlNP3GWg0Lw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img"></p>
 <h4 id="3-优点"><a href="#3-优点" class="headerlink" title="3. 优点"></a>3. 优点</h4><ul>
 <li>它的易于计算且速度快，特别是与人工翻译模型的输出对比；</li>
 <li>它应用范围广泛，这可以让你很轻松将模型与相同任务的基准作对比。</li>
@@ -564,39 +564,29 @@
 <p>ROUGE的出现很大程度上是为了解决NMT的漏翻问题（低召回率）。所以 ROUGE 只适合评价 NMT，而不适用于 SMT，因为它不管候选译文流不流畅</p>
 <p>这里只介绍 ROUGE_L</p>
 <h4 id="ROUGE-L"><a href="#ROUGE-L" class="headerlink" title="ROUGE-L"></a>ROUGE-L</h4><p>ROUGE-L 中的 L 指最长公共子序列 (longest common subsequence, LCS)，ROUGE-L 计算的时候使用了机器译文C和参考译文S的最长公共子序列，计算公式如下：</p>
-<img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgfXBibHaKdNJDXNPgWhZ0L9FKG1b8LuabowzXZiaMhGXB3WQSepe0gYiaw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" style="zoom:33%;">
-
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgfXBibHaKdNJDXNPgWhZ0L9FKG1b8LuabowzXZiaMhGXB3WQSepe0gYiaw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img" style="zoom:33%;"></p>
 <p>公式中的 RLCS 表示召回率，而 PLCS 表示精确率，FLCS 就是 ROUGE-L。一般 beta 会设置为很大的数，因此 FLCS 几乎只考虑了 RLCS (即召回率)。注意这里 beta 大，则 F 会更加关注 R，而不是 P，可以看下面的公式。如果 beta 很大，则 PLCS 那一项可以忽略不计。</p>
 <p><strong style="color:red;">yaya: 对于含有多个reference的情况，先分别计算 R<sub>LCS</sub> 和 P<sub>LCS</sub>， 再分别取max，得到 max_R, max_P之后，再带入 F<sub>LCS</sub> 中。</strong></p>
-<p>### </p>
-<h3 id="METEOR"><a href="#METEOR" class="headerlink" title="METEOR"></a><strong>METEOR</strong></h3><p>和BLEU不同，METEOR同时考虑了基于整个语料库上的准确率和召回率，而最终得出测度。</p>
+<h3 id><a href="#" class="headerlink" title=" "></a> </h3><h3 id="METEOR"><a href="#METEOR" class="headerlink" title="METEOR"></a><strong>METEOR</strong></h3><p>和BLEU不同，METEOR同时考虑了基于整个语料库上的准确率和召回率，而最终得出测度。</p>
 <p>METEOR也包括其他指标没有发现一些其他功能，如<strong>同义词匹配</strong>等。METEOR用 WordNet 等知识源扩充了一下同义词集，同时考虑了单词的词形（词干相同的词也认为是部分匹配的，也应该给予一定的奖励，比如说把 likes 翻译成了 like 总比翻译成别的乱七八糟的词要好吧？）</p>
 <p><strong>在评价句子流畅性的时候，用了 chunk 的概念</strong>（候选译文和参考译文能够对齐的、空间排列上连续的单词形成一个 chunk，这个对齐算法是一个有点复杂的启发式 beam serach），chunk 的数目越少意味着每个 chunk 的平均长度越长，也就是说候选译文和参考译文的语序越一致。</p>
 <p>最后，METEOR计算为对应最佳候选译文和参考译文之间的准确率和召回率的调和平均：</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxernqjrj30pe0hut9u.jpg" style="zoom:33%;">
-
-<h4 id="1-理解"><a href="#1-理解" class="headerlink" title="1. 理解"></a>1. 理解</h4><p>看公式总是挺抽象的，下面我们还是看看来自维基百科的例子吧。计算的最基本单元是句子。算法首先从待评价字符串和参考字符串之间创建一个平面图如下：<img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgruCbgRHd3tQITE2N2mQsfJUficbIQav7TBGZA7wvUpnyiaoMlwfYYxrg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxernqjrj30pe0hut9u.jpg" style="zoom:33%;"></p>
+<h4 id="1-理解"><a href="#1-理解" class="headerlink" title="1. 理解"></a>1. 理解</h4><p>看公式总是挺抽象的，下面我们还是看看来自维基百科的例子吧。计算的最基本单元是句子。算法首先从待评价字符串和参考字符串之间创建一个平面图如下：<img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgruCbgRHd3tQITE2N2mQsfJUficbIQav7TBGZA7wvUpnyiaoMlwfYYxrg/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img"></p>
 <p>所谓<strong>平面图</strong>，就是1元组之间的映射集。平面图有如下的一些限制：在待评价翻译中的每个1元组必须映射到参考翻译中的1个或0个一元组，然后根据这个定义创建平面图。<strong>如果有两个平面图的映射数量相同，那么选择映射交叉数目较少的那个。</strong> 也就是说，上面左侧平面图会被选择。状态会持续运行，在每个状态下只会向平面图加入那些在前一个状态中尚未匹配的1元组。<em>一旦最终的平面图计算完毕，就开始计算METEOR得分</em>：</p>
 <p>1元组精度：</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxernte4j307d04fmx0.jpg" style="zoom:33%;">
-
-<p>其中m是<em>在参考句子中同样存在的，*</em>待评价句子中的一元组的数量<em>。wt是</em>待评价翻译中一元组的数量*。</p>
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxernte4j307d04fmx0.jpg" style="zoom:33%;"></p>
+<p>其中m是<em>在参考句子中同样存在的，**待评价句子中的一元组的数量</em>。wt是<em>待评价翻译中一元组的数量</em>。</p>
 <p>1元组召回率：</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxersvbuj307s04h745.jpg" style="zoom:33%;">
-
-
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxersvbuj307s04h745.jpg" style="zoom:33%;"></p>
 <p>m同上，是参考翻译中一元组的数量。</p>
 <p>然后使用调和平均来计算F-mean，且召回的权重是精度的9（上面说的超参数α）倍。</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxerunotj30eo054jre.jpg" style="zoom:33%;">
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxerunotj30eo054jre.jpg" style="zoom:33%;"></p>
 <p>到目前为止，这个方法只对单个单词的一致性进行了衡量，还没有用到为了评价流畅性的 <strong>chunk</strong> 。chunk 块的定义是在待评价语句和参考语句中毗邻的一元组集合。</p>
 <p>在参考和待评价句子中的没有毗连的映射越多，惩罚就越高。为了计算惩罚，1元组被分组成最少可能的块（chunks）。<em>在待评价语句和参考语句之间的毗邻映射越长，块的数量就越少</em>。一个待评价翻译如果和参考翻译相同，那么就只有一个块。惩罚p的计算如下：</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxeruhhij30dj05pwei.jpg" style="zoom:33%;">
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxeruhhij30dj05pwei.jpg" style="zoom:33%;"></p>
 <p>（假设参数都已经设置好了）其中c就是块的数量，Um是被映射的一元组的数量。p可以减少F-mean的值。最后：</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxertdasj30fn02xjrb.jpg" style="zoom:33%;">
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1ggzxertdasj30fn02xjrb.jpg" style="zoom:33%;"></p>
 <h4 id="2-优点"><a href="#2-优点" class="headerlink" title="2. 优点"></a>2. 优点</h4><ul>
 <li>该方法基于一元组的精度和召回的调和平均，召回的权重比精度要高一点 ， 与人类判断相关性高</li>
 <li><em>引入了外部知识，评价更加友好了。</em></li>
@@ -608,21 +598,20 @@
 </ul>
 <h2 id="image-caption-常用指标"><a href="#image-caption-常用指标" class="headerlink" title="image caption 常用指标"></a><strong>image caption 常用指标</strong></h2><h3 id="CIDEr"><a href="#CIDEr" class="headerlink" title="CIDEr"></a><strong>CIDEr</strong></h3><p>CIDEr 是专门设计出来用于图像标注问题的。这个指标将每个句子都看作“文档”，将其表示成 Term Frequency Inverse Document Frequency（tf-idf）向量的形式，通过对每个n元组进行(TF-IDF) 权重计算，计算参考 caption 与模型生成的 caption 的余弦相似度，来衡量图像标注的一致性的。</p>
 <ul>
-<li>公式<br><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgicMuoIiabcIRSiaXj1tLEmgWU5ysVK6ZO4FlTJmfc5S3j3vS7tyzuibkEg/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></li>
-<li>举例<img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAg6qxl9VK30SIG0T4LBfVOkbrqRlx4DyBcDK9tRk9vMrwCKfvZYC1ZBw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></li>
+<li>公式<br><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgicMuoIiabcIRSiaXj1tLEmgWU5ysVK6ZO4FlTJmfc5S3j3vS7tyzuibkEg/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img"></li>
+<li>举例<img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAg6qxl9VK30SIG0T4LBfVOkbrqRlx4DyBcDK9tRk9vMrwCKfvZYC1ZBw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img"></li>
 </ul>
 <h4 id="1-好处"><a href="#1-好处" class="headerlink" title="1. 好处"></a>1. 好处</h4><p>是一种加权的评价指标，他更关注你是否说到了重点，而常见的词权重则没有那么高。在 Kaustav_slides image caption的综述里，也提到这个评价指标和人类的评价相关性更高一些</p>
 <h3 id="SPICE"><a href="#SPICE" class="headerlink" title="SPICE"></a><strong>SPICE</strong></h3><p>SPICE 也是专门设计出来用于 image caption 问题的。全称是 Semantic Propositional Image Caption Evaluation。</p>
 <p>我们考虑如下图片：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgl3KCxN5scYCpo7RnLCVOWpTmaG8scssC1iaibPwzaNCQNATuOsU7Dq3g/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgl3KCxN5scYCpo7RnLCVOWpTmaG8scssC1iaibPwzaNCQNATuOsU7Dq3g/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img"></p>
 <p>你很快会发现尽管生成的句子与参考句极为相似（只有basketball一词不一样），但我们仍认为这是一个糟糕的生成。原因在于考虑了语义的情况下，模型把网球场错误的识别成了篮球场。这个时候BLEU或者其他指标就不能很好的评价生成效果了。</p>
 <p>SPICE 使用基于图的语义表示来编码 caption 中的 objects, attributes 和 relationships。它先将待评价 caption 和参考 captions 用 Probabilistic Context-Free Grammar (PCFG) dependency parser parse 成 syntactic dependencies trees，然后用基于规则的方法把 dependency tree 映射成 scene graphs。最后计算待评价的 caption 中 objects, attributes 和 relationships 的 F-score 值。</p>
 <p>还是已上图为例，a young girl standing on top of a tennis court (参考句) 可以被SPICE做如下处理：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgRYbeW3NVtIAQDicktJATMl9o5KkyImngjsiaIdnX8SdvwFEibsxA59UyQ/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img">得到了若干个三元组之后，我们通过下面的公式来计算候选句c和参考句（或集合）S的得分：</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gh01gh6umpj313d0fx408.jpg" style="zoom:33%;">
-
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgRYbeW3NVtIAQDicktJATMl9o5KkyImngjsiaIdnX8SdvwFEibsxA59UyQ/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img">得到了若干个三元组之后，我们通过下面的公式来计算候选句c和参考句（或集合）S的得分：</p>
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gh01gh6umpj313d0fx408.jpg" style="zoom:33%;"></p>
 <p>这里有一个例子：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgwIdbmLATA8Zk5uKHZDAAGkyJlf0J0ZDHPicGUibNgAlUCdrPlT82javA/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1" alt="img"></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qFEWM9OIZ9BADhs7bP0lrAgwIdbmLATA8Zk5uKHZDAAGkyJlf0J0ZDHPicGUibNgAlUCdrPlT82javA/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="img"></p>
 <h4 id="1-好处-1"><a href="#1-好处-1" class="headerlink" title="1. 好处"></a>1. 好处</h4><ul>
 <li>对目标，属性，关系有更多的考虑；</li>
 <li>和基于n-gram的评价模式相比，有更高的和人类评价的相关性</li>
@@ -753,7 +742,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -913,7 +902,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#automatic-metric-总结"><span class="nav-number">1.</span> <span class="nav-text">automatic metric 总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于词重叠率的方法"><span class="nav-number">1.1.</span> <span class="nav-text">基于词重叠率的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#机器翻译-amp-摘要-常用指标"><span class="nav-number">1.2.</span> <span class="nav-text">机器翻译 &amp; 摘要 常用指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BLEU"><span class="nav-number">1.2.1.</span> <span class="nav-text">BLEU</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-改进的多元精度（n-gram-precision）"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">1. 改进的多元精度（n-gram precision）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-惩罚因子"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">2. 惩罚因子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-优点"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">3. 优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-缺点"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">4. 缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ROUGE"><span class="nav-number">1.2.2.</span> <span class="nav-text">ROUGE</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ROUGE-L"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">ROUGE-L</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#METEOR"><span class="nav-number">1.2.3.</span> <span class="nav-text">METEOR</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-理解"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">1. 理解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-优点"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2. 优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-缺点"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">3. 缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#image-caption-常用指标"><span class="nav-number">1.3.</span> <span class="nav-text">image caption 常用指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CIDEr"><span class="nav-number">1.3.1.</span> <span class="nav-text">CIDEr</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-好处"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">1. 好处</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SPICE"><span class="nav-number">1.3.2.</span> <span class="nav-text">SPICE</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-好处-1"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">1. 好处</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-缺点"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">2. 缺点</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#automatic-metric-总结"><span class="nav-number">1.</span> <span class="nav-text">automatic metric 总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于词重叠率的方法"><span class="nav-number">1.1.</span> <span class="nav-text">基于词重叠率的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#机器翻译-amp-摘要-常用指标"><span class="nav-number">1.2.</span> <span class="nav-text">机器翻译 &amp; 摘要 常用指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BLEU"><span class="nav-number">1.2.1.</span> <span class="nav-text">BLEU</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-改进的多元精度（n-gram-precision）"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">1. 改进的多元精度（n-gram precision）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-惩罚因子"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">2. 惩罚因子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-优点"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">3. 优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-缺点"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">4. 缺点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ROUGE"><span class="nav-number">1.2.2.</span> <span class="nav-text">ROUGE</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ROUGE-L"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">ROUGE-L</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#null"><span class="nav-number">1.2.3.</span> <span class="nav-text"> </span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#METEOR"><span class="nav-number">1.2.4.</span> <span class="nav-text">METEOR</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-理解"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">1. 理解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-优点"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">2. 优点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-缺点"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">3. 缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#image-caption-常用指标"><span class="nav-number">1.3.</span> <span class="nav-text">image caption 常用指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CIDEr"><span class="nav-number">1.3.1.</span> <span class="nav-text">CIDEr</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-好处"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">1. 好处</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SPICE"><span class="nav-number">1.3.2.</span> <span class="nav-text">SPICE</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-好处-1"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">1. 好处</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-缺点"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">2. 缺点</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -1451,6 +1440,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

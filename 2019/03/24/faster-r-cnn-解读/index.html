@@ -97,13 +97,13 @@
 
 
 
-  <meta name="description" content="Overview来自机器之心可能机器之心的那个链接无法转到，看这个by yaya: RPN  anchor: 定义anchor的长: scale=[4,8,16], 长宽比: ratio=[0.5, 1, 1.5, 2]，则在each position of conv feature 将会有k=len(scale)×len(ratio)=12个anchor (1)对于分类层，我们对每个锚点输出两个">
+  <meta name="description" content="Overview来自机器之心可能机器之心的那个链接无法转到，看这个by yaya: RPN anchor: 定义anchor的长: scale=[4,8,16], 长宽比: ratio=[0.5, 1, 1.5, 2]，则在each position of conv feature 将会有k=len(scale)×len(ratio)=12个anchor (1)对于分类层，我们对每个锚点输出两个预">
 <meta name="keywords" content="人工智能,目标检测">
 <meta property="og:type" content="article">
 <meta property="og:title" content="faster r-cnn 解读">
 <meta property="og:url" content="http://yoursite.com/2019/03/24/faster-r-cnn-解读/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="Overview来自机器之心可能机器之心的那个链接无法转到，看这个by yaya: RPN  anchor: 定义anchor的长: scale=[4,8,16], 长宽比: ratio=[0.5, 1, 1.5, 2]，则在each position of conv feature 将会有k=len(scale)×len(ratio)=12个anchor (1)对于分类层，我们对每个锚点输出两个">
+<meta property="og:description" content="Overview来自机器之心可能机器之心的那个链接无法转到，看这个by yaya: RPN anchor: 定义anchor的长: scale=[4,8,16], 长宽比: ratio=[0.5, 1, 1.5, 2]，则在each position of conv feature 将会有k=len(scale)×len(ratio)=12个anchor (1)对于分类层，我们对每个锚点输出两个预">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0ltm2y7j30u0083wev.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1e10a6tguj31fj0mw0vw.jpg">
@@ -114,7 +114,7 @@
 <meta property="og:updated_time" content="2020-01-03T07:34:25.069Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="faster r-cnn 解读">
-<meta name="twitter:description" content="Overview来自机器之心可能机器之心的那个链接无法转到，看这个by yaya: RPN  anchor: 定义anchor的长: scale=[4,8,16], 长宽比: ratio=[0.5, 1, 1.5, 2]，则在each position of conv feature 将会有k=len(scale)×len(ratio)=12个anchor (1)对于分类层，我们对每个锚点输出两个">
+<meta name="twitter:description" content="Overview来自机器之心可能机器之心的那个链接无法转到，看这个by yaya: RPN anchor: 定义anchor的长: scale=[4,8,16], 长宽比: ratio=[0.5, 1, 1.5, 2]，则在each position of conv feature 将会有k=len(scale)×len(ratio)=12个anchor (1)对于分类层，我们对每个锚点输出两个预">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0ltm2y7j30u0083wev.jpg">
 
 
@@ -306,7 +306,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -506,19 +506,17 @@
 
       
         <h2 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h2><p>来自<a href="https://mp.weixin.qq.com/s/M_i38L2brq69BYzmaPeJ9w" target="_blank" rel="noopener">机器之心</a><br>可能机器之心的那个链接无法转到，<a href="http://tech.ifeng.com/a/20180223/44884976_0.shtml" target="_blank" rel="noopener">看这个</a><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0ltm2y7j30u0083wev.jpg"><br>by yaya:<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e10a6tguj31fj0mw0vw.jpg"></p>
-<h2 id="RPN"><a href="#RPN" class="headerlink" title="RPN"></a>RPN</h2><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p68j95j30t80gaaar.jpg" style="zoom:60%">
-
+<h2 id="RPN"><a href="#RPN" class="headerlink" title="RPN"></a>RPN</h2><p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p68j95j30t80gaaar.jpg" style="zoom:60%"></p>
 <p>anchor: 定义anchor的长: scale=[4,8,16], 长宽比: ratio=[0.5, 1, 1.5, 2]，则在each position of conv feature 将会有k=len(scale)×len(ratio)=12个anchor</p>
-<p>(1)对于分类层，我们对每个锚点输出两个预测值：它是背景（不是目标）的分数，和它是前景（实际的目标）的分数.<br><br>则经过该1×1的卷积层，输出的shape=N×2k×H×W  <br></p>
-<p>(2)对于回归或边框调整层，我们输出四个预测值(偏移值)：<font color="#0099ff" size="5" face="黑体">Δxcenter、Δycenter、Δwidth、Δheight</font>，我们将会把这些值用到锚点中来得到最终的建议：(x1, y1, x2, y2)分别为左下角和右上角的坐标，即area=(x2-x1)*(y2-y1).<br><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p66yxyj312w066t91.jpg"></p>
+<p>(1)对于分类层，我们对每个锚点输出两个预测值：它是背景（不是目标）的分数，和它是前景（实际的目标）的分数.&lt;/br&gt;<br>则经过该1×1的卷积层，输出的shape=N×2k×H×W  &lt;/br&gt;</p>
+<p>(2)对于回归或边框调整层，我们输出四个预测值(偏移值)：<font color="#0099ff" size="5" face="黑体">Δxcenter、Δycenter、Δwidth、Δheight</font>，我们将会把这些值用到锚点中来得到最终的建议：(x1, y1, x2, y2)分别为左下角和右上角的坐标，即area=(x2-x1)*(y2-y1).&lt;/br&gt;<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p66yxyj312w066t91.jpg"></p>
 <p>(3) 补充，<font color="#0099ff" size="5" face="黑体">RoI Pooling</font>  得到 pooled feats，输入的是base feats, 得到的pred proposals 以及 <font color="#0099ff" size="5" face="黑体">1/scale</font><br>因为pred proposals得到的坐标是在<del>原始的image上的</del> 输入到网络中的image，而当前的base feats 是相对于原图有尺度变化的，为了对应.</p>
-<h2 id="R-CNN"><a href="#R-CNN" class="headerlink" title="R-CNN"></a>R-CNN</h2><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p6ekybj30u00c175l.jpg">
-
-<p>有两个不同的目标：<br><br>(1) 将建议分到一个类中，加上一个背景类（用于删除不好的建议）。<br><br>(2) 根据预测的类别更好地调整建议的边框。<br><br>在最初的 Faster R-CNN 论文中，R-CNN 对每个建议采用特征图，将它平坦化并使用两个大小为 4096 的有 ReLU 激活函数的全连接层。然后，它对每个不同的目标使用两种不同的全连接层：<br><br>一个有 N+1 个单元的全连接层，其中 N 是类的总数，另外一个是背景类。<br><br>一个有 4N 个单元的全连接层。我们希望有一个回归预测，因此对 N 个类别中的每一个可能的类别，我们都需要 <font color="#0099ff" size="5" face="黑体">Δxcenter、Δycenter、Δwidth、Δheight</font>。<br><br>训练和目标<br><br>R-CNN 的目标与 RPN 的目标的计算方法几乎相同，但是考虑的是不同的可能类别。我们采用建议和真实边框，并计算它们之间的 IoU。<br></p>
-<p>那些有任何真实边框的建议，只要其 IoU 大于 0.5，都被分配给那个真实数据。那些 IoU 在 0.1 和 0.5 之间的被标记为背景。与我们在为 RPN 分配目标时相反的是，我们忽略了没有任何交集的建议。这是因为在这个阶段，我们假设已经有好的建议并且我们对解决更困难的情况更有兴趣。当然，这些所有的值都是可以为了更好的拟合你想找的目标类型而做调整的超参数。<br></p>
-<p>边框回归的目标是计算建议和与其对应的真实框之间的偏移量，仅针对那些基于 IoU 阈值分配了类别的建议。<br></p>
-<p>我们随机抽样了一个尺寸为 64 的 balanced mini batch，其中我们有高达 25% 的前景建议（有类别）和 75% 的背景。<br></p>
-<p>按照我们对 RPN 损失所做的相同处理方式，现在的分类损失是一个多类别的交叉熵损失，使用所有选定的建议和用于与真实框匹配的 25% 建议的 Smooth L1 loss。由于 R-CNN 边框回归的全连接网络的输出对于每个类都有一个预测，所以当我们得到这种损失时必须小心。在计算损失时，我们只需要考虑正确的类。<br><br>这里若假定类别可知，则每个类都有预测，若类别不可知，则仅有一个预测即可，代码如下：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p66uafj30nq03vt8o.jpg"></p>
+<h2 id="R-CNN"><a href="#R-CNN" class="headerlink" title="R-CNN"></a>R-CNN</h2><p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p6ekybj30u00c175l.jpg"></p>
+<p>有两个不同的目标：&lt;/br&gt;<br>(1) 将建议分到一个类中，加上一个背景类（用于删除不好的建议）。&lt;/br&gt;<br>(2) 根据预测的类别更好地调整建议的边框。&lt;/br&gt;<br>在最初的 Faster R-CNN 论文中，R-CNN 对每个建议采用特征图，将它平坦化并使用两个大小为 4096 的有 ReLU 激活函数的全连接层。然后，它对每个不同的目标使用两种不同的全连接层：&lt;/br&gt;<br>一个有 N+1 个单元的全连接层，其中 N 是类的总数，另外一个是背景类。&lt;/br&gt;<br>一个有 4N 个单元的全连接层。我们希望有一个回归预测，因此对 N 个类别中的每一个可能的类别，我们都需要 <font color="#0099ff" size="5" face="黑体">Δxcenter、Δycenter、Δwidth、Δheight</font>。&lt;/br&gt;<br>训练和目标&lt;/br&gt;<br>R-CNN 的目标与 RPN 的目标的计算方法几乎相同，但是考虑的是不同的可能类别。我们采用建议和真实边框，并计算它们之间的 IoU。&lt;/br&gt;</p>
+<p>那些有任何真实边框的建议，只要其 IoU 大于 0.5，都被分配给那个真实数据。那些 IoU 在 0.1 和 0.5 之间的被标记为背景。与我们在为 RPN 分配目标时相反的是，我们忽略了没有任何交集的建议。这是因为在这个阶段，我们假设已经有好的建议并且我们对解决更困难的情况更有兴趣。当然，这些所有的值都是可以为了更好的拟合你想找的目标类型而做调整的超参数。&lt;/br&gt;</p>
+<p>边框回归的目标是计算建议和与其对应的真实框之间的偏移量，仅针对那些基于 IoU 阈值分配了类别的建议。&lt;/br&gt;</p>
+<p>我们随机抽样了一个尺寸为 64 的 balanced mini batch，其中我们有高达 25% 的前景建议（有类别）和 75% 的背景。&lt;/br&gt;</p>
+<p>按照我们对 RPN 损失所做的相同处理方式，现在的分类损失是一个多类别的交叉熵损失，使用所有选定的建议和用于与真实框匹配的 25% 建议的 Smooth L1 loss。由于 R-CNN 边框回归的全连接网络的输出对于每个类都有一个预测，所以当我们得到这种损失时必须小心。在计算损失时，我们只需要考虑正确的类。&lt;/br&gt;<br>这里若假定类别可知，则每个类都有预测，若类别不可知，则仅有一个预测即可，代码如下：<br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g1e0p66uafj30nq03vt8o.jpg"></p>
 
       
     </div>
@@ -642,7 +640,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1340,6 +1338,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

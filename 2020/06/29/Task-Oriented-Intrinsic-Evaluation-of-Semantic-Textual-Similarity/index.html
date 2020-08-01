@@ -302,7 +302,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -492,19 +492,20 @@
         <h3 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h3><p>语义文本相似性（STS），为了评价设计的 STS system 的性能，通常使用 Pearson 相关性进行比较。</p>
 <p>在本文中，证明了依靠具有Pearson相关性的内在评估可能会产生误导。在三个基于STS的常见任务中，我们可以观察到Pearson相关性特别不适用于为该任务检测最佳STS系统，而其他评估措施则更适合。</p>
 <p>In this work we define how <strong>the validity of an intrinsic evaluation can be assessed</strong> and compare different intrinsic evaluation methods.</p>
-<p><font color="red"> 即本文来分析metric 的有效性</font></p>
+<font color="red"> 即本文来分析metric 的有效性</font>
+
 <h3 id="key-words"><a href="#key-words" class="headerlink" title="key words"></a>key words</h3><p>intrinsic evaluations == metric</p>
 <p>an STS based task  == a task that heavily depends on the output of an STS system </p>
 <h3 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h3><p>下面的图中，四种不同的图，计算得到的pearson 系数都是0.86. </p>
 <p>即通过仅比较皮尔逊相关性，所有系统都将被视为同样良好。</p>
 <p>同时也可以看到，<strong>Pearson</strong>相关对局外点敏感，只能测量线性关系以及两个变量需要近似正态分布的局限性。</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gg89uax2zvj31fs0sl41x.jpg">
-
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gg89uax2zvj31fs0sl41x.jpg"></p>
 <p><strong>Spearman</strong>的排名相关性不使用实际值来计算相关性，而是使用值的排名。因此，它对异常值，非线性关系或非正态分布的数据不敏感。 但是，大多数STS系统的内在评估仅报告了Pearson相关性。</p>
 <h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><p>本文还提出了一个 <strong>predictiveness</strong> 的概念。由于，STS system 不会单独使用，常常会将其应用于下游任务。对于那些STS system 上得分高的，且在下游任务上得分也高的，称其为 high predictiveness。</p>
 <p>为了探索各种metric 哪种更加适合 STS system 的评价（适合==high predictiveness）。本文用各种  metric 来评估14个 STS system。并使用spearman’rank 来计算，这些metric  得到的STS system <strong>得分</strong> 与 STS based task本身任务的<strong>得分</strong>，这两个得分之间的相关性。相关性越高，则有 high predictiveness, 即，该metric 更加适合用来做STS system 的评价。</p>
 <p>通过下图，可以看到，Pearson 作为metric 并不是很好。</p>
-<img src="http://ww1.sinaimg.cn/large/006uWRWVly1gg8a5wby91j30wb0qmte1.jpg">
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1gg8a5wby91j30wb0qmte1.jpg"></p>
+
       
     </div>
 
@@ -625,7 +626,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1323,6 +1324,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

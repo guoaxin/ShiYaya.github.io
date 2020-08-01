@@ -97,19 +97,19 @@
 
 
 
-  <meta name="description" content="对知乎上回答的简单总结  一、引言：为什么会有ResNet？Why ResNet？  过拟合？  不是！因为深层网络表现为训练误差和测试误差都比较高，所以不是过拟合  梯度消失？梯度爆炸？  不是！因为已经使用了 batch normalization ，在很大程度上解决了梯度消失、爆炸的问题，（yaya：我个人认为对梯度消失问题有一定的帮助，毕竟梯度值为1）  深层网络退化的原因？   由于非线">
+  <meta name="description" content="对知乎上回答的简单总结  一、引言：为什么会有ResNet？Why ResNet？  过拟合？  不是！因为深层网络表现为训练误差和测试误差都比较高，所以不是过拟合 梯度消失？梯度爆炸？  不是！因为已经使用了 batch normalization ，在很大程度上解决了梯度消失、爆炸的问题，（yaya：我个人认为对梯度消失问题有一定的帮助，毕竟梯度值为1）  深层网络退化的原因？   由于非线性">
 <meta property="og:type" content="article">
 <meta property="og:title" content="到底ResNet在解决一个什么问题呢">
 <meta property="og:url" content="http://yoursite.com/2019/08/17/到底ResNet在解决一个什么问题呢/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="对知乎上回答的简单总结  一、引言：为什么会有ResNet？Why ResNet？  过拟合？  不是！因为深层网络表现为训练误差和测试误差都比较高，所以不是过拟合  梯度消失？梯度爆炸？  不是！因为已经使用了 batch normalization ，在很大程度上解决了梯度消失、爆炸的问题，（yaya：我个人认为对梯度消失问题有一定的帮助，毕竟梯度值为1）  深层网络退化的原因？   由于非线">
+<meta property="og:description" content="对知乎上回答的简单总结  一、引言：为什么会有ResNet？Why ResNet？  过拟合？  不是！因为深层网络表现为训练误差和测试误差都比较高，所以不是过拟合 梯度消失？梯度爆炸？  不是！因为已经使用了 batch normalization ，在很大程度上解决了梯度消失、爆炸的问题，（yaya：我个人认为对梯度消失问题有一定的帮助，毕竟梯度值为1）  深层网络退化的原因？   由于非线性">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g62hrnrs6nj30h9048aax.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g62hpvudvxj30iu0cc3zi.jpg">
 <meta property="og:updated_time" content="2019-08-17T08:17:14.288Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="到底ResNet在解决一个什么问题呢">
-<meta name="twitter:description" content="对知乎上回答的简单总结  一、引言：为什么会有ResNet？Why ResNet？  过拟合？  不是！因为深层网络表现为训练误差和测试误差都比较高，所以不是过拟合  梯度消失？梯度爆炸？  不是！因为已经使用了 batch normalization ，在很大程度上解决了梯度消失、爆炸的问题，（yaya：我个人认为对梯度消失问题有一定的帮助，毕竟梯度值为1）  深层网络退化的原因？   由于非线">
+<meta name="twitter:description" content="对知乎上回答的简单总结  一、引言：为什么会有ResNet？Why ResNet？  过拟合？  不是！因为深层网络表现为训练误差和测试误差都比较高，所以不是过拟合 梯度消失？梯度爆炸？  不是！因为已经使用了 batch normalization ，在很大程度上解决了梯度消失、爆炸的问题，（yaya：我个人认为对梯度消失问题有一定的帮助，毕竟梯度值为1）  深层网络退化的原因？   由于非线性">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g62hrnrs6nj30h9048aax.jpg">
 
 
@@ -301,7 +301,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -474,21 +474,20 @@
 <hr>
 <p><strong>一、引言：为什么会有ResNet？Why ResNet？</strong></p>
 <ul>
-<li><p>过拟合？<br>  不是！因为深层网络表现为训练误差和测试误差都比较高，所以不是过拟合</p>
-</li>
+<li>过拟合？<br>  不是！因为深层网络表现为训练误差和测试误差都比较高，所以不是过拟合</li>
 <li><p>梯度消失？梯度爆炸？<br>  不是！因为已经使用了 batch normalization ，在很大程度上解决了梯度消失、爆炸的问题，（yaya：我个人认为对梯度消失问题有一定的帮助，毕竟梯度值为1）</p>
 </li>
 <li><p>深层网络退化的原因？</p>
 <p>  由于非线性激活函数的存在，使得信息被丢失，而不能完整保留，所以，应该在网络中加入恒等映射</p>
 </li>
 </ul>
-<p>*<em>二、关于resnet网络结构 【没看懂为什么要有两层】  *</em></p>
+<p><strong>二、关于resnet网络结构 【没看懂为什么要有两层】  </strong></p>
 <p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g62hrnrs6nj30h9048aax.jpg" alt></p>
 <ul>
 <li>yaya 分析：<br>一层：  relu(x +  w1 x)<br>两层：  relu(x +w2 relu(w1 x))</li>
 </ul>
 <p>​       既然非线性激活函数会把信息丢失，为什么不这样：relu(wx) + x ，因为这样是错误的，本身relu是需要放在输出后面，起到非线性的作用，但是这样，就不算作对输出的非线</p>
-<p>*<em>三、更多的理解    *</em></p>
+<p><strong>三、更多的理解    </strong></p>
 <p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g62hpvudvxj30iu0cc3zi.jpg" alt></p>
 <hr>
 <p>yaya 的总结/理解</p>
@@ -603,7 +602,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1284,6 +1283,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 

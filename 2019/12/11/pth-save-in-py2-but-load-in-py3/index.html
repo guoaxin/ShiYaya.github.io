@@ -299,7 +299,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">167</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">168</span></a>
 
   </li>
 
@@ -492,19 +492,14 @@
 <li><p>有的人给出了下面的解决方案(但是对于我是无效的)：    </p>
 <p>来自：<a href="https://github.com/CSAILVision/places365/issues/25" target="_blank" rel="noopener">https://github.com/CSAILVision/places365/issues/25</a></p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> functools import partial</span><br><span class="line">import pickle</span><br><span class="line">pickle.load = partial(pickle.load, <span class="attribute">encoding</span>=<span class="string">"latin1"</span>)</span><br><span class="line">pickle.Unpickler = partial(pickle.Unpickler, <span class="attribute">encoding</span>=<span class="string">"latin1"</span>)</span><br><span class="line">model = torch.load(model_file, <span class="attribute">map_location</span>=lambda storage, loc: storage, <span class="attribute">pickle_module</span>=pickle)</span><br></pre></td></tr></table></figure>
-
-
-
 </li>
 </ul>
 <ul>
 <li><p><strong>这里给出我的解决办法</strong>   </p>
 <p>（1） 在python2 环境下读取该文件，然后用 pickle来保存   </p>
 <figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tmp_data = torch.<span class="built_in">load</span>(model_file)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">'tmp.pickle'</span>, <span class="string">'wb'</span>) <span class="keyword">as</span> <span class="built_in">file</span>:</span><br><span class="line">    pickle.dump(tmp_data, <span class="built_in">file</span>, protocol=<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
-
 <p>（2）换到python3环境下，再读取pickle文件，再用torch.load来保存（这一点或可以省略）</p>
 <figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">'tmp.pickle'</span>, <span class="string">'rb'</span>) <span class="keyword">as</span> <span class="built_in">file</span>:</span><br><span class="line">    tmp_data = pickle.<span class="built_in">load</span>(<span class="built_in">file</span>, encoding=<span class="string">'latin1'</span>)</span><br><span class="line">    </span><br><span class="line">torch.save(tmp_data, tmp_model.pth)</span><br></pre></td></tr></table></figure>
-
 </li>
 </ul>
 
@@ -628,7 +623,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">167</span>
+                    <span class="site-state-item-count">168</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1326,6 +1321,13 @@
   
 
   
+  
+
+  
+  
+
+  
+
 
   
 
