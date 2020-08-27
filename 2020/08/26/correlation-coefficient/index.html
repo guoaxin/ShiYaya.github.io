@@ -106,8 +106,9 @@
 <meta property="og:description" content="correlation coefficient spearman 和 kendall 计算的都是对排序 之间的计算 pearson 计算的是直接的数值，协方差，标准差之间的计算  pearson 代码实现 123# 以下两种方式都可以scipy.stats.pearsonr(array_1, array_2)np.corrcoef(array_1, array_2)  计算公式   适用范围 当两">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2020/08/26/lXA4uMz9UkG2vFx.png">
-<meta property="og:image" content="https://i.loli.net/2020/08/26/2cSqrmHkj54aCiM.png">
-<meta property="og:updated_time" content="2020-08-26T06:42:44.093Z">
+<meta property="og:image" content="https://i.loli.net/2020/08/26/ON5iLc2kl6EAM1p.png">
+<meta property="og:image" content="https://i.loli.net/2020/08/26/z3iJWqUxRcBSegV.png">
+<meta property="og:updated_time" content="2020-08-27T02:58:28.571Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="correlation coefficient">
 <meta name="twitter:description" content="correlation coefficient spearman 和 kendall 计算的都是对排序 之间的计算 pearson 计算的是直接的数值，协方差，标准差之间的计算  pearson 代码实现 123# 以下两种方式都可以scipy.stats.pearsonr(array_1, array_2)np.corrcoef(array_1, array_2)  计算公式   适用范围 当两">
@@ -426,12 +427,24 @@
                 
               
 
-              <time title="创建时间：2020-08-26 14:41:03 / 修改时间：14:42:44" itemprop="dateCreated datePublished" datetime="2020-08-26T14:41:03+08:00">2020-08-26</time>
+              <time title="创建时间：2020-08-26 14:41:03" itemprop="dateCreated datePublished" datetime="2020-08-26T14:41:03+08:00">2020-08-26</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2020-08-27 10:58:28" itemprop="dateModified" datetime="2020-08-27T10:58:28+08:00">2020-08-27</time>
               
             
           </span>
@@ -488,8 +501,19 @@
 <p>(2)、两个变量的总体是正态分布，或接近正态的单峰分布。</p>
 <p>(3)、两个变量的观测值是成对的，每对观测值之间相互独立。</p>
 </li>
+<li><p>注意</p>
+<p>公式的分母是变量的标准差，这就意味着计算pearson时，变量的标准差不能为0（分母不能为0），也就是说你的两个变量中任何一个的值不能都是相同的。如果没有变化，用pearson是没办法算出这个变量与另一个变量之间是不是有相关性的。</p>
+<p>就好比我们想研究人跑步的速度与心脏跳动的相关性，如果你无论跑多快，心跳都不变（即心跳这个变量的标准差为0），或者你心跳忽快忽慢的，却一直保持一个速度在跑（即跑步速度这个变量的标准差为0），那我们都无法通过pearson的计算来判断心跳与跑步速度到底相不相关。</p>
+</li>
+<li><p>使用Pearson线性相关系数有2个局限：</p>
+<ol>
+<li>必须假设数据是成对地从正态分布中取得的。</li>
+<li>数据至少在逻辑范围内是等距的。</li>
+</ol>
+</li>
 </ul>
-<h3 id="spearman"><a href="#spearman" class="headerlink" title="spearman"></a>spearman</h3><ul>
+<h3 id="spearman"><a href="#spearman" class="headerlink" title="spearman"></a>spearman</h3><p><a href="https://statistics.laerd.com/statistical-guides/spearmans-rank-order-correlation-statistical-guide.php" target="_blank" rel="noopener">https://statistics.laerd.com/statistical-guides/spearmans-rank-order-correlation-statistical-guide.php</a></p>
+<ul>
 <li><p>代码实现</p>
 <ul>
 <li><p>对于一般情况</p>
@@ -506,6 +530,19 @@
 <ul>
 <li><p>计算公式</p>
 <ul>
+<li><p>存在 并列排序时：</p>
+<p>先排序，对排序值 pair 计算 pearson 系数</p>
+</li>
+<li><p>不存在并列排序时，</p>
+<p>先排序，计算d<sub>i</sub> 再按照下面第一个公式进行计算</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2020/08/26/ON5iLc2kl6EAM1p.png" alt="微信截图_20200826151113"></p>
+<ul>
+<li><p>另外一种说法</p>
+<ul>
 <li><p>一般情况：</p>
 <p>先排序，对排序值 pair 计算 pearson 系数</p>
 </li>
@@ -513,10 +550,8 @@
 <p>先排序，计算d<sub>i</sub> 再按照吐下的公式进行计算</p>
 </li>
 </ul>
+<p><img src="https://i.loli.net/2020/08/26/z3iJWqUxRcBSegV.png" alt="微信截图_20200826151324"></p>
 </li>
-</ul>
-<p><img src="https://i.loli.net/2020/08/26/2cSqrmHkj54aCiM.png" alt="微信截图_20200826134850" style="zoom: 67%;"></p>
-<ul>
 <li><p>适用范围</p>
 <p>spearman 对数据条件的要求没有皮尔逊相关系数严格，只要两个变量的观测值是成对的等级评定资料，或者是由连续变量观测资料转化得到的等级资料，不论两个变量的总体分布形态、样本容量的大小如何，都可以用spearman 来进行研究</p>
 </li>
@@ -527,6 +562,7 @@
 </li>
 <li><p>计算公式</p>
 <p><a href="https://en.wikipedia.org/wiki/Kendall_rank_correlation_coefficient" target="_blank" rel="noopener">Kendall_rank_correlation_coefficient</a></p>
+<p>有好几个计算公式</p>
 </li>
 <li><p>适用范围</p>
 <p>kendall与spearman 对数据条件的要求相同，可参见<a href="http://blog.csdn.net/wsywl/archive/2010/09/02/5859751.aspx" target="_blank" rel="noopener">统计相关系数(2)—Spearman Rank(斯皮尔曼等级)相关系数及MATLAB实现</a>中介绍的spearman 对数据条件的要求。</p>
@@ -535,6 +571,19 @@
 <h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><ul>
 <li>这三种 相关系数，计算 array_1 与 array_2 之间的相关性，若array_1 或者 array_2 中的元素都相同（eg: array_1 = np.array([5,5,5,5,5])） 则会使得输出为NaN.</li>
 </ul>
+<p>三种方法的适用场合</p>
+<h4 id="主要参数methods介绍"><a href="#主要参数methods介绍" class="headerlink" title="主要参数methods介绍:"></a>主要参数methods介绍:</h4><ol>
+<li>pearson correlation coefficient（皮尔逊相关性系数）。<br> 常用的相关系数求法，采用协方差cov(X,Y)/标准差的乘积(σX, σY)。<br> 数据要求： 线性数据、连续且符合正态分布；数据间差异不能太大；变量准差不能为0，即两变量中任何一个值不能都是相同。</li>
+<li>spearman correlation coefficient（斯皮尔曼秩相关性系数）。<br> 根据原始数据的排序位置进行计算。<br> 数据要求：用于解决称名数据和顺序数据相关的问题，适用于两列变量，而且具有等级变量性质具有线性关系的数据，能够很好处理序列中相同值和异常值。</li>
+<li>kendall correlation coefficient（肯德尔相关性系数）。<br> 等级相关系数，适用于两个变量均为有序分类的情况<br> 数据要求：肯德尔相关性系数，它也是一种秩相关系数，不过它所计算的对象是分类变量。</li>
+</ol>
+<p>所以针对【连续、正态分布、线性】数据，采用pearson相关系数；针对【非线性的、非正态】数据，采用spearman相关系数；针对【分类变量、无序】数据，采用Kendall相关系数。一般来讲，线性数据采用pearson，否则选择spearman，如果是分类的则用kendall。</p>
+<p>作者：王叽叽的小心情<br>链接：<a href="https://www.jianshu.com/p/f9304da68d98" target="_blank" rel="noopener">https://www.jianshu.com/p/f9304da68d98</a><br>来源：简书<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<h3 id="相关系数和P-value-值"><a href="#相关系数和P-value-值" class="headerlink" title="相关系数和P-value 值"></a>相关系数和P-value 值</h3><p>看两者是否算相关要看两方面</p>
+<p>显著水平以及相关系数</p>
+<p>（1）显著水平,就是P值,这是首要的,因为如果不显著,相关系数再高也没用,可能只是因为偶然因素引起的,那么多少才算显著,一般p值小于0.05就是显著了；如果小于0.01就更显著；例如p值=0.001,就是很高的显著水平了,只要显著,就可以下结论说：拒绝原假设无关,两组数据显著相关也说两者间确实有明显关系.通常需要p值小于0.1,最好小于0.05甚至0.01,才可得出结论：两组数据有明显关系,如果p=0.5,远大于0.1,只能说明相关程度不明显甚至不相关.起码不是线性相关.</p>
+<p>（2）相关系数,也就是pearson spearman等,通常也称为R值,在确认上面指标显著情况下,再来看这个指标,一般相关系数越高表明两者间关系越密切.R&gt;0 代表连个变量正相关,即一个变大另一个随之变大</p>
+<h3 id="需要的数据量"><a href="#需要的数据量" class="headerlink" title="需要的数据量"></a>需要的数据量</h3><p><a href="https://bbs.pinggu.org/thread-3240378-1-1.html" target="_blank" rel="noopener">https://bbs.pinggu.org/thread-3240378-1-1.html</a></p>
 
       
     </div>
@@ -812,7 +861,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#correlation-coefficient"><span class="nav-number">1.</span> <span class="nav-text">correlation coefficient</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pearson"><span class="nav-number">1.0.1.</span> <span class="nav-text">pearson</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spearman"><span class="nav-number">1.0.2.</span> <span class="nav-text">spearman</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kendall"><span class="nav-number">1.0.3.</span> <span class="nav-text">kendall</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析"><span class="nav-number">1.0.4.</span> <span class="nav-text">分析</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#correlation-coefficient"><span class="nav-number">1.</span> <span class="nav-text">correlation coefficient</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pearson"><span class="nav-number">1.0.1.</span> <span class="nav-text">pearson</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spearman"><span class="nav-number">1.0.2.</span> <span class="nav-text">spearman</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kendall"><span class="nav-number">1.0.3.</span> <span class="nav-text">kendall</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析"><span class="nav-number">1.0.4.</span> <span class="nav-text">分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主要参数methods介绍"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">主要参数methods介绍:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关系数和P-value-值"><span class="nav-number">1.0.5.</span> <span class="nav-text">相关系数和P-value 值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#需要的数据量"><span class="nav-number">1.0.6.</span> <span class="nav-text">需要的数据量</span></a></li></ol></li></ol></div>
             
 
           </div>
