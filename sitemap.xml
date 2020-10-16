@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/08/28/A-Survey-of-Evaluation-Metrics-Used-for-NLG-Systems/</loc>
+    
+    <lastmod>2020-10-16T08:36:38.860Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/10/16/Re-evaluating-Evaluation-in-Text-Summarization/</loc>
+    
+    <lastmod>2020-10-16T08:36:14.592Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/09/17/shiyaya-Instruction-Final-bilibili/</loc>
     
-    <lastmod>2020-09-17T02:21:49.110Z</lastmod>
+    <lastmod>2020-09-17T13:01:01.178Z</lastmod>
     
   </url>
   
@@ -12,13 +26,6 @@
     <loc>http://yoursite.com/2020/09/15/Learning-to-Compose-Topic-Aware-Mixture-of-Experts-for-Zero-Shot-Video-Captioning/</loc>
     
     <lastmod>2020-09-15T02:21:37.215Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2020/08/28/A-Survey-of-Evaluation-Metrics-Used-for-NLG-Systems/</loc>
-    
-    <lastmod>2020-08-28T07:05:01.594Z</lastmod>
     
   </url>
   
