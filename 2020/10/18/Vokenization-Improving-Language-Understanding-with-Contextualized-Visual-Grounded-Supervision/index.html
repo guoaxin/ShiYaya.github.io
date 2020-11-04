@@ -108,8 +108,8 @@
 <meta property="og:image" content="https://i.loli.net/2020/10/17/1cz3MHUdNXA9o5J.png">
 <meta property="og:image" content="https://i.loli.net/2020/10/17/27sWCBNOiqp13Vz.png">
 <meta property="og:image" content="https://i.loli.net/2020/10/17/fUWtQpIO8kZjAcY.png">
-<meta property="og:image" content="c:/Users/shiyaya/AppData/Roaming/Typora/typora-user-images/image-20201017105855799.png">
-<meta property="og:updated_time" content="2020-11-04T07:59:20.556Z">
+<meta property="og:image" content="https://i.loli.net/2020/11/04/j32ZMfNUpHWwez4.png">
+<meta property="og:updated_time" content="2020-11-04T08:08:14.568Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vokenization Improving Language Understanding with Contextualized, Visual-Grounded Supervision">
 <meta name="twitter:description" content="Introduction现存问题人类学习语言都是结合多模态信息，但是当前的 language pre-training frameworks 仅通过自监督的方式，学习语言这一种模态。 虽然这种自监督的方式取得了很大的成功，但是它们没有利用grounding information from external visual word.  Emily M Bender and Alexander Ko">
@@ -445,7 +445,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-11-04 15:59:20" itemprop="dateModified" datetime="2020-11-04T15:59:20+08:00">2020-11-04</time>
+                <time title="修改时间：2020-11-04 16:08:14" itemprop="dateModified" datetime="2020-11-04T16:08:14+08:00">2020-11-04</time>
               
             
           </span>
@@ -508,7 +508,7 @@
 <p>token-image paris: 使用MS-COCO image caption pairs， 将caption中的所有tokens的vokens 都指定为该 image.</p>
 <p>Training: 训练模型，maximizing the relevance score of these aligned token-image pairs over unaligned pairs. 使用 hinge loss.</p>
 <h3 id="Visually-Supervised-Language-Models"><a href="#Visually-Supervised-Language-Models" class="headerlink" title="Visually-Supervised Language Models"></a>Visually-Supervised Language Models</h3><p>Based on these vokens, we propose a new pre-training task for language: voken classification.</p>
-<h4 id="The-Voken-Classification-Task"><a href="#The-Voken-Classification-Task" class="headerlink" title="The Voken-Classification Task"></a>The Voken-Classification Task</h4><p><img src="C:\Users\shiyaya\AppData\Roaming\Typora\typora-user-images\image-20201017105855799.png" alt="image-20201017105854742"></p>
+<h4 id="The-Voken-Classification-Task"><a href="#The-Voken-Classification-Task" class="headerlink" title="The Voken-Classification Task"></a>The Voken-Classification Task</h4><p><img src="https://i.loli.net/2020/11/04/j32ZMfNUpHWwez4.png" alt="image-20201104160728232"></p>
 <p>BERT 的结果，会在每个token $w_i$的位置输出一个localized feature representation ${h_i}$，因此这将会很容易增加一个 token-level classification task, 而不需要修改模型的结构。Suppose the vokens come<br>from a finite set $X$, we convert the hidden output to ${h_i}$ a probability distribution ${p_i}$ with a linear layer and a softmax layer. </p>
 <h3 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h3><ul>
 <li>受到这篇文章对的影响，是否可以结合视频，设计一个这种模型，比如有一些动词，仅能在视频中体现出来。</li>
