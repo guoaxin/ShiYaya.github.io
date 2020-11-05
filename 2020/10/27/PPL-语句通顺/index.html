@@ -107,7 +107,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2020/10/27/UcxVWKjtlCi5Tw7.png">
 <meta property="og:image" content="https://i.loli.net/2020/10/31/bYtXO3hgJs8TE6f.jpg">
-<meta property="og:updated_time" content="2020-10-31T14:22:46.669Z">
+<meta property="og:updated_time" content="2020-11-05T00:36:17.976Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PPL-语句通顺">
 <meta name="twitter:description" content="语句通顺 - 一些调研 BERT模型通过在大量语料的训练可以判断一句话是否通顺  理解 NNLM https://zhuanlan.zhihu.com/p/65446874 以上推理就是  用词汇的联合概率表达一个语句是否通顺； 将计算联合概率转换为计算条件概率； 将条件概率由不定长度的且一般较大的t维降到一般较小的n-1维;   https://blog.csdn.net/blmoistawin">
@@ -443,7 +443,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-10-31 22:22:46" itemprop="dateModified" datetime="2020-10-31T22:22:46+08:00">2020-10-31</time>
+                <time title="修改时间：2020-11-05 08:36:17" itemprop="dateModified" datetime="2020-11-05T08:36:17+08:00">2020-11-05</time>
               
             
           </span>
@@ -525,9 +525,9 @@
 <p>由公式可知，<strong>句子概率越大，语言模型越好，迷惑度越小。</strong></p>
 <p>$P(W_1, W_2, … , W_t)$</p>
 <p>= $P(W_t | W_{t-1}, … , W_2, W_1) * P(W_{t-1}, … , W_2, W_1))$</p>
-<p>= $P(W_t | W_{t-1}, … , W_2, W_1) <em> P(W_{t-1} | W{t-2}, …, W_2, W_1) </em> P(W{t-2}, …, W_2, W_1)$</p>
-<p>= $P(W_t | W_{t-1}, … , W_2, W_1) <em> P(W_{t-1} | W_{t-2}, …, W_2, W_1) </em> … <em> P(W_2 | W_1) </em> P(W_1)$</p>
-<p>一些 ngra­m 模型经 训练文本后在测试集上的困惑度值：</p>
+<p>= $P(W_t | W_{t-1}, … , W_2, W_1)$ <em> $P(W_{t-1} | W{t-2}, …, W_2, W_1) $ </em> $ P(W{t-2}, …, W_2, W_1)$</p>
+<p>= $P(W_t | W_{t-1}, … , W_2, W_1)$ <em> $ P(W_{t-1} | W_{t-2}, …, W_2, W_1) $ </em> $ … $ <em> $ P(W_2 | W_1) </em> P(W_1)$</p>
+<p>一些 ngram 模型经 训练文本后在测试集上的困惑度值：</p>
 <p><img src="https://i.loli.net/2020/10/31/bYtXO3hgJs8TE6f.jpg" alt="img" style="zoom: 50%;"></p>
 <ul>
 <li>求通俗解释NLP里的perplexity是什么？ - 习翔宇的回答 - 知乎 <a href="https://www.zhihu.com/question/58482430/answer/412012509" target="_blank" rel="noopener">https://www.zhihu.com/question/58482430/answer/412012509</a></li>
