@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="复旦大学李林阳：应用预训练模型实现对抗样本生成的高效方法针对离散数据（例如文本）的对抗攻击比连续数据（例如图像）更具挑战性，因为很难使用基于梯度的方法生成对抗样本。当前成功的文本攻击方法通常在字符或单词级别上采用启发式替换策略，替换时难以保持语义一致性和语言流畅性。在本文中，作者提出了BERT-Attack，这是一种高质量且有效的方法，可以使用以BERT为例的MLM预训练语言模型来生成对抗性样本。">
+<meta name="keywords" content="NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BERT-ATTACK Adversarial Attack Against BERT Using BERT">
+<meta property="og:url" content="http://yoursite.com/2020/12/01/BERT-ATTACK-Adversarial-Attack-Against-BERT-Using-BERT/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="复旦大学李林阳：应用预训练模型实现对抗样本生成的高效方法针对离散数据（例如文本）的对抗攻击比连续数据（例如图像）更具挑战性，因为很难使用基于梯度的方法生成对抗样本。当前成功的文本攻击方法通常在字符或单词级别上采用启发式替换策略，替换时难以保持语义一致性和语言流畅性。在本文中，作者提出了BERT-Attack，这是一种高质量且有效的方法，可以使用以BERT为例的MLM预训练语言模型来生成对抗性样本。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVgy1gl8eg7yp7ej317l0mkdlq.jpg">
+<meta property="og:image" content="https://i.loli.net/2020/12/01/cOpDH2hWr81uzMS.png">
+<meta property="og:image" content="https://i.loli.net/2020/12/01/MIsY1JPptlRxGB5.png">
+<meta property="og:image" content="https://i.loli.net/2020/12/01/jgXqBTRfJYniZFe.png">
+<meta property="og:image" content="https://i.loli.net/2020/12/01/oDVS914hYZWJNje.png">
+<meta property="og:updated_time" content="2020-12-01T07:47:57.724Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="BERT-ATTACK Adversarial Attack Against BERT Using BERT">
+<meta name="twitter:description" content="复旦大学李林阳：应用预训练模型实现对抗样本生成的高效方法针对离散数据（例如文本）的对抗攻击比连续数据（例如图像）更具挑战性，因为很难使用基于梯度的方法生成对抗样本。当前成功的文本攻击方法通常在字符或单词级别上采用启发式替换策略，替换时难以保持语义一致性和语言流畅性。在本文中，作者提出了BERT-Attack，这是一种高质量且有效的方法，可以使用以BERT为例的MLM预训练语言模型来生成对抗性样本。">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVgy1gl8eg7yp7ej317l0mkdlq.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/12/01/BERT-ATTACK-Adversarial-Attack-Against-BERT-Using-BERT/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>BERT-ATTACK Adversarial Attack Against BERT Using BERT | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">28</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">24</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">180</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/01/BERT-ATTACK-Adversarial-Attack-Against-BERT-Using-BERT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">BERT-ATTACK Adversarial Attack Against BERT Using BERT
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2020-12-01 15:47:01 / 修改时间：15:47:57" itemprop="dateCreated datePublished" datetime="2020-12-01T15:47:01+08:00">2020-12-01</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="复旦大学李林阳：应用预训练模型实现对抗样本生成的高效方法"><a href="#复旦大学李林阳：应用预训练模型实现对抗样本生成的高效方法" class="headerlink" title="复旦大学李林阳：应用预训练模型实现对抗样本生成的高效方法"></a>复旦大学李林阳：应用预训练模型实现对抗样本生成的高效方法</h1><p>针对离散数据（例如文本）的对抗攻击比连续数据（例如图像）更具挑战性，因为很难使用基于梯度的方法生成对抗样本。当前成功的文本攻击方法通常在字符或单词级别上采用启发式替换策略，替换时难以保持语义一致性和语言流畅性。在本文中，作者提出了BERT-Attack，这是一种高质量且有效的方法，可以使用以BERT为例的MLM预训练语言模型来生成对抗性样本。作者使用BERT对抗其微调模型和其他预训练模型，以误导目标模型，使其预测错误。作者的方法在成功率和扰动百分比方面均优于最新的攻击策略，并且生成的对抗性样本很流利，并且在语义一致。而且作者的方法计算成本低，可以大规模生成。</p>
+<p>本期AI TIME PhD直播间，我们有幸邀请到了复旦大学 NLP group2019级研究生李林阳分享他的观点。</p>
+<p>李林阳：复旦大学 NLP group2019级研究生；导师为邱锡鹏教授；</p>
+<hr>
+<h2 id="一、针对文本任务的攻击"><a href="#一、针对文本任务的攻击" class="headerlink" title="一、针对文本任务的攻击"></a><strong>一、针对文本任务的攻击</strong></h2><p>尽管深度学习取得了成功，但最近的研究发现神经网络容易受到对抗样本的攻击，这些对抗样本是对原始输入进行细微扰动而制成的。尽管对抗性样本对于人而言几乎不可察觉，但是它们会误导神经网络进行错误的预测。针对对抗性攻击的学习可以提升神经网络的可靠性和健壮性，在计算机视觉领域，攻击策略及其防御措施都得到了很好的探索，但由于语言的离散性，对文本的对抗性攻击较为困难，难以保证语法流利且语义一致。</p>
+<p><img src="http://ww1.sinaimg.cn/large/006uWRWVgy1gl8eg7yp7ej317l0mkdlq.jpg"> </p>
+<p> 表1 BERT-Attack方法生成样本的例子</p>
+<p>当前对文本的成功攻击通常采用启发式规则来修改单词的字符，并用同义词替换单词。</p>
+<p>之前的研究包括使用word embedding生成替换词；对原有句子的短语进行添加或删除；使用人工构建的规则进行词语替换。<strong>尽管上述方法取得了良好的效果，但在攻击成功率，语法正确性和语义一致性等方面，仍有很大的改进空间</strong>。此外，这些方法的替换策略通常很简单，受限于特定任务。</p>
+<p>本文提出了一种有效且高质量的对抗样本生成方法：BERT-Attack，使用BERT作为生成器生成对抗样本。BERT-Attack的核心算法包括<strong>两个阶段</strong>：<strong>在给定输入序列中查找易受攻击的单词，然后用如BERT的生成器来生成易受攻击单词的替代词。</strong> BERT能够捕捉文本的上下文语义，因此生成的样本更为流畅且合理。作者将BERT这样的MLM语言模型用作生成器，并找到让BERT模型得到最大错误预测风险的扰动。另外，本文的方法只需要一次生成器前向，而且无需反复使用语言模型对对抗样本进行评分，速度有一定改进。表1展示了该攻击方法在几个数据集上的生成文本样例。</p>
+<h2 id="二、BERT-ATTACK攻击方法"><a href="#二、BERT-ATTACK攻击方法" class="headerlink" title="二、BERT-ATTACK攻击方法"></a><strong>二、BERT-ATTACK攻击方法</strong></h2><p><img src="https://i.loli.net/2020/12/01/cOpDH2hWr81uzMS.png" alt="image-20201201154053279"></p>
+<p>图1. BERT-ATTACK替换策略一步的样例</p>
+<p>本文提出BERT-Attack，它使用原始BERT模型制作对抗性样本以对抗微调的BERT模型。对抗样本的生成包括两个步骤：（1）找出针对目标模型的易受攻击的单词，（2）用语义相似且语法正确的单词替换它们，直到成功攻击为止。具体而言：</p>
+<p><strong>1.寻找易受攻击词(Vulnerable Words)</strong></p>
+<p>作者给句子中的每一个词一个评分，得分与易受攻击程度呈正比，该评分按照去掉该词的句子在判别器上的输出结果的扰动程度给出。作者使用目标模型（微调的BERT或其他神经模型）的logit输出作为判别器。易受攻击词定义为序列中对最终输出logit有重要影响的单词。令表示输入语句，表示目标模型输出的正确标签y的logit，重要性得分定义为</p>
+<p>$I_{w_{i}}=o_{y}(S)-o_{y}\left(S_{\backslash w_{i} j}\right.)$</p>
+<p>其中，</p>
+<p>$S_{\backslash w_{i}}=\left[w_{0} ; \ldots ; w_{i-1} ;[M A S K] ; w_{i+1} ; \ldots\right]$</p>
+<p>就是将该词替换成“[MASK]”。然后，对降序排名，获取其中的前百分之的词组成可替换词表，记为L。</p>
+<h2 id="2-BERT生成器的优点"><a href="#2-BERT生成器的优点" class="headerlink" title="2.BERT生成器的优点"></a><strong>2.BERT生成器的优点</strong></h2><p>找到易受攻击的单词后，将列表L中的单词一一替换，以寻找可能误导目标模型的干扰。以前的替换方法包括同义词词典，POS检查器，语义相似性检查器等。但是因为替换的时候只有词表，不考虑上下文，因此需要用传统语言模型给替换单词的句子打分。由于换一个词就得评价一次，时间成本比较高。</p>
+<p>作者利用BERT进行单词替换，可确保所生成的句子相对流利且语法正确，还保留了大多数语义信息。此外，掩码语言模型的预测是上下文感知的，因此可以动态搜索扰动，而不是简单的同义词替换。而且针对一个词而言，仅通过一个前向即可产生候选文本，无需再用语言模型来对句子评分，提升了效率。</p>
+<h2 id="3-替换策略"><a href="#3-替换策略" class="headerlink" title="3.替换策略"></a><strong>3.替换策略</strong></h2><p><img src="https://i.loli.net/2020/12/01/MIsY1JPptlRxGB5.png" alt="image-20201201153433807" style="zoom:50%;">图2 BERT-ATTACK替换算法</p>
+<p>如图1所示，作者输入原句子给BERT，并根据BERT输出生成候选词。<strong style="color:red;">注意这里不用[MSAK]替换被攻击词语</strong>，其原因作者给出了如下解释：1. 有些词语替换后，和原句子几乎一样流畅但是语义可能变更。例如给定一个序列“I like the cat”，如果遮盖cat这个词，那么MLM模型很难预测原始单词cat，因为如“I like the dog”一样很流畅。2. MASK掉给定的单词后，每个候选词都需要运行一遍BERT前向，时间成本太高。</p>
+<p>令M代表BERT模型，为原序列，是利用BERT的分词器分完词的序列，将H输入BERT中得到输出预测。使用top-K策略选择可能的替换词预测，其中K是超参数。作者遍历所有候选易攻击词表L生成替换词表。</p>
+<p>由于BERT使用字节对编码（BPE）分词，候选词可能会被分开，因此还需要将所选单词与BERT中相应的子单词对齐。</p>
+<p>针对未被分开的单个单词，作者使用相应的前K个预测候选逐一尝试替换，并使用NLTK过滤其中的停用词，另外对于情感分类任务候选词可能包括同义词和反义词，作者使用同义词词典过滤反义词。然后将替换完成的句子重新输入判别器，如果判别器给出与原label相反的判断那么输出该句子作为攻击句；否则，从筛选出的候选词中选择一个对logit影响最大的。</p>
+<p>针对字词组（sub-word 应该不能翻译为字词组），由于无法直接获取其替代词，作者使用子词组合中所有词的预测中找到合适的词替代。作者首先使用MLM模型分析整个词组的易攻击程度，然后再选出词组的top-k组合。剩余过程与单个单词一致。</p>
+<p><strong>三、实验结果</strong></p>
+<p><strong>3.1 数据集和评价指标</strong></p>
+<p>为了衡量所生成样本的质量，作者设计了几种评估指标：</p>
+<p>●成功率（success rate）：攻击样本的判别器准确率。</p>
+<p>●扰动百分比（perturbed percentage）更改文本的占比。</p>
+<p>●每个样本的查询数量（query number per sample）一个样本生成对抗样本的需要访问判别器的次数。</p>
+<p>●语义相似度（semantic similarity）使用通用句子编码器（Universal Sentence Encoder）评价的句子相似度。</p>
+<p><img src="https://i.loli.net/2020/12/01/jgXqBTRfJYniZFe.png" alt="image-20201201153907478" style="zoom:50%;">表2 实验结果</p>
+<p><strong>3.2 实验结果</strong></p>
+<p>如表2所示，BERT-Attack方法成功欺骗了其下游的微调模型。在文本分类和自然语言推断任务中，经过微调的BERT均无法正确地对生成的对抗样本进行分类，攻击后的平均准确度低于10％。同时，扰动百分比小于10％，明显小于以前的工作，BERT-Attack方法更有效且更不易察觉。查询数量也要少得多。</p>
+<p>另外可以观察到，由于扰动百分比非常低，因此通常更容易攻击评论分类任务。BERT-Attack仅替换少数几个单词就可能误导判别器。由于平均序列长度相对较长，因此判别器倾向于仅按序列中的几个词进行判断，这不是人类预测的自然方式。因此，这些关键字的干扰将导致目标模型的预测不正确，从而揭示了该模型的脆弱性。</p>
+<p><strong>3.3人工验证</strong></p>
+<p>为了进一步评估生成的对抗性样本，作者人工评估了流利性，语法以及语义保留方面生成的样本的质量。</p>
+<p><img src="https://i.loli.net/2020/12/01/oDVS914hYZWJNje.png" alt="image-20201201153955115" style="zoom:50%;"></p>
+<p>作者要求三名标注人员对生成的对抗性样本和原始序列的混合句子的语法正确性进行评分（1-5分），然后将原始文本和对抗文本混在一起进行人工预测。在IMDB和MNLI数据集中，作者分别选择100个原始样本和对抗样本验证。对于IMDB，将多数类作为人类预测标签，对于MNLI，则使用标注人员之间的平均分数。从表2中可以看出，对抗性样本的语义分数和语法分数接近原始样本。MNLI<strong>任务数据长且更加复杂（存在句子对（sentence pair）之间，重复出现的词汇较多，而基于替换的对抗样本则破坏了这种相同词汇的对应关系</strong>），使标注人员难以正确预测，因此其准确性要比简单的句子分类任务低。作者同样做了大量消融实验，实验结果表明该对抗方法生成的样本迁徙性强，生成速度快。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a><strong>总结</strong></h2><p>在这项工作中，作者提出了一种高质量有效的BERT-Attack方法，以使用BERT<strong>掩蔽语言模型（masked-LM）生成对抗性样本。</strong>实验结果表明，该方法在保持最小扰动的同时，取得了较高的成功率。然而，从屏蔽语言模型生成的候选者有时可能是反义词或与原始单词无关，从而导致语义损失。因此，增强语言模型以生成更多与语义相关的扰动可能是将来完善BERT-Attack的一种可能解决方案。</p>
+<hr>
+<blockquote>
+<p>整理：李键铨<br>排版：杨梦蒗<br>审稿：李林阳</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/10/28/Beyond-Accuracy-Behavioral-Testing-of-NLP-Models-with-CheckList/" rel="next" title="Beyond Accuracy: Behavioral Testing of NLP Models with CheckList">
+                <i class="fa fa-chevron-left"></i> Beyond Accuracy: Behavioral Testing of NLP Models with CheckList
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div id="gitalk-container">
+    </div>
+    
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">180</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">24</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#复旦大学李林阳：应用预训练模型实现对抗样本生成的高效方法"><span class="nav-number">1.</span> <span class="nav-text">复旦大学李林阳：应用预训练模型实现对抗样本生成的高效方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、针对文本任务的攻击"><span class="nav-number">1.1.</span> <span class="nav-text">一、针对文本任务的攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、BERT-ATTACK攻击方法"><span class="nav-number">1.2.</span> <span class="nav-text">二、BERT-ATTACK攻击方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-BERT生成器的优点"><span class="nav-number">1.3.</span> <span class="nav-text">2.BERT生成器的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-替换策略"><span class="nav-number">1.4.</span> <span class="nav-text">3.替换策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.5.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+		var gitalk = new Gitalk({
+		  clientID: '',
+		  clientSecret: '',
+		  repo: 'ShiYaya.github.io',
+		  owner: '',
+		  admin: [''], 
+		  id: location.pathname,
+		  distractionFreeMode: ''
+		})
+		gitalk.render('gitalk-container')           
+       </script>
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
