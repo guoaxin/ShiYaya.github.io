@@ -116,7 +116,7 @@
 <meta property="og:image" content="https://i.loli.net/2020/12/24/ZgprCA5Yux8iUF3.png">
 <meta property="og:image" content="https://i.loli.net/2020/12/24/itonHNu9jE1rbeA.png">
 <meta property="og:image" content="https://i.loli.net/2020/12/24/DdNP7FSa1QGc5hB.png">
-<meta property="og:updated_time" content="2020-12-24T06:12:44.384Z">
+<meta property="og:updated_time" content="2020-12-24T06:14:13.651Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DirectQE Direct Pretraining for Machine Translation Quality Estimation">
 <meta name="twitter:description" content="AAAI2021论文：基于数据生成的机器翻译质量评估方法 来源：南大NLP 研究问题目前机器翻译在各个领域得到广泛应用，不同的机器翻译系统，对于同样的原文句子可能会给出不同的翻译结果（如表1所示），质量有好有坏。该如何自动评价译文的翻译质量呢？     原文 黄河之水天上来，奔流到海不复回     翻译1 The water of the Yellow River comes from the s">
@@ -435,7 +435,7 @@
                 
               
 
-              <time title="创建时间：2020-12-24 12:06:01 / 修改时间：14:12:44" itemprop="dateCreated datePublished" datetime="2020-12-24T12:06:01+08:00">2020-12-24</time>
+              <time title="创建时间：2020-12-24 12:06:01 / 修改时间：14:14:13" itemprop="dateCreated datePublished" datetime="2020-12-24T12:06:01+08:00">2020-12-24</time>
             
 
             
@@ -599,20 +599,20 @@
 <p>我们对比了Predictor-Estimator框架中的两种具体实现。一种是基于NMT的QE模型，具体实现仿照QE Brain模型(Fan et al. 2018)；一种是基于PLM的QE模型，具体使用的PLM模型来自于huggingface。在本文的实现中，我们所提出的<strong>DirectQE</strong>参数量是最小的。</p>
 <p>实验结果如表3，4，5所示，可以发现我们的模型在绝大多数情况下都是具有优势的。</p>
 <p>表格 3：单模型结果（英-德）</p>
-<p><img src="https://i.loli.net/2020/12/24/XGcIHvBlyzrfZJR.png" alt="image-20201224114857966"></p>
+<p><img src="https://i.loli.net/2020/12/24/XGcIHvBlyzrfZJR.png" alt="image-20201224114857966" style="zoom: 33%;"></p>
 <p>表格 4：集成模型结果（英-德）</p>
-<p><img src="https://i.loli.net/2020/12/24/UkC5rKy9ZoWh8Ab.png" alt="image-20201224114950396"></p>
+<p><img src="https://i.loli.net/2020/12/24/UkC5rKy9ZoWh8Ab.png" alt="image-20201224114950396" style="zoom:33%;"></p>
 <p>表格 5：单模型结果（英-中、英-俄）</p>
-<p><img src="https://i.loli.net/2020/12/24/87bizODk5VYjdxQ.png" alt="image-20201224115010524"></p>
+<p><img src="https://i.loli.net/2020/12/24/87bizODk5VYjdxQ.png" alt="image-20201224115010524" style="zoom:33%;"></p>
 <p>为了找出我们模型性能具体的增长点，我们按照错误词的比例划分了真实QE数据集，并评估了模型在数据每个部分的性能。如图4所示，在翻译质量存在问题时（错误词比例&gt;12.5%），DirectQE的性能更好。</p>
 <p>图表 4：模型在不同错误比例数据上的性能对比</p>
-<p><img src="https://i.loli.net/2020/12/24/aXfOdF6buyhRPl8.png" alt="image-20201224115158658"></p>
+<p><img src="https://i.loli.net/2020/12/24/aXfOdF6buyhRPl8.png" alt="image-20201224115158658" style="zoom: 25%;"></p>
 <p>为了研究预训练使用的数据分布对QE性能的影响，我们使用基于NMT的QE模型，并且将其中训练预测器用到的平行语料替换为生成器制造的伪造机器翻译译文，其余部分均保持不变。从表6中可以看出，使用伪造译文的模型性能有所上升，说明对于QE任务而言，使用伪造译文预训练比平行译文更好。</p>
 <p>表格 6：使用伪造译文/平行译文训练基于NMT的QE系统</p>
-<p><img src="https://i.loli.net/2020/12/24/r2zCSgNepfovnET.png" alt="image-20201224115311979"></p>
+<p><img src="https://i.loli.net/2020/12/24/r2zCSgNepfovnET.png" alt="image-20201224115311979" style="zoom: 33%;"></p>
 <p>为了研究预训练数据质量对QE性能的影响，我们测试了不同质量的数据下QE性能，这里数据质量具体指是译文质量，可以体现在替换词比例上（在相同替换策略下，替换词比例越大，译文质量越差）。从图5中可以看出，伪造译文质量太好或者太坏都不利于最终QE的性能。伪造译文质量太好（替换比例很低），句子将接近于平行语料本身，数据中几乎没有噪音；而伪造译文质量太差时，会破坏句子结构，与真实QE译文数据分布有较大差异。图5中红点表示使用随机噪音替换被隐藏词，此时的译文质量很差，可以看到QE性能也很低。</p>
 <p>图表 5：不同伪造译文质量下的QE模型性能</p>
-<p><img src="https://i.loli.net/2020/12/24/ZgprCA5Yux8iUF3.png" alt="image-20201224115404648" style="zoom:50%;"></p>
+<p><img src="https://i.loli.net/2020/12/24/ZgprCA5Yux8iUF3.png" alt="image-20201224115404648" style="zoom: 33%;"></p>
 <p>在固定规模的平行语料上，生成器每一次采样会产生不同的伪造QE数据，最终用于训练判别器的数据规模是超百万级别的，且更多样化。为了研究多样性的价值，我们使用生成器产生了固定数量的伪造QE数据，对比了在固定生成的数据上以及持续生成的数据上预训练的模型性能。结果（图6）显示，<strong style="color:red;">伪造QE数据的多样性对提升模型性能来说很重要。</strong></p>
 <p>词级别QE任务需要判别当前词的质量，那么模型在建模当前词时，包含更多当前词的信息是有必要的。为了体现模型隐层表示含有当前词信息的多与少，我们计算了隐层表示与当前词之间的互信息（模型指判别器/预测器）。在图7中可以看到，DirectQE学到的表示中包含有更多当前词的信息。</p>
 <p>图表 7：模型隐层表示 v.s. 当前词信息</p>
