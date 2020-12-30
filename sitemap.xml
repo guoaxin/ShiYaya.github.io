@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/12/30/Blank-Language-Model/</loc>
+    
+    <lastmod>2020-12-30T05:23:27.601Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2020/12/24/DirectQE-Direct-Pretraining-for-Machine-Translation-Quality-Estimation/</loc>
     
     <lastmod>2020-12-30T02:21:51.049Z</lastmod>
