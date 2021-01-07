@@ -97,29 +97,29 @@
 
 
 
-  <meta name="description" content="Calibration: 一个工业价值极大，学术界却鲜有研究的问题！原创 kid丶 夕小瑶的卖萌屋;)      文 | kid丶(知乎作者)编 | 夕小瑶     尽管深度学习给工业界带来了一波上线春天，但是总有很多比较难的业务，模型反复迭代后准确率依然达不到预期的产品标准，难以满足用户期望。 以下为工业界常见讨（si）论（b）场景： R&amp;amp;D小哥哥一顿调参输出，RoBERTa都用上了，终">
+  <meta name="description" content="On Calibration of Modern Neural Networks Calibration: 一个工业价值极大，学术界却鲜有研究的问题！原创 kid丶 夕小瑶的卖萌屋;)      文 | kid丶(知乎作者)编 | 夕小瑶     尽管深度学习给工业界带来了一波上线春天，但是总有很多比较难的业务，模型反复迭代后准确率依然达不到预期的产品标准，难以满足用户期望。 以下为工业界常见讨（">
 <meta name="keywords" content="机器学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="On calibration of modern neural networks">
 <meta property="og:url" content="http://yoursite.com/2021/01/07/On-calibration-of-modern-neural-networks/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="Calibration: 一个工业价值极大，学术界却鲜有研究的问题！原创 kid丶 夕小瑶的卖萌屋;)      文 | kid丶(知乎作者)编 | 夕小瑶     尽管深度学习给工业界带来了一波上线春天，但是总有很多比较难的业务，模型反复迭代后准确率依然达不到预期的产品标准，难以满足用户期望。 以下为工业界常见讨（si）论（b）场景： R&amp;amp;D小哥哥一顿调参输出，RoBERTa都用上了，终">
+<meta property="og:description" content="On Calibration of Modern Neural Networks Calibration: 一个工业价值极大，学术界却鲜有研究的问题！原创 kid丶 夕小瑶的卖萌屋;)      文 | kid丶(知乎作者)编 | 夕小瑶     尽管深度学习给工业界带来了一波上线春天，但是总有很多比较难的业务，模型反复迭代后准确率依然达不到预期的产品标准，难以满足用户期望。 以下为工业界常见讨（">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2allhpO0hq0f8TKm6zicQQNMDJ3sZfJjPGwnTuCBazaia04egIBFm8aNBbQ/640?wx_fmt=jpeg">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2alJKjicAgpVeh91uaxqeqy4D6ZUJpR3MXXnsfkkvUmcwRXT3jq9IDO5ww/640?wx_fmt=jpeg">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2alXiawGf6BZYLkzDLATLbEA80HQB4DicN5JHnwCgtPbZNEL3rzL5vfxyFw/640?wx_fmt=jpeg">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2al4icQlYzJKymA2ENic0mibVEX9jRQxAL2ibHiacDHrU93TiarGUVHsibObyhpA/640?wx_fmt=jpeg">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2alibqiak7n7GR9iciaJclxsMWibSqKdicy52fVvPH6WrskyJxjOAOj2viaibhqqQ/640?wx_fmt=jpeg">
+<meta property="og:image" content="https://i.loli.net/2021/01/07/cDzC2UkMQGL3y8I.png">
+<meta property="og:image" content="https://i.loli.net/2021/01/07/HILjXfdVBk7v1hw.png">
+<meta property="og:image" content="https://i.loli.net/2021/01/07/3CUylrwH4u6csDG.png">
+<meta property="og:image" content="https://i.loli.net/2021/01/07/KS6p2nRIhMdtgjv.png">
+<meta property="og:image" content="https://i.loli.net/2021/01/07/kniAWZNqaVBwQPG.png">
 <meta property="og:image" content="https://i.loli.net/2021/01/07/OQX8Ir64DqyBwdl.png">
 <meta property="og:image" content="https://i.loli.net/2021/01/07/v1S9YrfQBt5sl4O.png">
 <meta property="og:image" content="https://i.loli.net/2021/01/07/8WvRUEQtXg6iseY.png">
-<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2al7xvnXawtyCoz6bWI2iaLhBjemF0AOSgx6sWRXoW0S2RADFtU0shFoCw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://i.loli.net/2021/01/07/gzr4juPYwMFyiSH.png">
 <meta property="og:image" content="https://i.loli.net/2021/01/07/dDNYosvc2tprZaE.png">
-<meta property="og:updated_time" content="2021-01-07T04:03:40.579Z">
+<meta property="og:updated_time" content="2021-01-07T04:20:35.565Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="On calibration of modern neural networks">
-<meta name="twitter:description" content="Calibration: 一个工业价值极大，学术界却鲜有研究的问题！原创 kid丶 夕小瑶的卖萌屋;)      文 | kid丶(知乎作者)编 | 夕小瑶     尽管深度学习给工业界带来了一波上线春天，但是总有很多比较难的业务，模型反复迭代后准确率依然达不到预期的产品标准，难以满足用户期望。 以下为工业界常见讨（si）论（b）场景： R&amp;amp;D小哥哥一顿调参输出，RoBERTa都用上了，终">
-<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2allhpO0hq0f8TKm6zicQQNMDJ3sZfJjPGwnTuCBazaia04egIBFm8aNBbQ/640?wx_fmt=jpeg">
+<meta name="twitter:description" content="On Calibration of Modern Neural Networks Calibration: 一个工业价值极大，学术界却鲜有研究的问题！原创 kid丶 夕小瑶的卖萌屋;)      文 | kid丶(知乎作者)编 | 夕小瑶     尽管深度学习给工业界带来了一波上线春天，但是总有很多比较难的业务，模型反复迭代后准确率依然达不到预期的产品标准，难以满足用户期望。 以下为工业界常见讨（">
+<meta name="twitter:image" content="https://i.loli.net/2021/01/07/cDzC2UkMQGL3y8I.png">
 
 
 
@@ -434,7 +434,7 @@
                 
               
 
-              <time title="创建时间：2021-01-07 12:00:37 / 修改时间：12:03:40" itemprop="dateCreated datePublished" datetime="2021-01-07T12:00:37+08:00">2021-01-07</time>
+              <time title="创建时间：2021-01-07 12:00:37 / 修改时间：12:20:35" itemprop="dateCreated datePublished" datetime="2021-01-07T12:00:37+08:00">2021-01-07</time>
             
 
             
@@ -497,7 +497,8 @@
       
 
       
-        <h2 id="Calibration-一个工业价值极大，学术界却鲜有研究的问题！"><a href="#Calibration-一个工业价值极大，学术界却鲜有研究的问题！" class="headerlink" title="Calibration: 一个工业价值极大，学术界却鲜有研究的问题！"></a>Calibration: 一个工业价值极大，学术界却鲜有研究的问题！</h2><p>原创 kid丶 <a href="javascript:void(0" target="_blank" rel="noopener">夕小瑶的卖萌屋</a>;) </p>
+        <p>On Calibration of Modern Neural Networks</p>
+<h2 id="Calibration-一个工业价值极大，学术界却鲜有研究的问题！"><a href="#Calibration-一个工业价值极大，学术界却鲜有研究的问题！" class="headerlink" title="Calibration: 一个工业价值极大，学术界却鲜有研究的问题！"></a>Calibration: 一个工业价值极大，学术界却鲜有研究的问题！</h2><p>原创 kid丶 <a href="javascript:void(0" target="_blank" rel="noopener">夕小瑶的卖萌屋</a>;) </p>
 <blockquote>
 <blockquote>
 <blockquote>
@@ -521,20 +522,20 @@
 <p><strong>链接：</strong></p>
 <p><a href="https://arxiv.org/pdf/1706.04599.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1706.04599.pdf</a></p>
 <p>Arxiv访问慢的小伙伴可以在【<strong>夕小瑶的卖萌屋</strong>】后台回复关键词【<strong><em>0106</em></strong>】下载论文pdf~</p>
-<h2 id="神经网络的-overconfidence"><a href="#神经网络的-overconfidence" class="headerlink" title="神经网络的 overconfidence"></a>神经网络的 overconfidence</h2><p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2allhpO0hq0f8TKm6zicQQNMDJ3sZfJjPGwnTuCBazaia04egIBFm8aNBbQ/640?wx_fmt=jpeg" alt="图片"></p>
+<h2 id="神经网络的-overconfidence"><a href="#神经网络的-overconfidence" class="headerlink" title="神经网络的 overconfidence"></a>神经网络的 overconfidence</h2><p><img src="https://i.loli.net/2021/01/07/cDzC2UkMQGL3y8I.png" alt="image-20210107121456693" style="zoom: 50%;"></p>
 <p>首先，让咱们来思考一个普通图像分类任务。对于一张“koala”的图像，在经过神经网络后会得到 logits 输出 ，经过 softmax 层后得到对各类别的预测的后验概率，接着我们选择概率最大的类别（ koala）输出为最后的预测类别。这里，最终的预测类别 ，其对应的置信度为 。在大多情况下，我们只关心类别的预测 有多准，根本不 care 置信度是怎样的。然而，在一些实际应用场景下，置信度的度量也同样重要。例如：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2alJKjicAgpVeh91uaxqeqy4D6ZUJpR3MXXnsfkkvUmcwRXT3jq9IDO5ww/640?wx_fmt=jpeg" alt="图片"></p>
+<p><img src="https://i.loli.net/2021/01/07/HILjXfdVBk7v1hw.png" alt="image-20210107121544230" style="zoom: 50%;"></p>
 <p>如上图，对于自动驾驶中的目标识别任务，车辆的前方出现了一个人，神经网络会将其识别成塑料袋，此时输出的置信度为50%（低于阈值），则可通过其它传感器进行二次的正确识别（识别为人）。但想想看，若神经网络对塑料袋预测的置信度为90%会怎样？再例如：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2alXiawGf6BZYLkzDLATLbEA80HQB4DicN5JHnwCgtPbZNEL3rzL5vfxyFw/640?wx_fmt=jpeg" alt="图片"></p>
+<p><img src="https://i.loli.net/2021/01/07/3CUylrwH4u6csDG.png" alt="image-20210107121606617" style="zoom:50%;"></p>
 <p>使用 Resnet 模型简单的对一些图片任务进行训练，收敛后的模型对测试集的平均置信度高达80%-85%，然而只有将近70%的图片能被正确分对（红色代表分错，绿色代表分对）。这意味着啥？训练好的模型好像有点盲目自信，即出现 <strong>overconfidence</strong> 现象，或者可以称为模型的准确率和置信度不匹配（<strong>miscalibration</strong>）。</p>
 <h2 id="预期校准误差（ECE）"><a href="#预期校准误差（ECE）" class="headerlink" title="预期校准误差（ECE）"></a>预期校准误差（ECE）</h2><p>直观的来看，模型的准确率应当和置信度相匹配。一个完美校准的模型可定义成如下所示：</p>
 <p>即，模型置信度 等于概率 的条件下模型的预测 为真实标记 的概率同样也为 。因此，本文提出一个新的度量方式叫做 <strong>预期校准误差（Expected Calibrated Error, ECE）</strong> 来描述模型学习的匹配程度：很简单，其实就是将前面那个完美校准模型的等式写成差的期望的形式。我们将期望进一步展开可得到：</p>
 <p>其中： 这里的 代表着一个个根据置信度区间划分的一个个桶（用来装样本的），如下图所示：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2al4icQlYzJKymA2ENic0mibVEX9jRQxAL2ibHiacDHrU93TiarGUVHsibObyhpA/640?wx_fmt=jpeg" alt="图片"></p>
+<p><img src="https://i.loli.net/2021/01/07/KS6p2nRIhMdtgjv.png" alt="image-20210107121742204" style="zoom:50%;"></p>
 <p>例如，我们将置信区间平均划分成5份，然后将样本按照其置信度挨个送到对应的桶中，分别计算每个桶中的平均置信度和准确率，两者的差值（Gap）的期望就是所定义的 <strong>ECE。</strong></p>
 <p><strong>读到这的读者</strong>应该能逐步体会本文想干一件啥事了。本文首先引出这样一个问题，深度模型在学习过程中出现准确率和置信度的严重不匹配问题，接着提出了一个合理的评价指标来描述模型学习的匹配程度，所以接下来，它要提出方法来想办法<strong>最小化期望校准误差（ECE）。</strong></p>
 <h2 id="什么原因导致神经网络出现准确率与置信度不匹配？"><a href="#什么原因导致神经网络出现准确率与置信度不匹配？" class="headerlink" title="什么原因导致神经网络出现准确率与置信度不匹配？"></a>什么原因导致神经网络出现准确率与置信度不匹配？</h2><p>然而 <strong>ECE</strong> 是没办法直接最小化的，因此本文尝试着做一些探索性的实验来观察啥因素会使得模型的 ECE 变大。本文分别从三个方面上去进行实验：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2alibqiak7n7GR9iciaJclxsMWibSqKdicy52fVvPH6WrskyJxjOAOj2viaibhqqQ/640?wx_fmt=jpeg" alt="图片"></p>
+<p><img src="https://i.loli.net/2021/01/07/kniAWZNqaVBwQPG.png" alt="image-20210107121834360"></p>
 <p>▲网络复杂度对ECE的影响</p>
 <p><strong>网络复杂度对 ECE 的影响：</strong> 首先，作者使用两个模型（LeNet和ResNet）分别对CIFAR-100数据集进行了训练，准确率分别为55.1%和69.4%，ResNet 在预测性能上完爆LeNet。然而，ResNet 置信度（右图蓝色+红色部分）的分布和准确率（右图蓝色部分）出现了严重的不匹配，导致二者的 Gap （红色部分）非常大。**注意完美校准模型的分布应当是蓝色部分刚好和对角线重合，且没有红色 Gap 部分。</p>
 <p><img src="https://i.loli.net/2021/01/07/OQX8Ir64DqyBwdl.png" alt="image-20210107114831568" style="zoom: 33%;"></p>
@@ -546,7 +547,7 @@
 <h2 id="我们该如何对模型进行校准呢？"><a href="#我们该如何对模型进行校准呢？" class="headerlink" title="我们该如何对模型进行校准呢？"></a>我们该如何对模型进行校准呢？</h2><p><img src="https://i.loli.net/2021/01/07/8WvRUEQtXg6iseY.png" alt="image-20210107115025920" style="zoom:33%;"></p>
 <p>作者接下来又做了一个很有意思的实验，在CIFAR-100上训练模型500个 epoch，其中在第250个 epoch 和第375个 epoch 下调节学习率，观察测试集上的 test error 和 test NLL 的变化情况。Test NLL 的定义如图中所示，它其实等价于测试集上的交叉熵。这个实验啥意思呢？我调节了一下学习率后，测试性能得到了提升，但是测试集上的交叉熵却出现了过拟合现象（出现了反常的上升现象）。<strong>有意思的点来了！</strong> 有人肯定会 argue 不是说好本文研究的是overconfidence嘛？即模型的置信度太高而准确率过低，这里对 NLL overfitting 岂不是好事，因为负对数似然上升了等价于模型的置信度的降低了。<strong>注意：这里的</strong> <strong>是对正确类上的置信度，而前面的实验是对预测类的置信度</strong> <strong>！其实认真想想，是一个意思，前面之所以 confident 很高的样本准确率很低，正是因为其在正确类别上的置信度太低导致的！！（这部分卡了很久）</strong></p>
 <p>该结果可以表明，模型置信度和准确率的不匹配很大可能的原因来自于模型对 NLL 的过拟合导致的。所以，咋办呢？最小化 NLL 呗。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2al7xvnXawtyCoz6bWI2iaLhBjemF0AOSgx6sWRXoW0S2RADFtU0shFoCw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+<p><img src="https://i.loli.net/2021/01/07/gzr4juPYwMFyiSH.png" alt="image-20210107121901763"></p>
 <p>此时，本文提出在验证集上对带 temperature 参数的 softmax 函数进行校准。即我们训练完模型后，最小化 NLL 来学习 temperature 参数，注意到对该项的优化并不会影响模型预测的准确率，只会对模型的 confidence 进行校准。最终的结果是这样的，详细可参考论文。</p>
 <p><img src="https://i.loli.net/2021/01/07/dDNYosvc2tprZaE.png" alt="image-20210107115122188"></p>
 <h2 id="讨论"><a href="#讨论" class="headerlink" title="讨论"></a><strong>讨论</strong></h2><p>上述得实验结果我觉得对很多研究领域都是很有启发意义的。</p>
