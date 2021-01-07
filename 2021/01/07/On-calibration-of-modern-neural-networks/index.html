@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Calibration: 一个工业价值极大，学术界却鲜有研究的问题！原创 kid丶 夕小瑶的卖萌屋;)      文 | kid丶(知乎作者)编 | 夕小瑶     尽管深度学习给工业界带来了一波上线春天，但是总有很多比较难的业务，模型反复迭代后准确率依然达不到预期的产品标准，难以满足用户期望。 以下为工业界常见讨（si）论（b）场景： R&amp;amp;D小哥哥一顿调参输出，RoBERTa都用上了，终">
+<meta name="keywords" content="机器学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="On calibration of modern neural networks">
+<meta property="og:url" content="http://yoursite.com/2021/01/07/On-calibration-of-modern-neural-networks/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="Calibration: 一个工业价值极大，学术界却鲜有研究的问题！原创 kid丶 夕小瑶的卖萌屋;)      文 | kid丶(知乎作者)编 | 夕小瑶     尽管深度学习给工业界带来了一波上线春天，但是总有很多比较难的业务，模型反复迭代后准确率依然达不到预期的产品标准，难以满足用户期望。 以下为工业界常见讨（si）论（b）场景： R&amp;amp;D小哥哥一顿调参输出，RoBERTa都用上了，终">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2allhpO0hq0f8TKm6zicQQNMDJ3sZfJjPGwnTuCBazaia04egIBFm8aNBbQ/640?wx_fmt=jpeg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2alJKjicAgpVeh91uaxqeqy4D6ZUJpR3MXXnsfkkvUmcwRXT3jq9IDO5ww/640?wx_fmt=jpeg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2alXiawGf6BZYLkzDLATLbEA80HQB4DicN5JHnwCgtPbZNEL3rzL5vfxyFw/640?wx_fmt=jpeg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2al4icQlYzJKymA2ENic0mibVEX9jRQxAL2ibHiacDHrU93TiarGUVHsibObyhpA/640?wx_fmt=jpeg">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2alibqiak7n7GR9iciaJclxsMWibSqKdicy52fVvPH6WrskyJxjOAOj2viaibhqqQ/640?wx_fmt=jpeg">
+<meta property="og:image" content="https://i.loli.net/2021/01/07/OQX8Ir64DqyBwdl.png">
+<meta property="og:image" content="https://i.loli.net/2021/01/07/v1S9YrfQBt5sl4O.png">
+<meta property="og:image" content="https://i.loli.net/2021/01/07/8WvRUEQtXg6iseY.png">
+<meta property="og:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2al7xvnXawtyCoz6bWI2iaLhBjemF0AOSgx6sWRXoW0S2RADFtU0shFoCw/640?wx_fmt=jpeg&tp=webp&wxfrom=5&wx_lazy=1&wx_co=1">
+<meta property="og:image" content="https://i.loli.net/2021/01/07/dDNYosvc2tprZaE.png">
+<meta property="og:updated_time" content="2021-01-07T04:03:40.579Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="On calibration of modern neural networks">
+<meta name="twitter:description" content="Calibration: 一个工业价值极大，学术界却鲜有研究的问题！原创 kid丶 夕小瑶的卖萌屋;)      文 | kid丶(知乎作者)编 | 夕小瑶     尽管深度学习给工业界带来了一波上线春天，但是总有很多比较难的业务，模型反复迭代后准确率依然达不到预期的产品标准，难以满足用户期望。 以下为工业界常见讨（si）论（b）场景： R&amp;amp;D小哥哥一顿调参输出，RoBERTa都用上了，终">
+<meta name="twitter:image" content="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2allhpO0hq0f8TKm6zicQQNMDJ3sZfJjPGwnTuCBazaia04egIBFm8aNBbQ/640?wx_fmt=jpeg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/01/07/On-calibration-of-modern-neural-networks/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>On calibration of modern neural networks | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">29</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">26</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">185</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/07/On-calibration-of-modern-neural-networks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">On calibration of modern neural networks
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-01-07 12:00:37 / 修改时间：12:03:40" itemprop="dateCreated datePublished" datetime="2021-01-07T12:00:37+08:00">2021-01-07</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/机器学习/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Calibration-一个工业价值极大，学术界却鲜有研究的问题！"><a href="#Calibration-一个工业价值极大，学术界却鲜有研究的问题！" class="headerlink" title="Calibration: 一个工业价值极大，学术界却鲜有研究的问题！"></a>Calibration: 一个工业价值极大，学术界却鲜有研究的问题！</h2><p>原创 kid丶 <a href="javascript:void(0" target="_blank" rel="noopener">夕小瑶的卖萌屋</a>;) </p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>文 | kid丶(知乎作者)<br>编 | 夕小瑶</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>尽管深度学习给工业界带来了一波上线春天，但是总有很多比较难的业务，模型反复迭代后准确率依然达不到预期的产品标准，难以满足用户期望。</p>
+<p>以下为工业界常见讨（si）论（b）场景：</p>
+<p>R&amp;D小哥哥一顿调参输出，RoBERTa都用上了，终于将模型从80%准确率提升到了90%，但是PM小姐姐说，“不行！咱们必须要达到95%准确率才能上线！否则就是对用户和产品逼格的伤害！”</p>
+<p>怎么办呢？</p>
+<p>熟悉工业界上线套路的小伙伴马上就能给出答案，那就是 <strong><em>提高模型决策的阈值！</em></strong> PM小姐姐只是根据产品标准定义了模型准确率（或者说精确率，precision），但是并不在乎召回率有多高（毕竟模型只要没上线，就相当于召回率为0）。</p>
+<p>那么基于上面的思路：假如模型的softmax输出可靠，比如二分类场景，模型softmax之后1类的输出是0.92，能表征模型有92%的把握说这是个正例，并且模型的这个把握是精准的，那么PM小姐姐说要达到95%准确率，那我们就疯狂提高模型的决策阈值就好了，这样把那些不确定性高的样本砍掉了，模型准确率自然就上来了。</p>
+<p>然而，神经网络并不一定这么靠谱，你看模型的测试集输出的话，却常常发现模型要么以99.999的概率输出来判定正例，要么0.0001的概率输出来判定负例，基本没有样本落在0.1~0.9区间内。那么这时候上面的思路就失效了。</p>
+<p>那么有没有办法<strong>让模型的softmax输出能真实的反映决策的置信度呢？</strong> 这个问题，就被称为Calibration问题（直译是叫“校准”）。</p>
+<p>故事要从一篇发表于2017年的ICML顶会论文开始，目前这篇论文引用量1001。</p>
+<p><strong>论文标题：</strong></p>
+<p>On Calibration of Modern Neural Networks</p>
+<p><strong>链接：</strong></p>
+<p><a href="https://arxiv.org/pdf/1706.04599.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/1706.04599.pdf</a></p>
+<p>Arxiv访问慢的小伙伴可以在【<strong>夕小瑶的卖萌屋</strong>】后台回复关键词【<strong><em>0106</em></strong>】下载论文pdf~</p>
+<h2 id="神经网络的-overconfidence"><a href="#神经网络的-overconfidence" class="headerlink" title="神经网络的 overconfidence"></a>神经网络的 overconfidence</h2><p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2allhpO0hq0f8TKm6zicQQNMDJ3sZfJjPGwnTuCBazaia04egIBFm8aNBbQ/640?wx_fmt=jpeg" alt="图片"></p>
+<p>首先，让咱们来思考一个普通图像分类任务。对于一张“koala”的图像，在经过神经网络后会得到 logits 输出 ，经过 softmax 层后得到对各类别的预测的后验概率，接着我们选择概率最大的类别（ koala）输出为最后的预测类别。这里，最终的预测类别 ，其对应的置信度为 。在大多情况下，我们只关心类别的预测 有多准，根本不 care 置信度是怎样的。然而，在一些实际应用场景下，置信度的度量也同样重要。例如：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2alJKjicAgpVeh91uaxqeqy4D6ZUJpR3MXXnsfkkvUmcwRXT3jq9IDO5ww/640?wx_fmt=jpeg" alt="图片"></p>
+<p>如上图，对于自动驾驶中的目标识别任务，车辆的前方出现了一个人，神经网络会将其识别成塑料袋，此时输出的置信度为50%（低于阈值），则可通过其它传感器进行二次的正确识别（识别为人）。但想想看，若神经网络对塑料袋预测的置信度为90%会怎样？再例如：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2alXiawGf6BZYLkzDLATLbEA80HQB4DicN5JHnwCgtPbZNEL3rzL5vfxyFw/640?wx_fmt=jpeg" alt="图片"></p>
+<p>使用 Resnet 模型简单的对一些图片任务进行训练，收敛后的模型对测试集的平均置信度高达80%-85%，然而只有将近70%的图片能被正确分对（红色代表分错，绿色代表分对）。这意味着啥？训练好的模型好像有点盲目自信，即出现 <strong>overconfidence</strong> 现象，或者可以称为模型的准确率和置信度不匹配（<strong>miscalibration</strong>）。</p>
+<h2 id="预期校准误差（ECE）"><a href="#预期校准误差（ECE）" class="headerlink" title="预期校准误差（ECE）"></a>预期校准误差（ECE）</h2><p>直观的来看，模型的准确率应当和置信度相匹配。一个完美校准的模型可定义成如下所示：</p>
+<p>即，模型置信度 等于概率 的条件下模型的预测 为真实标记 的概率同样也为 。因此，本文提出一个新的度量方式叫做 <strong>预期校准误差（Expected Calibrated Error, ECE）</strong> 来描述模型学习的匹配程度：很简单，其实就是将前面那个完美校准模型的等式写成差的期望的形式。我们将期望进一步展开可得到：</p>
+<p>其中： 这里的 代表着一个个根据置信度区间划分的一个个桶（用来装样本的），如下图所示：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2al4icQlYzJKymA2ENic0mibVEX9jRQxAL2ibHiacDHrU93TiarGUVHsibObyhpA/640?wx_fmt=jpeg" alt="图片"></p>
+<p>例如，我们将置信区间平均划分成5份，然后将样本按照其置信度挨个送到对应的桶中，分别计算每个桶中的平均置信度和准确率，两者的差值（Gap）的期望就是所定义的 <strong>ECE。</strong></p>
+<p><strong>读到这的读者</strong>应该能逐步体会本文想干一件啥事了。本文首先引出这样一个问题，深度模型在学习过程中出现准确率和置信度的严重不匹配问题，接着提出了一个合理的评价指标来描述模型学习的匹配程度，所以接下来，它要提出方法来想办法<strong>最小化期望校准误差（ECE）。</strong></p>
+<h2 id="什么原因导致神经网络出现准确率与置信度不匹配？"><a href="#什么原因导致神经网络出现准确率与置信度不匹配？" class="headerlink" title="什么原因导致神经网络出现准确率与置信度不匹配？"></a>什么原因导致神经网络出现准确率与置信度不匹配？</h2><p>然而 <strong>ECE</strong> 是没办法直接最小化的，因此本文尝试着做一些探索性的实验来观察啥因素会使得模型的 ECE 变大。本文分别从三个方面上去进行实验：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2alibqiak7n7GR9iciaJclxsMWibSqKdicy52fVvPH6WrskyJxjOAOj2viaibhqqQ/640?wx_fmt=jpeg" alt="图片"></p>
+<p>▲网络复杂度对ECE的影响</p>
+<p><strong>网络复杂度对 ECE 的影响：</strong> 首先，作者使用两个模型（LeNet和ResNet）分别对CIFAR-100数据集进行了训练，准确率分别为55.1%和69.4%，ResNet 在预测性能上完爆LeNet。然而，ResNet 置信度（右图蓝色+红色部分）的分布和准确率（右图蓝色部分）出现了严重的不匹配，导致二者的 Gap （红色部分）非常大。**注意完美校准模型的分布应当是蓝色部分刚好和对角线重合，且没有红色 Gap 部分。</p>
+<p><img src="https://i.loli.net/2021/01/07/OQX8Ir64DqyBwdl.png" alt="image-20210107114831568" style="zoom: 33%;"></p>
+<p>▲网络的宽度和深度对ECE的影响</p>
+<p><strong>网络宽度和深度对 ECE 的影响：</strong> 在得知模型复杂度会影响模型的 ECE 后，作者紧接着做了网络宽度和深度对模型 ECE 和错误率（Error）的影响。可以看到，在控制变量前提下，单方面的增加网络的深度和宽度均会使得模型的 Error 降低，这是我们所期望的；然而，ECE也会同样的随着上升。<strong>换句话来说，一昧的增加模型复杂度能有效的提高模型的预测性能，但同样带来的问题是模型的 overconfidence 问题愈发严重。</strong></p>
+<p><img src="https://i.loli.net/2021/01/07/v1S9YrfQBt5sl4O.png" alt="image-20210107114951774" style="zoom:33%;"></p>
+<p>▲归一化和权重衰减对ECE的影响</p>
+<p><strong>normalization 和 weight decay 对 ECE 的影响：</strong> 接着的实验也是我们为提高模型性能经常使用的 batch normalization 和 loss regularization。<strong>左图：</strong> 使用 batch normalization 会有效的提升模型的性能，但同时也会提升模型的 ECE。<strong>右图：</strong> weight decay 通常用来调节 L2 正则的权重衰减系数，随着其系数的增加相当于更多的强调模型参数 w 要尽可能的小，能有效的防止模型过拟合。<strong>该现象表明，模型越不过拟合，其ECE是越小的，也就是说模型越不会 overconfidence ；换句话说，模型对样本的拟合程度和对样本的置信度是息息相关的，拟合得越好，置信度越高，所以 ECE 越大。（个人理解，欢迎评论区指正~）</strong></p>
+<h2 id="我们该如何对模型进行校准呢？"><a href="#我们该如何对模型进行校准呢？" class="headerlink" title="我们该如何对模型进行校准呢？"></a>我们该如何对模型进行校准呢？</h2><p><img src="https://i.loli.net/2021/01/07/8WvRUEQtXg6iseY.png" alt="image-20210107115025920" style="zoom:33%;"></p>
+<p>作者接下来又做了一个很有意思的实验，在CIFAR-100上训练模型500个 epoch，其中在第250个 epoch 和第375个 epoch 下调节学习率，观察测试集上的 test error 和 test NLL 的变化情况。Test NLL 的定义如图中所示，它其实等价于测试集上的交叉熵。这个实验啥意思呢？我调节了一下学习率后，测试性能得到了提升，但是测试集上的交叉熵却出现了过拟合现象（出现了反常的上升现象）。<strong>有意思的点来了！</strong> 有人肯定会 argue 不是说好本文研究的是overconfidence嘛？即模型的置信度太高而准确率过低，这里对 NLL overfitting 岂不是好事，因为负对数似然上升了等价于模型的置信度的降低了。<strong>注意：这里的</strong> <strong>是对正确类上的置信度，而前面的实验是对预测类的置信度</strong> <strong>！其实认真想想，是一个意思，前面之所以 confident 很高的样本准确率很低，正是因为其在正确类别上的置信度太低导致的！！（这部分卡了很久）</strong></p>
+<p>该结果可以表明，模型置信度和准确率的不匹配很大可能的原因来自于模型对 NLL 的过拟合导致的。所以，咋办呢？最小化 NLL 呗。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/5fknb41ib9qE18NSghDpZ0q6wUCn7G2al7xvnXawtyCoz6bWI2iaLhBjemF0AOSgx6sWRXoW0S2RADFtU0shFoCw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1&amp;wx_co=1" alt="图片"></p>
+<p>此时，本文提出在验证集上对带 temperature 参数的 softmax 函数进行校准。即我们训练完模型后，最小化 NLL 来学习 temperature 参数，注意到对该项的优化并不会影响模型预测的准确率，只会对模型的 confidence 进行校准。最终的结果是这样的，详细可参考论文。</p>
+<p><img src="https://i.loli.net/2021/01/07/dDNYosvc2tprZaE.png" alt="image-20210107115122188"></p>
+<h2 id="讨论"><a href="#讨论" class="headerlink" title="讨论"></a><strong>讨论</strong></h2><p>上述得实验结果我觉得对很多研究领域都是很有启发意义的。</p>
+<ol>
+<li>模型的置信度应当是和准确率匹配的，这样的模型我觉得才是有意义的，否则以很高置信度进行很离谱的预测错误的模型会让人感觉这个模型好像什么都会、又好像什么都不会。</li>
+<li>ECE 的指标是否能反应样本的一些性质，例如难易程度、是否为噪声等。</li>
+<li>该文章是间接的去优化ECE的，能否有直接优化的形式，或者主动学习里面能否考虑这一点来挑选样本？</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/12/30/End-to-End-Learning-of-Visual-Representations-from-Uncurated-Instructional-Videos/" rel="next" title="End-to-End Learning of Visual Representations from Uncurated Instructional Videos">
+                <i class="fa fa-chevron-left"></i> End-to-End Learning of Visual Representations from Uncurated Instructional Videos
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div id="gitalk-container">
+    </div>
+    
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">185</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Calibration-一个工业价值极大，学术界却鲜有研究的问题！"><span class="nav-number">1.</span> <span class="nav-text">Calibration: 一个工业价值极大，学术界却鲜有研究的问题！</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#神经网络的-overconfidence"><span class="nav-number">2.</span> <span class="nav-text">神经网络的 overconfidence</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预期校准误差（ECE）"><span class="nav-number">3.</span> <span class="nav-text">预期校准误差（ECE）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么原因导致神经网络出现准确率与置信度不匹配？"><span class="nav-number">4.</span> <span class="nav-text">什么原因导致神经网络出现准确率与置信度不匹配？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我们该如何对模型进行校准呢？"><span class="nav-number">5.</span> <span class="nav-text">我们该如何对模型进行校准呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#讨论"><span class="nav-number">6.</span> <span class="nav-text">讨论</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+		var gitalk = new Gitalk({
+		  clientID: '',
+		  clientSecret: '',
+		  repo: 'ShiYaya.github.io',
+		  owner: '',
+		  admin: [''], 
+		  id: location.pathname,
+		  distractionFreeMode: ''
+		})
+		gitalk.render('gitalk-container')           
+       </script>
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
