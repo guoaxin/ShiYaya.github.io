@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/10/18/Vokenization-Improving-Language-Understanding-with-Contextualized-Visual-Grounded-Supervision/</loc>
+    
+    <lastmod>2021-02-19T10:00:35.736Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/02/19/BART/</loc>
+    
+    <lastmod>2021-02-19T10:00:23.806Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/02/19/Evaluating-Models-Local-Decision-Boundaries-via-Contrast-Sets/</loc>
     
     <lastmod>2021-02-19T09:58:18.893Z</lastmod>
@@ -54,13 +68,6 @@
     <loc>http://yoursite.com/2020/10/27/PPL-%E8%AF%AD%E5%8F%A5%E9%80%9A%E9%A1%BA/</loc>
     
     <lastmod>2020-11-05T00:36:17.976Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2020/10/18/Vokenization-Improving-Language-Understanding-with-Contextualized-Visual-Grounded-Supervision/</loc>
-    
-    <lastmod>2020-11-04T08:08:14.568Z</lastmod>
     
   </url>
   
