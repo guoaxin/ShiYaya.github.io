@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2019/07/23/Hierarchical-Global-Local-Temporal-Modeling-for-Video-Captioning/</loc>
+    
+    <lastmod>2021-02-21T08:04:09.462Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/02/21/Adaptive-Offline-Quintuplet-Loss-for-Image-Text-Matching/</loc>
     
     <lastmod>2021-02-21T08:01:38.586Z</lastmod>
@@ -838,13 +845,6 @@
     <loc>http://yoursite.com/2019/07/26/Pointing-Novel-Objects-in-Image-Captioning/</loc>
     
     <lastmod>2019-07-27T09:42:59.022Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/07/23/Hierarchical-Global-Local-Temporal-Modeling-for-Video-Captioning/</loc>
-    
-    <lastmod>2019-07-27T07:39:23.704Z</lastmod>
     
   </url>
   
