@@ -106,7 +106,8 @@
 <meta property="og:description" content="Abstract大规模的预训练多模态transformer将最新的视觉-语言任务推进到了一个新的高度。虽然在标准任务上实现了令人印象深刻的性能，但是，迄今为止，任然不清楚这些预训练模型的鲁棒性。 为了进行调查，我们针对现有的预训练模型对4种不同类型的V + L特定模型的鲁棒性进行了全面的评估：(i) Linguistic Variation; (ii) Logical Reasoning; (ii">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2021/02/24/yDSgc5JwWFHCU8h.png">
-<meta property="og:updated_time" content="2021-02-24T12:35:55.917Z">
+<meta property="og:image" content="https://i.loli.net/2021/02/25/HwjDn2voZfWKFOk.png">
+<meta property="og:updated_time" content="2021-02-25T03:32:27.292Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="A Closer Look at the Robustness of Vision-and-Language Pre-trained Models">
 <meta name="twitter:description" content="Abstract大规模的预训练多模态transformer将最新的视觉-语言任务推进到了一个新的高度。虽然在标准任务上实现了令人印象深刻的性能，但是，迄今为止，任然不清楚这些预训练模型的鲁棒性。 为了进行调查，我们针对现有的预训练模型对4种不同类型的V + L特定模型的鲁棒性进行了全面的评估：(i) Linguistic Variation; (ii) Logical Reasoning; (ii">
@@ -301,7 +302,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">194</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">195</span></a>
 
   </li>
 
@@ -425,12 +426,24 @@
                 
               
 
-              <time title="创建时间：2021-02-24 10:12:45 / 修改时间：20:35:55" itemprop="dateCreated datePublished" datetime="2021-02-24T10:12:45+08:00">2021-02-24</time>
+              <time title="创建时间：2021-02-24 10:12:45" itemprop="dateCreated datePublished" datetime="2021-02-24T10:12:45+08:00">2021-02-24</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-02-25 11:32:27" itemprop="dateModified" datetime="2021-02-25T11:32:27+08:00">2021-02-25</time>
               
             
           </span>
@@ -511,15 +524,14 @@
 <h3 id="本文方法简介"><a href="#本文方法简介" class="headerlink" title="本文方法简介"></a>本文方法简介</h3><p>为了在所有方面都实现鲁棒性，本文提出了 MANGO，通过在multi-modal embedding space 引入adversarial noise来增强鲁棒性。</p>
 <p><img src="https://i.loli.net/2021/02/24/yDSgc5JwWFHCU8h.png" alt="image-20210224120151245"></p>
 <p>如图 figure 1a所示，不使用PGD来生成对抗扰动，而是使用一个基于可训练神经网络来学习一个adversarial noise generator。与 VILLA相同，在embedding space 加入扰动，因为本文的目标 是对抗训练的最终结果，而不是制造对抗样本。</p>
-<p>本文要学习的是一个 universial noise generator，但是在VILLA中使用的PGD方法是针对每个特定样本来生成的。而PGD的方法是耗时的，而本文提出的方法是轻量级的，不需要梯度计算中的重复迭代。同时，为了使能多样性的对抗embedding，本文进一步提出随机对image regions 和 textual tokens掩码。</p>
+<p>【1】本文要学习的是一个 universial noise generator，但是在VILLA中使用的PGD方法是针对每个特定样本来生成的，本文提出的noise generator 是通用的，对输入训练样本是不加区别的。【2】而PGD的方法是<strong>耗时</strong>的，而本文提出的方法是轻量级的，不需要梯度计算中的重复迭代。同时，为了使能多样性的对抗embedding，本文进一步提出随机对image regions 和 textual tokens掩码。</p>
 <h3 id="本文的贡献"><a href="#本文的贡献" class="headerlink" title="本文的贡献"></a>本文的贡献</h3><ul>
 <li>第一个系统性的分析pre-trained V+L 模型的鲁棒性</li>
 <li>提出了 MANGO，一个generic and efficient 对抗训练方法来增强 V+L model 鲁棒性</li>
 <li>实验结果证明了本文提出方法的鲁棒性。</li>
 </ul>
 <h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><h4 id="Baseline"><a href="#Baseline" class="headerlink" title="Baseline"></a>Baseline</h4><p>Perturbing clean images with Gaussian noise. we use Gaussian noise augmentation as a simple baseline to investigate model robustness under V+L setting. Instead of adding noise to raw image pixels as in [52], we add perturbations directly to the embeddings.</p>
-<p><strong>Adversarial Noise Generator</strong> (our)</p>
-<p>Adding Gaussian noise to clean image-text pairs 可以补充训练样本。但是，随着训练的持续，模型可以逐渐的适应这种扰动，因为扰动都是从同一个 Gaussian noise distribution 中采样来的。</p>
+<h4 id="Adversarial-Noise-Generator-our"><a href="#Adversarial-Noise-Generator-our" class="headerlink" title="Adversarial Noise Generator (our)"></a><strong>Adversarial Noise Generator</strong> (our)</h4><p>Adding Gaussian noise to clean image-text pairs 可以补充训练样本。但是，随着训练的持续，模型可以逐渐的适应这种扰动，因为扰动都是从同一个 Gaussian noise distribution 中采样来的。</p>
 <p>为了得到 harder perturbations，本文提出了一个可学习的 adversarial noise generator。对抗性噪声发生器将高斯噪声样本作为输入，通过可学习神经网络产生对抗性噪声样本。</p>
 <p>Intuitively, to maximally fool the backbone network, 【1】we want to <strong>maximize prediction errors on these adversarially perturbed samples.</strong> 【2】In the meantime, we want the model to possess <strong>less confidence in its predictions on perturbed samples</strong> than clean samples, to promote harder adversarial examples。因此，<strong>adversarial noise generator 的目标是</strong>最大化这两个损失的求和：【1】task-speficic loss 【2】KL loss, which measures the distance between the predicted answer distribution of perturbed samples and that of clean samples.</p>
 <p>另一方面，the trained model 旨在通过将对抗性生成的嵌入作为数据增强来最大程度地减少这两种损失。</p>
@@ -536,6 +548,9 @@
 <p>为了补偿这种统计上的不匹配，我们建议在向图像和单词嵌入中添加对抗性噪声时，<strong>随机掩盖图像区域</strong> and <strong>随机插入[MASK]令牌</strong>。</p>
 <h3 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h3><p>进行实验分析了 pre-trained V+L model 的鲁棒性和 本文提出的MANGO framework 的有效性。本文使用UNITER作为 backbone，并将 MANGO与 UNITER和 VILLA 在9个 robustness datasets + VQA v2 dataset上进行了比较。本文在这10个 benchmark上进行研究，<strong style="color:red;"><strong>因为目前在其他任务上没有这种 robustness dataset。</strong></strong></p>
 <p>VILLA 在预训练阶段和微调阶段都采用了 对抗训练，而本文只是在微调阶段（即针对特定任务）</p>
+<p><img src="https://i.loli.net/2021/02/25/HwjDn2voZfWKFOk.png" alt="image-20210225095811994"></p>
+<h3 id="Future-Work"><a href="#Future-Work" class="headerlink" title="Future Work"></a>Future Work</h3><p>investigate the adversarial robustness of pre-trained V+L models.</p>
+<p>（在本文中，我们不关注 adversarial robustness，<strong style="color:red;">因为目前没有可用的adversarial benchmark</strong>。因此，我们在已有的robustness benchmark上进行观测，这些benchmark 设有挑战性的设置，并且经过了人类的验证）</p>
 
       
     </div>
@@ -581,6 +596,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/02/25/Adversarial-NLI-A-New-Benchmark-for-Natural-Language-Understanding/" rel="prev" title="Adversarial NLI A New Benchmark for Natural Language Understanding">
+                Adversarial NLI A New Benchmark for Natural Language Understanding <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -653,7 +672,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">194</span>
+                    <span class="site-state-item-count">195</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -827,7 +846,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Motivation"><span class="nav-number">2.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当前方法存在的问题"><span class="nav-number">3.</span> <span class="nav-text">当前方法存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文方法简介"><span class="nav-number">4.</span> <span class="nav-text">本文方法简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文的贡献"><span class="nav-number">5.</span> <span class="nav-text">本文的贡献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Method"><span class="nav-number">6.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Baseline"><span class="nav-number">6.1.</span> <span class="nav-text">Baseline</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Random-Masking"><span class="nav-number">6.2.</span> <span class="nav-text">Random Masking</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Experiments"><span class="nav-number">7.</span> <span class="nav-text">Experiments</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Motivation"><span class="nav-number">2.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当前方法存在的问题"><span class="nav-number">3.</span> <span class="nav-text">当前方法存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文方法简介"><span class="nav-number">4.</span> <span class="nav-text">本文方法简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文的贡献"><span class="nav-number">5.</span> <span class="nav-text">本文的贡献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Method"><span class="nav-number">6.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Baseline"><span class="nav-number">6.1.</span> <span class="nav-text">Baseline</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Adversarial-Noise-Generator-our"><span class="nav-number">6.2.</span> <span class="nav-text">Adversarial Noise Generator (our)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Random-Masking"><span class="nav-number">6.3.</span> <span class="nav-text">Random Masking</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Experiments"><span class="nav-number">7.</span> <span class="nav-text">Experiments</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Future-Work"><span class="nav-number">8.</span> <span class="nav-text">Future Work</span></a></li></ol></div>
             
 
           </div>
