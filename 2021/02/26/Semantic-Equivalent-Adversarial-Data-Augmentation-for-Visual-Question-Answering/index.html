@@ -97,15 +97,20 @@
 
 
 
-  <meta name="keywords" content="VQA,对抗">
+  <meta name="description" content="发表在 ECCV 2020，本文研究的任务是 VQA。 先前工作存在的问题【1】数据增强作为一个trick被广泛的应用于许多的计算机任务上，但是，目前却几乎没有在VQA任务上做数据增强方面的研究。 【2】由于该任务的语义结构 需要是一个正确的三元组，目前没有基于图像的增强方案（rotation and flipping）可以直接的应用到VQA task 上。例如，对图像进行旋转，有可能针对特定的">
+<meta name="keywords" content="VQA,对抗">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Semantic Equivalent Adversarial Data Augmentation for Visual Question Answering">
 <meta property="og:url" content="http://yoursite.com/2021/02/26/Semantic-Equivalent-Adversarial-Data-Augmentation-for-Visual-Question-Answering/index.html">
 <meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="发表在 ECCV 2020，本文研究的任务是 VQA。 先前工作存在的问题【1】数据增强作为一个trick被广泛的应用于许多的计算机任务上，但是，目前却几乎没有在VQA任务上做数据增强方面的研究。 【2】由于该任务的语义结构 需要是一个正确的三元组，目前没有基于图像的增强方案（rotation and flipping）可以直接的应用到VQA task 上。例如，对图像进行旋转，有可能针对特定的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-02-26T07:06:52.634Z">
+<meta property="og:image" content="https://i.loli.net/2021/02/26/2am4JCfGdx57gLp.png">
+<meta property="og:updated_time" content="2021-02-26T07:25:33.522Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Semantic Equivalent Adversarial Data Augmentation for Visual Question Answering">
+<meta name="twitter:description" content="发表在 ECCV 2020，本文研究的任务是 VQA。 先前工作存在的问题【1】数据增强作为一个trick被广泛的应用于许多的计算机任务上，但是，目前却几乎没有在VQA任务上做数据增强方面的研究。 【2】由于该任务的语义结构 需要是一个正确的三元组，目前没有基于图像的增强方案（rotation and flipping）可以直接的应用到VQA task 上。例如，对图像进行旋转，有可能针对特定的">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/26/2am4JCfGdx57gLp.png">
 
 
 
@@ -258,7 +263,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">32</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">33</span></a>
 
   </li>
         
@@ -277,7 +282,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">31</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">32</span></a>
 
   </li>
         
@@ -296,7 +301,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">197</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">199</span></a>
 
   </li>
 
@@ -420,7 +425,7 @@
                 
               
 
-              <time title="创建时间：2021-02-26 15:06:28 / 修改时间：15:06:52" itemprop="dateCreated datePublished" datetime="2021-02-26T15:06:28+08:00">2021-02-26</time>
+              <time title="创建时间：2021-02-26 15:06:28 / 修改时间：15:25:33" itemprop="dateCreated datePublished" datetime="2021-02-26T15:06:28+08:00">2021-02-26</time>
             
 
             
@@ -500,7 +505,14 @@
       
 
       
-        
+        <p><img src="https://i.loli.net/2021/02/26/2am4JCfGdx57gLp.png" alt="image-20210226150858072" style="zoom: 50%;"></p>
+<p>发表在 ECCV 2020，本文研究的任务是 VQA。</p>
+<h3 id="先前工作存在的问题"><a href="#先前工作存在的问题" class="headerlink" title="先前工作存在的问题"></a>先前工作存在的问题</h3><p>【1】数据增强作为一个trick被广泛的应用于许多的计算机任务上，但是，目前却几乎没有在VQA任务上做数据增强方面的研究。</p>
+<p>【2】由于该任务的语义结构<image, question, answer> 需要是一个正确的三元组，目前没有基于图像的增强方案（rotation and flipping）可以直接的应用到VQA task 上。例如，对图像进行旋转，有可能针对特定的问题，将会是不同的答案。</image,></p>
+<h3 id="本文提出的方案"><a href="#本文提出的方案" class="headerlink" title="本文提出的方案"></a>本文提出的方案</h3><p>代替直接处理图像和问题，我们使用<strong>针对 image and question 生成的对抗性示例</strong>作为扩充数据。扩充的数据不能改变image中的视觉性质和question中的语义意义。因此，三元组<image, question, answer>的正确性可以被保留。</image,></p>
+<p>然后，使用对抗学习和扩充数据来训练一个经典的VQA model（BUTD）。</p>
+<p>实验发现，本文提出的方案相比于 baseline，不仅可以改善VQA v2的整体性能，还可以有效抵御对抗攻击。</p>
+
       
     </div>
 
@@ -545,6 +557,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/02/26/A-Novel-Graph-based-Multi-modal-Fusion-Encoder-for-Neural-Machine-Translation/" rel="prev" title="A Novel Graph-based Multi-modal Fusion Encoder for Neural Machine Translation">
+                A Novel Graph-based Multi-modal Fusion Encoder for Neural Machine Translation <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -592,8 +608,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -608,7 +633,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">197</span>
+                    <span class="site-state-item-count">199</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -683,7 +708,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">31</span>
+                      
+                    
+                    <span class="site-state-item-count">32</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -760,7 +787,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">32</span>
+                      
+                    
+                    <span class="site-state-item-count">33</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -785,6 +814,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#先前工作存在的问题"><span class="nav-number">1.</span> <span class="nav-text">先前工作存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文提出的方案"><span class="nav-number">2.</span> <span class="nav-text">本文提出的方案</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       

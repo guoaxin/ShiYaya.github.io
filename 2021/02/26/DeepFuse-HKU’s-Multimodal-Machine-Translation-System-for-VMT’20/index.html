@@ -97,15 +97,22 @@
 
 
 
-  <meta name="keywords" content="cross-modal,video-guided MT">
+  <meta name="description" content="VATEX： video-guided machine translation(EN-&amp;gt;CH) Challenge ACL 2020 workshop https://alvr-workshop.github.io/2020/index.html 以前方法存在的问题以前的image-guied Machine Translations, 在encode 阶段，往往单独对 视觉信息和语言信息">
+<meta name="keywords" content="cross-modal,video-guided MT">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[DeepFuse] HKU’s Multimodal Machine Translation System for VMT’20">
 <meta property="og:url" content="http://yoursite.com/2021/02/26/DeepFuse-HKU’s-Multimodal-Machine-Translation-System-for-VMT’20/index.html">
 <meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="VATEX： video-guided machine translation(EN-&amp;gt;CH) Challenge ACL 2020 workshop https://alvr-workshop.github.io/2020/index.html 以前方法存在的问题以前的image-guied Machine Translations, 在encode 阶段，往往单独对 视觉信息和语言信息">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-02-26T01:46:30.118Z">
+<meta property="og:image" content="https://i.loli.net/2021/02/26/bTNP7oqc3nxXfMV.png">
+<meta property="og:image" content="https://i.loli.net/2021/02/26/7qgti5pwnDkcWNZ.png">
+<meta property="og:image" content="https://i.loli.net/2021/02/26/ZD7SxmKUBMA3tIE.png">
+<meta property="og:updated_time" content="2021-02-26T09:16:26.077Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[DeepFuse] HKU’s Multimodal Machine Translation System for VMT’20">
+<meta name="twitter:description" content="VATEX： video-guided machine translation(EN-&amp;gt;CH) Challenge ACL 2020 workshop https://alvr-workshop.github.io/2020/index.html 以前方法存在的问题以前的image-guied Machine Translations, 在encode 阶段，往往单独对 视觉信息和语言信息">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/26/bTNP7oqc3nxXfMV.png">
 
 
 
@@ -258,7 +265,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">32</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">33</span></a>
 
   </li>
         
@@ -277,7 +284,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">31</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">32</span></a>
 
   </li>
         
@@ -296,7 +303,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">197</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">199</span></a>
 
   </li>
 
@@ -420,7 +427,7 @@
                 
               
 
-              <time title="创建时间：2021-02-26 09:15:34 / 修改时间：09:46:30" itemprop="dateCreated datePublished" datetime="2021-02-26T09:15:34+08:00">2021-02-26</time>
+              <time title="创建时间：2021-02-26 09:15:34 / 修改时间：17:16:26" itemprop="dateCreated datePublished" datetime="2021-02-26T09:15:34+08:00">2021-02-26</time>
             
 
             
@@ -500,7 +507,44 @@
       
 
       
-        
+        <p><img src="https://i.loli.net/2021/02/26/bTNP7oqc3nxXfMV.png" alt="image-20210226154022062" style="zoom:50%;"></p>
+<p>VATEX： video-guided machine translation(EN-&gt;CH) Challenge</p>
+<p>ACL 2020 workshop <a href="https://alvr-workshop.github.io/2020/index.html" target="_blank" rel="noopener">https://alvr-workshop.github.io/2020/index.html</a></p>
+<h3 id="以前方法存在的问题"><a href="#以前方法存在的问题" class="headerlink" title="以前方法存在的问题"></a>以前方法存在的问题</h3><p>以前的image-guied Machine Translations, 在encode 阶段，往往单独对 视觉信息和语言信息进行编码。然后，在decode 阶段使用attention将视觉信息结合进来。模态之间的信息仅仅进行了浅融合。</p>
+<h3 id="本文提出的方案"><a href="#本文提出的方案" class="headerlink" title="本文提出的方案"></a>本文提出的方案</h3><p>本文中，提出了一个 video-augmented encoder，以此，获得一个multi-modal representation 来作为decoder的输入。使用attention 机器在多个层融合了多模态的表征。</p>
+<p>实验证明，这种深融合方法相比于之前的浅融合方法要更加的有效。</p>
+<h3 id="具体方法"><a href="#具体方法" class="headerlink" title="具体方法"></a>具体方法</h3><p><img src="https://i.loli.net/2021/02/26/7qgti5pwnDkcWNZ.png" alt="image-20210226160753355" style="zoom:50%;"></p>
+<p>本文提出的visual-augmented encoder 如图1所示，encoder 包括L=6层相同的层。</p>
+<p>将sentence表征为一个embedding的输入序列： $\mathbf{X}=x_{1}, x_{2}, \ldots, x_{n}$</p>
+<p>将 video 使用I3D提取clips的特征，表征为segment-level feature 的序列：$\mathbf{E}=e_{1}, e_{2}, \ldots, e_{m}$</p>
+<h4 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h4><p>The encoder process the input X and E as follows:</p>
+<p>【1】input X 输入<strong>Multi-Head attention and Feed Forward</strong> 这两个sub layers， 得到 $H^L$</p>
+<p>【2】在video-encoder attention module, 使用$H^L$ 作为 query 来选择与query 相关的 video representation。 </p>
+<p>$\overline{\mathcal{H}}=$ Attention $\left(\mathbf{H}^{L}, \mathbf{K}_{E}, \mathbf{V}_{E}\right)$</p>
+<p>【3】使用权重求和来得到多模态特征：</p>
+<p>$\mathcal{H}=\mathbf{H}^{L}+\lambda \overline{\mathcal{H}}$， where，$\lambda=\operatorname{sigmoid}\left(\mathbf{W}_{\lambda} \overline{\mathcal{H}}+\mathbf{U}_{\lambda} \mathbf{H}^{L}\right)$</p>
+<p>【4】最后的输出是：$\operatorname{LayerNorm}\left(\mathbf{H}^{L}+\mathcal{H}\right)$</p>
+<p>【yaya】最后一步，似乎是有问题，因为，这样多模态特征，似乎就是加了两遍 $H^L$</p>
+<h4 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h4><p>遵循transformer 中 decoder的设计，存在L=6个相同的层。</p>
+<h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><h4 id="实验设置"><a href="#实验设置" class="headerlink" title="实验设置"></a>实验设置</h4><p>学习率的变化曲线：lrate $=d_{\text {model }}^{-0.5} \cdot \min \left(K^{-0.5}, K \cdot N^{-1.5}\right)$，where K is the current number of step and N=4000 is the number of warm-up steps.</p>
+<h4 id="Baseline"><a href="#Baseline" class="headerlink" title="Baseline"></a>Baseline</h4><p>（1）<strong>lstm</strong>: Text-only LSTM-based encoderdecoder NMT </p>
+<p>（2）<strong>vatex</strong>: The LSTM-based videoguided machine translation system proposed in VATEX<br>（3）<strong>Transformer</strong>: standard text-only transformer architecture proposed by “Attention is all you need.”</p>
+<p><img src="https://i.loli.net/2021/02/26/ZD7SxmKUBMA3tIE.png" alt="image-20210226170500065" style="zoom:33%;"></p>
+<ul>
+<li>相比于text-only transformer 有一个显著的提高。证明了，使用深层融合来结合视觉信息的有效性。</li>
+</ul>
+<h3 id="收获与总结"><a href="#收获与总结" class="headerlink" title="收获与总结"></a>收获与总结</h3><ul>
+<li><p>本文的关键是提出了使用transformer 的结构来融合文本和视觉信息。</p>
+</li>
+<li><p>在image-guided machine translation 任务中，也存在两篇使用co-attention 来融合两个模态信息的。如下：</p>
+<blockquote>
+<p>[1] (ACL 2020) Multimodal Transformer for Multimodal Machine Translation</p>
+<p>[2] (ACL 2020) A Novel Graph-based Multi-modal Fusion Encoder for Neural Machine Translation 【Graph Fusion】</p>
+</blockquote>
+</li>
+</ul>
+<p>【Graph Fusion】与本文相比，encoder 的设计方式不同，但是decoder的设计是相同的。关于不同：【Graph Fusion】首先对两个模态各自self-attention 而后再根据graph edge 进行co-attention。而本文对视觉信息没有进行self-attention，仅对语言信息进行了self-attention, 在co-attention步骤中也没有显示的graph edge,而是采用了隐式的全连接。</p>
+
       
     </div>
 
@@ -596,8 +640,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -612,7 +665,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">197</span>
+                    <span class="site-state-item-count">199</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -687,7 +740,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">31</span>
+                      
+                    
+                    <span class="site-state-item-count">32</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -764,7 +819,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">32</span>
+                      
+                    
+                    <span class="site-state-item-count">33</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -789,6 +846,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#以前方法存在的问题"><span class="nav-number">1.</span> <span class="nav-text">以前方法存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文提出的方案"><span class="nav-number">2.</span> <span class="nav-text">本文提出的方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体方法"><span class="nav-number">3.</span> <span class="nav-text">具体方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Encoder"><span class="nav-number">3.1.</span> <span class="nav-text">Encoder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Decoder"><span class="nav-number">3.2.</span> <span class="nav-text">Decoder</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验"><span class="nav-number">4.</span> <span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实验设置"><span class="nav-number">4.1.</span> <span class="nav-text">实验设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Baseline"><span class="nav-number">4.2.</span> <span class="nav-text">Baseline</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#收获与总结"><span class="nav-number">5.</span> <span class="nav-text">收获与总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
@@ -1340,6 +1414,43 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
   
 
 
