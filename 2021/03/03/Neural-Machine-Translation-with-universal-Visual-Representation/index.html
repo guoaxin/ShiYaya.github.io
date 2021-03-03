@@ -106,7 +106,12 @@
 <meta property="og:description" content="简介为了降低Multi-modal NMT对有图像标注的翻译数据集的依赖，本文提出通过建立Topic-image Lookup Table的方式更高效地利用已有图像文本数据，并且在训练和测试NMT的时候通过Image Retrieval的方式获得图像信息，从而在更大规模的数据上训练Multi-modal NMT。 通过Retrieval的方式来扩充数据的工作其实有很多，比如这篇：Extract a">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2021/03/03/31QcdLfykOoiCEX.jpg">
-<meta property="og:updated_time" content="2021-03-03T12:32:43.135Z">
+<meta property="og:image" content="https://i.loli.net/2021/03/03/wMeWCU7jfD4NqIO.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/03/SWYB4lDXt7ysVrO.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/03/F8z9SReVPkuNdov.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/03/taQRuKN6ElJYbLg.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/03/De8nVYPabyIrBwE.png">
+<meta property="og:updated_time" content="2021-03-03T13:02:24.522Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Neural Machine Translation with universal Visual Representation">
 <meta name="twitter:description" content="简介为了降低Multi-modal NMT对有图像标注的翻译数据集的依赖，本文提出通过建立Topic-image Lookup Table的方式更高效地利用已有图像文本数据，并且在训练和测试NMT的时候通过Image Retrieval的方式获得图像信息，从而在更大规模的数据上训练Multi-modal NMT。 通过Retrieval的方式来扩充数据的工作其实有很多，比如这篇：Extract a">
@@ -425,7 +430,7 @@
                 
               
 
-              <time title="创建时间：2021-03-03 20:14:27 / 修改时间：20:32:43" itemprop="dateCreated datePublished" datetime="2021-03-03T20:14:27+08:00">2021-03-03</time>
+              <time title="创建时间：2021-03-03 20:14:27 / 修改时间：21:02:24" itemprop="dateCreated datePublished" datetime="2021-03-03T20:14:27+08:00">2021-03-03</time>
             
 
             
@@ -524,11 +529,41 @@
 </ul>
 <h3 id="通用视觉表示"><a href="#通用视觉表示" class="headerlink" title="通用视觉表示"></a><strong>通用视觉表示</strong></h3><p>首先我们有一个单语-图片数据集 $\mathcal{S}=\{X, E\}$，也就是，其中的每条数据都是一张图片 $e$ 和对图片的描述 $X_{e}=\left\{x_{1}, \cdots, x_{I}\right\},$ 把其中的停用词去掉后得到了 $X_{e}^{\prime}=\left\{x_{1}^{\prime}, \cdots, x_{J}^{\prime}\right\}$ 。</p>
 <p>然后, 对 $X_{e}^{\prime}$ 中的每个词 $x_{j},$ 计算它在整个数据集 $\mathcal{S}$ 中的TF-IDF值， 然后取 $X_{e}^{\prime}$ 中TF-IDF值最大的前 $w$个词作为这个图片 $e$ 的主题词 $T_{e}$, 也就是和图片最相关的 $w$ 个词。</p>
-<p>这样一来，<strong>每个图片e都有它主题词</strong> $T_{e},$ 同时，<strong>每个词都有可能同时是多个图片的主题词</strong>。我们可以把这看成一个 “主题词-图片” 查询表，输入一个词 $t,$ 就可以在表中查询以t为主题的所有图片 $E_{t}=\left\{e_{1}, \cdots, e_{n}\right\}$</p>
+<p>这样一来，<strong>每个图片e都有它主题词</strong> $T_{e},$ 同时，<strong>每个词都有可能同时是多个图片的主题词</strong>。我们可以把这看成一个 “主题词-图片” 查询表，输入一个词 $t$ ，就可以在表中查询以 $t$ 为主题的所有图片 $E_{t}=\left\{e_{1}, \cdots, e_{n}\right\}$。</p>
+<p>那么，现在输入一个句子，我们就可以按照同样的步骤：</p>
+<p>1.去除停用词；</p>
+<p>2.计算每个词的TF-IDF；</p>
+<p>3.取前$w$个TF-IDF最高的词；</p>
+<p>4.在查询表中找到所有对应的图片；</p>
+<p>5.按照出现次数的多少排序，取出前$m$个出现次数最多的图片（因为多个词可能对应同一个图片），得到集合 $G$</p>
+<p>现在，这个图片集合 $G$ 就可以认为是和输入句子对应的视觉信息，可以用它去增强翻译效果了。下图是流程示意图：</p>
+<p><img src="https://i.loli.net/2021/03/03/wMeWCU7jfD4NqIO.png" alt="image-20210303203731211" style="zoom: 50%;"></p>
+<h3 id="在机器翻译中融合图片信息"><a href="#在机器翻译中融合图片信息" class="headerlink" title="在机器翻译中融合图片信息"></a><strong>在机器翻译中融合图片信息</strong></h3><p>为了把图片融合进去，我们首先用一个预训练的ResNet提取图片集$G$ 的表示，然后计算 $\bar{H}=$ Self-Attention $\left(H^{L}, K_{G}, V_{G}\right)$ 与 $H=H^{L}+\lambda \bar{H}$<br>这里, $H^{L}$ 是Transformer Encoder的最后一层, $K_{G}, V_{G}$ 是用ResNet得到的图片集的表示, $\lambda$ 使用<br>sigmoid 计算。<br>在Decoder端，直接把 $H$ 送入即可。融合步骤如下所示：</p>
+<p><img src="https://i.loli.net/2021/03/03/SWYB4lDXt7ysVrO.png" alt="image-20210303204216912" style="zoom:50%;"></p>
+<h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a><strong>实验</strong></h3><p>我们在三个数据集上进行实验：WMT16 En-RO, WMT14 EN-DE和WMT14 EN-FR。这三个数据集大小从小到大增加，从而在不同大小的数据集上都能验证该方法。</p>
+<p>下表是在这三个数据集上的结果，++表示显著更优。</p>
+<p>可以看到，和基线模型(Trans.(base/big))相比，本文的方法(+VR)在三个数据集上都能得到显著的提升，平均提升约一个BLEU值。同时，只引入了很少的参数量，这就不会使训练时间几乎不会增加。</p>
+<p><img src="https://i.loli.net/2021/03/03/F8z9SReVPkuNdov.png" alt="image-20210303205316435" style="zoom:33%;"></p>
+<p>下表是在数据集Multi30K上的结果，这是一个多模态数据集。可以看到，即使在多模态设置下，本文方法依旧能够取得显著结果。</p>
+<p><img src="https://i.loli.net/2021/03/03/taQRuKN6ElJYbLg.png" alt="image-20210303205337060" style="zoom:33%;"></p>
+<p>最后，我们来看看每个句子对应的图片集 $G$ 的大小 $m$, 和手动控制参数 $\lambda$ 的影响。下图分别是两个因素的影响结果。从图片数量来看，并不是越多的图片数量越好, 也不是越少越好,而是在 $m=5 \sim 15$ 的区间较好。这是因为， <strong>过少的图片信息不充分, 过多的图片噪声太多。</strong></p>
+<p>参数$\lambda$控制的是图片信息融合的程度，可以看到，无论融合多少，效果都比不融合图片信息要好，这说明多模态是有效果的。</p>
+<p>而且，手动控制它都没有模型自动学习好，这也说明模型对不同的输入句子，需要的视觉信息也是不同的。</p>
+<p><img src="https://i.loli.net/2021/03/03/De8nVYPabyIrBwE.png" alt="image-20210303205616909" style="zoom:33%;"></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a><strong>小结</strong></h3><p>本文提出了一种简单、有效的多模态视觉知识融合方法——首先构建从主题词到图片的查询表，然后对输入句子找到相关的图片，然后使用ResNet提取图片信息融入到机器翻译模型中。</p>
+<p>使用这种方法，可以避免对大规模双语-图片数据的依赖。实验结果也表明，这种方法可以一致地提高翻译效果。</p>
 <h3 id="思考"><a href="#思考" class="headerlink" title="思考"></a>思考</h3><ul>
-<li>如果要翻译单语-图片数据集中没有的语言，可以怎么做？</li>
-<li>在融合步骤，是否可以有其他的方法进行融合？</li>
-<li>你认为本文这种方法从逻辑上是否真的有效？为什么？</li>
+<li><p>如果要翻译单语-图片数据集中没有的语言，可以怎么做？</p>
+<p>比如$S$没有日语，我们可以用一个日语的image caption模型去自动标注每个图片的描述。</p>
+<p>或者可以用X-日语的机器翻译得到图片翻译后的描述；或者直接用一个现有的词典，把图片的主题词直接翻译成日语。其他方法亦可。</p>
+</li>
+<li><p>在融合步骤，是否可以有其他的方法进行融合？</p>
+<p>另外一个简单的方法是，把ResNet得到的图片表示和句子一起，送入Encoder，再像往常一样解码。</p>
+</li>
+<li><p><strong>你认为本文这种方法从逻辑上是否真的有效？为什么？</strong></p>
+<p>见仁见智，笔者倾向于有效，但是作用不大，因为只从模型的角度难以验证图片和文本之间语义的相关性，至于效果的提升，有可能是ResNet和Aggregate的共同结果。</p>
+<p>笔者认为，可以考虑加一个图片预测描述的任务，和翻译一起学习；再将ResNet替换为普通的CNN进行实验。</p>
+</li>
 </ul>
 
       
@@ -845,7 +880,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Motivation"><span class="nav-number">2.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多模态与机器翻译"><span class="nav-number">3.</span> <span class="nav-text">多模态与机器翻译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文贡献"><span class="nav-number">4.</span> <span class="nav-text">本文贡献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通用视觉表示"><span class="nav-number">5.</span> <span class="nav-text">通用视觉表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#思考"><span class="nav-number">6.</span> <span class="nav-text">思考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Motivation"><span class="nav-number">2.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多模态与机器翻译"><span class="nav-number">3.</span> <span class="nav-text">多模态与机器翻译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文贡献"><span class="nav-number">4.</span> <span class="nav-text">本文贡献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通用视觉表示"><span class="nav-number">5.</span> <span class="nav-text">通用视觉表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在机器翻译中融合图片信息"><span class="nav-number">6.</span> <span class="nav-text">在机器翻译中融合图片信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验"><span class="nav-number">7.</span> <span class="nav-text">实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">8.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#思考"><span class="nav-number">9.</span> <span class="nav-text">思考</span></a></li></ol></div>
             
 
           </div>
