@@ -97,14 +97,21 @@
 
 
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="Introduction目前存在的问题使用视觉信息对 language grounding 的计算模型的研究导致了许多有趣的应用，例如图像字幕，视觉问答和视觉对话。各种各样的多模态数据集（由图片和文本组成）被构建，并且用于不同的应用。大部分数据集，图像被标注了文本标签，但是没有提供应用文本或图像的上下文。 在 image captioning dataset 中，为每张图片标注了 sentence">
+<meta name="keywords" content="cross-modal">
+<meta property="og:type" content="article">
 <meta property="og:title" content="[MultiSubs] A Large-scale Multimodal and Multilingual Dataset">
 <meta property="og:url" content="http://yoursite.com/2021/03/03/MultiSubs-A-Large-scale-Multimodal-and-Multilingual-Dataset/index.html">
 <meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="Introduction目前存在的问题使用视觉信息对 language grounding 的计算模型的研究导致了许多有趣的应用，例如图像字幕，视觉问答和视觉对话。各种各样的多模态数据集（由图片和文本组成）被构建，并且用于不同的应用。大部分数据集，图像被标注了文本标签，但是没有提供应用文本或图像的上下文。 在 image captioning dataset 中，为每张图片标注了 sentence">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-03-03T07:44:10.179Z">
+<meta property="og:image" content="https://i.loli.net/2021/03/03/PCQZBX2DtnaFzAu.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/03/wBsAvKgbT2LSk16.png">
+<meta property="og:updated_time" content="2021-03-03T12:15:01.846Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[MultiSubs] A Large-scale Multimodal and Multilingual Dataset">
+<meta name="twitter:description" content="Introduction目前存在的问题使用视觉信息对 language grounding 的计算模型的研究导致了许多有趣的应用，例如图像字幕，视觉问答和视觉对话。各种各样的多模态数据集（由图片和文本组成）被构建，并且用于不同的应用。大部分数据集，图像被标注了文本标签，但是没有提供应用文本或图像的上下文。 在 image captioning dataset 中，为每张图片标注了 sentence">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/03/PCQZBX2DtnaFzAu.png">
 
 
 
@@ -295,7 +302,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">201</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">202</span></a>
 
   </li>
 
@@ -419,12 +426,34 @@
                 
               
 
-              <time title="创建时间：2021-03-03 15:44:10" itemprop="dateCreated datePublished" datetime="2021-03-03T15:44:10+08:00">2021-03-03</time>
+              <time title="创建时间：2021-03-03 15:44:10 / 修改时间：20:15:01" itemprop="dateCreated datePublished" datetime="2021-03-03T15:44:10+08:00">2021-03-03</time>
             
 
+            
+              
+
+              
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/cross-modal/" itemprop="url" rel="index"><span itemprop="name">cross-modal</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -470,7 +499,40 @@
       
 
       
-        
+        <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><h3 id="目前存在的问题"><a href="#目前存在的问题" class="headerlink" title="目前存在的问题"></a>目前存在的问题</h3><p>使用视觉信息对 language grounding 的计算模型的研究导致了许多有趣的应用，例如图像字幕，视觉问答和视觉对话。各种各样的多模态数据集（由图片和文本组成）被构建，并且用于不同的应用。大部分数据集，图像被标注了文本标签，但是没有提供应用文本或图像的上下文。</p>
+<p>在 image captioning dataset 中，为每张图片标注了 sentence-level text。虽然这些句子为图片提供了strong concept，但是存在一个基本的缺点：每个 sentence-level text 将 image 看做一个整体，但是实际上，text 中的内容仅仅包含了image中的部分元素。这将使得很难学到视觉和文本中的元素的对应（correspondences between elements）。图像和文本之间的连接是多样的。比如，很难用单个句子描述整个图像或用单个图像说明整个句子。因此，为了了解单词和图像之间更好的基础（grounding），需要在图像和文本段之间建立<strong>更紧密的局部对应关系</strong>。</p>
+<p>此外，文本仅限于非常特定的领域（图像描述），而图像也仅限于极少数和非常特定的对象类别或人类活动；这使得很难概括可能的现实世界场景的多样性。</p>
+<h3 id="本文的解决办法"><a href="#本文的解决办法" class="headerlink" title="本文的解决办法"></a>本文的解决办法</h3><p>在本文中，提出了一个新的大规模 多模态和多语言的数据集 (MultiSubs)，可以促进 <strong style="color:red;"><strong>grounding words to images</strong> </strong>in the context of their corresponding sentences。如下图1。</p>
+<p><img src="https://i.loli.net/2021/03/03/PCQZBX2DtnaFzAu.png" alt="image-20210303162030516" style="zoom: 33%;"></p>
+<p>与以前的数据集相比，我们的基础单词不仅针对图像，而且还针对其在语言中的上下文用法，从而有可能对现实世界中的人类语言学习产生更深刻的见解。具体来说：（1）MultiSubs中的文本片段和图像具有更紧密的局部对应，便于学习文本片段及其对应的视觉表示之间的关联；（2）与图像字幕数据集相比，图像更通用，范围更广，并且不受特定域的限制；（3）每个给定的文本片段和句子都可以有多个图像；（4）文字包含类似于自由形式的真实世界文字的grammar ot syntax；（5）文本是多语言的，而不仅仅是单语言或双语的。</p>
+<p>从电影字幕的平行语料库开始，我们提出了一种<strong>跨语言多模态消歧方法</strong>，通过利用并行多语言文本来消歧文本中单词的含义，来说明文本片段。如图2所示。</p>
+<p><img src="https://i.loli.net/2021/03/03/wBsAvKgbT2LSk16.png" alt="image-20210303163357136"></p>
+<p>据我们所知，目前尚未对在文本插图的上下文中对此进行探讨。我们还通过人工判断来评估数据集和 illustrated text fragments 的质量。</p>
+<p>使用本文提出的MultiSubs 数据集，本文提出了两个不同的多模态任务：（1）A fill-inn-the-blank task：to guess a missing word from a sentence, with or without image(s) of the word as clues。（2）Lexical translation：在给定 source sentence 和与该source word 相关联的零个或多个图像的情况下，我们将带有句子上下文的 source word 翻译为外语中的target word。</p>
+<h2 id="语料库和文本片段选择"><a href="#语料库和文本片段选择" class="headerlink" title="语料库和文本片段选择"></a>语料库和文本片段选择</h2><p><em>MultiSubs</em>基于OpenSubtitles 2016（OPUS）语料库，该语料库是从 OpenSubtitles 中获得的，涵盖了65种语言的movie subtitles。</p>
+<blockquote>
+<p>OpenSubtitles2016: Extracting large parallel corpora from movie and TV subtitles.</p>
+<p>OpenSubtitles: Subtitles - download movie and TV Series subtitles. <a href="http://www.opensubtitles.org/" target="_blank" rel="noopener">http://www.opensubtitles.org/</a></p>
+</blockquote>
+<p>本文挑选了5类电影：冒险，动画，喜剧，纪录片和家庭。大多数 subtitles 是对话性的（对话）或叙事性的（故事叙事或纪录片）。进一步将字幕过滤为仅在OPUS中与来自语料库的前30种非英语语言中的至少一种字幕对接的英语字幕的子集。这样一来，总共有45,482个电影实例<em>≈</em>38M个英语句子。对于前30种语言，电影的数量从2,354到31,168不等。</p>
+<p>我们的目标是选择可能“在视觉上可描绘”的文本片段，并因此可以用图像进行说明。我们首先将英语字幕通过spacy  POS （en_core_web_md）来提取名词，动词，复合名词和简单形容词名词短语。这些 text frgments 的图像可成像性评分是通过MRC心理语言学数据库PaetzoldSpecia：2016通过引导获得的 ; 对于多词短语，我们将每个单词的图像可比性得分平均，为每个未见单词分配零得分。我们 retain text fragments 的可成像性得分至少为500，这是通过人工检查单词的子集来确定的。删除掉仅出现一次的 text fragments 后，输出为一组144,168个唯一候选片段（超过1600万个实例）<em>≈</em>1100万个句子。</p>
+<h2 id="Illustration-of-text-fragments"><a href="#Illustration-of-text-fragments" class="headerlink" title="Illustration of text fragments"></a>Illustration of text fragments</h2><h3 id="Cross-lingual-sense-disambiguation"><a href="#Cross-lingual-sense-disambiguation" class="headerlink" title="Cross-lingual sense disambiguation"></a>Cross-lingual sense disambiguation</h3><p>本文提出的text illustration approach 的关键直觉是：一个带有歧义的英语句子，在另外一种语言的parallel sentence 中 可能没有歧义。</p>
+<p>【1】<strong>Cross-lingual word alignment</strong> </p>
+<p>在选择正确的图像 to illustrate our candidate text fragments (nouns) 时，我们尝试了多达四种<em>目标</em>语言：<strong>西班牙语</strong>（<strong>ES</strong>）和<strong>巴西葡萄牙语</strong>（<strong>PT</strong>），以及<strong>法文</strong>（<strong>FR</strong>）和<strong>德文</strong>（<strong>DE</strong>）。对于每种语言，选择字幕，以使（i）每个字幕都与英语字幕对齐；（ii）每个都至少包含一个感兴趣的名词。对于英语和每个目标语言，我们在全组平行句（不管句子中是否含有候选片段）中训练 <strong><em>fast_align</em></strong> DyerEtAl：2013，以获得在两种语言中词与词之间的对齐 。<strong>这将生成一个字典，该字典将英语名词映射到目标语言中的单词。</strong>我们对此字典进行过滤，以删除不常见的目标短语（语料库的1％以下）对。我们还将目标语言中具有相同lemmas 的单词归为一组。</p>
+<p>【2】<strong>Sense disambiguation</strong></p>
+<p>source -&gt; target </p>
+<p>将名词翻译成不同的词(in the target language) 并不一定意味着它是模棱两可的。target phrases 可以简单地是指代相同概念的同义词。因此，我们进一步尝试在target side 对同义词进行分组，同时还通过查看跨多语言语料库的对齐短语来确定正确的词义。</p>
+<p>对于 word senses，我们使用<strong>BabelNet</strong> NavigliPonzetto：2012，这是一个大型语义网络和涵盖多种语言的多语言百科全书，并统一了其他语义网络。</p>
+<p>为了帮助我们确定给定上下文中英语名词的正确含义，我们使用目标语言中平行句子中的对齐词来消除歧义。我们计算两个查询返回的BabelNet同义词集ID之间的交集。比如 bank(english) -&gt; banco(spanish) ，如果使用英语bank 来查询将得到 financial-bank 和river-bank，如果用西班牙语banco查询将得到 financial-bank。取这两个查询结果的交集。</p>
+<p>如果仅针对一种语言对执行上述操作，则该目标语言可能不足以消除英语术语的歧义，因为该术语在两种语言中可能是歧义的。对于紧密相关的语言（例如葡萄牙语和西班牙语）尤其如此。因此，<strong>我们建议利用<em>多种</em>目标语言，以进一步提高我们消除英语单词歧义的信心</strong>。我们的假设是，更多的语言最终将允许识别单词的正确上下文。</p>
+<p>更具体地说，我们研究了包含<strong>多达四种目标语言</strong>的并行句子的字幕。对于每个英语短语，我们保留所有实例之间的同义词集ID之间<strong>至少有一个交集的实例</strong></p>
+<p>【3】<strong>Image Selection</strong></p>
+<p>构造<em>MultiSubs</em>的最后一步是为每个歧义的英语术语分配至少一个图像，and by design the term in the aligned target language(s)。由于BabelNet通常为给定的同义词集ID提供多个图像，因此我们用与该同义词集关联的所有Creative Commons images 说明该term。</p>
+<h2 id="Human-evaluation"><a href="#Human-evaluation" class="headerlink" title="Human evaluation"></a>Human evaluation</h2><p>为了定量评估我们的automated cross-lingual sense disambiguation cleaning procedure，我们收集了人类注释，<strong>以确定<em>MultiSubs</em>中的图像是否确实对预测填空任务中的遗漏单词有用</strong>。<strong>注释还可以作为任务的人工上限</strong></p>
+<p>我们将注释任务设置为<em>The Gap Filling Game</em>（图 <a href="https://www.arxiv-vanity.com/papers/2103.01910/#S5.F5" target="_blank" rel="noopener">5</a>）。在此游戏中，用户尝试进行<strong>三种尝试来猜测从<em>MultiSubs</em>的句子中删除的确切单词</strong>。在<strong>第一次尝试</strong>中，游戏仅显示句子（以及遗漏单词的空白）。在<strong>第二次尝试</strong>中，游戏还会为丢失的单词提供一个图像作为线索。在第三次也是<strong>最后一次尝试</strong>中，系统将显示与缺失单词关联的所有图像。在每次尝试中，如果用户输入的单词与原始单词完全匹配，则用户将获得1.0分；否则，将按预先训练的CBOW word2vec MikolovEtAl：2013之间的余弦相似度计算得出的部分分值（介于0.0和1.0之间） 预测词和原始词的嵌入。当用户输入完全匹配的内容时，或者在用尽所有三个尝试之后（以先发生者为准），每个“转”（一个句子）都会结束。第二次和第三次尝试的得分乘以<em>惩罚因子</em>（分别为0.90和0.80），以鼓励用户尽早正确猜出该单词。用户单回合的得分是所有三个尝试中的最高分，每个用户的最终累积得分是所有带注释的句子中分的总和。该最终分数确定了游戏结束时（在预定的截止日期之后）的获胜者和亚军，他们两人都分别获得了亚马逊代金券。在游戏过程中，不会为用户提供确切的“当前最高得分”表，而是会为他们提供比其当前得分更低的所有得分的所有用户所占的百分比</p>
+<h3 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h3><p>visual grounding of words</p>
+<p>language grounding</p>
+
       
     </div>
 
@@ -491,6 +553,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/cross-modal/" rel="tag"># cross-modal</a>
+          
+        </div>
+      
 
       
       
@@ -509,6 +577,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/03/03/Neural-Machine-Translation-with-universal-Visual-Representation/" rel="prev" title="Neural Machine Translation with universal Visual Representation">
+                Neural Machine Translation with universal Visual Representation <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -556,8 +628,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -572,7 +653,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">201</span>
+                    <span class="site-state-item-count">202</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -759,6 +840,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#目前存在的问题"><span class="nav-number">1.1.</span> <span class="nav-text">目前存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文的解决办法"><span class="nav-number">1.2.</span> <span class="nav-text">本文的解决办法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语料库和文本片段选择"><span class="nav-number">2.</span> <span class="nav-text">语料库和文本片段选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Illustration-of-text-fragments"><span class="nav-number">3.</span> <span class="nav-text">Illustration of text fragments</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cross-lingual-sense-disambiguation"><span class="nav-number">3.1.</span> <span class="nav-text">Cross-lingual sense disambiguation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Human-evaluation"><span class="nav-number">4.</span> <span class="nav-text">Human evaluation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#yaya"><span class="nav-number">4.1.</span> <span class="nav-text">yaya</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
