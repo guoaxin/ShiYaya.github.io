@@ -97,21 +97,18 @@
 
 
 
-  <meta name="description" content="Baseline目前主流的 captioning model 采用 encoder-decoder architecture。 下图为在image captioning 中一个效果很好的baseline model （命名为Top-Down model）[1]。 Encoder：对于图片首先使用 detector 提取 region features。使用 Top-Down Attention L">
+  <meta name="description" content="Just can be seen by yaya.">
 <meta name="keywords" content="cross-modal,video captioning">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[VATEX Captioning Challenge 2019] Multi-modal Information Fusion and Multi-stage Training Strategy for Video Captioning">
 <meta property="og:url" content="http://yoursite.com/2021/03/13/VATEX-Captioning-Challenge-2019-Multi-modal-Information-Fusion-and-Multi-stage-Training-Strategy-for-Video-Captioning/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="Baseline目前主流的 captioning model 采用 encoder-decoder architecture。 下图为在image captioning 中一个效果很好的baseline model （命名为Top-Down model）[1]。 Encoder：对于图片首先使用 detector 提取 region features。使用 Top-Down Attention L">
+<meta property="og:description" content="Just can be seen by yaya.">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://i.loli.net/2021/03/13/uKs8OYcZy5eEVhI.png">
-<meta property="og:image" content="https://i.loli.net/2021/03/13/Q3gr9UG7xvshZRL.png">
-<meta property="og:updated_time" content="2021-03-13T09:34:56.107Z">
+<meta property="og:updated_time" content="2021-03-13T09:38:13.289Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[VATEX Captioning Challenge 2019] Multi-modal Information Fusion and Multi-stage Training Strategy for Video Captioning">
-<meta name="twitter:description" content="Baseline目前主流的 captioning model 采用 encoder-decoder architecture。 下图为在image captioning 中一个效果很好的baseline model （命名为Top-Down model）[1]。 Encoder：对于图片首先使用 detector 提取 region features。使用 Top-Down Attention L">
-<meta name="twitter:image" content="https://i.loli.net/2021/03/13/uKs8OYcZy5eEVhI.png">
+<meta name="twitter:description" content="Just can be seen by yaya.">
 
 
 
@@ -426,7 +423,7 @@
                 
               
 
-              <time title="创建时间：2021-03-13 15:39:13 / 修改时间：17:34:56" itemprop="dateCreated datePublished" datetime="2021-03-13T15:39:13+08:00">2021-03-13</time>
+              <time title="创建时间：2021-03-13 15:39:13 / 修改时间：17:38:13" itemprop="dateCreated datePublished" datetime="2021-03-13T15:39:13+08:00">2021-03-13</time>
             
 
             
@@ -506,31 +503,19 @@
       
 
       
-        <h2 id="Baseline"><a href="#Baseline" class="headerlink" title="Baseline"></a>Baseline</h2><p>目前主流的 captioning model 采用 encoder-decoder architecture。</p>
-<p>下图为在image captioning 中一个效果很好的baseline model （命名为Top-Down model）[1]。</p>
-<p><strong>Encoder：</strong>对于图片首先使用 detector 提取 region features。使用 Top-Down Attention LSTM 作为encoder，以decoder的隐状态变量，上一步的word embedding，global image feature（mean pooling of region features）作为输入。在每个time step 来动态的提取 attended image feature。</p>
-<p><strong>Decoder：</strong>使用Language LSTM 作为decoder，采取attended image feature 和 encoder中的输出的隐状态作为输入</p>
-<p><img src="https://i.loli.net/2021/03/13/uKs8OYcZy5eEVhI.png" alt="image-20210313162931947" style="zoom:50%;"></p>
-<p>这种framework 是可以很容易的迁移到video captioning领域，只需要修改 region feature 为 video domain 中的features 即可。</p>
-<p>在本次的竞赛中，我们就采用这种framework。我们使用多模态特征来代替region feature，具体地，我们使用appearance feature, motion feature, audio feature。</p>
-<h2 id="Trick"><a href="#Trick" class="headerlink" title="Trick"></a>Trick</h2><h3 id="Gumbel-Max"><a href="#Gumbel-Max" class="headerlink" title="==Gumbel-Max=="></a>==Gumbel-Max==</h3><p><strong>存在的问题：</strong> 在编码阶段，decoder常常在给出visual feature and previous word的情况下进行预测，而previous word 在训练阶段是 GT word，但是在测试阶段却是model precited word。这造成了在训练和测试阶段的不一致。这种现象被称为exposure bias [2]。</p>
-<p><strong>解决：</strong> ACL 2019 bestpaper [3] 提出了解决机器翻译任务中的训练和测试的不一致问题，虽然与我们不是同一个任务，但是同样为自然语言生成任务。对我们也是有借鉴意义的。</p>
-<h3 id="Self-critical"><a href="#Self-critical" class="headerlink" title="==Self critical=="></a>==Self critical==</h3><p><strong>存在的问题：</strong> 评价captioning task 的评价指标是不可微分的，因此在训练阶段，常常 teacher-forced way 来最小化交叉熵损失函数。这也造成了评估指标与优化目标之间的不一致。</p>
-<p><strong>解决：</strong> 有研究者[4] 提出，使用评估指标作为reward , 然后使用强化学习的方式来微调模型（先使用交叉熵损失函数来训模型）。</p>
-<h3 id="Topic-label-Embedding"><a href="#Topic-label-Embedding" class="headerlink" title="==Topic/label Embedding=="></a>==Topic/label Embedding==</h3><p><strong>存在的问题</strong> 在最初的Top-Down model [1] 中， 使用region features 的平均池化作为global feature 输入encoder 中，但是这种方式未必可以很好的表达视觉内容的全局信息。</p>
-<p><strong>解决：</strong> [5] 中提出使用 topic embedding 作为一种全局指导，来生成caption。关于 topic embedding ，具体的，是对于video，先预测其行为类别（因为vatex 是在行为识别数据集kinetics validation and public test dataset上进行的抽取），然后使用该action label 作为query 从外部语料（eg:wikipedia 和 wikihow）中挑选最相关的文章，然后计算该篇文章中的每个unigram的tf-idf值，对于每个unigram提取fastext 的word embedding, 然后使用对应的tf-idf 作为权重，进行权重求和，得到该篇文章的特征表示。得到的特征表示与action label的word embedding 级联在一起作为topic embedding。</p>
-<p><strong>Note:</strong> 实际上，使用这个trick，是由于发现这篇论文的有效性，然后进行了借鉴，并不是由于从存在的问题出发，才去找的解决办法。</p>
-<p>在实际的实验中发现，单纯使用 action-label embedding 作为全局指导（即图中的$\bar{v}$），就可以得到很好的效果。</p>
-<p>这里的解释：不同的视频可以有相同的action label，这样的话，对于同一个视频，相当于与其配对的caption数量隐形的扩增（同一个action label 下的video的caption中可能会有相同的描述），这也是为什么这篇文章做zero-shot video captioning 效果会好的原因（相近行为的视频之间的caption会有一些描述是共享的）。</p>
-<h3 id="Note"><a href="#Note" class="headerlink" title="==Note=="></a>==Note==</h3><p>在英文赛道使用了audio feature, 在中文赛道没有使用.</p>
-<p>在英文赛道同时使用了 topic-embedding 和 action label-embeddding  ，但是在中文赛道没有topic-embedding。</p>
-<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="https://i.loli.net/2021/03/13/Q3gr9UG7xvshZRL.png" alt="image-20210313173355691"></p>
-<h2 id="Implementation-Details"><a href="#Implementation-Details" class="headerlink" title="Implementation Details"></a>Implementation Details</h2><h3 id="Appearence-feature"><a href="#Appearence-feature" class="headerlink" title="==Appearence feature=="></a>==Appearence feature==</h3><h3 id="Motion-feature"><a href="#Motion-feature" class="headerlink" title="==Motion feature=="></a>==Motion feature==</h3><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>[1] Peter Anderson, Xiaodong He, Chris Buehler, Damien Teney, Mark Johnson, Stephen Gould, and Lei Zhang.<br>Bottom-up and top-down attention for image captioning and visual question answering. 2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition, pages 6077–6086, 2017.</p>
-<p>[2] Marc’Aurelio Ranzato, Sumit Chopra, Michael Auli, and Wojciech Zaremba. <strong>Sequence level training with recurrent</strong><br><strong>neural networks.</strong> In 4th International Conference on Learning Representations, ICLR 2016, San Juan, Puerto Rico, May 2-4, 2016, Conference Track Proceedings, 2016.</p>
-<p>[3] Wen Zhang, Yang Feng, Fandong Meng, Di You, and Qun Liu. <strong>Bridging the gap between training and inference for neural machine translation.</strong> In Proceedings of the 57th Conference of the Association for Computational Linguistics, ACL 2019, Florence, Italy, July 28- August 2, 2019, Volume 1: Long Papers, pages 4334–4343, 2019.</p>
-<p>[4] Steven J. Rennie, Etienne Marcheret, Youssef Mroueh, Jerret Ross, and Vaibhava Goel. <strong>Self-critical sequence training for image captioning.</strong> In 2017 IEEE Conference on Computer Vision and Pattern Recognition, CVPR 2017, Honolulu, HI, USA, July 21-26, 2017, pages 1179–1195, 2017.</p>
-<p>[5] Xin Wang, Jiawei Wu, Da Zhang, Yu Su, and William Yang Wang. <strong>Learning to compose topic-aware mixture of experts</strong><br><strong>for zero-shot video captioning.</strong> In The Thirty-Third AAAI Conference on Artificial Intelligence, AAAI 2019, Honolulu, Hawaii, USA, January 27 - February 1, 2019., pages 8965–8972, 2019.</p>
-
+        <div id="hbe-security">
+  <div class="hbe-input-container">
+  <input type="password" class="hbe-form-control" id="pass" placeholder="Welcome to my blog, enter password to read.">
+    <label for="pass">Welcome to my blog, enter password to read.</label>
+    <div class="bottom-line"></div>
+  </div>
+</div>
+<div id="decryptionError" style="display: none;">Incorrect Password!</div>
+<div id="noContentError" style="display: none;">No content to display!</div>
+<div id="encrypt-blog" style="display:none">
+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
+</div>
+<script src="/lib/crypto-js.js"></script><script src="/lib/blog-encrypt.js"></script><link href="/css/blog-encrypt.css" rel="stylesheet" type="text/css">
       
     </div>
 
@@ -622,17 +607,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <div class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -836,23 +812,6 @@
         </div>
       </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Baseline"><span class="nav-number">1.</span> <span class="nav-text">Baseline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Trick"><span class="nav-number">2.</span> <span class="nav-text">Trick</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gumbel-Max"><span class="nav-number">2.1.</span> <span class="nav-text">==Gumbel-Max==</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Self-critical"><span class="nav-number">2.2.</span> <span class="nav-text">==Self critical==</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Topic-label-Embedding"><span class="nav-number">2.3.</span> <span class="nav-text">==Topic/label Embedding==</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Note"><span class="nav-number">2.4.</span> <span class="nav-text">==Note==</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Method"><span class="nav-number">3.</span> <span class="nav-text">Method</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Implementation-Details"><span class="nav-number">4.</span> <span class="nav-text">Implementation Details</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Appearence-feature"><span class="nav-number">4.1.</span> <span class="nav-text">==Appearence feature==</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Motion-feature"><span class="nav-number">4.2.</span> <span class="nav-text">==Motion feature==</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
 
       
@@ -1404,6 +1363,43 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
   
 
 
