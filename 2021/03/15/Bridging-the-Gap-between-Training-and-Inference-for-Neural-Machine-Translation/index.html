@@ -97,28 +97,31 @@
 
 
 
-  <meta name="description" content="Abstract大规模的预训练多模态transformer将最新的视觉-语言任务推进到了一个新的高度。虽然在标准任务上实现了令人印象深刻的性能，但是，迄今为止，任然不清楚这些预训练模型的鲁棒性。 为了进行调查，我们针对现有的预训练模型对4种不同类型的V + L特定模型的鲁棒性进行了全面的评估：(i) Linguistic Variation; (ii) Logical Reasoning; (ii">
-<meta name="keywords" content="cross-modal,对抗">
+  <meta name="description" content="1. 简介本文是ACL 2019 的 最佳长文奖。 论文主要解决神经网络在翻译领域，训练和测试时所用的上文信息不同造成的偏差问题。 论文提出了新的训练方法，而非新的模型。读完之后，发现这种方法适用于许多领域的训练-测试不匹配的问题，如：阅读理解、语言模型。 2. 存在的问题传统的神经机器翻译有两个问题：  exposure bias （训练和测试时所用的上文信息不同的问题） overcorrect">
+<meta name="keywords" content="NLP">
 <meta property="og:type" content="article">
-<meta property="og:title" content="A Closer Look at the Robustness of Vision-and-Language Pre-trained Models">
-<meta property="og:url" content="http://yoursite.com/2021/02/24/A-Closer-Look-at-the-Robustness-of-Vision-and-Language-Pre-trained-Models/index.html">
+<meta property="og:title" content="Bridging the Gap between Training and Inference for Neural Machine Translation">
+<meta property="og:url" content="http://yoursite.com/2021/03/15/Bridging-the-Gap-between-Training-and-Inference-for-Neural-Machine-Translation/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="Abstract大规模的预训练多模态transformer将最新的视觉-语言任务推进到了一个新的高度。虽然在标准任务上实现了令人印象深刻的性能，但是，迄今为止，任然不清楚这些预训练模型的鲁棒性。 为了进行调查，我们针对现有的预训练模型对4种不同类型的V + L特定模型的鲁棒性进行了全面的评估：(i) Linguistic Variation; (ii) Logical Reasoning; (ii">
+<meta property="og:description" content="1. 简介本文是ACL 2019 的 最佳长文奖。 论文主要解决神经网络在翻译领域，训练和测试时所用的上文信息不同造成的偏差问题。 论文提出了新的训练方法，而非新的模型。读完之后，发现这种方法适用于许多领域的训练-测试不匹配的问题，如：阅读理解、语言模型。 2. 存在的问题传统的神经机器翻译有两个问题：  exposure bias （训练和测试时所用的上文信息不同的问题） overcorrect">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://i.loli.net/2021/02/24/yDSgc5JwWFHCU8h.png">
-<meta property="og:image" content="https://i.loli.net/2021/02/25/HwjDn2voZfWKFOk.png">
-<meta property="og:updated_time" content="2021-02-26T07:01:23.540Z">
+<meta property="og:image" content="https://i.loli.net/2021/03/14/tMrJqWR1huDFHQ4.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/15/k8USC1drMGB6Jwh.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/14/QLSZEk4dqNln6jV.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/14/oJlrVILE6FgkcyM.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/14/wc7Ql4js39KBCXg.png">
+<meta property="og:updated_time" content="2021-03-15T08:16:16.545Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="A Closer Look at the Robustness of Vision-and-Language Pre-trained Models">
-<meta name="twitter:description" content="Abstract大规模的预训练多模态transformer将最新的视觉-语言任务推进到了一个新的高度。虽然在标准任务上实现了令人印象深刻的性能，但是，迄今为止，任然不清楚这些预训练模型的鲁棒性。 为了进行调查，我们针对现有的预训练模型对4种不同类型的V + L特定模型的鲁棒性进行了全面的评估：(i) Linguistic Variation; (ii) Logical Reasoning; (ii">
-<meta name="twitter:image" content="https://i.loli.net/2021/02/24/yDSgc5JwWFHCU8h.png">
+<meta name="twitter:title" content="Bridging the Gap between Training and Inference for Neural Machine Translation">
+<meta name="twitter:description" content="1. 简介本文是ACL 2019 的 最佳长文奖。 论文主要解决神经网络在翻译领域，训练和测试时所用的上文信息不同造成的偏差问题。 论文提出了新的训练方法，而非新的模型。读完之后，发现这种方法适用于许多领域的训练-测试不匹配的问题，如：阅读理解、语言模型。 2. 存在的问题传统的神经机器翻译有两个问题：  exposure bias （训练和测试时所用的上文信息不同的问题） overcorrect">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/14/tMrJqWR1huDFHQ4.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2021/02/24/A-Closer-Look-at-the-Robustness-of-Vision-and-Language-Pre-trained-Models/">
+  <link rel="canonical" href="http://yoursite.com/2021/03/15/Bridging-the-Gap-between-Training-and-Inference-for-Neural-Machine-Translation/">
 
 
 
@@ -128,7 +131,7 @@
   };
 </script>
 
-  <title>A Closer Look at the Robustness of Vision-and-Language Pre-trained Models | ShiYaya</title>
+  <title>Bridging the Gap between Training and Inference for Neural Machine Translation | ShiYaya</title>
   
 
 
@@ -383,7 +386,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/24/A-Closer-Look-at-the-Robustness-of-Vision-and-Language-Pre-trained-Models/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/15/Bridging-the-Gap-between-Training-and-Inference-for-Neural-Machine-Translation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ShiYaya">
@@ -400,7 +403,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">A Closer Look at the Robustness of Vision-and-Language Pre-trained Models
+          <h1 class="post-title" itemprop="name headline">Bridging the Gap between Training and Inference for Neural Machine Translation
 
               
             
@@ -426,53 +429,16 @@
                 
               
 
-              <time title="创建时间：2021-02-24 10:12:45" itemprop="dateCreated datePublished" datetime="2021-02-24T10:12:45+08:00">2021-02-24</time>
+              <time title="创建时间：2021-03-15 16:15:51 / 修改时间：16:16:16" itemprop="dateCreated datePublished" datetime="2021-03-15T16:15:51+08:00">2021-03-15</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2021-02-26 15:01:23" itemprop="dateModified" datetime="2021-02-26T15:01:23+08:00">2021-02-26</time>
               
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/cross-modal/" itemprop="url" rel="index"><span itemprop="name">cross-modal</span></a></span>
-
-                
-                
-                  ，
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/cross-modal/对抗/" itemprop="url" rel="index"><span itemprop="name">对抗</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -482,8 +448,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2021/02/24/A-Closer-Look-at-the-Robustness-of-Vision-and-Language-Pre-trained-Models/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2021/02/24/A-Closer-Look-at-the-Robustness-of-Vision-and-Language-Pre-trained-Models/" itemprop="commentCount"></span>
+                <a href="/2021/03/15/Bridging-the-Gap-between-Training-and-Inference-for-Neural-Machine-Translation/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2021/03/15/Bridging-the-Gap-between-Training-and-Inference-for-Neural-Machine-Translation/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -518,46 +484,59 @@
       
 
       
-        <h3 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h3><p>大规模的预训练多模态transformer将最新的视觉-语言任务推进到了一个新的高度。虽然在标准任务上实现了令人印象深刻的性能，但是，迄今为止，任然不清楚这些预训练模型的鲁棒性。</p>
-<p>为了进行调查，我们针对现有的预训练模型对4种不同类型的V + L特定模型的鲁棒性进行了全面的评估：(i) Linguistic Variation; (ii) Logical Reasoning; (iii) Visual Content Manipulation; and (iv) Answer Distribution Shift. 有趣的是，by standard model finetuning，预训练的V+L模型相比于task-specific 模型展示出更好的鲁棒性。</p>
-<p>为了<strong>进一步增强模型的鲁棒性</strong>，本文提出了<strong>MANGO</strong>，一个具有泛化性且鲁棒的方法，可以在embedding space 学习a Multimodal Adversarial Noise GeneratOr 以愚弄pre-trained V+L models。与以往针对一种特定类型的鲁棒性的研究不同，MANGO具有任务不可知性，并且可以针对各种任务（旨在评估鲁棒性的广泛方面）对预训练模型进行通用性能提升。</p>
-<p> 全面的实验表明，MANGO在9个鲁棒性基准中有7个达到了最新水平，大大超过了现有方法。</p>
-<h3 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h3><p>当前的 V+L pre-tranining model取得了很大的进展在各种 V+L tasks，但是这些benchmark 在测试集和数据集上的分布常常是相似的，textual query 几乎没有 linguistic variation, 使用干净的自然图像，而没有任何visual content manipulation。 因此，尽管这些标准基准对于通用模型评估有效，但仍<strong>缺乏明确评估模型鲁棒性的能力</strong>。（在本文中，我们不关注 adversarial robustness，<strong style="color:red;">因为目前没有可用的adversarial benchmark</strong>。因此，我们在已有的robustness benchmark上进行观测，这些benchmark 设有挑战性的设置，并且经过了人类的验证）</p>
-<p>(i) VQA-Rephrasings[56] for <strong>linguistic variation</strong>;</p>
-<p>(ii) VQA-LOL (Compose and Supplement) [18], VQA-Introspect [54] and GQA [25] for <strong>logical reasoning</strong>; </p>
-<p>(iii) IV-VQA and CVVQA [2] for <strong>visual content manipulation</strong>;  </p>
-<p>(iv) VQA-CP v2 [3] and GQA-OOD [31] for <strong>answer distribution shift</strong>.</p>
-<h3 id="当前方法存在的问题"><a href="#当前方法存在的问题" class="headerlink" title="当前方法存在的问题"></a>当前方法存在的问题</h3><p>VILLA，在multimodal embedding 加入对抗扰动，<strong>projected gradient descent（PGD） attack training（AT）</strong> 可以在 linguistic variation and visual content manipulation 增强鲁棒性，但是在训练集和测试集之间有显著的数据分布差异时，会有收效甚微的影响甚至drop model performence。</p>
-<h3 id="本文方法简介"><a href="#本文方法简介" class="headerlink" title="本文方法简介"></a>本文方法简介</h3><p>为了在所有方面都实现鲁棒性，本文提出了 MANGO，通过在multi-modal embedding space 引入adversarial noise来增强鲁棒性。</p>
-<p><img src="https://i.loli.net/2021/02/24/yDSgc5JwWFHCU8h.png" alt="image-20210224120151245"></p>
-<p>如图 figure 1a所示，不使用PGD来生成对抗扰动，而是使用一个基于可训练神经网络来学习一个adversarial noise generator。与 VILLA相同，在embedding space 加入扰动，因为本文的目标 是对抗训练的最终结果，而不是制造对抗样本。</p>
-<p>【1】本文要学习的是一个 universial noise generator，但是在VILLA中使用的PGD方法是针对每个特定样本来生成的，本文提出的noise generator 是通用的，对输入训练样本是不加区别的。【2】而PGD的方法是<strong>耗时</strong>的，而本文提出的方法是轻量级的，不需要梯度计算中的重复迭代。同时，为了使能多样性的对抗embedding，本文进一步提出随机对image regions 和 textual tokens掩码。</p>
-<h3 id="本文的贡献"><a href="#本文的贡献" class="headerlink" title="本文的贡献"></a>本文的贡献</h3><ul>
-<li>第一个系统性的分析pre-trained V+L 模型的鲁棒性</li>
-<li>提出了 MANGO，一个generic and efficient 对抗训练方法来增强 V+L model 鲁棒性</li>
-<li>实验结果证明了本文提出方法的鲁棒性。</li>
+        <h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>本文是ACL 2019 的 最佳长文奖。</p>
+<p><strong style="color:red;">论文主要解决神经网络在翻译领域，训练和测试时所用的上文信息不同造成的偏差问题。</strong></p>
+<p><strong>论文提出了新的训练方法，而非新的模型。读完之后，发现这种方法适用于许多领域的训练-测试不匹配的问题，如：阅读理解、语言模型。</strong></p>
+<h2 id="2-存在的问题"><a href="#2-存在的问题" class="headerlink" title="2. 存在的问题"></a>2. 存在的问题</h2><p>传统的神经机器翻译有两个问题：</p>
+<ul>
+<li><strong>exposure bias</strong> （训练和测试时所用的上文信息不同的问题）</li>
+<li><strong>overcorrection</strong>（过度矫正）</li>
 </ul>
-<h3 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h3><h4 id="Baseline"><a href="#Baseline" class="headerlink" title="Baseline"></a>Baseline</h4><p>Perturbing clean images with Gaussian noise. we use Gaussian noise augmentation as a simple baseline to investigate model robustness under V+L setting. Instead of adding noise to raw image pixels as in [52], we add perturbations directly to the embeddings.</p>
-<h4 id="Adversarial-Noise-Generator-our"><a href="#Adversarial-Noise-Generator-our" class="headerlink" title="Adversarial Noise Generator (our)"></a><strong>Adversarial Noise Generator</strong> (our)</h4><p>Adding Gaussian noise to clean image-text pairs 可以补充训练样本。但是，随着训练的持续，模型可以逐渐的适应这种扰动，因为扰动都是从同一个 Gaussian noise distribution 中采样来的。</p>
-<p>为了得到 harder perturbations，本文提出了一个可学习的 adversarial noise generator。对抗性噪声发生器将高斯噪声样本作为输入，通过可学习神经网络产生对抗性噪声样本。</p>
-<p>Intuitively, to maximally fool the backbone network, 【1】we want to <strong>maximize prediction errors on these adversarially perturbed samples.</strong> 【2】In the meantime, we want the model to possess <strong>less confidence in its predictions on perturbed samples</strong> than clean samples, to promote harder adversarial examples。因此，<strong>adversarial noise generator 的目标是</strong>最大化这两个损失的求和：【1】task-speficic loss 【2】KL loss, which measures the distance between the predicted answer distribution of perturbed samples and that of clean samples.</p>
-<p>另一方面，the trained model 旨在通过将对抗性生成的嵌入作为数据增强来最大程度地减少这两种损失。</p>
-<p>综合上述两种方面，提出了如下的min-max game:</p>
-<script type="math/tex; mode=display">
-\min _{\boldsymbol{\theta}} \max _{\boldsymbol{\phi}_{v}(\boldsymbol{v}, \boldsymbol{w}, \boldsymbol{y}) \sim \mathcal{D} \boldsymbol{\alpha} \in \mathcal{N}(\mathbf{0}, \mathbf{1})} \mathbb{E}\left[\mathcal{L}_{s t d}\left(\boldsymbol{\theta}, \boldsymbol{\phi}_{v}\right)+\beta \mathcal{R}_{k l}\left(\boldsymbol{\theta}, \boldsymbol{\phi}_{v}\right)\right]</script><p>where $\beta$ is a hyper-parameter, and</p>
-<script type="math/tex; mode=display">
-\begin{array}{l}
-\mathcal{L}_{s t d}\left(\boldsymbol{\theta}, \boldsymbol{\phi}_{v}\right)=\mathcal{L}_{\mathrm{BCE}}\left(f_{\boldsymbol{\theta}}\left(\boldsymbol{v}+g_{\boldsymbol{\phi}_{v}}(\boldsymbol{\alpha}), \boldsymbol{w}\right), \boldsymbol{y}\right) \\
-\mathcal{R}_{k l}\left(\boldsymbol{\theta}, \boldsymbol{\phi}_{v}\right)=\mathcal{L}_{k l}\left(f_{\boldsymbol{\theta}}\left(\boldsymbol{v}+g_{\phi_{v}}(\boldsymbol{\alpha}), \boldsymbol{w}\right), f_{\boldsymbol{\theta}}(\boldsymbol{v}, \boldsymbol{w})\right)
-\end{array}</script><p>在训练时，迭代跟新 an outer loop of the backbone network and an inner loop of noise generator.</p>
-<p>本文提出的adversarial noise generator 是轻量级的，仅仅存在 a few linear layers。相比于一个深层模型，这种轻量模型更容易陷入局部最优。因此，定期地，we replace the learned noise generator with a new one trained from scratch。每次，new  generator is trained against the latese learned parameters of the backbone.</p>
-<h4 id="Random-Masking"><a href="#Random-Masking" class="headerlink" title="Random Masking"></a>Random Masking</h4><p>虽然 adversarial noise generator 可以产生具有挑战性，更加多样化的噪声扰动，但是不会改变训练样本的内在统计（例如，问题长度和image regions的分布）。然而，实际上，在robustness benchmark 的训练和测试集中存在这种 significant mismatch。比如，the average length of questions in VQA-LOL 测试集是VQA V2 训练集的 2-3倍。</p>
-<p>为了补偿这种统计上的不匹配，我们建议在向图像和单词嵌入中添加对抗性噪声时，<strong>随机掩盖图像区域</strong> and <strong>随机插入[MASK]令牌</strong>。</p>
-<h3 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h3><p>进行实验分析了 pre-trained V+L model 的鲁棒性和 本文提出的MANGO framework 的有效性。本文使用UNITER作为 backbone，并将 MANGO与 UNITER和 VILLA 在9个 robustness datasets + VQA v2 dataset上进行了比较。本文在这10个 benchmark上进行研究，<strong style="color:red;"><strong>因为目前在其他任务上没有这种 robustness dataset。</strong></strong></p>
-<p>VILLA 在预训练阶段和微调阶段都采用了 对抗训练，而本文只是在微调阶段（即针对特定任务）</p>
-<p><img src="https://i.loli.net/2021/02/25/HwjDn2voZfWKFOk.png" alt="image-20210225095811994"></p>
-<h3 id="Future-Work"><a href="#Future-Work" class="headerlink" title="Future Work"></a>Future Work</h3><p>investigate the adversarial robustness of pre-trained V+L models.</p>
-<p>（在本文中，我们不关注 adversarial robustness，<strong style="color:red;">因为目前没有可用的adversarial benchmark</strong>。因此，我们在已有的robustness benchmark上进行观测，这些benchmark 设有挑战性的设置，并且经过了人类的验证）</p>
+<h3 id="2-1-exposure-bias"><a href="#2-1-exposure-bias" class="headerlink" title="2.1 exposure bias"></a>2.1 exposure bias</h3><p>那么，什么叫<code>训练和测试时所用的上文信息不同的问题</code>呢？</p>
+<p>训练时, 无论上一步模型的预测输出是什么，在当前步decoder模型的输入都是ground truth word的，即：模型的输入都是正确的，如：<strong>are</strong> 。</p>
+<p><img src="https://i.loli.net/2021/03/14/tMrJqWR1huDFHQ4.png" alt="image-20210314192737439" style="zoom:33%;"></p>
+<p>在测试时，由于没有正确答案，所以用模型预测的上一个字的结果作为输入，如：is、 you 。</p>
+<p>这就导致了在测试时，<strong>如果在某个地方预测错，那么之后模型的输入都是错误的</strong>，这就造成了错误会一直累积；或许模型在某个地方所预测的是另一种翻译的词，但是在训练时没有碰到过这种情况，所以模型无法进行处理。</p>
+<p>这种偏差叫做<code>exposure bias</code>。</p>
+<h3 id="2-2-overcorrection"><a href="#2-2-overcorrection" class="headerlink" title="2.2 overcorrection"></a>2.2 overcorrection</h3><p>训练翻译模型时，还会碰到另一个问题：<strong>overcorrection</strong>（过度矫正）</p>
+<p>什么意思呢？</p>
+<p><img src="https://i.loli.net/2021/03/15/k8USC1drMGB6Jwh.png" alt="img"></p>
+<p>当模型在第三个位置预测出‘abide’时，为了让这句话的loss最小，模型之后会预测 with the rule，但是 abide with the rule 是错误的；正确的应该是 abide by the rule。</p>
+<p>注解: abide 与 by 搭配，而不是与with 搭配。</p>
+<h2 id="3-Method"><a href="#3-Method" class="headerlink" title="3. Method"></a>3. Method</h2><p><img src="https://i.loli.net/2021/03/14/QLSZEk4dqNln6jV.png" alt="image-20210314193828727" style="zoom:50%;"></p>
+<p>为了消除或减轻train阶段和infer阶段的差别, 论文提出从真实的词 $y_{t-1}^{*}$ 和预测的词 $y_{t-1}^{\text {oracle }}$ 中抽样, decoder根据抽样的词来预测下一个词 $y_{t}$ 。使用论文提出的方法, 在时间步 $t$ 预测 $y_{t}$ 分为三步:</p>
+<p>[1] 设真实输出中上一个词为 $y_{j-1}^{*}$ 。从预测的词中选择oracle word $y_{j-1}^{\text {oracle }},$ 论文提出了两种方法来选择oracle word，分别是词级别的方法和句子级别的方法。</p>
+<p>[2] 接着从 $\left\{y_{j-1}^{\text {oracle }}, y_{j-1}^{<em>}\right\}.$ 中抽样一个词，抽中 $y_{j-1}^{</em>}$ 的概率为 $p$, 抽中 $y_{j-1}^{\text {oracle }}$ 的概率为 $1-p_{\circ}$ </p>
+<p>[3] 最后, decoder根据抽样的这个词来预测 $y_{j}$。</p>
+<h3 id="3-1-Oracle-Word-Selection"><a href="#3-1-Oracle-Word-Selection" class="headerlink" title="3.1 Oracle Word Selection"></a>3.1 Oracle Word Selection</h3><p>传统的方法中， decoder会根据上一个时间步真实的 $y_{t-1}^{*}$ 来预测 $y_{t}$ 。</p>
+<p>为了消除train阶段的infer阶段的 差别，可以从预测的词中选择oracle word $y_{t-1}^{\text {oracle }}$ 来代替 $y_{t-1^{\circ}}^{*}$ </p>
+<p>一种方法是每个时间步采用词级别的 greedy search来生成oracle word, 称为word-level oracle(WO)。另一种方法是采用beam-search, 扩大搜索空间, 用句子级的衡量指标(如：BLEU)对beam-search的结果进行排序，称为sentence-level oracle(SO).</p>
+<h4 id="3-1-1-Word-Level-Oracle"><a href="#3-1-1-Word-Level-Oracle" class="headerlink" title="3.1.1 Word Level Oracle"></a>3.1.1 <strong>Word Level Oracle</strong></h4><p><img src="https://i.loli.net/2021/03/14/oJlrVILE6FgkcyM.png" alt="image-20210314200245535" style="zoom: 33%;"></p>
+<p><img src="https://i.loli.net/2021/03/14/wc7Ql4js39KBCXg.png" alt="image-20210314200310765" style="zoom:33%;"></p>
+<p>选择 $y_{t-1}^{\text {oracle }}$ 最简单直观的方法是, 在时间步$t$-1 , 选择公式 $P_{t-1}$ 中概率最高的词作为 $y_{t-1}^{\text {oracle }},$ 如Fig.2所 示。 为了获得更健壮的 $y_{t-1}^{\text {oracle }}$, 更好地选择是使用<a href="https://www.cnblogs.com/initial-h/p/9468974.html" target="_blank" rel="noopener">gumbel max技术</a>来冲离散分布中进行抽样, 如 Fig.3所示。<br>具体地讲, 将gumbel noise <strong style="color:blue;">$\eta$</strong> 作为正则化项加到decoder的预测概率分布上，进而再做softmax操作。</p>
+<p>$\eta=-\log (-\log u)$<br>$\tilde{o}_{j-1}=\left(o_{j-1}+\eta\right) / \tau$<br>$\tilde{P}_{j-1}=\operatorname{softmax}\left(\tilde{o}_{j-1}\right)$</p>
+<p>其中变量 $u \sim U(0,1)$ 服从均匀分布。 $\tau$ 为温度系数, 当 $\tau \rightarrow 0$ 时， 公式(8)的softmax()逐渐相当于<br>$\operatorname{argmax}()$ 函数 $;$ 当 $\tau \rightarrow \infty$ 时, $\operatorname{softmax}()$ 函数逐渐相当于均匀分布。</p>
+<p>则 $y_{t-1}^{\text {oracle }}$ 为：$y_{j-1}^{\text {oracle }}=\operatorname{argmax}\left(\tilde{P}_{j-1}\right)$</p>
+<p>需要注意的是gumbel noise $\eta$ 只用来选择oracle word，而不会影响train阶段的目标函数。</p>
+<h4 id="3-1-2-Sentence-Level-Oracle"><a href="#3-1-2-Sentence-Level-Oracle" class="headerlink" title="3.1.2 Sentence Level Oracle"></a>3.1.2 <strong>Sentence Level Oracle</strong></h4><p>在每一次训练前，模型先用 beam search找到最好的 k 个候选翻译，然后将这 k 句话与正确答案计算 BLEU得分，取得分最高的当作备选句子。</p>
+<p>有了备选句子后怎么办？比如，模型现在要预测第四个词，那么模型的输入是第三个词，这第三个词可以是正确译文的第三个词（传统做法）、可以是模型所预测的第三个词（Word Level）、也可以是这句备选句子的第三个词（Sentence-Level）。</p>
+<p>现在有一个问题： 如果备选句子的长度与答案的长度不一样怎么办，这样备选句子与ground truth不是一一对应的了，那么这样的替换就没有意义了，因为我们希望这个词和对应答案的词是意思相近的或者是近义词。</p>
+<p>作者给出了办法：</p>
+<p>beam search在生成句子时，直到模型预测出结尾符<eos>才结束。</eos></p>
+<p>假设ground truth的长度是 n ：</p>
+<p>1、若模型在 n 之前就预测出<eos>结尾符，那么，我们选择概率第二的作为预测词。</eos></p>
+<p>2、若模型在 n 时没有预测出<eos>结尾符，那么，我们选择<eos>结尾符，并使用它的概率。</eos></eos></p>
+<p>作者的思路就是这样，然后就是最小化每一个字与<strong>ground truth</strong>对应字的负似然对数。</p>
+<p>是与<strong>原始的ground truth</strong>的词计算loss！！！ 而不是与替换了的词，这个替换只发生在模型的输入。</p>
+<h3 id="3-2-Sampling-with-Decay"><a href="#3-2-Sampling-with-Decay" class="headerlink" title="3.2 Sampling with Decay"></a>3.2 Sampling with Decay</h3><p>在train阶段刚开始时，抽中真实的词 $y_{j-1}^{*}$ 的概率比较大，随着模型逐渐收敛，抽中预测的词 $y_{j-1}^{\text {oracle }}$ 的概率变大，让模型有能力处理”过度纠正的问题”。</p>
+<p>在训练的初始阶段, 如果过多地选择 $y_{t-1}^{\text {oracle }},$ 会导致模型收敘速度慢; 在训练的后期阶段，如果过多地选择 $y_{t-1}^{*},$ 会导致模型在train阶段没有学习到如何处理infer阶段的差别。 </p>
+<p>因此，好的选择是：在训练的初始阶段， 更大概率地选择 $y_{t-1}^{*}$ 来加快模型收敛，当模型逐渐收敛后, 以更大概率选择 $y_{t-1}^{\text {oracle }},$ 来让模型学习到如何处理infer阶段的差别以及让模型有能力处理”过度纠正的问题”。从数学表示上，概率 $p$ 先大后逐渐衰减，$p$ 随着训练轮数 $e$ 的增大而逐渐变小。</p>
+<p>$p=\frac{\mu}{\mu+\exp \left(\frac{e}{\mu}\right)}$</p>
+<h3 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h3><p>本文主要的两点贡献：</p>
+<p>(1) word level oracle selection</p>
+<p>(2) sampling with decay</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://zhuanlan.zhihu.com/p/76227765" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/76227765</a></p>
+<p><a href="https://spring-quan.github.io/2019/08/02/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%E3%80%8ABridging-the-Gap-between-Training-and-Inference-for-Neural-Machine-Translation%E3%80%8B/" target="_blank" rel="noopener">https://spring-quan.github.io/2019/08/02/%E8%AE%BA%E6%96%87%E7%AC%94%E8%AE%B0%E3%80%8ABridging-the-Gap-between-Training-and-Inference-for-Neural-Machine-Translation%E3%80%8B/</a></p>
 
       
     </div>
@@ -581,7 +560,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/cross-modal-对抗/" rel="tag"># cross-modal,对抗</a>
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
           
         </div>
       
@@ -594,8 +573,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/02/23/UNIMO-Towards-Unified-Modal-Understanding-and-Generation-via-Cross-Modal-Contrastive-Learning/" rel="next" title="UNIMO Towards Unified-Modal Understanding and Generation via Cross-Modal Contrastive Learning">
-                <i class="fa fa-chevron-left"></i> UNIMO Towards Unified-Modal Understanding and Generation via Cross-Modal Contrastive Learning
+              <a href="/2021/03/15/Beam-Search/" rel="next" title="Beam Search">
+                <i class="fa fa-chevron-left"></i> Beam Search
               </a>
             
           </div>
@@ -603,10 +582,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2021/02/26/DeepFuse-HKU’s-Multimodal-Machine-Translation-System-for-VMT’20/" rel="prev" title="[DeepFuse] HKU’s Multimodal Machine Translation System for VMT’20">
-                [DeepFuse] HKU’s Multimodal Machine Translation System for VMT’20 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -879,7 +854,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Motivation"><span class="nav-number">2.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当前方法存在的问题"><span class="nav-number">3.</span> <span class="nav-text">当前方法存在的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文方法简介"><span class="nav-number">4.</span> <span class="nav-text">本文方法简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文的贡献"><span class="nav-number">5.</span> <span class="nav-text">本文的贡献</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Method"><span class="nav-number">6.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Baseline"><span class="nav-number">6.1.</span> <span class="nav-text">Baseline</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Adversarial-Noise-Generator-our"><span class="nav-number">6.2.</span> <span class="nav-text">Adversarial Noise Generator (our)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Random-Masking"><span class="nav-number">6.3.</span> <span class="nav-text">Random Masking</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Experiments"><span class="nav-number">7.</span> <span class="nav-text">Experiments</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Future-Work"><span class="nav-number">8.</span> <span class="nav-text">Future Work</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-简介"><span class="nav-number">1.</span> <span class="nav-text">1. 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-存在的问题"><span class="nav-number">2.</span> <span class="nav-text">2. 存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-exposure-bias"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 exposure bias</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-overcorrection"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 overcorrection</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Method"><span class="nav-number">3.</span> <span class="nav-text">3. Method</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-Oracle-Word-Selection"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 Oracle Word Selection</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-1-Word-Level-Oracle"><span class="nav-number">3.1.1.</span> <span class="nav-text">3.1.1 Word Level Oracle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-2-Sentence-Level-Oracle"><span class="nav-number">3.1.2.</span> <span class="nav-text">3.1.2 Sentence Level Oracle</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Sampling-with-Decay"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 Sampling with Decay</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#yaya"><span class="nav-number">3.3.</span> <span class="nav-text">yaya</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">4.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>
@@ -1436,43 +1411,6 @@
   
   
 
-  
-    
-      <script type="text/x-mathjax-config">
-  
-
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-      processEscapes: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    },
-    TeX: {
-      
-      equationNumbers: {
-        autoNumber: "AMS"
-      }
-    }
-  });
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-      for (i = 0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';
-      }
-  });
-</script>
-<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
-<style>
-.MathJax_Display {
-  overflow: auto hidden;
-}
-</style>
-
-    
   
 
 
