@@ -107,7 +107,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2021/03/15/VQDxijZcGtzlEph.png">
 <meta property="og:image" content="https://i.loli.net/2021/03/15/DdS1XPZvoEptVgw.png">
-<meta property="og:updated_time" content="2021-03-15T08:23:09.071Z">
+<meta property="og:updated_time" content="2021-03-15T08:24:12.121Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Beam Search">
 <meta name="twitter:description" content="1. 前言自然语言处理任务中，如机器翻译、对话、文本摘要等，都涉及到序列生成。文本序列生成解码过程中有用到 greedy search、维特比算法、beam search等。 2. Beam Search 介绍beam search尝试在广度优先基础上进行进行搜索空间的优化（类似于剪枝）达到减少内存消耗的目的。  算法过程  定义词表大小是V，beam size是 B，序列长度是L。 假设V=10">
@@ -426,7 +426,7 @@
                 
               
 
-              <time title="创建时间：2021-03-15 15:44:10 / 修改时间：16:23:09" itemprop="dateCreated datePublished" datetime="2021-03-15T15:44:10+08:00">2021-03-15</time>
+              <time title="创建时间：2021-03-15 15:44:10 / 修改时间：16:24:12" itemprop="dateCreated datePublished" datetime="2021-03-15T15:44:10+08:00">2021-03-15</time>
             
 
             
@@ -563,7 +563,7 @@
 <h2 id="5-其他相关问题："><a href="#5-其他相关问题：" class="headerlink" title="5. 其他相关问题："></a><strong>5. 其他相关问题</strong>：</h2><h3 id="5-1-训练的时候需要-Beam-Search-吗？"><a href="#5-1-训练的时候需要-Beam-Search-吗？" class="headerlink" title="5.1 训练的时候需要 Beam Search 吗？"></a><strong>5.1 训练的时候需要 Beam Search 吗？</strong></h3><p>不需要。因为训练的时候知道每一步的正确答案，没必要进行这样的搜索。</p>
 <p>5.2 为什么不用贪心搜索？**</p>
 <p>贪心搜索相当于 Beam Search 中 B=1的情况，每次只选择概率最大的词，容易陷入局部最优，但我们真正需要的是一个序列，我们希望整个序列的概率最大。</p>
-<h3 id="5-3-维特比算法"><a href="#5-3-维特比算法" class="headerlink" title="5.3 维特比算法**"></a>5.3 维特比算法**</h3><p>维特比算法是用动态规划的思想。简单来说就是：从开始状态之后每走一步，就记录下<strong>到达该状态的所有路径的概率最大值</strong>，然后以此最大值为基准继续向后推进。显然，如果这个最大值都不能使该状态成为最大似然状态路径上的结点的话，那些小于它的概率值（以及对应的路径）就更没有可能了。</p>
+<h3 id="5-3-维特比算法"><a href="#5-3-维特比算法" class="headerlink" title="5.3 维特比算法"></a>5.3 维特比算法</h3><p>维特比算法是用动态规划的思想。简单来说就是：从开始状态之后每走一步，就记录下<strong>到达该状态的所有路径的概率最大值</strong>，然后以此最大值为基准继续向后推进。显然，如果这个最大值都不能使该状态成为最大似然状态路径上的结点的话，那些小于它的概率值（以及对应的路径）就更没有可能了。</p>
 <p>Beam Search与Viterbi算法虽然都是解空间的剪枝算法，但它们的思路是不同的。Beam Search是对状态迁移的路径进行剪枝，而 Viterbi 算法是合并不同路径到达同一状态的概率值，用最大值作为对该状态的充分估计值，从而在后续计算中，忽略历史信息（这种以偏概全也就是所谓的Markov性），以达到剪枝的目的。<br>从状态转移图的角度来说，Beam Search是空间剪枝，而Viterbi算法是时间剪枝。</p>
 
       
@@ -886,7 +886,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-前言"><span class="nav-number">1.</span> <span class="nav-text">1. 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Beam-Search-介绍"><span class="nav-number">2.</span> <span class="nav-text">2. Beam Search 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-算法评价"><span class="nav-number">3.</span> <span class="nav-text">3. 算法评价</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-问题解决"><span class="nav-number">4.</span> <span class="nav-text">4. 问题解决</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-数据下溢"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 数据下溢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-倾向于生成短的序列"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 倾向于生成短的序列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-单一性问题"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 单一性问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-其他相关问题："><span class="nav-number">5.</span> <span class="nav-text">5. 其他相关问题：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-训练的时候需要-Beam-Search-吗？"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 训练的时候需要 Beam Search 吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-维特比算法"><span class="nav-number">5.2.</span> <span class="nav-text">5.3 维特比算法**</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-前言"><span class="nav-number">1.</span> <span class="nav-text">1. 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Beam-Search-介绍"><span class="nav-number">2.</span> <span class="nav-text">2. Beam Search 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-算法评价"><span class="nav-number">3.</span> <span class="nav-text">3. 算法评价</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-问题解决"><span class="nav-number">4.</span> <span class="nav-text">4. 问题解决</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-数据下溢"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 数据下溢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-倾向于生成短的序列"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 倾向于生成短的序列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-单一性问题"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 单一性问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-其他相关问题："><span class="nav-number">5.</span> <span class="nav-text">5. 其他相关问题：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-训练的时候需要-Beam-Search-吗？"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 训练的时候需要 Beam Search 吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-维特比算法"><span class="nav-number">5.2.</span> <span class="nav-text">5.3 维特比算法</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -1443,6 +1443,43 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
   
 
 
