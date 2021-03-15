@@ -97,14 +97,21 @@
 
 
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="1. 前言自然语言处理任务中，如机器翻译、对话、文本摘要等，都涉及到序列生成。文本序列生成解码过程中有用到 greedy search、维特比算法、beam search等。 2. Beam Search 介绍beam search尝试在广度优先基础上进行进行搜索空间的优化（类似于剪枝）达到减少内存消耗的目的。  算法过程  定义词表大小是V，beam size是 B，序列长度是L。 假设V=10">
+<meta name="keywords" content="NLP">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Beam Search">
 <meta property="og:url" content="http://yoursite.com/2021/03/15/Beam-Search/index.html">
 <meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="1. 前言自然语言处理任务中，如机器翻译、对话、文本摘要等，都涉及到序列生成。文本序列生成解码过程中有用到 greedy search、维特比算法、beam search等。 2. Beam Search 介绍beam search尝试在广度优先基础上进行进行搜索空间的优化（类似于剪枝）达到减少内存消耗的目的。  算法过程  定义词表大小是V，beam size是 B，序列长度是L。 假设V=10">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-03-15T07:44:10.874Z">
+<meta property="og:image" content="https://i.loli.net/2021/03/15/VQDxijZcGtzlEph.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/15/DdS1XPZvoEptVgw.png">
+<meta property="og:updated_time" content="2021-03-15T08:11:54.636Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Beam Search">
+<meta name="twitter:description" content="1. 前言自然语言处理任务中，如机器翻译、对话、文本摘要等，都涉及到序列生成。文本序列生成解码过程中有用到 greedy search、维特比算法、beam search等。 2. Beam Search 介绍beam search尝试在广度优先基础上进行进行搜索空间的优化（类似于剪枝）达到减少内存消耗的目的。  算法过程  定义词表大小是V，beam size是 B，序列长度是L。 假设V=10">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/15/VQDxijZcGtzlEph.png">
 
 
 
@@ -419,12 +426,34 @@
                 
               
 
-              <time title="创建时间：2021-03-15 15:44:10" itemprop="dateCreated datePublished" datetime="2021-03-15T15:44:10+08:00">2021-03-15</time>
+              <time title="创建时间：2021-03-15 15:44:10 / 修改时间：16:11:54" itemprop="dateCreated datePublished" datetime="2021-03-15T15:44:10+08:00">2021-03-15</time>
             
 
+            
+              
+
+              
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -470,7 +499,73 @@
       
 
       
-        
+        <h2 id="1-前言"><a href="#1-前言" class="headerlink" title="1. 前言"></a>1. <strong>前言</strong></h2><p>自然语言处理任务中，如机器翻译、对话、文本摘要等，都涉及到序列生成。文本序列生成解码过程中有用到 greedy search、维特比算法、beam search等。</p>
+<h2 id="2-Beam-Search-介绍"><a href="#2-Beam-Search-介绍" class="headerlink" title="2. Beam Search 介绍"></a>2. Beam Search 介绍</h2><p>beam search尝试在广度优先基础上进行进行搜索空间的优化（类似于剪枝）达到减少内存消耗的目的。</p>
+<ul>
+<li><strong>算法过程</strong></li>
+</ul>
+<p>定义词表大小是V，beam size是 B，序列长度是L。</p>
+<p>假设V=100，B=3：</p>
+<ol>
+<li><p>生成第1个词时，选择概率最大的3个词（假设是a，b，c），即从100个中选了前3个；</p>
+</li>
+<li><p>生成第2个词时，将当前序列a/b/c分别与词表中的 100个词组合，得到 3*100个序列，从中选 3个概率最大的，作为当前序列（假设现在是am，bq，as）；</p>
+</li>
+<li><p>持续上述过程，直到结束。最终输出3个得分最高的。</p>
+</li>
+</ol>
+<ul>
+<li><strong>算法复杂度</strong> $O(B<em>V</em>L)$</li>
+</ul>
+<p>在第2步，要计算 $B<em>V$ 次。序列长度是L，生成长度为L的序列，计算  $B</em>V*L$ 次。</p>
+<h2 id="3-算法评价"><a href="#3-算法评价" class="headerlink" title="3. 算法评价"></a>3. 算法评价</h2><ul>
+<li><strong>优点</strong></li>
+</ul>
+<p>(1) 减少计算开销。相对于广度优先搜索，广搜每次都要保留所有可能的结果，复杂度是  $O(V^L)$指数级。</p>
+<ul>
+<li><strong>缺点（第3部分详细讲）</strong></li>
+</ul>
+<p>(1) 数据下溢</p>
+<p>(2) 倾向于生成短的序列</p>
+<p>(3) 单一性问题</p>
+<ul>
+<li><strong>Beam size 设置</strong></li>
+</ul>
+<p>(1) B越大</p>
+<p>优点：可考虑的选择越多，能找到的句子越好</p>
+<p>缺点：计算代价更大，速度越慢，内存消耗越大</p>
+<p>(2) B越小</p>
+<p>优点：计算代价小，速度快，内存占用越小</p>
+<p>缺点：可考虑的选择变少，结果没那么好</p>
+<h2 id="4-问题解决"><a href="#4-问题解决" class="headerlink" title="4. 问题解决"></a>4. 问题解决</h2><h3 id="4-1-数据下溢"><a href="#4-1-数据下溢" class="headerlink" title="4.1 数据下溢"></a>4.1 数据下溢</h3><p>求序列概率的时候，序列概率是多个条件概率的乘积$P\left(y^{<1>} y^{<2>} \ldots y^{T_{y}}\right)=P\left(y^{<1>} \mid x\right) P\left(y^{<2>} \mid x, y^{<1>}\right) \ldots P\left(y^{T_{y}} \mid x, y^{<1>} \ldots, y^{T_{y}-1}\right)$.</1></1></2></1></2></1></p>
+<p>每个概率都小于1甚至远远小于1，很多概率相乘起来，会得到很小很小的数字，会造成数据下溢，即数值太小，计算机的浮点表示不能精确储存。</p>
+<p><strong>解决</strong>：<strong>将最大化的乘积式取对数</strong>，由 $\log M^{*} N=\log M+\log N$ 公式可得，上述需要最大化的王积式可以转化为: $\arg \max _{y} \sum_{y=1}^{T_{y}} \log P\left(y^{<t>} \mid x, y^{<1>}, \ldots, y^{<t-1>}\right)$</t-1></1></t></p>
+<p>即乘积的log变成了log的求和，最大化这个log的求和值能够得到同样的结果，并且不会出现 数值下溢和四舍五入。</p>
+<h3 id="4-2-倾向于生成短的序列"><a href="#4-2-倾向于生成短的序列" class="headerlink" title="4.2 倾向于生成短的序列"></a>4.2 倾向于生成短的序列</h3><p>生成的句子序列越长，对数概率相加的结果就越小（越为负值）, 所以倾向于生成短序列。 对序列长度进行惩罚，降低生成短序列的倾向。</p>
+<p><strong>解决方法：</strong> 对数概率相加的结果, 除以序列长度 $L$ 。<br>实践中，通常采用更柔和的方法, 在 $L$ 上加上指数 $a \in(0,1),$ 即 $L^{a},$ 例如 $a=0.7$ 。如果 $a=1, \quad L^{a}=L$ 就相当于完全用长度来归一化; 如果 $a=0, \quad L^{a}=1$ 就相当于完全没有 归一化, $a \in(0,1)$ 就是在完全归一化和没有归一化之间。</p>
+<p>或者更加复杂一点：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">norm</span> = self.opt.beam_search_norm</span><br><span class="line"><span class="attr">candidate_logprob</span> = (beam_logprobs_sum[q] * t ** norm + local_logprob) / ((t+<span class="number">1</span>) ** norm)</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-单一性问题"><a href="#4-3-单一性问题" class="headerlink" title="4.3 单一性问题"></a><strong>4.3 单一性问题</strong></h3><p>beam search 有一个大问题是输出的 $B$ 个句子的差异性很小，无法体现语言的多样性（比如文本摘要、机器翻译的生成文本，往往有不止一种表述方式）。</p>
+<p><strong>解决方法：</strong> 分组 加入相似性惩罚。diverse beam search 来自<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/pdf/1610.02424.pdf" target="_blank" rel="noopener">论文</a></p>
+<p>具体如下：选择 Beam size 为 $B$，然后将其分为 $G$组，每一组就有 $B/G$个beam。每个单独的组内跟 beam search很像，不断延展序列。同时通过引入一个dissimilarity 项来保证组与组之间有差异。</p>
+<p><img src="https://i.loli.net/2021/03/15/VQDxijZcGtzlEph.png" alt="image-20210315161115581" style="zoom: 50%;"></p>
+<p>如上图所示，B = 6, G=3，每一组的beam width为2。</p>
+<p>组内与 beam search 很像：从t-1到 t 时刻，不断的减少搜索空间（如同beam search一样）。</p>
+<p>组间差异：对于t=4时刻，我们先对第一组输出y（t=4），然后我们开始对第二组输出y（t=4），但是第二组y（t=4）的score不仅取决于第二组之前的y（t=3），也取决于其与第一组的相似程度。以此类推，在t=4时刻对于第三组的输出，我们从上图可以看到其score的打分标准。这儿对于其 dissimilarity 项的计算采用的办法是 hamming diversity，这个理解起来很简单，比如这个时刻可能输出的词在上面的组出现过，我们就对这个词的分数-1，如果这个时刻可能输出的词在上面组没有出现过，我们就对这个词的分数不惩罚。</p>
+<ul>
+<li><strong>DBS算法：</strong></li>
+</ul>
+<p><img src="https://i.loli.net/2021/03/15/DdS1XPZvoEptVgw.png" alt="image-20210315161139107" style="zoom: 50%;"></p>
+<p>DBS算法</p>
+<ul>
+<li><strong>附：</strong>很多论文里有对 beam search的改进，主要是针对生成序列的<strong>多样性</strong>的。多样性问题，在对话里很常见。</li>
+</ul>
+<h2 id="5-其他相关问题："><a href="#5-其他相关问题：" class="headerlink" title="5. 其他相关问题："></a><strong>5. 其他相关问题</strong>：</h2><h3 id="5-1-训练的时候需要-Beam-Search-吗？"><a href="#5-1-训练的时候需要-Beam-Search-吗？" class="headerlink" title="5.1 训练的时候需要 Beam Search 吗？"></a><strong>5.1 训练的时候需要 Beam Search 吗？</strong></h3><p>不需要。因为训练的时候知道每一步的正确答案，没必要进行这样的搜索。</p>
+<p>5.2 为什么不用贪心搜索？**</p>
+<p>贪心搜索相当于 Beam Search 中 B=1的情况，每次只选择概率最大的词，容易陷入局部最优，但我们真正需要的是一个序列，我们希望整个序列的概率最大。</p>
+<h3 id="5-3-维特比算法"><a href="#5-3-维特比算法" class="headerlink" title="5.3 维特比算法**"></a>5.3 维特比算法**</h3><p>维特比算法是用动态规划的思想。简单来说就是：从开始状态之后每走一步，就记录下<strong>到达该状态的所有路径的概率最大值</strong>，然后以此最大值为基准继续向后推进。显然，如果这个最大值都不能使该状态成为最大似然状态路径上的结点的话，那些小于它的概率值（以及对应的路径）就更没有可能了。</p>
+<p>Beam Search与Viterbi算法虽然都是解空间的剪枝算法，但它们的思路是不同的。Beam Search是对状态迁移的路径进行剪枝，而 Viterbi 算法是合并不同路径到达同一状态的概率值，用最大值作为对该状态的充分估计值，从而在后续计算中，忽略历史信息（这种以偏概全也就是所谓的Markov性），以达到剪枝的目的。<br>从状态转移图的角度来说，Beam Search是空间剪枝，而Viterbi算法是时间剪枝。</p>
+
       
     </div>
 
@@ -490,6 +585,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+        </div>
       
 
       
@@ -556,8 +657,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -761,6 +871,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-前言"><span class="nav-number">1.</span> <span class="nav-text">1. 前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Beam-Search-介绍"><span class="nav-number">2.</span> <span class="nav-text">2. Beam Search 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-算法评价"><span class="nav-number">3.</span> <span class="nav-text">3. 算法评价</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-问题解决"><span class="nav-number">4.</span> <span class="nav-text">4. 问题解决</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-数据下溢"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 数据下溢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-倾向于生成短的序列"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 倾向于生成短的序列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-单一性问题"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 单一性问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-其他相关问题："><span class="nav-number">5.</span> <span class="nav-text">5. 其他相关问题：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-训练的时候需要-Beam-Search-吗？"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 训练的时候需要 Beam Search 吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-维特比算法"><span class="nav-number">5.2.</span> <span class="nav-text">5.3 维特比算法**</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
