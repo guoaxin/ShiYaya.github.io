@@ -2,16 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2021/03/15/Bridging-the-Gap-between-Training-and-Inference-for-Neural-Machine-Translation/</loc>
+    <loc>http://yoursite.com/2021/03/15/Beam-Search/</loc>
     
-    <lastmod>2021-03-15T08:16:16.545Z</lastmod>
+    <lastmod>2021-03-15T08:23:09.071Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://yoursite.com/2021/03/15/Beam-Search/</loc>
+    <loc>http://yoursite.com/2021/03/13/VATEX-Captioning-Challenge-2019-Multi-modal-Information-Fusion-and-Multi-stage-Training-Strategy-for-Video-Captioning/</loc>
     
-    <lastmod>2021-03-15T08:11:54.636Z</lastmod>
+    <lastmod>2021-03-15T08:22:45.689Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/02/23/VX2TEXT-End-to-End-Learning-of-Video-Based-Text-Generation-From-Multimodal-Inputs/</loc>
+    
+    <lastmod>2021-03-15T08:20:30.156Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/03/15/Bridging-the-Gap-between-Training-and-Inference-for-Neural-Machine-Translation/</loc>
+    
+    <lastmod>2021-03-15T08:16:16.545Z</lastmod>
     
   </url>
   
@@ -30,23 +44,9 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2021/02/23/VX2TEXT-End-to-End-Learning-of-Video-Based-Text-Generation-From-Multimodal-Inputs/</loc>
-    
-    <lastmod>2021-03-15T01:55:51.948Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2021/03/13/Object-Relational-Graph-with-Teacher-Recommended-Learning-for-Video-Captioning/</loc>
     
     <lastmod>2021-03-15T01:32:56.252Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/03/13/VATEX-Captioning-Challenge-2019-Multi-modal-Information-Fusion-and-Multi-stage-Training-Strategy-for-Video-Captioning/</loc>
-    
-    <lastmod>2021-03-14T12:22:13.259Z</lastmod>
     
   </url>
   
