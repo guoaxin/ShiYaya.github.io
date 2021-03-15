@@ -110,7 +110,8 @@
 <meta property="og:image" content="https://i.loli.net/2021/03/14/QLSZEk4dqNln6jV.png">
 <meta property="og:image" content="https://i.loli.net/2021/03/14/oJlrVILE6FgkcyM.png">
 <meta property="og:image" content="https://i.loli.net/2021/03/14/wc7Ql4js39KBCXg.png">
-<meta property="og:updated_time" content="2021-03-15T08:24:26.780Z">
+<meta property="og:image" content="https://i.loli.net/2021/03/15/H6U7Dc5wP8KAsNG.png">
+<meta property="og:updated_time" content="2021-03-15T09:31:10.180Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bridging the Gap between Training and Inference for Neural Machine Translation">
 <meta name="twitter:description" content="1. 简介本文是ACL 2019 的 最佳长文奖。 论文主要解决神经网络在翻译领域，训练和测试时所用的上文信息不同造成的偏差问题。 论文提出了新的训练方法，而非新的模型。读完之后，发现这种方法适用于许多领域的训练-测试不匹配的问题，如：阅读理解、语言模型。 2. 存在的问题传统的神经机器翻译有两个问题：  exposure bias （训练和测试时所用的上文信息不同的问题） overcorrect">
@@ -429,7 +430,7 @@
                 
               
 
-              <time title="创建时间：2021-03-15 16:15:51 / 修改时间：16:24:26" itemprop="dateCreated datePublished" datetime="2021-03-15T16:15:51+08:00">2021-03-15</time>
+              <time title="创建时间：2021-03-15 16:15:51 / 修改时间：17:31:10" itemprop="dateCreated datePublished" datetime="2021-03-15T16:15:51+08:00">2021-03-15</time>
             
 
             
@@ -550,6 +551,7 @@
 <p>在训练的初始阶段, 如果过多地选择 $y_{t-1}^{\text {oracle }},$ 会导致模型收敘速度慢; 在训练的后期阶段，如果过多地选择 $y_{t-1}^{*},$ 会导致模型在train阶段没有学习到如何处理infer阶段的差别。 </p>
 <p>因此，好的选择是：在训练的初始阶段， 更大概率地选择 $y_{t-1}^{*}$ 来加快模型收敛，当模型逐渐收敛后, 以更大概率选择 $y_{t-1}^{\text {oracle }},$ 来让模型学习到如何处理infer阶段的差别以及让模型有能力处理”过度纠正的问题”。从数学表示上，概率 $p$ 先大后逐渐衰减，$p$ 随着训练轮数 $e$ 的增大而逐渐变小。</p>
 <p>$p=\frac{\mu}{\mu+\exp \left(\frac{e}{\mu}\right)}$</p>
+<p><img src="https://i.loli.net/2021/03/15/H6U7Dc5wP8KAsNG.png" alt="image-20210315173055286" style="zoom: 67%;"></p>
 <h3 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h3><p>本文主要的两点贡献：</p>
 <p>(1) word level oracle selection</p>
 <p>(2) sampling with decay</p>
