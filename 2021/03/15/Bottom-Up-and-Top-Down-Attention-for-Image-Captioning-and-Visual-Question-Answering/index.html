@@ -97,28 +97,29 @@
 
 
 
-  <meta name="description" content="简介在object级别上计算 attentionbottom-up: 使用Faster R-CNN 来提取 object，并得到相对应的特征向量。top-down: 用来计算attention 的系数，作为bottom-up中得到的每个object feature 的权重。 概括：（1）Bottom-Up使用Faster R-CNN 中的R-CNN来得到object feature。（2）Top-">
-<meta name="keywords" content="图像描述,人工智能">
+  <meta name="description" content="Motivation人类视觉系统存在两种attention机制。Top-down attention由当前任务所决定，我们会根据当前任务（即VQA中的问题），聚焦于与任务紧密相关的部分。Bottom-up attention指的是我们会被显著的、突出的、新奇的事物给吸引。 以前的方法用到的visual attention mechanisms大都属于top-down类型，即取问题作为输入，建模at">
+<meta name="keywords" content="图像描述">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Bottom-Up and Top-Down Attention for Image Captioning and Visual Question Answering">
-<meta property="og:url" content="http://yoursite.com/2019/04/07/Bottom-Up-and-Top-Down-Attention-for-Image-Captioning-and-Visual-Question-Answering/index.html">
+<meta property="og:url" content="http://yoursite.com/2021/03/15/Bottom-Up-and-Top-Down-Attention-for-Image-Captioning-and-Visual-Question-Answering/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="简介在object级别上计算 attentionbottom-up: 使用Faster R-CNN 来提取 object，并得到相对应的特征向量。top-down: 用来计算attention 的系数，作为bottom-up中得到的每个object feature 的权重。 概括：（1）Bottom-Up使用Faster R-CNN 中的R-CNN来得到object feature。（2）Top-">
+<meta property="og:description" content="Motivation人类视觉系统存在两种attention机制。Top-down attention由当前任务所决定，我们会根据当前任务（即VQA中的问题），聚焦于与任务紧密相关的部分。Bottom-up attention指的是我们会被显著的、突出的、新奇的事物给吸引。 以前的方法用到的visual attention mechanisms大都属于top-down类型，即取问题作为输入，建模at">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g19d1x7kiij30im0bvaat.jpg">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g14xg3jwvdj30mo0h2wfi.jpg">
-<meta property="og:updated_time" content="2019-04-07T14:40:37.548Z">
+<meta property="og:image" content="https://i.loli.net/2021/03/15/p8WFURqkGw6iIfC.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/15/IcK4HYAsGwjzPqv.jpg">
+<meta property="og:image" content="https://i.loli.net/2021/03/15/lqZx5tngfd9r2Gs.jpg">
+<meta property="og:updated_time" content="2021-03-15T07:07:24.413Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bottom-Up and Top-Down Attention for Image Captioning and Visual Question Answering">
-<meta name="twitter:description" content="简介在object级别上计算 attentionbottom-up: 使用Faster R-CNN 来提取 object，并得到相对应的特征向量。top-down: 用来计算attention 的系数，作为bottom-up中得到的每个object feature 的权重。 概括：（1）Bottom-Up使用Faster R-CNN 中的R-CNN来得到object feature。（2）Top-">
-<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1g19d1x7kiij30im0bvaat.jpg">
+<meta name="twitter:description" content="Motivation人类视觉系统存在两种attention机制。Top-down attention由当前任务所决定，我们会根据当前任务（即VQA中的问题），聚焦于与任务紧密相关的部分。Bottom-up attention指的是我们会被显著的、突出的、新奇的事物给吸引。 以前的方法用到的visual attention mechanisms大都属于top-down类型，即取问题作为输入，建模at">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/15/p8WFURqkGw6iIfC.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/04/07/Bottom-Up-and-Top-Down-Attention-for-Image-Captioning-and-Visual-Question-Answering/">
+  <link rel="canonical" href="http://yoursite.com/2021/03/15/Bottom-Up-and-Top-Down-Attention-for-Image-Captioning-and-Visual-Question-Answering/">
 
 
 
@@ -302,7 +303,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">208</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">209</span></a>
 
   </li>
 
@@ -383,7 +384,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/07/Bottom-Up-and-Top-Down-Attention-for-Image-Captioning-and-Visual-Question-Answering/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/15/Bottom-Up-and-Top-Down-Attention-for-Image-Captioning-and-Visual-Question-Answering/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="ShiYaya">
@@ -426,7 +427,7 @@
                 
               
 
-              <time title="创建时间：2019-04-07 17:45:41 / 修改时间：22:40:37" itemprop="dateCreated datePublished" datetime="2019-04-07T17:45:41+08:00">2019-04-07</time>
+              <time title="创建时间：2021-03-15 15:06:11 / 修改时间：15:07:24" itemprop="dateCreated datePublished" datetime="2021-03-15T15:06:11+08:00">2021-03-15</time>
             
 
             
@@ -463,8 +464,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/04/07/Bottom-Up-and-Top-Down-Attention-for-Image-Captioning-and-Visual-Question-Answering/#comments" itemprop="discussionUrl">
-                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2019/04/07/Bottom-Up-and-Top-Down-Attention-for-Image-Captioning-and-Visual-Question-Answering/" itemprop="commentCount"></span>
+                <a href="/2021/03/15/Bottom-Up-and-Top-Down-Attention-for-Image-Captioning-and-Visual-Question-Answering/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2021/03/15/Bottom-Up-and-Top-Down-Attention-for-Image-Captioning-and-Visual-Question-Answering/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -499,9 +500,13 @@
       
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>在object级别上计算 attention<br><strong>bottom-up</strong>: 使用Faster R-CNN 来提取 object，并得到相对应的特征向量。<br><strong>top-down</strong>: 用来计算attention 的系数，作为bottom-up中得到的每个object feature 的权重。</p>
+        <h2 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h2><p>人类视觉系统存在两种attention机制。Top-down attention由当前任务所决定，我们会根据当前任务（即VQA中的问题），聚焦于与任务紧密相关的部分。Bottom-up attention指的是我们会被显著的、突出的、新奇的事物给吸引。</p>
+<p>以前的方法用到的visual attention mechanisms大都属于top-down类型，即取问题作为输入，建模attention分布，然后作用于CNN提取的图像特征（image features）。然而，这种方法的attention作用的图像对应于下图的左图，没有考虑图片的内容。对于人类来说，注意力会更加集中于图片的目标或其他显著区域，所以作者引进Bottom-up attention机制，如下图的右图所示，attention作用于object proposal。</p>
+<p><img src="https://i.loli.net/2021/03/15/p8WFURqkGw6iIfC.png" alt="image-20210315150105258" style="zoom:50%;"></p>
+<h2 id="Basic-idea"><a href="#Basic-idea" class="headerlink" title="Basic idea"></a>Basic idea</h2><p>Bottom-Up注意力机制: 即基于目标（objects）或显著区域（salient image regions）来计算attention。具体来说，bottom-up机制基于Faster R-CNN，得到图片中每个目标或显著区域的特征向量（feature vector）表示。</p>
+<p>Top-Down机制: 取question作为输入，建模特征权重（feature weightings）或者说attention分布。</p>
 <h2 id="概括："><a href="#概括：" class="headerlink" title="概括："></a>概括：</h2><p><strong>（1）Bottom-Up</strong><br>使用Faster R-CNN 中的R-CNN来得到object feature。<br><strong>（2）Top-Down Attention</strong><br>得到了该层的隐层状态，并与object features  中的每一个<strong>v<sub>i</sub></strong>来计算一个attention 系数。<br><strong>（3）对object features 进行attention 权重求和</strong><br>得到image feature<br><strong>（4）Decoder：language LSTM</strong><br>输出预测单词</p>
-<p><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g19d1x7kiij30im0bvaat.jpg" style="zoom:60%"><br><img src="http://ww1.sinaimg.cn/large/006uWRWVly1g14xg3jwvdj30mo0h2wfi.jpg" style="zoom:60%"></p>
+<p><img src="https://i.loli.net/2021/03/15/IcK4HYAsGwjzPqv.jpg" alt="img" style="zoom: 67%;"><br><img src="https://i.loli.net/2021/03/15/lqZx5tngfd9r2Gs.jpg" alt="img" style="zoom:50%;"></p>
 <h2 id="Bottom-Up"><a href="#Bottom-Up" class="headerlink" title="Bottom-Up"></a>Bottom-Up</h2><ul>
 <li><strong>主要介绍一下Faster R-CNN 的训练过程</strong><br>（1）首先Resnet-101 是在ImageNet上预训练的<br>（2）Faster R-CNN在MS COCO上进行预训练<br>rpn 的score classification loss，bbox regression loss<br>r-cnn 的score classification loss，bbox regression loss<br>（3）Faster R-CNN在Visual Genome上再进行预训练<br>为了得到更好的特征表达，增加一个预测属性的输出： </li>
 <li><strong>具体的网络：</strong><br>To predict attributes for region i, we concatenate the mean  pooled convolutional feature vi with a learned embedding  of the ground-truth object class, and feed this into an additional output layer defining a softmax distribution over each  attribute class plus a ‘no attributes’ class.</li>
@@ -531,8 +536,6 @@
           
             <a href="/tags/图像描述/" rel="tag"># 图像描述</a>
           
-            <a href="/tags/人工智能/" rel="tag"># 人工智能</a>
-          
         </div>
       
 
@@ -544,8 +547,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/07/self-training-in-pytorch/" rel="next" title="self.training in pytorch">
-                <i class="fa fa-chevron-left"></i> self.training in pytorch
+              <a href="/2021/03/15/Gumbel-Softmax-Trick和Gumbel分布/" rel="next" title="Gumbel-Softmax Trick和Gumbel分布">
+                <i class="fa fa-chevron-left"></i> Gumbel-Softmax Trick和Gumbel分布
               </a>
             
           </div>
@@ -554,8 +557,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/04/08/SCST-Self-critical-Sequence-Training-for-Image-Captioning/" rel="prev" title="(SCST)Self-critical Sequence Training for Image Captioning">
-                (SCST)Self-critical Sequence Training for Image Captioning <i class="fa fa-chevron-right"></i>
+              <a href="/2021/03/15/Beam-Search/" rel="prev" title="Beam Search">
+                Beam Search <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -629,7 +632,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">208</span>
+                    <span class="site-state-item-count">209</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -829,7 +832,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概括："><span class="nav-number">2.</span> <span class="nav-text">概括：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bottom-Up"><span class="nav-number">3.</span> <span class="nav-text">Bottom-Up</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Motivation"><span class="nav-number">1.</span> <span class="nav-text">Motivation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Basic-idea"><span class="nav-number">2.</span> <span class="nav-text">Basic idea</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概括："><span class="nav-number">3.</span> <span class="nav-text">概括：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bottom-Up"><span class="nav-number">4.</span> <span class="nav-text">Bottom-Up</span></a></li></ol></div>
             
 
           </div>

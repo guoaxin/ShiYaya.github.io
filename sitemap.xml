@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/03/15/Beam-Search/</loc>
+    
+    <lastmod>2021-03-15T07:44:10.874Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/03/15/Bottom-Up-and-Top-Down-Attention-for-Image-Captioning-and-Visual-Question-Answering/</loc>
+    
+    <lastmod>2021-03-15T07:07:24.413Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/03/15/Gumbel-Softmax-Trick%E5%92%8CGumbel%E5%88%86%E5%B8%83/</loc>
     
     <lastmod>2021-03-15T03:14:54.797Z</lastmod>
@@ -1237,13 +1251,6 @@
     <loc>http://yoursite.com/2019/04/08/Spectral-Networks-and-Deep-Locally-Connected-Networks-on-Graphs/</loc>
     
     <lastmod>2019-04-08T11:09:47.023Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2019/04/07/Bottom-Up-and-Top-Down-Attention-for-Image-Captioning-and-Visual-Question-Answering/</loc>
-    
-    <lastmod>2019-04-07T14:40:37.548Z</lastmod>
     
   </url>
   
