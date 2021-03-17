@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1. 任务本文是做跨模态检索问题。文本到图像的检索是多模态信息检索中的一项基本任务，即在给定文本查询的情况下从大型且未标记的图像数据集中检索相关图像。 2. 存在的问题图文检索问题上存在两个核心挑战：准确率以及速度。 3. 本文提出的点在本文中，提出了基于transformer 的 VisualSparta 模型，这是一种新颖的文本到图像检索模型，该模型在准确性和效率上都比现有模型显著提高。 本文">
+<meta name="keywords" content="cross-modal">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[VisualSparta] Sparse Transformer Fragment-level Matching for Large-scale Text-to-Image Search">
+<meta property="og:url" content="http://yoursite.com/2021/03/16/VisualSparta-Sparse-Transformer-Fragment-level-Matching-for-Large-scale-Text-to-Image-Search/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="1. 任务本文是做跨模态检索问题。文本到图像的检索是多模态信息检索中的一项基本任务，即在给定文本查询的情况下从大型且未标记的图像数据集中检索相关图像。 2. 存在的问题图文检索问题上存在两个核心挑战：准确率以及速度。 3. 本文提出的点在本文中，提出了基于transformer 的 VisualSparta 模型，这是一种新颖的文本到图像检索模型，该模型在准确性和效率上都比现有模型显著提高。 本文">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2021/03/16/ZTKckhILpCEBv19.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/17/8dVeNz7bngQEwKl.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/17/GfApECsXomRWHPq.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/17/nkhj8yC6dPxugfw.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/17/FmkRlfDp4WqTzOV.png">
+<meta property="og:updated_time" content="2021-03-17T05:30:21.386Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[VisualSparta] Sparse Transformer Fragment-level Matching for Large-scale Text-to-Image Search">
+<meta name="twitter:description" content="1. 任务本文是做跨模态检索问题。文本到图像的检索是多模态信息检索中的一项基本任务，即在给定文本查询的情况下从大型且未标记的图像数据集中检索相关图像。 2. 存在的问题图文检索问题上存在两个核心挑战：准确率以及速度。 3. 本文提出的点在本文中，提出了基于transformer 的 VisualSparta 模型，这是一种新颖的文本到图像检索模型，该模型在准确性和效率上都比现有模型显著提高。 本文">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/16/ZTKckhILpCEBv19.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/03/16/VisualSparta-Sparse-Transformer-Fragment-level-Matching-for-Large-scale-Text-to-Image-Search/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>[VisualSparta] Sparse Transformer Fragment-level Matching for Large-scale Text-to-Image Search | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">35</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">34</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">212</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/16/VisualSparta-Sparse-Transformer-Fragment-level-Matching-for-Large-scale-Text-to-Image-Search/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[VisualSparta] Sparse Transformer Fragment-level Matching for Large-scale Text-to-Image Search
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-03-16 11:38:41" itemprop="dateCreated datePublished" datetime="2021-03-16T11:38:41+08:00">2021-03-16</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-03-17 13:30:21" itemprop="dateModified" datetime="2021-03-17T13:30:21+08:00">2021-03-17</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/cross-modal/" itemprop="url" rel="index"><span itemprop="name">cross-modal</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/03/16/VisualSparta-Sparse-Transformer-Fragment-level-Matching-for-Large-scale-Text-to-Image-Search/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2021/03/16/VisualSparta-Sparse-Transformer-Fragment-level-Matching-for-Large-scale-Text-to-Image-Search/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1-任务"><a href="#1-任务" class="headerlink" title="1. 任务"></a>1. 任务</h2><p>本文是做跨模态检索问题。文本到图像的检索是多模态信息检索中的一项基本任务，即在给定文本查询的情况下从大型且未标记的图像数据集中检索相关图像。</p>
+<h2 id="2-存在的问题"><a href="#2-存在的问题" class="headerlink" title="2. 存在的问题"></a>2. 存在的问题</h2><p>图文检索问题上存在两个核心挑战：<strong style="color:red;">准确率以及速度</strong>。</p>
+<h2 id="3-本文提出的点"><a href="#3-本文提出的点" class="headerlink" title="3. 本文提出的点"></a>3. 本文提出的点</h2><p>在本文中，提出了基于transformer 的 VisualSparta 模型，这是一种新颖的文本到图像检索模型，该模型在准确性和效率上都比现有模型显著提高。</p>
+<p>本文提出的模型关注点在于两点：</p>
+<p>（1）准确率，学习query tokens 与 image regions之间的细粒度关系，以丰富跨模态理解。</p>
+<p>（2）有效性，独立的学习query 和 answer（image）的特征表示，从而使得模型可以<strong><strong style="color:red;">离线的</strong>索引所有的candidate images</strong>。整个VisualSparta 模型可以作为一个经典的反向索引（Inverted index）搜索引擎，以实现高效搜索。</p>
+<h2 id="4-本文的贡献"><a href="#4-本文的贡献" class="headerlink" title="4. 本文的贡献"></a>4. 本文的贡献</h2><p>1) 性能优势：提出了一个新的基于片段交互（fragment-level interaction）的图文检索模型，并取得了SOTA的性能；</p>
+<p>2) 速度优势：相比于标准的向量搜索，VisualSparta 有391x 速度提升。且实验证明，由于VisualSparta 可以有效的进行<strong>反向索引</strong> ，因此对于更大的数据集，速度优势会更加的明显，</p>
+<p>3) 第一：VisualSparta 是<strong>第一个</strong>可以在大规模数据集上实现<strong>实时搜索</strong>的，基于transformer的 text-to-image retrieval model，并且实现了显著的性能提升。本文的方法证明了large pretrained model 也可以占用<strong>较少的内存和较少的计算时间</strong>。</p>
+<p>4) 对当前存在的 text-to-image retrieval models 进行了 accuracy-latency comparisons。</p>
+<h2 id="5-Method"><a href="#5-Method" class="headerlink" title="5. Method"></a>5. Method</h2><p>本文提出了 <strong>VisualSparta retriever</strong>, a fragment-level transformer-based model for efficient text-image matching.</p>
+<p><img src="https://i.loli.net/2021/03/16/ZTKckhILpCEBv19.png" alt="image-20210316192344412"></p>
+<h3 id="5-1-Query-representation"><a href="#5-1-Query-representation" class="headerlink" title="5.1 Query representation"></a>5.1 Query representation</h3><p>在检索中，<strong style="color:red;">query 的处理是一个在线操作</strong>。需要很好的考虑query 编码的效率。以前的方法，使用bi-RNN来处理 query sentence，为每个token获得上下文特征表示。</p>
+<p>本文中，不采用序列处理的方式。丢掉query中的顺序信息，仅仅使用预训练的word embedding 来表征每个token。<strong>这种方法可以使得每个token的特征表达损失独立的，与上下文无关的</strong>。同时这种方式对于高效的indexing and inference 是必要的。</p>
+<p>a query is represented as $\hat{w}=\left\{\hat{w}_{1}, \ldots, \hat{w}_{m}\right\}$</p>
+<h3 id="5-2-Visual-Representation"><a href="#5-2-Visual-Representation" class="headerlink" title="5.2 Visual Representation"></a>5.2 Visual Representation</h3><p>相比于 query 需要实时在线处理，answer candidates 可以在 query 到来之前离线编制索引 (indexed offline)。因此，answer candidates 的处理可以更加丰富和复杂。因此，本文 follow OSCAR的工作，对于answer candidates 本文提取其上下文特征。</p>
+<p>具体的看上图.</p>
+<p>$H_{\text {image }} \in \mathbb{R}^{(n+k) \times d_{H}}$ is the final contextualized representation for one answer.</p>
+<h3 id="5-3-Scoring-Function"><a href="#5-3-Scoring-Function" class="headerlink" title="5.3 Scoring Function"></a>5.3 Scoring Function</h3><p>第一个等式：学习 image element 和 每个query token 之间的fragment-level 交互。</p>
+<p>$y_{i} =\max _{j \in[1, n+k]}\left(\hat{w}_{i}^{T} h_{j}\right) $              <strong>（equation 10）</strong></p>
+<p>第二个等式：经过一个 ReLu 和 可训练的bias来得到sparse embedding。</p>
+<p>$ \phi\left(y_{i}\right) =\operatorname{ReLU}\left(y_{i}+b\right) $              <strong>（equation 11）</strong></p>
+<p>第三个等式：对于所有的分数求和，并为了抑制过大的分数，使用log operation</p>
+<p>$ f(q, v) =\sum_{i=0}^{m} \log \left(\phi\left(y_{i}\right)+1\right) $             <strong>（equation 12）</strong></p>
+<h3 id="5-4-Retriever-Training"><a href="#5-4-Retriever-Training" class="headerlink" title="5.4 Retriever Training"></a>5.4 Retriever Training</h3><p>最小化如下目标：</p>
+<p>$J=f\left(q, v^{+}\right)-\log \sum_{k \in K^{-}} e^{\left.f\left(q, v_{k}\right)\right)}$</p>
+<p><strong style="color:blue;"><strong>yaya: 这个损失函数其实与正常的NCE损失不同</strong></strong></p>
+<p>负样本的选择：从相同batch 中的其他image samples作为负样本。</p>
+<p><strong>而且本文发现，相比于一些复杂的负样本选择策略（比如，使用有相近标签的相似图像作为负样本），这种负样本的选择策略是简单有效地，效果相当。</strong></p>
+<p><strong style="color:blue;">yaya: 为什么这种选择策略比复杂的策略是有效的？？是不是在不同的场合，应该使用不同的策略呢？？</strong></p>
+<h3 id="5-5-Efficient-Indexing-and-Inference"><a href="#5-5-Efficient-Indexing-and-Inference" class="headerlink" title="5.5 Efficient Indexing and Inference"></a>5.5 Efficient Indexing and Inference</h3><p><strong style="color:red;">real-time inference</strong></p>
+<p>定义 testing query 为 $q=\left[w_{0}, \ldots w_{m}\right]$</p>
+<p>the <strong>ranking score</strong> between $q$ and an image is （利用5.3 中第二个等式得到的 sparse embedding）:</p>
+<p>​    $\operatorname{CACHE}(w, v)=\log ($ sparse embedding $) \quad w \in W $             <strong>（equation 14）</strong></p>
+<p>​    $f(q, v)=\sum_{i=1}^{m} \operatorname{CACHE}\left(w_{i}, v\right)$             <strong>（equation 15）</strong></p>
+<p>由于query term embedding 不是基于上下文得到。因此，可以预先计算 vocabulary $W$ 中每个<strong>term</strong> $w$  与 每个 image candidates 之间的 ranking feature $\phi(w, v)$，<strong style="color:red;">生成的分数 is cached during indexing</strong>，如等式14 所示。得到了一个一个  <strong style="color:red;">$N_{vocab}*M_{images} $的矩阵</strong></p>
+<p><strong>during inference time，最终的分数可以经过 O(1)的查询和一个简单的求和运算得到，如 公式15所示。</strong></p>
+<p><strong style="color:red;">Inverted Index</strong></p>
+<p>更加重要的是，以上的计算可以经由一个 Inverted Index 来高效的实施。 Inverted Index 是现代搜索引擎的基础数据结构，如图1所示。</p>
+<blockquote>
+<p><a href="https://zh.wikipedia.org/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/%E5%80%92%E6%8E%92%E7%B4%A2%E5%BC%95</a></p>
+</blockquote>
+<h2 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h2><h3 id="Datasets"><a href="#Datasets" class="headerlink" title="Datasets"></a>Datasets</h3><ul>
+<li><p>使用图像描述数据集作为本文text-to-image model 的数据来源。<strong>benchmark: MSCOCO; Flickr 30K</strong></p>
+</li>
+<li><p>for large-scale efficiency experiments: 由于目前不存在大规模的图像描述数据集。</p>
+<p>因此，we <strong>manually design 113K and 1M datasets</strong> for testing the inference speed of different models in the large-scale setting.   对于这两个数据集，我们只关注于speed comparison。在数据上的模型性能忽略不比较。</p>
+<p>The 113K dataset refers to the MSCOCO training set。</p>
+<p>The 1M dataset we design consists of 1 million images randomly sampled from the MSCOCO training set.</p>
+<p>所有的 <strong>efficiency test  experiments</strong> 都是在MSCOCO 1K and 5k test splits 再加上这113k 和 1M 数据上进行的。</p>
+</li>
+</ul>
+<h3 id="Recall-Performance"><a href="#Recall-Performance" class="headerlink" title="Recall Performance"></a>Recall Performance</h3><p><img src="https://i.loli.net/2021/03/17/8dVeNz7bngQEwKl.png" alt="image-20210317120703074" style="zoom:50%;"></p>
+<h3 id="Speed-Performance"><a href="#Speed-Performance" class="headerlink" title="Speed Performance"></a>Speed Performance</h3><p>三个模型使用相同的Faster-rcnn image region features。下表中没有考虑这部分时间。</p>
+<p><img src="https://i.loli.net/2021/03/17/GfApECsXomRWHPq.png" alt="image-20210317120800787" style="zoom:50%;"></p>
+<p>（1）在不同size的数据集下，本文提出的模型的速度远高于另外两个模型（一个使用dual encoding, 另一个使用transformer model）</p>
+<p>（2）Table 2 also reveals that as the number of images increases, <strong>the performance drop is much slower</strong> when comparing VisualSparta with other two methods.</p>
+<h3 id="Speed-Accuracy-Flexibility"><a href="#Speed-Accuracy-Flexibility" class="headerlink" title="Speed-Accuracy Flexibility"></a>Speed-Accuracy Flexibility</h3><p>在 Efficient Indexing and Inference 这一节，得到了一个  <strong style="color:red;">$N_{vocab}*M_{images} $的矩阵</strong>， 对于每个image, 与 N个words 计算出了weights, 可以挑选出 top-K， 这样更新为一个  <strong style="color:red;">$K_{words}*M_{images} $的矩阵</strong>，K 越小，检索效率越高。</p>
+<p><img src="https://i.loli.net/2021/03/17/nkhj8yC6dPxugfw.png" alt="image-20210317132243925" style="zoom: 67%;"></p>
+<p><img src="https://i.loli.net/2021/03/17/FmkRlfDp4WqTzOV.png" alt="image-20210317132318637" style="zoom: 50%;"></p>
+<h3 id="Implementation-details"><a href="#Implementation-details" class="headerlink" title="Implementation details"></a>Implementation details</h3><ul>
+<li>image encoder 的初始权重 从 Oscar-base model （12 layers and 768 hidden dimensions）中获得。</li>
+<li>the query embedding， 使用Oscar-base word embedding的参数作为初始权重</li>
+</ul>
+<h2 id="可以查看的其他文献"><a href="#可以查看的其他文献" class="headerlink" title="可以查看的其他文献"></a>可以查看的其他文献</h2><p>本文受到此篇论文的启发: <strong>Sparta: Efficient open-domain question answering via sparse transformer matching retrieval.</strong></p>
+<h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a><strong>yaya</strong></h2><ul>
+<li><p>对于输入的消融实现，如果不提供 object label ？</p>
+<p><strong>本文没有做这个实验。</strong></p>
+</li>
+<li><p>实验结果与 transformer-based retrieval model 的对比， eg: Oscar, Unicoder-VL 等</p>
+<p><strong>本文没有做对比，只是与不基于pre-trained models 进行了对比。</strong></p>
+<p><strong>但是实际上，本文的实验效果在准确率上，是不如那些基于预训练模型的。</strong></p>
+</li>
+<li><p>使用了 transformer 结构，那么本文的学习率是如何设计的？先warm up吗？？</p>
+<p><strong>本文学习率为 1e-5， bs=20, 没有对学习率的变化进行说明。</strong></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cross-modal/" rel="tag"># cross-modal</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/15/Slot-Filling/" rel="next" title="Slot Filling">
+                <i class="fa fa-chevron-left"></i> Slot Filling
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">212</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-任务"><span class="nav-number">1.</span> <span class="nav-text">1. 任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-存在的问题"><span class="nav-number">2.</span> <span class="nav-text">2. 存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-本文提出的点"><span class="nav-number">3.</span> <span class="nav-text">3. 本文提出的点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-本文的贡献"><span class="nav-number">4.</span> <span class="nav-text">4. 本文的贡献</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Method"><span class="nav-number">5.</span> <span class="nav-text">5. Method</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-Query-representation"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 Query representation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-Visual-Representation"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 Visual Representation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-Scoring-Function"><span class="nav-number">5.3.</span> <span class="nav-text">5.3 Scoring Function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-Retriever-Training"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 Retriever Training</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-5-Efficient-Indexing-and-Inference"><span class="nav-number">5.5.</span> <span class="nav-text">5.5 Efficient Indexing and Inference</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Experiments"><span class="nav-number">6.</span> <span class="nav-text">Experiments</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Datasets"><span class="nav-number">6.1.</span> <span class="nav-text">Datasets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Recall-Performance"><span class="nav-number">6.2.</span> <span class="nav-text">Recall Performance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Speed-Performance"><span class="nav-number">6.3.</span> <span class="nav-text">Speed Performance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Speed-Accuracy-Flexibility"><span class="nav-number">6.4.</span> <span class="nav-text">Speed-Accuracy Flexibility</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Implementation-details"><span class="nav-number">6.5.</span> <span class="nav-text">Implementation details</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可以查看的其他文献"><span class="nav-number">7.</span> <span class="nav-text">可以查看的其他文献</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yaya"><span class="nav-number">8.</span> <span class="nav-text">yaya</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 's22c7ikjlbMrGGRlCcDrqOjo-gzGzoHsz',
+      appKey: 'HnhoXmenrEs7Unb12AD7Sxgg',
+      placeholder: 'Just go go',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: false
+    });
+  </script>
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
