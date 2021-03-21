@@ -97,14 +97,26 @@
 
 
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="转载：https://mp.weixin.qq.com/s/vX6o4lJKP4ajVfGSw8-tqg  今天介绍的是一篇 NAACL’21 新鲜出炉的工作！NAACL 上周四出的结果，这篇工作本周一上传 arxiv，周二被王苏小哥哥发现，周三拜读了一下，今天就来和大家分享啦！！  给大家提个问题：如果训练样本只有几百条，这时候我们该怎么办呢？ 传统的 RNN 在这个样本大小下很难被训练好，自然">
+<meta name="keywords" content="NLP">
+<meta property="og:type" content="article">
 <meta property="og:title" content="How Many Data Points is a PromptWorth?">
 <meta property="og:url" content="http://yoursite.com/2021/03/20/How-Many-Data-Points-is-a-PromptWorth/index.html">
 <meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="转载：https://mp.weixin.qq.com/s/vX6o4lJKP4ajVfGSw8-tqg  今天介绍的是一篇 NAACL’21 新鲜出炉的工作！NAACL 上周四出的结果，这篇工作本周一上传 arxiv，周二被王苏小哥哥发现，周三拜读了一下，今天就来和大家分享啦！！  给大家提个问题：如果训练样本只有几百条，这时候我们该怎么办呢？ 传统的 RNN 在这个样本大小下很难被训练好，自然">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-03-20T03:24:45.296Z">
+<meta property="og:image" content="https://i.loli.net/2021/03/21/QodMJ9GWgv6fcUy.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/21/s8DHwgmNJY7Ryvk.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/21/QEPwMG7bfI2UzNH.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/21/k1ul7icFX69IKnL.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/21/sRZIGzn2Pg76mpd.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/21/31cqsF5Q7VoSeLX.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/21/WCo9uUakm1rOH8N.png">
+<meta property="og:updated_time" content="2021-03-21T04:37:01.145Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How Many Data Points is a PromptWorth?">
+<meta name="twitter:description" content="转载：https://mp.weixin.qq.com/s/vX6o4lJKP4ajVfGSw8-tqg  今天介绍的是一篇 NAACL’21 新鲜出炉的工作！NAACL 上周四出的结果，这篇工作本周一上传 arxiv，周二被王苏小哥哥发现，周三拜读了一下，今天就来和大家分享啦！！  给大家提个问题：如果训练样本只有几百条，这时候我们该怎么办呢？ 传统的 RNN 在这个样本大小下很难被训练好，自然">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/21/QodMJ9GWgv6fcUy.png">
 
 
 
@@ -423,8 +435,42 @@
             
 
             
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-03-21 12:37:01" itemprop="dateModified" datetime="2021-03-21T12:37:01+08:00">2021-03-21</time>
+              
+            
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -470,7 +516,53 @@
       
 
       
-        
+        <p>转载：<a href="https://mp.weixin.qq.com/s/vX6o4lJKP4ajVfGSw8-tqg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/vX6o4lJKP4ajVfGSw8-tqg</a></p>
+<blockquote>
+<p>今天介绍的是一篇 NAACL’21 新鲜出炉的工作！NAACL 上周四出的结果，这篇工作本周一上传 arxiv，周二被王苏小哥哥发现，周三拜读了一下，今天就来和大家分享啦！！</p>
+</blockquote>
+<p>给大家提个问题：如果训练样本只有几百条，这时候我们该怎么办呢？</p>
+<p>传统的 RNN 在这个样本大小下很难被训练好，自然地，我们会想到使用预训练模型，在其基础上进行 finetune。具体来讲，就是将预训练模型作为模型的底层，在上面添加与当前任务特点相关的网络结构。这样就引入了预训练的知识，对当前任务能产生很大的帮助。</p>
+<p><img src="https://i.loli.net/2021/03/21/QodMJ9GWgv6fcUy.png" alt="微信截图_20210321123106" style="zoom:33%;"></p>
+<p>除了预训练的知识，是不是还有其他的信息我们没有用上呢？近年来，越来越多的人在使用另一种 finetune 方法，即<strong>结合具体场景，设计新的 finetune 任务形式，从而将与当前任务相关的提示信息（prompt）引入模型</strong>。我们大名鼎鼎的 GPT 系列就是这么干的。比如我们拿 GPT3 做 QA 的 finetune，直接喂给他一串“<em>Question：问题内容 Answer：</em>”，剩下的答案部分就让 GPT3 自己填完。</p>
+<p><img src="https://i.loli.net/2021/03/21/s8DHwgmNJY7Ryvk.png" alt="image-20210321123155512" style="zoom: 33%;"></p>
+<p>这类 finetune 技巧虽然陆续被使用，但并没有人论证：<strong>这种做法相比于传统的 finetune 方法，真的能带来提升吗</strong>？如果答案是肯定的，<strong>那么究竟能提升多少呢（能否量化这种提升）？</strong></p>
+<p>今天这篇来自 Huggingface 的文章就填补了上述两个问题的答案。他们通过大量实验证明：<strong>引入提示信息和多标注几百条数据带来的性能提升是相当的</strong>！所以，下次老板只给少量样本，就要你 finetune 模型——不要慌！我们今天又多学了一个 trick！</p>
+<p><strong>论文题目</strong>:<br><strong><em>How Many Data Points is a Prompt Worth?</em></strong></p>
+<p><strong>论文链接</strong>:<br><em><a href="https://arxiv.org/abs/2103.08493" target="_blank" rel="noopener">https://arxiv.org/abs/2103.08493</a></em></p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>前文提到，这一类 finetune 是将任务对应的输入改写成新的完形填空格式，让模型预测 <mask> 部分的词，作为抽取任务的答案或者生成任务的结果。这种方法不需要改变模型结构、没有额外的参数，简直不要太方便！</mask></p>
+<h3 id="引入描述集合"><a href="#引入描述集合" class="headerlink" title="引入描述集合"></a>引入描述集合</h3><p>本文对这类方法进行了进一步简化：不要求 <mask> 处生成任意的文本，而是只需要完成类似于有选项的完形填空任务。这里的选项是固定的几个词，我们称之为描述集合（verbalizer），不同任务会有不同的描述集合。</mask></p>
+<p>比如，对于判断题的阅读理解任务，就可以将阅读文本、问题和 <mask> 拼接，让预训练模型直接预测 <mask> 属于描述集合 {yes, no} 中的哪一种描述：</mask></mask></p>
+<blockquote>
+<p>小明天天码代码码到天明 [SEP] <strong>小明有女朋友吗？</strong> <mask></mask></p>
+</blockquote>
+<p>其中前半部分是阅读文本，后面<strong>加粗</strong>的部分是问题。模型只需要判断 <mask> 属于描述集合 {yes, no} 中的哪一种。</mask></p>
+<p>可能读到这里，大家会疑惑：直接拼起来搞一个 True / False 的二分类不就好了嘛，何必让模型填空呢？嘿嘿，这恰好是作者的用意：通过让模型填空，<strong>模型可以习得描述集合中标签文本的语义信息</strong>。</p>
+<h3 id="引入提示信息"><a href="#引入提示信息" class="headerlink" title="引入提示信息"></a>引入提示信息</h3><p>直接拼接是最朴素的，但这能让模型知道自己在做什么任务嘛？为此，作者引入了<strong>提示信息</strong>（prompt）。</p>
+<p>还是判断题的阅读理解任务，对文章 和问题 ，作者将他们与一些固定的词进行整合，以此输入模型，让模型预测 <mask> 。作者提出了三种整合方式：</mask></p>
+<p><img src="https://i.loli.net/2021/03/21/QEPwMG7bfI2UzNH.png" alt="image-20210321123632246" style="zoom: 33%;"></p>
+<p>没错，就是这么简单！这些固定的词作为提示信息，让模型了解当前在做的任务；同时，提示词文本的含义也对于模型的理解产生了一定的帮助。</p>
+<p>除了单选阅读理解，这篇文章还关注了文本蕴含、多选阅读理解、指代销歧等共六个任务。对于不同的任务，有不同的提示信息与输入格式：</p>
+<p>对于文本蕴含任务，可以将前提 (premise, ) 与假设 (hyphothesis, ) 通过提示信息整合，作者提出了两种整合方式：</p>
+<p><img src="https://i.loli.net/2021/03/21/k1ul7icFX69IKnL.png" alt="image-20210321123241288" style="zoom: 33%;"></p>
+<p>这样就只需要让模型预测 <mask> 属于描述集合 {yes, no, maybe} 中的哪一种，以此判断前提能否支撑假设。</mask></p>
+<p>对于指代销歧任务，可以将句子 、带标记的介词 与名词 通过提示信息整合：</p>
+<p><img src="https://i.loli.net/2021/03/21/sRZIGzn2Pg76mpd.png" alt="image-20210321123253166" style="zoom: 33%;"></p>
+<p>这样就只需要让模型预测 <mask> ，以此判断介词是否指代名词。这里的描述集合是不受限制的，即让模型在 <mask> 处预测指代的名词 。</mask></mask></p>
+<p>其他任务也采用类似的整合方式，感兴趣可以参考原文～</p>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>作者发现，这种使用提示信息的整合方式，在低资源的情况下对模型性能有非常大的提升！</p>
+<p>比如在阅读理解任务的 BoolQ 数据集上，作者将使用提示信息整合的 finetune 方法与增加一层分类层的 finetune 方法进行了对比。下图是在使用不同数量的样本训练时，模型准确率的对比。</p>
+<p><img src="https://i.loli.net/2021/03/21/31cqsF5Q7VoSeLX.png" alt="image-20210321123431996" style="zoom:50%;"></p>
+<p>可以发现，在数据量比较小的时候，使用提示信息整合的 finetune 方法（黄色）比增加一层分类层的 finetune 方法（紫色）有更好的表现。</p>
+<p>在某些任务上，这种表现的提升是惊人的：</p>
+<p><img src="https://i.loli.net/2021/03/21/WCo9uUakm1rOH8N.png" alt="image-20210321123504144" style="zoom:50%;"></p>
+<p>这是在指代销歧任务的 WSC 数据集上的实验结果。在水平方向看，<strong>仅使用 25 个样本，就达到传统 fintune 方法使用 300 个样本才能达到的效果！</strong></p>
+<p>此外，作者还进行了一系列的消融实验，得到一些有意思的结论：</p>
+<ol>
+<li>模型通过预测 <mask> 属于描述集合中的哪种，以此完成任务。如果将这里改为不带语义的单纯的分类，性能也会有所下降。</mask></li>
+<li>作者为每个任务都提供了多种整合提示信息的方式，但是发现，不同方式的区别对性能影响甚微。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇文章对基于提示信息的 finetune 方法在进行了大量实验，证明了这类方法在低资源的情况下性能大幅优于传统方法。这种 finetune 的思路应该是可以应用于各类 NLP 下游任务的。尤其是低资源场景下，应该会非常有帮助。如果老板真的只给几百条数据让训练模型，这样的方法说不定就有奇效！</p>
+
       
     </div>
 
@@ -490,6 +582,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+        </div>
       
 
       
@@ -556,8 +654,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -775,6 +882,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#方法"><span class="nav-number">1.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引入描述集合"><span class="nav-number">1.1.</span> <span class="nav-text">引入描述集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入提示信息"><span class="nav-number">1.2.</span> <span class="nav-text">引入提示信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验"><span class="nav-number">2.</span> <span class="nav-text">实验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
@@ -1326,6 +1450,43 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
   
 
 
