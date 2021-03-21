@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="转载：https://www.sohu.com/a/422484297_500659 显然，这标题对标的就是 GPT-3，于是笔者饶有兴趣地点进去看看是谁这么有勇气挑战 GPT-3，又是怎样的小模型能挑战 GPT-3？经过阅读，原来作者提出通过适当的构造， 用 BERT 的 MLM 模型也可以做小样本学习，看完之后颇有一种“原来还可以这样做”的恍然大悟感。在此与大家分享一下。 冉冉升起的MLMML">
+<meta name="keywords" content="NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[It’s Not Just Size That Matters] Small Language Models Are Also Few-Shot Learners">
+<meta property="og:url" content="http://yoursite.com/2021/03/20/It’s-Not-Just-Size-That-Matters-Small-Language-Models-Are-Also-Few-Shot-Learners/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="转载：https://www.sohu.com/a/422484297_500659 显然，这标题对标的就是 GPT-3，于是笔者饶有兴趣地点进去看看是谁这么有勇气挑战 GPT-3，又是怎样的小模型能挑战 GPT-3？经过阅读，原来作者提出通过适当的构造， 用 BERT 的 MLM 模型也可以做小样本学习，看完之后颇有一种“原来还可以这样做”的恍然大悟感。在此与大家分享一下。 冉冉升起的MLMML">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2021/03/20/izGapk4S6ZRqgFI.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/20/dOMZNLsKykIDioQ.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/20/8Yg2qH5CXoFPkcx.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/20/Y8CdHbW1cjqByrD.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/20/qVFgDbyLQrXpZUt.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/20/4QKcUYDtgAmeGqM.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/20/cpGqLZ2twR5z4di.png">
+<meta property="og:updated_time" content="2021-03-21T04:10:07.946Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[It’s Not Just Size That Matters] Small Language Models Are Also Few-Shot Learners">
+<meta name="twitter:description" content="转载：https://www.sohu.com/a/422484297_500659 显然，这标题对标的就是 GPT-3，于是笔者饶有兴趣地点进去看看是谁这么有勇气挑战 GPT-3，又是怎样的小模型能挑战 GPT-3？经过阅读，原来作者提出通过适当的构造， 用 BERT 的 MLM 模型也可以做小样本学习，看完之后颇有一种“原来还可以这样做”的恍然大悟感。在此与大家分享一下。 冉冉升起的MLMML">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/20/izGapk4S6ZRqgFI.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/03/20/It’s-Not-Just-Size-That-Matters-Small-Language-Models-Are-Also-Few-Shot-Learners/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>[It’s Not Just Size That Matters] Small Language Models Are Also Few-Shot Learners | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">38</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">38</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">221</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/20/It’s-Not-Just-Size-That-Matters-Small-Language-Models-Are-Also-Few-Shot-Learners/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[It’s Not Just Size That Matters] Small Language Models Are Also Few-Shot Learners
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-03-20 10:51:52" itemprop="dateCreated datePublished" datetime="2021-03-20T10:51:52+08:00">2021-03-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-03-21 12:10:07" itemprop="dateModified" datetime="2021-03-21T12:10:07+08:00">2021-03-21</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/03/20/It’s-Not-Just-Size-That-Matters-Small-Language-Models-Are-Also-Few-Shot-Learners/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2021/03/20/It’s-Not-Just-Size-That-Matters-Small-Language-Models-Are-Also-Few-Shot-Learners/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>转载：<a href="https://www.sohu.com/a/422484297_500659" target="_blank" rel="noopener">https://www.sohu.com/a/422484297_500659</a></p>
+<p>显然，这标题对标的就是 GPT-3，于是笔者饶有兴趣地点进去看看是谁这么有勇气挑战 GPT-3，又是怎样的小模型能挑战 GPT-3？经过阅读，原来作者提出通过适当的构造， <strong>用 BERT 的 MLM 模型</strong>也可以做小样本学习，看完之后颇有一种“原来还可以这样做”的恍然大悟感。在此与大家分享一下。</p>
+<h2 id="冉冉升起的MLM"><a href="#冉冉升起的MLM" class="headerlink" title="冉冉升起的MLM"></a><strong>冉冉升起的MLM</strong></h2><p>MLM，全称“Masked Language Model”，可以翻译为“掩码语言模型”，实际上就是一个完形填空任务，随机 Mask 掉文本中的某些字词，然后要模型去预测被 Mask 的字词，示意图如下：</p>
+<p><img src="https://i.loli.net/2021/03/20/izGapk4S6ZRqgFI.png" alt="img" style="zoom:50%;"></p>
+<p>▲ BERT的MLM模型简单示意图</p>
+<p>其中被 Mask 掉的部分，可以是直接随机选择的 Token，也可以是随机选择连续的能组成一整个词的 Token，后者称为 WWM（Whole Word Masking）。</p>
+<p>开始，MLM 仅被视为 BERT 的一个预训练任务，训练完了就可以扔掉的那种，因此有一些开源的模型干脆没保留 MLM 部分的权重，比如 brightmart 版 [3] 和 clue 版 [4] 的 RoBERTa，而哈工大开源的 RoBERTa-wwm-ext-large [5]则不知道出于什么原因随机初始化了 MLM 部分的权重，因此如果要复现本文后面的结果，这些版本是不可取的。</p>
+<p>然而，随着研究的深入，研究人员发现不止 BERT 的 Encoder 很有用，预训练用的 MLM 本身也很有用。</p>
+<p>比如论文 <strong>BERT has a Mouth, and It Must Speak: BERT as a Markov Random Field Language Model</strong>[6]指出 MLM 可以作为一般的生成模型用，论文 <strong>Spelling Error Correction with Soft-Masked BERT</strong>[7] 则将 MLM 用于文本纠错。</p>
+<p>笔者之前在 的实验也表明 MLM 的预训练权重也可以当作 UniLM 来用做 Seq2Seq 任务，还有一文将 MLM 的思想用于无监督分词和句法分析了。可以说 MLM 已经是大放异彩了。</p>
+<h2 id="将任务转成完形填空"><a href="#将任务转成完形填空" class="headerlink" title="将任务转成完形填空"></a><strong>将任务转成完形填空</strong></h2><p>在本文里，我们再学习 MLM 的一个精彩应用：用于小样本学习或半监督学习，某些场景下甚至能做到零样本学习。</p>
+<p>怎么将我们要做的任务跟 MLM 结合起来呢？很简单， <strong>给任务一个文本描述，然后转换为完形填空问题</strong>即可。举个例子，假如给定句子“这趟北京之旅我感觉很不错。”，那么我们补充个描述，构建如下的完形填空：</p>
+<blockquote>
+<p> <strong>__</strong>满意。这趟北京之旅我感觉很不错。</p>
+</blockquote>
+<p>进一步地，我们限制空位处只能填一个“很”或“不”，问题就很清晰了，就是要我们根据上下文一致性判断是否满意，如果“很”的概率大于“不”的概率，说明是正面情感倾向，否则就是负面的，这样我们就将<strong>情感分类问题</strong>转换为一个完形填空问题了，它可以用 MLM 模型给出预测结果，而 MLM 模型的训练可以不需要监督数据，因此理论上这能够实现零样本学习了。</p>
+<p><strong style="color:blue;">多分类问题</strong>也可以做类似转换，比如<strong>新闻主题分类</strong>，输入句子为“八个月了，终于又能在赛场上看到女排姑娘们了。”，那么就可以构建：</p>
+<blockquote>
+<p> 下面播报一则<strong>__</strong>新闻。八个月了，终于又能在赛场上看到女排姑娘们了。</p>
+</blockquote>
+<p>这样我们就将新闻主题分类也转换为完形填空问题了，一个好的 MLM 模型应当能预测出“体育”二字来。</p>
+<p>还有一些<strong style="color:blue;">简单的推理任务</strong>也可以做这样的转换，常见的是给定两个句子<strong>，判断这两个句子是否相容</strong>，比如“我去了北京”跟“我去了上海”就是矛盾的，“我去了北京”跟“我在天安门广场”是相容的，常见的做法就是将两个句子拼接起来输入到模型做，作为一个二分类任务。如果要转换为完形填空，那该怎么构造呢？一种比较自然的构建方式是：</p>
+<blockquote>
+<p>我去了北京？<strong>__</strong>，我去了上海。</p>
+<p>我去了北京？<strong>__</strong>，我在天安门广场。</p>
+<p>其中空位之处的候选词为 是 的 不 是 。</p>
+</blockquote>
+<h2 id="Pattern-Exploiting-Training"><a href="#Pattern-Exploiting-Training" class="headerlink" title="Pattern-Exploiting Training"></a><strong>Pattern-Exploiting Training</strong></h2><p>读到这里，读者应该不难发现其中的规律了，就是给输入的文本增加一个前缀或者后缀描述，并且 Mask 掉某些 Token，转换为完形填空问题，这样的转换在原论文中称为 <strong>Pattern</strong>，这个转换要尽可能与原来的句子组成一句自然的话，不能过于生硬，因为预训练的 MLM 模型就是在自然语言上进行的。</p>
+<p>显然同一个问题可以有很多不同的 Pattern，比如情感分类的例子，描述可以放最后，变成“这趟北京之旅我感觉很不错。<strong><strong>满意。”；也可以多加几个字，比如“觉得如何？</strong></strong>满意。这趟北京之旅我感觉很不错。”。</p>
+<p>然后，我们需要构建预测 Token 的候选空间，并且建立 Token 到实际类别的映射，这在原论文中称为 <strong>Verbalizer</strong>，比如情感分类的例子，我们的候选空间是 很 不 ，映射关系是 很 正 面 不 负 面 ，候选空间与实际类别之间不一定是一一映射，比如我们还可以加入“挺”、“太”、“难”字，并且认为 很 挺 太 正 面 以 及 不 难 负 面 ，等等。</p>
+<p>不难理解，不少 NLP 任务都有可能进行这种转换，但显然这种转换一般只适用于 <strong>候选空间有限</strong>的任务，说白了就是只用来做 <strong>选择题</strong>，常见任务的就是 <strong>文本分类</strong>。</p>
+<p>刚才说了，同一个任务可以有多种不同的 Pattern，原论文是这样处理的：</p>
+<ol>
+<li><p>对于每种 Pattern，单独用训练集 Finetune一个 MLM 模型出来；</p>
+</li>
+<li><p>然后将不同 Pattern对应的模型进行集成，得到融合模型；</p>
+</li>
+<li><p>用融合模型预测未标注数据的伪标签；</p>
+</li>
+<li><p>用伪标签数据 Finetune 一个常规的（非 MLM 的）模型。</p>
+</li>
+</ol>
+<p>具体的集成方式大家自己看论文就行，这不是重点。这种训练模式被称为 <strong>Pattern-Exploiting Training（PET）</strong>，它首先出现在论文 <strong>Exploiting Cloze Questions for Few Shot Text Classification and Natural Language Inference</strong>。</p>
+<p><strong style="color:blue;">yaya: 与 这篇论文思想很类似：How Many Data Points is a PromptWorth? （arXiv: 2103.08493v1）</strong></p>
+<p>本文要介绍的这篇论文则进一步肯定和完善了 Pattern-Exploiting Training 的价值和结果，并整合了多任务学习，使得它在 SuperGLUE 榜单上的小样本学习效果超过了 GPT3。两篇论文的作者是相同的，是一脉相承的作品。</p>
+<p><img src="https://i.loli.net/2021/03/20/dOMZNLsKykIDioQ.png" alt="img"></p>
+<p>▲ PET在SuperGLUE上的小样本学习的结果</p>
+<p>不过要吐槽一个点是，上图中 PET 的 223M 参数，所用的模型是 ALBERT-xxlarge-v2，事实上称 ALBERT 为“小模型”是一种很耍流氓的行为，因为它前向计算的速度并没有得到任何提升。ALBERT-xxlarge 共有 12 层，层与层之间参数是共享的，就前向计算而言，它应该等价于约 2700M（12 倍）参数的 GPT 才对。</p>
+<h2 id="中文实践，检验效果"><a href="#中文实践，检验效果" class="headerlink" title="中文实践，检验效果"></a><strong>中文实践，检验效果</strong></h2><p>要真正确认一个方法或模型的价值，看论文的实验表格是不够的，论文给出的实验结果谁都不好说能否复现，其次就算英文上能复现也不代表中文上有价值，因此最实际的还是亲自动手做实验验证。下面是笔者的实验代码，供读者参考：</p>
+<p>Github 地址：</p>
+<p><a href="https://github.com/bojone/Pattern-Exploiting-Training" target="_blank" rel="noopener">https://github.com/bojone/Pattern-Exploiting-Training</a></p>
+<p>我们将从以下几个角度来探讨 PET 的可行性：</p>
+<p>\1. 直接利用现成的 MLM 模型效果如何？ <strong>（零样本学习1）</strong></p>
+<p>\2. 用“大量无标签数据”微调现成的 MLM 模型效果如何？ <strong>（零样本学习2）</strong></p>
+<p>\3. 用“小量标签数据”微调现成的 MLM 模型效果如何？ <strong>（小样本学习）</strong></p>
+<p>\4. 用“小量标签数据+大量无标签数据”微调现成的MLM模型效果如何？ <strong>（半监督学习）</strong></p>
+<p>下面主要给出 <strong>情感二分类</strong>的实验结果。另外还有一个新闻主题的多分类，代码也放到 Github 了，其结果是类似的，就不重复陈述了。</p>
+<h3 id="4-1-零样本学习1"><a href="#4-1-零样本学习1" class="headerlink" title="4.1 零样本学习1"></a><strong>4.1 零样本学习1</strong></h3><p>这里主要探索的是给输入文本补上对应的 Pattern 后，直接基于现成的 MLM 模型进行预测，预测的准确率。由于构建模型的整个过程都不涉及到标签数据监督训练，因此这算是一种“零样本学习”。我们需要比较的是不同 Pattern、不同 MLM 模型上的效果：</p>
+<p>下面是实验的几个 Pattern，其中空位处候选词语都为“很”和“不”：</p>
+<p>P1：____满意。这趟北京之旅我感觉很不错。</p>
+<p>P2：这趟北京之旅我感觉很不错。____满意。</p>
+<p>P3：____好。这趟北京之旅我感觉很不错。</p>
+<p>P4：____理想。这趟北京之旅我感觉很不错。</p>
+<p>P5：感觉如何？____满意。这趟北京之旅我感觉很不错。</p>
+<p>至于 MLM 模型，则是下面几个：</p>
+<p>M1：Google 开源的中文版 BERT Base：</p>
+<p><a href="https://github.com/google-research/bert" target="_blank" rel="noopener">https://github.com/google-research/bert</a></p>
+<p>M2：哈工大开源的 RoBERTa-wwm-ext Base：</p>
+<p><a href="https://github.com/ymcui/Chinese-BERT-wwm" target="_blank" rel="noopener">https://github.com/ymcui/Chinese-BERT-wwm</a></p>
+<p>M3：腾讯 UER 开源的 BERT Base：</p>
+<p><a href="https://share.weiyun.com/5QOzPqq" target="_blank" rel="noopener">https://share.weiyun.com/5QOzPqq</a></p>
+<p>M4：腾讯 UER 开源的 BERT Large：</p>
+<p><a href="https://share.weiyun.com/5G90sMJ" target="_blank" rel="noopener">https://share.weiyun.com/5G90sMJ</a></p>
+<p>实验结果如下表（验证集/测试集）：</p>
+<p><img src="https://i.loli.net/2021/03/20/8Yg2qH5CXoFPkcx.png" alt="img"></p>
+<p>可以观察到，不同的 Pattern、不同的预训练模型之间还是有一定的差异的，整体而言 Large 版本的效果要明显好于 Base 版本的模型，说明像 GPT 到 GPT2 再到 GPT3 一样，还是把模型做得更大会更好。</p>
+<p>此外，这还有可能说明实际上 MLM 还没有被充分训练好，或许是因为 BERT 这种 Mask 掉一部分的训练方式过于低效了，可能用 修改 Transformer 结构，设计一个更快更好的 MLM 模型 一文提到的改进版 MLM 会更好。</p>
+<h3 id="4-2-零样本学习2"><a href="#4-2-零样本学习2" class="headerlink" title="4.2 零样本学习2"></a><strong>4.2 零样本学习2</strong></h3><p>看完上述结果，读者可能会想到：如果我用领域内的数据继续预训练 MLM 模型，那么能不能提升效果呢？答案是：能！下面是我们的实验结果，算力有限，我们只在 RoBERTa-wwm-ext（上述的 M2，继续预训练后的模型我们称为 M2+ 无监督）的基础上做了比较：</p>
+<p><img src="https://i.loli.net/2021/03/20/Y8CdHbW1cjqByrD.png" alt="img"></p>
+<p>要注意的是，这里我们只是用领域内的数据继续做 MLM 训练，这个过程是无监督的，也不需要标注信号，因此也算是“零样本学习”。同时，从到目前为止的结果我们可以看出，给输入本文加入“前缀”的效果比“后缀”更有优势一些。</p>
+<h3 id="4-3-小样本学习"><a href="#4-3-小样本学习" class="headerlink" title="4.3 小样本学习"></a><strong>4.3 小样本学习</strong></h3><p>刚才我们讨论了无标签数据继续预训练 MLM 的提升，如果回到 PET 的目标场景，直接用小量的标签数据配合特定的 Pattern 训练 MLM 又如何呢？</p>
+<p>这也就是真正的“小样本学习”训练了，这里我们保留约 200 个标注样本，构造样本的时候，我们先给每个句子补上 Pattern，除了 Pattern 自带的 Mask 位置之外，我们还随机 Mask 其他一部分，以增强对模型的正则。最终实验结果如下：</p>
+<p><img src="https://i.loli.net/2021/03/20/qVFgDbyLQrXpZUt.png" alt="img"></p>
+<p>结论就是除了“后缀式”的 P2 之外，其它结果都差不多，这进一步说明了“前缀式”的 Pattern 会比“后缀式”更有竞争力一些。在效果上，直接用同样的数据用常规的方法去微调一个 BERT 模型，大概的结果是 88.93 左右，所以基于 “MLP+Pattern” 的小样本学习方法可能带来轻微的性能提升。</p>
+<h3 id="4-4-半监督学习"><a href="#4-4-半监督学习" class="headerlink" title="4.4 半监督学习"></a><strong>4.4 半监督学习</strong></h3><p>无监督的零样本学习和有监督的小样本学习都说完了，自然就轮到把标注数据和非标注数据都结合起来的“半监督学习”了。还是同样的任务，标注数据和非标注数据的比例大约是 1:99，标注数据带 Pattern，非标注数据不带 Pattern，大家都 Mask 掉一部分 Token 进行 MLM 预训练，最终测出来的效果如下：</p>
+<p><img src="https://i.loli.net/2021/03/20/4QKcUYDtgAmeGqM.png" alt="img"></p>
+<p>还是同样的，“后缀”明显比“前缀”差，“前缀”的效果差不多。具体效果上，则是肯定了额外的无标注数据也是有作用的。</p>
+<p>直觉上来看，“前缀”比“后缀”要好，大体上是因为“前缀”的 Mask 位置比较固定，微弱的监督信号得以叠加增强？但这也不能解释为什么零样本学习的情况下也是“前缀”更好，估计还跟模型的学习难度有关系，可能句子前面部分的规律更加明显，相对来说更加容易学一些，所以前面部分就学习得更加充分？这一切都还只是猜测。</p>
+<h3 id="4-5-汇总与结论"><a href="#4-5-汇总与结论" class="headerlink" title="4.5 汇总与结论"></a><strong>4.5 汇总与结论</strong></h3><p>将上述结果汇总如下：</p>
+<p><img src="https://i.loli.net/2021/03/20/cpGqLZ2twR5z4di.png" alt="img"></p>
+<p>读者还可以对比我们之前在文章 泛化性乱弹：从随机噪声、梯度惩罚到虚拟对抗训练 中用虚拟对抗训练（VAT）做半监督学习的结果，可以看到不管是零样本学习、小样本学习还是半监督学习，基于 MLM 模型的方式都能媲美基于 VAT 的半监督学习的结果。</p>
+<p>我们在做短新闻多分类实验时的结果也是相似的。因此，这说明了 MLM 模型确实也可以作为一个优秀的零样本/小样本/半监督学习器来使用。</p>
+<p>当然，基于 MLM 模型的缺点还是有的，比如 MLM 所使用的独立假设限制了它对更长文本的预测能力（说白了空位处的文字不能太长），以及无法预测不定长的答案也约束了它的场景（所以当前只能用于做选择题）。我们期待有更强的 MLM 模型出现，那时候就有可能在所有任务上都能与 GPT3 一较高下了。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本文介绍了 BERT 的 MLM 模型的一个新颖应用：配合特定的描述将任务转化为完形填空，利用 MLM 模型做零样本学习、小样本学习和半监督学习。</p>
+<p>在原论文的 SuperGLUE 实验里边，它能达到媲美 GPT3 的效果，而笔者也在中文任务上做了一些实验，进一步肯定了该思路的有效性。整个思路颇为别致，给人一种“原来还可以这样做”的恍然大悟感，推荐大家学习一下。</p>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>[1] <a href="https://arxiv.org/abs/2005.14165" target="_blank" rel="noopener">https://arxiv.org/abs/2005.14165</a></p>
+<p>[2] <a href="https://arxiv.org/abs/2009.07118" target="_blank" rel="noopener">https://arxiv.org/abs/2009.07118</a></p>
+<p>[3] <a href="https://github.com/brightmart/roberta_zh" target="_blank" rel="noopener">https://github.com/brightmart/roberta_zh</a></p>
+<p>[4] <a href="https://github.com/CLUEbenchmark/CLUEPretrainedModels" target="_blank" rel="noopener">https://github.com/CLUEbenchmark/CLUEPretrainedModels</a></p>
+<p>[5] <a href="https://github.com/ymcui/Chinese-BERT-wwm" target="_blank" rel="noopener">https://github.com/ymcui/Chinese-BERT-wwm</a></p>
+<p>[6] <a href="https://arxiv.org/abs/1902.04094" target="_blank" rel="noopener">https://arxiv.org/abs/1902.04094</a></p>
+<p>[7] <a href="https://kexue.fm/archives/7661" target="_blank" rel="noopener">https://kexue.fm/archives/7661</a></p>
+<p>[8] <a href="https://arxiv.org/abs/2001.07676" target="_blank" rel="noopener">https://arxiv.org/abs/2001.07676</a></p>
+<h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><p>不懂的问题：</p>
+<ul>
+<li><p>mask 一个 Span, 多个空位然后逐词预测？？</p>
+</li>
+<li><p>在 [MASK] 位置 预测空间是多大？整个vocabulary ??</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/20/All-NLP-Tasks-Are-Generation-Tasks-A-General-Pretraining-Framework/" rel="next" title="[All NLP Tasks Are Generation Tasks] A General Pretraining Framework">
+                <i class="fa fa-chevron-left"></i> [All NLP Tasks Are Generation Tasks] A General Pretraining Framework
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/03/20/How-Many-Data-Points-is-a-PromptWorth/" rel="prev" title="How Many Data Points is a PromptWorth?">
+                How Many Data Points is a PromptWorth? <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">221</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">38</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">38</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#冉冉升起的MLM"><span class="nav-number">1.</span> <span class="nav-text">冉冉升起的MLM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将任务转成完形填空"><span class="nav-number">2.</span> <span class="nav-text">将任务转成完形填空</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pattern-Exploiting-Training"><span class="nav-number">3.</span> <span class="nav-text">Pattern-Exploiting Training</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中文实践，检验效果"><span class="nav-number">4.</span> <span class="nav-text">中文实践，检验效果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-零样本学习1"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 零样本学习1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-零样本学习2"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 零样本学习2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-小样本学习"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 小样本学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-半监督学习"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 半监督学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-汇总与结论"><span class="nav-number">4.5.</span> <span class="nav-text">4.5 汇总与结论</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">6.</span> <span class="nav-text">参考文献</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yaya"><span class="nav-number">7.</span> <span class="nav-text">yaya</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 's22c7ikjlbMrGGRlCcDrqOjo-gzGzoHsz',
+      appKey: 'HnhoXmenrEs7Unb12AD7Sxgg',
+      placeholder: 'Just go go',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: false
+    });
+  </script>
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>

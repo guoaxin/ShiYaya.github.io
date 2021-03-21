@@ -105,14 +105,14 @@
 <meta property="og:site_name" content="ShiYaya">
 <meta property="og:description" content="yaya 由于最近看到的几篇论文中都有提及到gumble softmax的操作，因此想要具体了解一下。  用到gumbel softmax 的论文包括以下几篇  解决不可微分问题 【ICCV 2019】Learning to Assemble Neural Module Tree Networks for Visual Grounding 【arXiv: 2101.12059v1】VX2TEXT:">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://images2018.cnblogs.com/blog/1428973/201808/1428973-20180813165000500-1207992534.jpg">
-<meta property="og:image" content="https://images2018.cnblogs.com/blog/1428973/201808/1428973-20180813165407236-1369432498.png">
-<meta property="og:image" content="https://images2018.cnblogs.com/blog/1428973/201808/1428973-20180813165432014-1972855862.png">
-<meta property="og:updated_time" content="2021-03-17T09:56:08.101Z">
+<meta property="og:image" content="c:/Users/shiyaya/Desktop/1428973-20180813165000500-1207992534.jpg">
+<meta property="og:image" content="https://i.loli.net/2021/03/18/yO5L9kCMPhrwJub.png">
+<meta property="og:image" content="https://i.loli.net/2021/03/18/27e1EIhVFfWyJKi.png">
+<meta property="og:updated_time" content="2021-03-18T12:04:15.131Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Gumbel-Softmax Trick和Gumbel分布">
 <meta name="twitter:description" content="yaya 由于最近看到的几篇论文中都有提及到gumble softmax的操作，因此想要具体了解一下。  用到gumbel softmax 的论文包括以下几篇  解决不可微分问题 【ICCV 2019】Learning to Assemble Neural Module Tree Networks for Visual Grounding 【arXiv: 2101.12059v1】VX2TEXT:">
-<meta name="twitter:image" content="https://images2018.cnblogs.com/blog/1428973/201808/1428973-20180813165000500-1207992534.jpg">
+<meta name="twitter:image" content="c:/Users/shiyaya/Desktop/1428973-20180813165000500-1207992534.jpg">
 
 
 
@@ -265,7 +265,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">35</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">38</span></a>
 
   </li>
         
@@ -284,7 +284,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">34</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">38</span></a>
 
   </li>
         
@@ -303,7 +303,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">213</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">221</span></a>
 
   </li>
 
@@ -444,7 +444,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-03-17 17:56:08" itemprop="dateModified" datetime="2021-03-17T17:56:08+08:00">2021-03-17</time>
+                <time title="修改时间：2021-03-18 20:04:15" itemprop="dateModified" datetime="2021-03-18T20:04:15+08:00">2021-03-18</time>
               
             
           </span>
@@ -551,11 +551,11 @@
 <p>  很直接的方法是依概率分布采样就完事了，比如直接用<code>np.random.choice</code>函数依照概率生成样本值，这样概率就有意义了。这样做确实可以，但是又有一个问题冒了出来：这种方式怎么计算梯度？不能计算梯度怎么用BP的方式更新网络？</p>
 <p>  这时重参数(re-parameterization)技巧解决了这个问题，<a href="https://casmls.github.io/general/2017/02/01/GumbelSoftmax.html" target="_blank" rel="noopener">这里</a>有详尽的解释，不过比较晦涩。简单来说重参数技巧的一个用处是把采样的步骤移出计算图，这样整个图就可以计算梯度BP更新了。之前我一直在想分类任务直接softmax之后BP更新不就完事了吗，为什么非得采样。后来看了VAE和GAN之后明白，还有很多需要采样训练的任务。这里举简单的VAE(变分自编码器)的例子说明需要采样训练的任务以及重参数技巧，详细内容来自<a href="https://www.bilibili.com/video/av20165127" target="_blank" rel="noopener">视频</a>和<a href="http://kvfrans.com/variational-autoencoders-explained/" target="_blank" rel="noopener">博客</a>。</p>
 <h3 id="Re-parameterization-Trick"><a href="#Re-parameterization-Trick" class="headerlink" title="Re-parameterization Trick"></a>Re-parameterization Trick</h3><p>  最原始的自编码器通常长这样：</p>
-<p><img src="https://images2018.cnblogs.com/blog/1428973/201808/1428973-20180813165000500-1207992534.jpg" alt="img" style="zoom: 67%;"></p>
+<p><img src="C:\Users\shiyaya\Desktop\1428973-20180813165000500-1207992534.jpg" alt="img" style="zoom: 67%;"></p>
 <p>  左右两边是端到端的出入输出网络，中间的绿色是提取的特征向量，这是一种直接从图片提取特征的方式。<br>  而VAE长这样:</p>
-<p><img src="https://images2018.cnblogs.com/blog/1428973/201808/1428973-20180813165407236-1369432498.png" alt="img" style="zoom: 67%;"></p>
+<p><img src="https://i.loli.net/2021/03/18/yO5L9kCMPhrwJub.png" alt="image-20210318135149420"></p>
 <p>  VAE的想法是不直接用网络去提取特征向量，而是提取这张图像的分布特征，也就把绿色的特征向量替换为分布的参数向量，比如说均值和标准差。然后需要decode图像的时候，就从encode出来的分布中采样得到特征向量样本，用这个样本去重建图像，这时怎么计算梯度的问题就出现了。<br>  重参数技巧可以解决这个问题，它长下面这样:</p>
-<p><img src="https://images2018.cnblogs.com/blog/1428973/201808/1428973-20180813165432014-1972855862.png" alt="img" style="zoom:67%;"></p>
+<p><img src="https://i.loli.net/2021/03/18/27e1EIhVFfWyJKi.png" alt="img" style="zoom:67%;"></p>
 <p>假设图中的 $x$ 和 $\phi$ 表示VAE中的均值和标准差向量, 它们是确定性的节点。而需要输出的样本 $z$ 是带有随机性的节点， 重参数就是把带有随机性的 $z$ 变成确定性的节点, 同时随机性用另一个输入节点 $\epsilon$ 代替。<br>例如，这里用正态分布采样, 原本从均值为 $x$ 和标准差为 $\phi$ 的正态分布 $N\left(x, \phi^{2}\right)$ 中采样得到 $z_{\circ}$ 现在将其转化成从标准正态分布 $N(0,1)$ 中采样得到 $\epsilon$ , 再计算得到 $z=x+\epsilon \cdot \phi_{\circ}$ 这样一来, 采样的过程移出了计算图, 整张计算图就可以计算梯度进行更新了，而新加的 $\epsilon$ 的输入分支不 做更新，只当成一个没有权重变化的输入。</p>
 <p>到这里，需要采样训练的任务实例以及重参数技巧基本有个概念了。</p>
 <h3 id="Gumbel-Softmax-Trick"><a href="#Gumbel-Softmax-Trick" class="headerlink" title="Gumbel-Softmax Trick"></a>Gumbel-Softmax Trick</h3><p>VAE的例子是一个连续分布(正态分布)的重参数，离散分布的情况也一样，首先需要可以采样，使得离散的概率分布有意义而不是只取概率最大的值，其次需要可以计算梯度。那么怎么做到的，具体操作如下：</p>
@@ -575,6 +575,7 @@
 <script type="math/tex; mode=display">
 \sigma_{\tau}\left(v_{i}^{\prime}\right)=\frac{e^{v_{i}^{\prime} / \tau}}{\sum_{j=1}^{n} e^{v_{j}^{\prime} / \tau}}</script><p>计算概率大小得到最终的类别。其中 $\tau$ 是温度参数。</p>
 <p>temperature控制着softmax的soft程度，温度越高，生成的分布越平滑（接近这里的均匀分布）；温度越低，生成的分布越接近离散的one-hot分布（argmax）。因此，<strong>训练时可以逐渐降低温度，以逐步逼近真实的离散分布。</strong></p>
+<p><strong>yaya: 其实这里的 gumbel softmax 不是针对网络输出$v$ 进行一个离散采样，而是对 $v$ 添加噪声之后，再取softmax，而后得到新的概率分布，而这个新的概率分布也不是去argmax, 而是对于每个 $v_i$ 重新分配一个概率权重。其优点在于可以调控 temperature， 当温度低时，近似做了argmax 采样</strong></p>
 <p>直观上来说，Gumbel-Softmax就是在原来的输出上加入了一个噪声，对于强化学习来说，在选择动作之前加一个Gumbel扰动，相当于增加了探索度，感觉上是合理的，而同时他又能保证采样是对原分布的逼近。对于深度学习的任务来说，添加随机性去模拟分布的样本生成，也是合情合理的。</p>
 
       
@@ -697,7 +698,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">213</span>
+                    <span class="site-state-item-count">221</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -778,7 +779,15 @@
                     
                       
                     
-                    <span class="site-state-item-count">34</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">38</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -861,7 +870,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">35</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">38</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
