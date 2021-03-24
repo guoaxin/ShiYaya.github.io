@@ -97,14 +97,20 @@
 
 
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="存在的问题 当前的检索任务是目标实例进行检索（ target instance-based retrieval）（IVR），即，给定一个query caption，仅一个 origami video 被认为是正确的检索结果。但，实际上，数据集中的许多视频can be similar to the point of being identical。检索此类视频的顺序不应影响方法的评估。  本文的点本">
+<meta name="keywords" content="cross-modal">
+<meta property="og:type" content="article">
 <meta property="og:title" content="On Semantic Similarity in Video Retrieval">
 <meta property="og:url" content="http://yoursite.com/2021/03/19/On-Semantic-Similarity-in-Video-Retrieval/index.html">
 <meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="存在的问题 当前的检索任务是目标实例进行检索（ target instance-based retrieval）（IVR），即，给定一个query caption，仅一个 origami video 被认为是正确的检索结果。但，实际上，数据集中的许多视频can be similar to the point of being identical。检索此类视频的顺序不应影响方法的评估。  本文的点本">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-03-19T08:50:22.671Z">
+<meta property="og:image" content="https://i.loli.net/2021/03/22/oMS76vcp2HX5DgK.png">
+<meta property="og:updated_time" content="2021-03-22T06:49:08.565Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="On Semantic Similarity in Video Retrieval">
+<meta name="twitter:description" content="存在的问题 当前的检索任务是目标实例进行检索（ target instance-based retrieval）（IVR），即，给定一个query caption，仅一个 origami video 被认为是正确的检索结果。但，实际上，数据集中的许多视频can be similar to the point of being identical。检索此类视频的顺序不应影响方法的评估。  本文的点本">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/22/oMS76vcp2HX5DgK.png">
 
 
 
@@ -257,7 +263,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">38</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">40</span></a>
 
   </li>
         
@@ -276,7 +282,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">38</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">40</span></a>
 
   </li>
         
@@ -295,7 +301,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">221</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">224</span></a>
 
   </li>
 
@@ -423,8 +429,42 @@
             
 
             
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-03-22 14:49:08" itemprop="dateModified" datetime="2021-03-22T14:49:08+08:00">2021-03-22</time>
+              
+            
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/cross-modal/" itemprop="url" rel="index"><span itemprop="name">cross-modal</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -470,7 +510,28 @@
       
 
       
-        
+        <h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h2><ul>
+<li>当前的检索任务是目标实例进行检索（ target instance-based retrieval）（IVR），即，给定一个query caption，仅一个 origami video 被认为是正确的检索结果。但，实际上，数据集中的许多视频can be similar to the point of being identical。检索此类视频的顺序不应影响方法的评估。</li>
+</ul>
+<h2 id="本文的点"><a href="#本文的点" class="headerlink" title="本文的点"></a>本文的点</h2><p>本文提出 Semantic Similarity Video Retrieval（SVR），相比于 normal IVR 的不同点是：</p>
+<ul>
+<li>对于1个video，允许有多个captions与其 的相似度为1</li>
+<li>如果 $sim(x_i, y_j)$ = $sim(x_i, j_k)$，$x_i$ 为 video set 中的一个video。则表示这两个caption被认为是与该video有相等的相关度。可以以任意的顺序来检索，并且不能被evaluation metric 惩罚。</li>
+</ul>
+<h2 id="Proxy-Measures-for-Semantic-Similarity"><a href="#Proxy-Measures-for-Semantic-Similarity" class="headerlink" title="Proxy Measures for Semantic Similarity"></a>Proxy Measures for Semantic Similarity</h2><p>video $x_i$ 与 caption $y_{i}$ 是ground truth pair。</p>
+<p>定义video 与 other captions 的语义相似度为：corresponding caption 与 other captions 之间的语义相似度。</p>
+<p>$S_{S}\left(x_{i}, y_{j}\right)=\left\{\begin{array}{ll}1 &amp; i==j \\ S^{\prime}\left(y_{i}, y_{j}\right) &amp; \text { otherwise }\end{array}\right.$</p>
+<p>关于 $S^{\prime}$ ，本文使用了四种方式来度量文本之间的语义相似度：bag of words, part-of- speech knowledge, synset similarity and the METEOR metric。</p>
+<h2 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h2><p><img src="https://i.loli.net/2021/03/22/oMS76vcp2HX5DgK.png" alt="image-20210322144739237" style="zoom:50%;"></p>
+<h2 id="Training"><a href="#Training" class="headerlink" title="Training"></a>Training</h2><p>the log-ratio loss :</p>
+<blockquote>
+<p>Tao Qin, Tie-Yan Liu, and Hang Li. A general approximation framework for direct optimization of information retrieval measures. Information retrieval, 2010. </p>
+</blockquote>
+<p>nDCG loss</p>
+<blockquote>
+<p>Sungyeon Kim, Minkyo Seo, Ivan Laptev, Minsu Cho, and Suha Kwak. Deep metric learning beyond binary supervision. In CVPR, 2019. </p>
+</blockquote>
+
       
     </div>
 
@@ -490,6 +551,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cross-modal/" rel="tag"># cross-modal</a>
+          
+        </div>
       
 
       
@@ -560,8 +627,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -576,7 +652,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">221</span>
+                    <span class="site-state-item-count">224</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -665,7 +741,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">38</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">40</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -754,7 +834,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">38</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">40</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -779,6 +863,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#存在的问题"><span class="nav-number">1.</span> <span class="nav-text">存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的点"><span class="nav-number">2.</span> <span class="nav-text">本文的点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Proxy-Measures-for-Semantic-Similarity"><span class="nav-number">3.</span> <span class="nav-text">Proxy Measures for Semantic Similarity</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Evaluation"><span class="nav-number">4.</span> <span class="nav-text">Evaluation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Training"><span class="nav-number">5.</span> <span class="nav-text">Training</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
@@ -1330,6 +1431,43 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
   
 
 

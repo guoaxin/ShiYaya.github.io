@@ -2,16 +2,72 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2020/04/16/Oscar-Object-Semantics-Aligned-Pre-training-for-Vision-Language-Tasks/</loc>
+    
+    <lastmod>2021-03-24T02:56:24.403Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/03/23/Retrieve-Fast-Rerank-Smart-Cooperative-and-Joint-Approaches-for-Improved-Cross-Modal-Retrieval/</loc>
+    
+    <lastmod>2021-03-23T12:03:32.198Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/03/22/Large-Scale-Zero-Shot-Image-Classification-from-Rich-and-Diverse-Textual-Descriptions/</loc>
+    
+    <lastmod>2021-03-22T13:18:01.808Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/03/19/Non-Autoregressive-Coarse-to-Fine-Video-Captioning/</loc>
+    
+    <lastmod>2021-03-22T09:17:04.558Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/03/22/MDMMT-Multidomain-Multimodal-Transformer-for-Video-Retrieval/</loc>
+    
+    <lastmod>2021-03-22T07:54:56.006Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/03/19/On-Semantic-Similarity-in-Video-Retrieval/</loc>
+    
+    <lastmod>2021-03-22T06:49:08.565Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/02/23/VX2TEXT-End-to-End-Learning-of-Video-Based-Text-Generation-From-Multimodal-Inputs/</loc>
+    
+    <lastmod>2021-03-21T09:22:20.474Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/03/20/How-Many-Data-Points-is-a-PromptWorth/</loc>
     
-    <lastmod>2021-03-21T04:37:01.145Z</lastmod>
+    <lastmod>2021-03-21T08:12:09.161Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://yoursite.com/2021/03/20/It%E2%80%99s-Not-Just-Size-That-Matters-Small-Language-Models-Are-Also-Few-Shot-Learners/</loc>
     
-    <lastmod>2021-03-21T04:29:05.819Z</lastmod>
+    <lastmod>2021-03-21T08:12:00.787Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/03/20/All-NLP-Tasks-Are-Generation-Tasks-A-General-Pretraining-Framework/</loc>
+    
+    <lastmod>2021-03-21T07:13:29.600Z</lastmod>
     
   </url>
   
@@ -23,37 +79,9 @@
   </url>
   
   <url>
-    <loc>http://yoursite.com/2021/03/20/All-NLP-Tasks-Are-Generation-Tasks-A-General-Pretraining-Framework/</loc>
-    
-    <lastmod>2021-03-20T02:47:38.568Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite.com/2021/03/19/Transformer/</loc>
     
     <lastmod>2021-03-19T11:32:07.770Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/03/19/On-Semantic-Similarity-in-Video-Retrieval/</loc>
-    
-    <lastmod>2021-03-19T08:50:22.671Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/03/19/Non-Autoregressive-Coarse-to-Fine-Video-Captioning/</loc>
-    
-    <lastmod>2021-03-19T08:49:05.794Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/02/23/VX2TEXT-End-to-End-Learning-of-Video-Based-Text-Generation-From-Multimodal-Inputs/</loc>
-    
-    <lastmod>2021-03-18T12:04:23.547Z</lastmod>
     
   </url>
   
@@ -754,13 +782,6 @@
     <loc>http://yoursite.com/2020/04/22/Cross-modal-Coherence-Modeling-for-Caption-Generation/</loc>
     
     <lastmod>2020-04-23T11:27:08.374Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2020/04/16/Oscar-Object-Semantics-Aligned-Pre-training-for-Vision-Language-Tasks/</loc>
-    
-    <lastmod>2020-04-17T01:26:40.517Z</lastmod>
     
   </url>
   

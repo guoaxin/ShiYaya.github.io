@@ -97,14 +97,19 @@
 
 
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="发表在AAAI 2021 现在存在的问题 由于自回归解码（autoregressive decoding）导致的 slow inference speed  由于对视觉单词的训练不充分，而使得模型更加偏向于生成泛化性句子，缺乏细节和多样性。 此外，具有误差累积倾向的模型产生令人满意的字幕是具有挑战性的。 因此，还需要一种支持单词修改的灵活解码范例（decoding paradigm）。  本文的点">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Non-Autoregressive Coarse-to-Fine Video Captioning">
 <meta property="og:url" content="http://yoursite.com/2021/03/19/Non-Autoregressive-Coarse-to-Fine-Video-Captioning/index.html">
 <meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="发表在AAAI 2021 现在存在的问题 由于自回归解码（autoregressive decoding）导致的 slow inference speed  由于对视觉单词的训练不充分，而使得模型更加偏向于生成泛化性句子，缺乏细节和多样性。 此外，具有误差累积倾向的模型产生令人满意的字幕是具有挑战性的。 因此，还需要一种支持单词修改的灵活解码范例（decoding paradigm）。  本文的点">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-03-19T08:49:05.794Z">
+<meta property="og:image" content="https://i.loli.net/2021/03/22/Kyegni76dZ4kCrH.png">
+<meta property="og:updated_time" content="2021-03-22T09:17:04.558Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Non-Autoregressive Coarse-to-Fine Video Captioning">
+<meta name="twitter:description" content="发表在AAAI 2021 现在存在的问题 由于自回归解码（autoregressive decoding）导致的 slow inference speed  由于对视觉单词的训练不充分，而使得模型更加偏向于生成泛化性句子，缺乏细节和多样性。 此外，具有误差累积倾向的模型产生令人满意的字幕是具有挑战性的。 因此，还需要一种支持单词修改的灵活解码范例（decoding paradigm）。  本文的点">
+<meta name="twitter:image" content="https://i.loli.net/2021/03/22/Kyegni76dZ4kCrH.png">
 
 
 
@@ -257,7 +262,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">38</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">40</span></a>
 
   </li>
         
@@ -276,7 +281,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">38</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">40</span></a>
 
   </li>
         
@@ -295,7 +300,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">221</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">224</span></a>
 
   </li>
 
@@ -423,6 +428,22 @@
             
 
             
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-03-22 17:17:04" itemprop="dateModified" datetime="2021-03-22T17:17:04+08:00">2021-03-22</time>
+              
+            
           </span>
 
           
@@ -470,7 +491,28 @@
       
 
       
-        
+        <p>发表在AAAI 2021</p>
+<h2 id="现在存在的问题"><a href="#现在存在的问题" class="headerlink" title="现在存在的问题"></a>现在存在的问题</h2><ul>
+<li>由于自回归解码（autoregressive decoding）导致的 <strong>slow inference speed</strong> </li>
+<li>由于对视觉单词的训练不充分，而使得模型更加<strong>偏向于生成泛化性句子</strong>，缺乏细节和多样性。</li>
+<li>此外，具有误差累积倾向的模型产生令人满意的字幕是具有挑战性的。 因此，还需要一种<strong>支持单词修改的灵活解码范例</strong>（decoding paradigm）。</li>
+</ul>
+<h2 id="本文的点"><a href="#本文的点" class="headerlink" title="本文的点"></a>本文的点</h2><p><img src="https://i.loli.net/2021/03/22/Kyegni76dZ4kCrH.png" alt="image-20210322164100678" style="zoom:33%;"></p>
+<ul>
+<li>我们提出了一种具有粗略至精细 （coarse-to-fine）字幕过程的基于非自回归解码（nonautoregressive<br>decoding）的模型</li>
+<li><p><strong>For achieving inference speedup</strong>：employ a bi-directional self-attention based network as our language model for achieving inference speedup</p>
+</li>
+<li><p><strong>For improving caption quality：</strong>propose an alternative paradigm to decompose the captioning procedure into two stages,</p>
+</li>
+</ul>
+<h2 id="Other-non-autoregressive"><a href="#Other-non-autoregressive" class="headerlink" title="Other non-autoregressive"></a>Other non-autoregressive</h2><ul>
+<li>Masked Non-Autoregressive Image Captioning</li>
+<li>Non-Autoregressive Image Captioning with Counterfactuals-Critical Multi-Agent Learning</li>
+</ul>
+<h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><ul>
+<li>看看这篇论文是如何获得 tags of video</li>
+</ul>
+
       
     </div>
 
@@ -560,8 +602,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -576,7 +627,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">221</span>
+                    <span class="site-state-item-count">224</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -665,7 +716,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">38</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">40</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -754,7 +809,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">38</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">40</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -779,6 +838,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#现在存在的问题"><span class="nav-number">1.</span> <span class="nav-text">现在存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的点"><span class="nav-number">2.</span> <span class="nav-text">本文的点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Other-non-autoregressive"><span class="nav-number">3.</span> <span class="nav-text">Other non-autoregressive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yaya"><span class="nav-number">4.</span> <span class="nav-text">yaya</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
