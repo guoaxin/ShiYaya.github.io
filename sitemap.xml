@@ -2,16 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2021/03/24/non-autoregressive-neural-machine-translation/</loc>
+    <loc>http://yoursite.com/2021/03/26/Non-Autoregressive-Image-Captioning-with-Counterfactuals-Critical-Multi-Agent-Learning/</loc>
     
-    <lastmod>2021-03-24T04:16:25.931Z</lastmod>
+    <lastmod>2021-03-26T03:34:34.240Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/03/25/Human-like-Controllable-Image-Captioning-with-Verb-specific-Semantic-Roles/</loc>
+    
+    <lastmod>2021-03-25T11:52:41.895Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/03/24/%E8%B0%83%E7%A0%94-non-autoregressive-neural-machine-translation/</loc>
+    
+    <lastmod>2021-03-24T04:18:56.253Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://yoursite.com/2020/04/16/Oscar-Object-Semantics-Aligned-Pre-training-for-Vision-Language-Tasks/</loc>
     
-    <lastmod>2021-03-24T03:51:47.939Z</lastmod>
+    <lastmod>2021-03-24T04:18:49.896Z</lastmod>
     
   </url>
   
