@@ -97,18 +97,21 @@
 
 
 
-  <meta name="description" content="发表在CVPR 2021 研究任务提高跨模态检索的推理速度">
+  <meta name="description" content="发表在CVPR 2021 研究任务提高跨模态检索的推理速度 存在的问题目前做 cross-modal retrieval task 的主流模型可以分为两类：（1）dual encoding，速度快，但是准确率低；（2）cross-attention model, 准确率高，但是速度慢。 本文的点保证模型准确率的同时，提高推理速度  提高模型准确率，采取了两个点：（1）使用CNN特征上采样来获取细粒">
 <meta name="keywords" content="cross-modal,real-time">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Thinking Fast and Slow: Efficient Text-to-Visual Retrieval with Transformers">
 <meta property="og:url" content="http://yoursite.com/2021/04/01/Thinking-Fast-and-Slow-Efficient-Text-to-Visual-Retrieval-with-Transformers/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="发表在CVPR 2021 研究任务提高跨模态检索的推理速度">
+<meta property="og:description" content="发表在CVPR 2021 研究任务提高跨模态检索的推理速度 存在的问题目前做 cross-modal retrieval task 的主流模型可以分为两类：（1）dual encoding，速度快，但是准确率低；（2）cross-attention model, 准确率高，但是速度慢。 本文的点保证模型准确率的同时，提高推理速度  提高模型准确率，采取了两个点：（1）使用CNN特征上采样来获取细粒">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-04-01T07:48:13.318Z">
+<meta property="og:image" content="https://i.loli.net/2021/04/01/VtX5mQn8T2LcwMs.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/01/bh9IRmOBQWlZKCg.png">
+<meta property="og:updated_time" content="2021-04-01T13:12:29.324Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Thinking Fast and Slow: Efficient Text-to-Visual Retrieval with Transformers">
-<meta name="twitter:description" content="发表在CVPR 2021 研究任务提高跨模态检索的推理速度">
+<meta name="twitter:description" content="发表在CVPR 2021 研究任务提高跨模态检索的推理速度 存在的问题目前做 cross-modal retrieval task 的主流模型可以分为两类：（1）dual encoding，速度快，但是准确率低；（2）cross-attention model, 准确率高，但是速度慢。 本文的点保证模型准确率的同时，提高推理速度  提高模型准确率，采取了两个点：（1）使用CNN特征上采样来获取细粒">
+<meta name="twitter:image" content="https://i.loli.net/2021/04/01/VtX5mQn8T2LcwMs.png">
 
 
 
@@ -299,7 +302,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">230</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">231</span></a>
 
   </li>
 
@@ -423,7 +426,7 @@
                 
               
 
-              <time title="创建时间：2021-04-01 10:40:32 / 修改时间：15:48:13" itemprop="dateCreated datePublished" datetime="2021-04-01T10:40:32+08:00">2021-04-01</time>
+              <time title="创建时间：2021-04-01 10:40:32 / 修改时间：21:12:29" itemprop="dateCreated datePublished" datetime="2021-04-01T10:40:32+08:00">2021-04-01</time>
             
 
             
@@ -505,6 +508,17 @@
       
         <p>发表在CVPR 2021</p>
 <h2 id="研究任务"><a href="#研究任务" class="headerlink" title="研究任务"></a>研究任务</h2><p>提高跨模态检索的推理速度</p>
+<h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h2><p>目前做 cross-modal retrieval task 的主流模型可以分为两类：（1）dual encoding，速度快，但是准确率低；（2）cross-attention model, 准确率高，但是速度慢。</p>
+<h2 id="本文的点"><a href="#本文的点" class="headerlink" title="本文的点"></a>本文的点</h2><p>保证模型准确率的同时，提高推理速度</p>
+<ul>
+<li><p>提高模型准确率，采取了两个点：（1）使用CNN特征上采样来获取细粒度视觉特征；（2）使用captioning loss来代替 对比学习损失来做检索任务。如下图</p>
+<p><img src="https://i.loli.net/2021/04/01/VtX5mQn8T2LcwMs.png" alt="image-20210401205905230"></p>
+</li>
+<li><p>在提高模型推理速度上，采取了两个点：(1) 使用 teacher-student 方法，以 slow cross-attention model 作为教师，以 fast dual-encoding model 作为学生；（2）先使用 fast model检索，选取top-k，然后使用slow model 进行 re-rank。如下图</p>
+<p><img src="https://i.loli.net/2021/04/01/bh9IRmOBQWlZKCg.png" alt="image-20210401205835827" style="zoom:50%;"></p>
+</li>
+</ul>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>VirTex: Learning Visual Representations from Textual Annotations</p>
 
       
     </div>
@@ -553,8 +567,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2021/04/01/王八蛋cvpr2020/" rel="prev" title="王八蛋cvpr2020">
-                王八蛋cvpr2020 <i class="fa fa-chevron-right"></i>
+              <a href="/2021/04/02/Memory-Enhanced-Embedding-Learning-for-Cross-Modal-Video-Text-Retrieval/" rel="prev" title="Memory Enhanced Embedding Learning for Cross-Modal Video-Text Retrieval">
+                Memory Enhanced Embedding Learning for Cross-Modal Video-Text Retrieval <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -628,7 +642,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">230</span>
+                    <span class="site-state-item-count">231</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -860,7 +874,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#研究任务"><span class="nav-number">1.</span> <span class="nav-text">研究任务</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#研究任务"><span class="nav-number">1.</span> <span class="nav-text">研究任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存在的问题"><span class="nav-number">2.</span> <span class="nav-text">存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的点"><span class="nav-number">3.</span> <span class="nav-text">本文的点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献"><span class="nav-number">4.</span> <span class="nav-text">参考文献</span></a></li></ol></div>
             
 
           </div>
