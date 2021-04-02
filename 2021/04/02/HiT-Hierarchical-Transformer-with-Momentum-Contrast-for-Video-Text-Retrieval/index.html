@@ -97,14 +97,24 @@
 
 
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="存在的问题 当前基于 transformer architecture 的 跨模态检索，仅仅使用最后一层的embeddings。 不同的层有不同的特诊特性，却没有被利用。  端到端的训练机制限制了负样本的交互仅能在一个mini-batch 中被执行（负样本的数量受到限制）。   本文的点 提出了一个新颖的hierarchical transformer 来做 video-text retrieva">
+<meta name="keywords" content="cross-modal">
+<meta property="og:type" content="article">
 <meta property="og:title" content="HiT Hierarchical Transformer with Momentum Contrast for Video-Text Retrieval">
 <meta property="og:url" content="http://yoursite.com/2021/04/02/HiT-Hierarchical-Transformer-with-Momentum-Contrast-for-Video-Text-Retrieval/index.html">
 <meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="存在的问题 当前基于 transformer architecture 的 跨模态检索，仅仅使用最后一层的embeddings。 不同的层有不同的特诊特性，却没有被利用。  端到端的训练机制限制了负样本的交互仅能在一个mini-batch 中被执行（负样本的数量受到限制）。   本文的点 提出了一个新颖的hierarchical transformer 来做 video-text retrieva">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-04-02T06:42:38.812Z">
+<meta property="og:image" content="https://i.loli.net/2021/04/02/uTMwEnhAfIVgixm.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/02/PrfJab2l3kLcxmg.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/02/rps6KOJ31wBnitX.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/02/25nEX687HBZSqVN.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/02/4LPx5Nh1nIAgaGf.png">
+<meta property="og:updated_time" content="2021-04-02T08:53:54.233Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HiT Hierarchical Transformer with Momentum Contrast for Video-Text Retrieval">
+<meta name="twitter:description" content="存在的问题 当前基于 transformer architecture 的 跨模态检索，仅仅使用最后一层的embeddings。 不同的层有不同的特诊特性，却没有被利用。  端到端的训练机制限制了负样本的交互仅能在一个mini-batch 中被执行（负样本的数量受到限制）。   本文的点 提出了一个新颖的hierarchical transformer 来做 video-text retrieva">
+<meta name="twitter:image" content="https://i.loli.net/2021/04/02/uTMwEnhAfIVgixm.png">
 
 
 
@@ -257,7 +267,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">42</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">43</span></a>
 
   </li>
         
@@ -295,7 +305,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">231</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">232</span></a>
 
   </li>
 
@@ -419,12 +429,34 @@
                 
               
 
-              <time title="创建时间：2021-04-02 14:42:38" itemprop="dateCreated datePublished" datetime="2021-04-02T14:42:38+08:00">2021-04-02</time>
+              <time title="创建时间：2021-04-02 14:42:38 / 修改时间：16:53:54" itemprop="dateCreated datePublished" datetime="2021-04-02T14:42:38+08:00">2021-04-02</time>
             
 
+            
+              
+
+              
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/cross-modal/" itemprop="url" rel="index"><span itemprop="name">cross-modal</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -470,7 +502,33 @@
       
 
       
-        
+        <h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h2><ul>
+<li><p>当前基于 transformer architecture 的 跨模态检索，仅仅使用最后一层的embeddings。 不同的层有不同的特诊特性，却没有被利用。</p>
+</li>
+<li><p>端到端的训练机制限制了负样本的交互仅能在一个mini-batch 中被执行（负样本的数量受到限制）。</p>
+</li>
+</ul>
+<h2 id="本文的点"><a href="#本文的点" class="headerlink" title="本文的点"></a>本文的点</h2><ul>
+<li>提出了一个新颖的hierarchical transformer 来做 video-text retrieval。在feature-level（第一层） 和 semantic-level（最后一层） 来实现分层跨模态对比匹配。</li>
+<li>受到MOCO的启发，在跨模态学习中使用Momentum Cross-modal Contrast（<strong>MCC</strong>），以使能 大规模的负样本交互，这种方式对生成更加精确且有判别力的表达是有贡献的。</li>
+</ul>
+<p>本文的 momentum encoder 与 论文“Memory Enhanced Embedding Learning forCross-Modal Video-Text Retrieval”的思想很一致</p>
+<h2 id="伪代码"><a href="#伪代码" class="headerlink" title="伪代码"></a>伪代码</h2><p><img src="https://i.loli.net/2021/04/02/uTMwEnhAfIVgixm.png" alt="image-20210402161043011"></p>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><ul>
+<li><p>在各个数据集上的实验效果</p>
+<p><img src="https://i.loli.net/2021/04/02/PrfJab2l3kLcxmg.png" alt="image-20210402164510842" style="zoom:50%;"></p>
+<p><img src="https://i.loli.net/2021/04/02/rps6KOJ31wBnitX.png" alt="image-20210402164527524" style="zoom:50%;"></p>
+</li>
+<li><p>使用不同维度下的MCC的效果对比</p>
+<p><img src="https://i.loli.net/2021/04/02/25nEX687HBZSqVN.png" alt="image-20210402164404377" style="zoom:50%;"></p>
+</li>
+<li><p>InfoNCE loss vs Triplet Ranking loss</p>
+<p><img src="https://i.loli.net/2021/04/02/4LPx5Nh1nIAgaGf.png" alt="image-20210402164121908" style="zoom:50%;"></p>
+</li>
+</ul>
+<h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><p>值得注意的是本文使用的是 dual encoding的方法，</p>
+<p>对 video feature 和 sentence feature 分别使用各自的transformer获得特征。</p>
+
       
     </div>
 
@@ -491,6 +549,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/cross-modal/" rel="tag"># cross-modal</a>
+          
+        </div>
+      
 
       
       
@@ -509,6 +573,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/04/02/Cross-Batch-Memory-for-Embedding-Learning/" rel="prev" title="Cross-Batch Memory for Embedding Learning">
+                Cross-Batch Memory for Embedding Learning <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -556,8 +624,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -572,7 +649,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">231</span>
+                    <span class="site-state-item-count">232</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -768,7 +845,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">42</span>
+                      
+                    
+                    <span class="site-state-item-count">43</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -793,6 +872,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#存在的问题"><span class="nav-number">1.</span> <span class="nav-text">存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的点"><span class="nav-number">2.</span> <span class="nav-text">本文的点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#伪代码"><span class="nav-number">3.</span> <span class="nav-text">伪代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验"><span class="nav-number">4.</span> <span class="nav-text">实验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yaya"><span class="nav-number">5.</span> <span class="nav-text">yaya</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       

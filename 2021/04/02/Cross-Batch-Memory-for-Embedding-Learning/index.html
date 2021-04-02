@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="转载自：https://zhuanlan.zhihu.com/p/139187724 转载的原因：  此篇论文与 MoCo 的思路非常的相似 其实度量学习的思想也是可以用于 跨模态检索任务中的，毕竟跨模态检索做的也是度量任务。目前看到有两篇论文已经这样做了： HiT Hierarchical Transformer with Momentum Contrast for Video-Text Ret">
+<meta name="keywords" content="metric learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cross-Batch Memory for Embedding Learning">
+<meta property="og:url" content="http://yoursite.com/2021/04/02/Cross-Batch-Memory-for-Embedding-Learning/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="转载自：https://zhuanlan.zhihu.com/p/139187724 转载的原因：  此篇论文与 MoCo 的思路非常的相似 其实度量学习的思想也是可以用于 跨模态检索任务中的，毕竟跨模态检索做的也是度量任务。目前看到有两篇论文已经这样做了： HiT Hierarchical Transformer with Momentum Contrast for Video-Text Ret">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2021/04/02/xsgfovFm5TVaCyq.jpg">
+<meta property="og:image" content="https://i.loli.net/2021/04/02/XnEsAeKYZ78Sak3.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/02/gzBpr4V6MLxbPCd.jpg">
+<meta property="og:image" content="https://i.loli.net/2021/04/02/ixCLyrXDOHwck8u.jpg">
+<meta property="og:image" content="https://i.loli.net/2021/04/02/yWbPMmZtnerAHV3.jpg">
+<meta property="og:image" content="https://i.loli.net/2021/04/02/Be4GvZMLxiCbEyt.jpg">
+<meta property="og:image" content="https://i.loli.net/2021/04/02/VD6UHdejXizlyTf.jpg">
+<meta property="og:image" content="https://i.loli.net/2021/04/02/ATGEJLXR9UjWCN6.jpg">
+<meta property="og:image" content="https://i.loli.net/2021/04/02/veWF2knBIuEogwj.jpg">
+<meta property="og:image" content="https://i.loli.net/2021/04/02/TIxiYh9LDWnUq4s.jpg">
+<meta property="og:updated_time" content="2021-04-02T09:00:57.098Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cross-Batch Memory for Embedding Learning">
+<meta name="twitter:description" content="转载自：https://zhuanlan.zhihu.com/p/139187724 转载的原因：  此篇论文与 MoCo 的思路非常的相似 其实度量学习的思想也是可以用于 跨模态检索任务中的，毕竟跨模态检索做的也是度量任务。目前看到有两篇论文已经这样做了： HiT Hierarchical Transformer with Momentum Contrast for Video-Text Ret">
+<meta name="twitter:image" content="https://i.loli.net/2021/04/02/xsgfovFm5TVaCyq.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/04/02/Cross-Batch-Memory-for-Embedding-Learning/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Cross-Batch Memory for Embedding Learning | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">43</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">43</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">232</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/02/Cross-Batch-Memory-for-Embedding-Learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Cross-Batch Memory for Embedding Learning
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-04-02 16:51:02 / 修改时间：17:00:57" itemprop="dateCreated datePublished" datetime="2021-04-02T16:51:02+08:00">2021-04-02</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/04/02/Cross-Batch-Memory-for-Embedding-Learning/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2021/04/02/Cross-Batch-Memory-for-Embedding-Learning/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>转载自：<a href="https://zhuanlan.zhihu.com/p/139187724" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/139187724</a></p>
+<p>转载的原因：</p>
+<ul>
+<li>此篇论文与 MoCo 的思路非常的相似</li>
+<li>其实度量学习的思想也是可以用于 跨模态检索任务中的，毕竟跨模态检索做的也是度量任务。<br>目前看到有两篇论文已经这样做了：<ul>
+<li>HiT Hierarchical Transformer with Momentum Contrast for Video-Text Retrieval</li>
+<li>Memory Enhanced Embedding Learning for Cross-Modal Video-Text Retrieval</li>
+</ul>
+</li>
+</ul>
+<p>码隆科技今年在 CVPR 多有斩获。在大会论文接受率仅有 22%、被称为“十年来最难的一届”的情况下，有两篇论文入选 CVPR 2020，其中本文 Cross-Batch Memory for Embedding Learning为口头报告论文（Oral）。口头报告论文是 CVPR 官方核定的含金量最高的论文，以 CVPR 2019 为例，投稿的 5160 篇论文中，仅有约 5.6% 获评口头报告论文。同时，作为以技术为先的人工智能企业，码隆科技和往年一样，是 CVPR 2020 的金牌赞助商。</p>
+<p>本篇论文提出了 XBM 方法，能够用极小的代价，提供巨量的样本对，为 pair-based 的深度度量学习方法取得巨大的效果提升。这种提升难例挖掘效果的方式突破了过去两个传统思路：加权和聚类，并且效果也更加简单、直接，很好地解决了深度度量学习的痛点。XBM 在多个国际通用的图像搜索标准数据库上（比如 SOP、In-Shop 和 VehicleID 等)，取得了目前最好的结果。</p>
+<p><strong>我们的算法研究员也在知乎上针对这篇论文撰写了一版更为通俗有趣的解读文章。感兴趣的话，可以点击下方直达。</strong></p>
+<p><a href="https://zhuanlan.zhihu.com/p/136522363" target="_blank" rel="noopener">王珣：跨越时空的难样本挖掘zhuanlan.zhihu.com<img src="https://i.loli.net/2021/04/02/xsgfovFm5TVaCyq.jpg" alt="图标"></a></p>
+<p><strong>论文</strong>：Cross-Batch Memory for Embedding Learning</p>
+<p><strong>地址</strong>：<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1912.06798" target="_blank" rel="noopener">https://arxiv.org/abs/1912.06798</a></p>
+<h2 id="背景和动机"><a href="#背景和动机" class="headerlink" title="背景和动机"></a><strong>背景和动机</strong></h2><p>难例挖掘是深度度量学习领域中的核心问题，最近有颇多研究都通过改进采样或者加权方案来解决这一难题，目前主要两种思路：第一种思路是在 mini-batch 内下功夫，对于 mini-batch 内的样本对，从各种角度去衡量其难度，然后给予难样本对更高权重，比如 N-pairs、Lifted Struture Loss、MS Loss 使用的就是此种方案。第二种思路是在 mini-batch 的生成做文章，比如 HTL、Divide and Conquer，他们的做法虽然看上去各有不同，但是整体思路有异曲同工之处。大致思路都是对整个数据集进行聚类，每次生成 mini-batch 不是从整个数据集去采样，而是从一个子集，或者说一个聚类小簇中去采样。这样一来，由于采样范围本身更加集中，生成的 mini-batch 中难例的比例自然也会更大，某种程度上也能解决问题。然而，无论是第一种方法的额外注重难样本，还是第二种方法的小范围采样，他们的难例的挖掘能力其实依然有一个天花板——那就是 mini-batch 的大小。这个 mini-batch 的大小决定了在模型中单次迭代更新中，可以利用的样本对的总量。因此，即使是很精细的采样加权方法，在 mini-batch 大小有限的情况下，也很难有顶级的表现。我们在三个标准图像检索数据库上进行了实验，基于三种标准的 pair-based 方法，我们发现随着 mini-batch 变大，效果（Recall@1）大幅提升。实验结果如下图：</p>
+<p><img src="https://i.loli.net/2021/04/02/XnEsAeKYZ78Sak3.png" alt="image-20210402165727364"></p>
+<p>可以看出，随着 mini-batch 的增大，效果有显著提升。但是，在实际工业应用中 mini-batch 越大，训练所需要的 GPU 或 TPU 就越多，即使计算资源有充分保证，在多机多卡的训练过程中，如何在工程上保证通信的效率也是一个有挑战的问题。</p>
+<h2 id="特征偏移"><a href="#特征偏移" class="headerlink" title="特征偏移"></a><strong>特征偏移</strong></h2><p>由此，我们希望另辟蹊径，得以在 mini-batch 有限的情况下，也能获得充足的难例样本对。首先，必须突破深度度量学习一直以来的一个思维局限——仅在对当前 mini-batch里的样本对两两比较，形成样本对。以此我们引入了 XBM（Cross-batch Memory）这一方法来突破局限，跨越时空进行难例挖掘，把过去的 mini-batch 的样本提取的特征也拿过来与当前 mini-batch 作比较，构建样本对。</p>
+<p><img src="https://i.loli.net/2021/04/02/gzBpr4V6MLxbPCd.jpg" alt="img"></p>
+<p>我们将样本特征随着模型训练的偏移量，称之为特征偏移（Feature Drift）。从上图我们发现，在训练的一开始，模型还没有稳定，特征剧烈变化，每过 100 次迭代，特征偏移大约 0.7 以上。但是，随着训练的进行，模型逐步稳定，特征的偏移也变小。我们称这个现象为慢偏移（Slow Drift），这是我们可以利用的一点。</p>
+<h2 id="方法梗概"><a href="#方法梗概" class="headerlink" title="方法梗概"></a><strong>方法梗概</strong></h2><p>我们发现，虽然在训练的前 3K iterations，mini-batch 过去的提取特征与当前模型偏差很大，但是，随着训练时间的延长，过去的迭代里所提取过的特征，逐渐展示为当前模型的一个有效近似。我们要做的不过是把这些特征给存下来，每个特征不过是 128 个 float 的数组，即便我们存下了过去 100 个 mini-batch 的特征，不过是6400个（假设 batch size = 64）float 数组，所需要不过是几十 MB 的显存。而它带来的好处是显而易见的，我们能够组成的样本对的个数是仅仅利用当前 mini-batch 的一百倍。即便这些特征不能高精准地反映当前模型的信息，但是只要特征偏移在合理的范围内，这种数量上带来的好处，可以完全补足这种误差带来的副作用。具体来看，我们的 XBM 的方法架构大致如下：</p>
+<p><img src="https://i.loli.net/2021/04/02/ixCLyrXDOHwck8u.jpg" alt="img"></p>
+<p>伪代码如下：</p>
+<p><img src="https://i.loli.net/2021/04/02/yWbPMmZtnerAHV3.jpg" alt="img"></p>
+<p>我们的 XBM 从结构上非常简单清晰。我们先训练一个 epoch 左右，等待特征偏移变小。然后，我们使用 XBM：一个特征队列去记忆过去 mini-batch 的特征，每次迭代都会把当前 mini-batch 提取出来的新鲜特征加入队列，并把最旧的特征踢出队列，从而保证 XBM 里的特征尽量是最新的。每次去构建样本队列的时候，我们将当前 mini-batch 和 XBM 里的所有特征都进行配对比较，从而形成了巨量的样本对。如果说 XBM 存储了过去 100 个 mini-batch，那么其所产生的样本对就是基于 mini-batch 方法的 100 倍。不难发现，XBM 其实直接和过去基于样本对的方法结合，只需要把原来的 mini-batch 内的样本对换成当前 mini-batch 和 XBM 的特征构成的样本对就可以了。所以，我们通过 XBM 这种存储特征的机制，能够让不同时序的 mini-batch 的特征成功配对。</p>
+<h2 id="消融实验一"><a href="#消融实验一" class="headerlink" title="消融实验一"></a><strong>消融实验一</strong></h2><p><img src="https://i.loli.net/2021/04/02/Be4GvZMLxiCbEyt.jpg" alt="img"></p>
+<p>首先，我们在三个常用的检索数据集，和三个基于样本对的深度学习的方法上，使用 XBM 进行测试，同时控制其他的设置全部不变。我们发现，XBM 带来的效果很明显。尤其是在最基本的对比损失（Contrastive Loss）上，可以看到，本来这个方法只利用 mini-batch 内的样本时，其效果并不显著，但是 XBM 带来了显著的效果提升。在三个数据集， Recall@1 都至少提升 10 个点，尤其是 VehicleID 数据集的最大（Large）测试集，效果提升了 22 个点，从 70.0 到 92.5。</p>
+<h2 id="消融实验二"><a href="#消融实验二" class="headerlink" title="消融实验二"></a><strong>消融实验二</strong></h2><p><img src="https://i.loli.net/2021/04/02/VD6UHdejXizlyTf.jpg" alt="img"></p>
+<p>关于 mini-batch 的大小对结果的影响， 从上图可发现三点：</p>
+<p><strong>1.</strong> 无论是否使用 XBM，mini-batch 越大，效果越好；</p>
+<p><strong>2.</strong> XBM 方法即便是使用很小的 batch (16)， 也比没有 XBM 使用大的 batch (256) 效果好；</p>
+<p><strong>3.</strong> 由于 XBM 本身可以提供正样本对，所以可以不一定要用 PK sampler 来生成 mini-batch，而是可以直接使用原始的 shuffle sampler，效果相似。</p>
+<h2 id="计算资源消耗"><a href="#计算资源消耗" class="headerlink" title="计算资源消耗"></a><strong>计算资源消耗</strong></h2><p>下图我们展示了在 SOP 上训练 XBM 时的计算资源消耗，即便把整个训练集（50K+）的特征都加载到 XBM，不过需要 0.2GB 的显存；而如果是使用增大 batch 的方法，会额外需要 15GB 显存，是 XBM 的 80 倍，但是效果的提升比 XBM 差很多。毕竟 XBM 仅仅需要存特征，特征也是直过去的 mini-batch 的前向计算的结果，计算资源的需求很小。</p>
+<p><img src="https://i.loli.net/2021/04/02/ATGEJLXR9UjWCN6.jpg" alt="img"></p>
+<h2 id="对比-SOTA"><a href="#对比-SOTA" class="headerlink" title="对比 SOTA"></a><strong>对比 SOTA</strong></h2><p>与最近的深度度量学习方法对比，我们在四个检索数据库上效果均大幅提升，这里仅列出 VehicleID 的效果，其他数据集的效果见原论文。</p>
+<p><img src="https://i.loli.net/2021/04/02/veWF2knBIuEogwj.jpg" alt="img"></p>
+<p>简单来说，不同于部分文章中使用更好的网络结构，更大的输出维度，或者更大的 mini-batch 来提升效果，强行 SOTA。我们列出 XBM 在 64 的 mini-batch 在不同的主干网络下及各种维度下的效果，其效果一直是最好的。</p>
+<p><strong>另外，我们的方法也将整理开源，地址在：</strong></p>
+<p><strong><a href="https://link.zhihu.com/?target=https%3A//github.com/MalongTech/research-xbm" target="_blank" rel="noopener">https://github.com/MalongTech/research-xbm</a></strong></p>
+<p><strong>论文地址在：</strong></p>
+<p><strong><a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1912.06798" target="_blank" rel="noopener">https://arxiv.org/abs/1912.06798</a></strong></p>
+<p><strong>期待与更多研究者共同学习交流。</strong></p>
+<h2 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a><strong>可视化</strong></h2><p><img src="https://i.loli.net/2021/04/02/TIxiYh9LDWnUq4s.jpg" alt="img"></p>
+<p>更多可视化见论文补充材料，有更多实例说明效果。</p>
+<h2 id="总结与展望"><a href="#总结与展望" class="headerlink" title="总结与展望"></a><strong>总结与展望</strong></h2><p>第一，本文提出的 XBM 方法能够记住过去的特征，使得模型的训练不再仅仅依靠当前 mini-batch 的样本，而是可以跨越时空进行样本配对。从而用极小的代价，提供了巨量的样本对，为 pair-based 的深度度量学习方法取得了巨大的效果提升。这种提升难例挖掘效果的方式，也是突破了过去两个传统思路：加权和聚类，并且效果也更加简单、直接，很好地解决了深度度量学习的痛点。</p>
+<p>第二，其实 Memory 机制并不是本文原创，但是用 Memory 来做难例挖掘是一个全新的尝试。同样在 CVPR 2020 获得 Oral，也是由 Kaiming He 作为一作的 MoCo 也是这种思路。<font color="red"><strong>本文的方法其实可以认为是 MoCo 在 ｍ=0 的特例</strong></font>，Kaiming 通过动量更新 key encoder，可以直接控制住特征偏移。作者认为，这种方法还会在很多任务带来提升，不局限于 Kaiming 的自监督表示学习，以及此前我们一直关注研究的度量学习（或者说监督表示学习）。</p>
+<p>第三，在本文中，虽然 XBM 在所有的 pair-based 的方法都有提升，但是明显在对比损失（Contrastive Loss）上提升最大，具体原因待考。另外，我们也把在无监督表示上表现很好的 infoNCE 方法用到了深度度量学习，但效果并不显著。作者认为这两个问题的答案是同一个，且有值得深究的价值，希望在后续研究中进行进一步跟进探索。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/metric-learning/" rel="tag"># metric learning</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/02/HiT-Hierarchical-Transformer-with-Momentum-Contrast-for-Video-Text-Retrieval/" rel="next" title="HiT Hierarchical Transformer with Momentum Contrast for Video-Text Retrieval">
+                <i class="fa fa-chevron-left"></i> HiT Hierarchical Transformer with Momentum Contrast for Video-Text Retrieval
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">232</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">43</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">43</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景和动机"><span class="nav-number">1.</span> <span class="nav-text">背景和动机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#特征偏移"><span class="nav-number">2.</span> <span class="nav-text">特征偏移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法梗概"><span class="nav-number">3.</span> <span class="nav-text">方法梗概</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消融实验一"><span class="nav-number">4.</span> <span class="nav-text">消融实验一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消融实验二"><span class="nav-number">5.</span> <span class="nav-text">消融实验二</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算资源消耗"><span class="nav-number">6.</span> <span class="nav-text">计算资源消耗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对比-SOTA"><span class="nav-number">7.</span> <span class="nav-text">对比 SOTA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化"><span class="nav-number">8.</span> <span class="nav-text">可视化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结与展望"><span class="nav-number">9.</span> <span class="nav-text">总结与展望</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 's22c7ikjlbMrGGRlCcDrqOjo-gzGzoHsz',
+      appKey: 'HnhoXmenrEs7Unb12AD7Sxgg',
+      placeholder: 'Just go go',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: false
+    });
+  </script>
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
