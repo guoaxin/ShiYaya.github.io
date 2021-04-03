@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/04/01/Thinking-Fast-and-Slow-Efficient-Text-to-Visual-Retrieval-with-Transformers/</loc>
+    
+    <lastmod>2021-04-03T02:02:53.319Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/04/02/Cross-Batch-Memory-for-Embedding-Learning/</loc>
     
     <lastmod>2021-04-02T09:00:57.098Z</lastmod>
@@ -19,13 +26,6 @@
     <loc>http://yoursite.com/2021/04/02/HiT-Hierarchical-Transformer-with-Momentum-Contrast-for-Video-Text-Retrieval/</loc>
     
     <lastmod>2021-04-02T08:53:54.233Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/04/01/Thinking-Fast-and-Slow-Efficient-Text-to-Visual-Retrieval-with-Transformers/</loc>
-    
-    <lastmod>2021-04-01T13:12:29.324Z</lastmod>
     
   </url>
   
