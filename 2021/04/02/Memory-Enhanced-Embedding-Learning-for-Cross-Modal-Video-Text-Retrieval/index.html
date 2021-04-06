@@ -106,7 +106,7 @@
 <meta property="og:description" content="本文研究的任务 视频文本跨模态检索  存在的问题本文提出的问题其实也是度量学习中的一个关键问题，对于一个anchor, 为了在一个mini-batch中看到更多的负样本，一个简单的方法是扩大batch size，计算量就提升了。 针对此问题，有人提出了 memory bank, 将整个训练集中的样本特征预先提取出来，存储起来，每个epoch更新一次。Memory Bank 虽然可以保留足够多的样本">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2021/04/02/ymTscqK8Q5Fpkua.png">
-<meta property="og:updated_time" content="2021-04-02T08:54:10.664Z">
+<meta property="og:updated_time" content="2021-04-06T02:37:41.562Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Memory Enhanced Embedding Learning for Cross-Modal Video-Text Retrieval">
 <meta name="twitter:description" content="本文研究的任务 视频文本跨模态检索  存在的问题本文提出的问题其实也是度量学习中的一个关键问题，对于一个anchor, 为了在一个mini-batch中看到更多的负样本，一个简单的方法是扩大batch size，计算量就提升了。 针对此问题，有人提出了 memory bank, 将整个训练集中的样本特征预先提取出来，存储起来，每个epoch更新一次。Memory Bank 虽然可以保留足够多的样本">
@@ -263,7 +263,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">43</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">44</span></a>
 
   </li>
         
@@ -301,7 +301,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">232</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">234</span></a>
 
   </li>
 
@@ -425,12 +425,24 @@
                 
               
 
-              <time title="创建时间：2021-04-02 11:15:49 / 修改时间：16:54:10" itemprop="dateCreated datePublished" datetime="2021-04-02T11:15:49+08:00">2021-04-02</time>
+              <time title="创建时间：2021-04-02 11:15:49" itemprop="dateCreated datePublished" datetime="2021-04-02T11:15:49+08:00">2021-04-02</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-04-06 10:37:41" itemprop="dateModified" datetime="2021-04-06T10:37:41+08:00">2021-04-06</time>
               
             
           </span>
@@ -503,7 +515,7 @@
 </ul>
 <h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h2><p>本文提出的问题其实也是度量学习中的一个关键问题，对于一个anchor, 为了在一个mini-batch中看到更多的负样本，一个简单的方法是扩大batch size，计算量就提升了。</p>
 <p>针对此问题，有人提出了 memory bank, 将整个训练集中的样本特征预先提取出来，存储起来，每个epoch更新一次。Memory Bank 虽然可以保留足够多的样本进行 negative采样，但是其中存储的图像特征都是过去的 encoder 编码的特征。由于 Memory Bank 容量很大，导致了采样的特征具有不一致性（是由不同的encoder产生的）。</p>
-<h4 id="MOCO"><a href="#MOCO" class="headerlink" title="MOCO"></a>MOCO</h4><p>鉴于此，MoCo 使用一个队列来存储和采样 negative 样本，队列中存储多个<strong>近期</strong>用于训练的 batch 的特征向量。队列容量要远小于 Memory Bank，但可以远大于 batch 的容量。本文提出了将队列作为一个动态的，而非静态的 Memory Bank。队列在不断的进行更新，新的训练batch入队列后，最老的训练batch 出队列。这里入队列的并不是图像本身，而是图像特征。</p>
+<h3 id="MOCO"><a href="#MOCO" class="headerlink" title="MOCO"></a>MOCO</h3><p>鉴于此，MoCo 使用一个队列来存储和采样 negative 样本，队列中存储多个<strong>近期</strong>用于训练的 batch 的特征向量。队列容量要远小于 Memory Bank，但可以远大于 batch 的容量。本文提出了将队列作为一个动态的，而非静态的 Memory Bank。队列在不断的进行更新，新的训练batch入队列后，最老的训练batch 出队列。这里入队列的并不是图像本身，而是图像特征。</p>
 <p>训练时, Anchor 样本记为 $x^{q}$ (query), 经过 encoder 网络 $f_{q}$ 进行编码得到 $q=f_{q}\left(x^{q}\right)$<br>o 随后从队列中采样了 $K+1$ 个样本 $\left\{k^{0}, \ldots, k^{K}\right\}$ 作为key。这些 key 是用不同的队列 encoder 网络 $f_{k}$ 进行编码得到的。由于 $f_{k}$ 的变化非常缓慢, 因此虽然 $\left\{k^{0}, \ldots, k^{K}\right\}$ 是通 过不同 encoder 编码的，编码器导致的差异会非常小。具体的，本文使用一种 Momentum 更新 的方式来更新 $f_{k},$ 其参数是对 Query Encoder 的平滑拷贝：<br>$\theta_{k}=m \theta_{k}+(1-m) \theta_{q}$<br>其中 $m=0.999,$ 表示 $\theta_{k}$ 呈现一种缓慢的变化。这种更新方式类似于 Q-learning 中 target-Q冈络更新。</p>
 <p>下图形式化的表示了三种结构, end-to-end, memory-bank和MoCo的区别。MoCo的特点 是: $\quad(1)$ 用于 negative 采样的队列是动态的 (2) 用于 negative 样本特征提取的编码器与用于 query提取的编码器不一致，是一种Momentum更新的关系。而在memory-bank中两个编码器 是一致的。 (3) 与Memory Bank类似, NCE 产生的损失并不影响 $f_{k},$ 只影响 $f_{q}$ 。原因是 $x^{k}$ 样本一般是 $x^{q}$ 样本的几倍, 更新 $f_{k}$ 的代价很大（例如在 end-to-end中 $),$ 因此 Memory-Bank 和 MoCo 都不更新 $f_{k}$ 。</p>
 <p><strong>在实验中，大的动量（例如0.999）往往效果好于小的动量（例如0.9），意味着缓慢变化的key encoder是利用好队列的关键所在。</strong></p>
@@ -636,7 +648,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">232</span>
+                    <span class="site-state-item-count">234</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -834,7 +846,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">43</span>
+                      
+                    
+                    <span class="site-state-item-count">44</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -870,7 +884,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文研究的任务"><span class="nav-number">1.</span> <span class="nav-text">本文研究的任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存在的问题"><span class="nav-number">2.</span> <span class="nav-text">存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MOCO"><span class="nav-number">2.0.1.</span> <span class="nav-text">MOCO</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的方法"><span class="nav-number">3.</span> <span class="nav-text">本文的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启发"><span class="nav-number">4.</span> <span class="nav-text">启发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文研究的任务"><span class="nav-number">1.</span> <span class="nav-text">本文研究的任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存在的问题"><span class="nav-number">2.</span> <span class="nav-text">存在的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MOCO"><span class="nav-number">2.1.</span> <span class="nav-text">MOCO</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的方法"><span class="nav-number">3.</span> <span class="nav-text">本文的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启发"><span class="nav-number">4.</span> <span class="nav-text">启发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>
@@ -1427,6 +1441,43 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
   
 
 

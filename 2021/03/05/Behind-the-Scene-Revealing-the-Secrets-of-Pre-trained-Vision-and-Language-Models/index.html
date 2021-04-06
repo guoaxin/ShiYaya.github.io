@@ -98,16 +98,19 @@
 
 
   <meta name="description" content="本文研究的任务最近Transformer-based 大规模预训练模型推动了 多模态任务的发展，比如，ViL-BERT，LXMERT and UNITER。然而，对于使它们取得成功的内部机制知之甚少。为了揭示内部机制，本文提出了VALUE（Vision-And-Language Understanding Evaluation），一组精心设计的探测任务（probing task, eg: Visu">
+<meta name="keywords" content="cross-modal">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[Behind the Scene] Revealing the Secrets of Pre-trained Vision-and-Language Models">
 <meta property="og:url" content="http://yoursite.com/2021/03/05/Behind-the-Scene-Revealing-the-Secrets-of-Pre-trained-Vision-and-Language-Models/index.html">
 <meta property="og:site_name" content="ShiYaya">
 <meta property="og:description" content="本文研究的任务最近Transformer-based 大规模预训练模型推动了 多模态任务的发展，比如，ViL-BERT，LXMERT and UNITER。然而，对于使它们取得成功的内部机制知之甚少。为了揭示内部机制，本文提出了VALUE（Vision-And-Language Understanding Evaluation），一组精心设计的探测任务（probing task, eg: Visu">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-03-05T10:01:56.309Z">
+<meta property="og:image" content="https://i.loli.net/2021/04/04/r24Dx6oI7qfG8dB.png">
+<meta property="og:updated_time" content="2021-04-06T02:38:12.077Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[Behind the Scene] Revealing the Secrets of Pre-trained Vision-and-Language Models">
 <meta name="twitter:description" content="本文研究的任务最近Transformer-based 大规模预训练模型推动了 多模态任务的发展，比如，ViL-BERT，LXMERT and UNITER。然而，对于使它们取得成功的内部机制知之甚少。为了揭示内部机制，本文提出了VALUE（Vision-And-Language Understanding Evaluation），一组精心设计的探测任务（probing task, eg: Visu">
+<meta name="twitter:image" content="https://i.loli.net/2021/04/04/r24Dx6oI7qfG8dB.png">
 
 
 
@@ -260,7 +263,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">43</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">44</span></a>
 
   </li>
         
@@ -298,7 +301,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">232</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">234</span></a>
 
   </li>
 
@@ -422,16 +425,46 @@
                 
               
 
-              <time title="创建时间：2021-03-05 17:34:24 / 修改时间：18:01:56" itemprop="dateCreated datePublished" datetime="2021-03-05T17:34:24+08:00">2021-03-05</time>
+              <time title="创建时间：2021-03-05 17:34:24" itemprop="dateCreated datePublished" datetime="2021-03-05T17:34:24+08:00">2021-03-05</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-04-06 10:38:12" itemprop="dateModified" datetime="2021-04-06T10:38:12+08:00">2021-04-06</time>
               
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/cross-modal/" itemprop="url" rel="index"><span itemprop="name">cross-modal</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -479,6 +512,16 @@
       
         <h3 id="本文研究的任务"><a href="#本文研究的任务" class="headerlink" title="本文研究的任务"></a>本文研究的任务</h3><p>最近Transformer-based 大规模预训练模型推动了 多模态任务的发展，比如，ViL-BERT，LXMERT and UNITER。然而，对于使它们取得成功的<strong>内部机制</strong>知之甚少。为了揭示内部机制，本文提出了VALUE（Vision-And-Language Understanding Evaluation），一组精心设计的<strong>探测任务</strong>（probing task, eg: Visual Coreference Resolution, Visual Relation Detection），可推广到标准的预训练V + L模型， 破译多模式预训练的内部运作方式（例如，在各个attention heads 中获得的隐性知识，通过上下文化多模式嵌入学习的 inherent cross-modal alignment）。</p>
 <h3 id="本文的实验发现"><a href="#本文的实验发现" class="headerlink" title="本文的实验发现"></a>本文的实验发现</h3><p>经由这些探测任务，通过对每个原型模型体系结构的广泛分析，我们的主要观察结果是：（i）预训练的模型在推理过程中表现出对文本而不是图像的关注。 （ii）存在专门为捕获cross-modal interactions 而设计的 a subset of attetion heads（iii）在多个预训练模型中学习的注意力矩阵显示出图像区域和文本单词之间的<strong>潜在对齐</strong>，表现出<strong>一致的模式</strong>。 （iv）绘制的注意力模式(attention patern)揭示了图像区域之间的视觉可解释的关系。 （v）纯粹的语言知识也被有效地编码在注意力集中。 这些宝贵的见解可指导未来的工作，以设计更好的模型架构和多模式预训练的目标。</p>
+<h3 id="1-What-is-the-correlation-between-multimodal-fusion-and-the-number-of-layers-in-pre-trained-models"><a href="#1-What-is-the-correlation-between-multimodal-fusion-and-the-number-of-layers-in-pre-trained-models" class="headerlink" title="1. What is the correlation between multimodal fusion and the number of layers in pre-trained models?"></a>1. What is the correlation between multimodal fusion and the number of layers in pre-trained models?</h3><p>可视化每层的embeddings (regions and tokens), 并使用 k-means算法来聚类（k=2），然后measure the difference between the formed clusters and ground-truth visual/textual clusters via Normalized Mutual Information (NMI), an unsupervised metric for evaluating differences between clusters.</p>
+<ul>
+<li>ground-truth visual/textual clusters, 是什么？？？？</li>
+</ul>
+<p><img src="https://i.loli.net/2021/04/04/r24Dx6oI7qfG8dB.png" alt="image-20210404171353836" style="zoom:50%;"></p>
+<p><strong>结论</strong>： For (a) Multimodal Fusion Degree, clustering analysis between image and text representations shows that in single-stream models like UNITER, as the network layers go deeper, the fusion between two modalities becomes more intertwined. However, the opposite phenomenon is observed in two-stream models like LXMERT.</p>
+<h3 id="2-Which-modality-plays-a-more-important-role-that-drives-the-pre-trained-model-to-make-final-predictions"><a href="#2-Which-modality-plays-a-more-important-role-that-drives-the-pre-trained-model-to-make-final-predictions" class="headerlink" title="2. Which modality plays a more important role that drives the pre-trained model to make final predictions?"></a>2. Which modality plays a more important role that drives the pre-trained model to make final predictions?</h3><p><strong>结论：</strong>For (b) Modality Importance, by analyzing the attention trace of the [CLS] token, which is commonly considered as containing the intended fused multimodal information and often used as the input signal for downstream tasks, we nd that the nal predictions tend to depend more on textual input rather than visual input.</p>
+<h3 id="3-What-knowledge-is-encoded-in-pre-trained-models-that-supports-cross-modal-interaction-and-alignment"><a href="#3-What-knowledge-is-encoded-in-pre-trained-models-that-supports-cross-modal-interaction-and-alignment" class="headerlink" title="3. What knowledge is encoded in pre-trained models that supports cross-modal interaction and alignment?"></a>3. What knowledge is encoded in pre-trained models that supports cross-modal interaction and alignment?</h3><p><strong>结论：</strong>For (c) Cross-modal Interaction, we propose a Visual Coreference Resolution task to probe its encoded knowledge.</p>
+<h3 id="4-What-knowledge-has-been-learned-for-image-to-image-intra-modal-interaction-i-e-visual-relations"><a href="#4-What-knowledge-has-been-learned-for-image-to-image-intra-modal-interaction-i-e-visual-relations" class="headerlink" title="4. What knowledge has been learned for image-to-image (intra-modal) interaction (i.e., visual relations)?"></a>4. What knowledge has been learned for image-to-image (intra-modal) interaction (i.e., visual relations)?</h3><p>For (d) Image-to-image Interaction, we conduct analysis via Visual Relation Detection between two image regions.</p>
+<h3 id="5-Compared-with-BERT-do-pre-trained-V-L-models-eectively-encode-linguistic-knowledge-for-text-to-text-intra-modal-interaction"><a href="#5-Compared-with-BERT-do-pre-trained-V-L-models-eectively-encode-linguistic-knowledge-for-text-to-text-intra-modal-interaction" class="headerlink" title="5. Compared with BERT, do pre-trained V+L models eectively encode linguistic knowledge for text-to-text (intra-modal) interaction?"></a>5. Compared with BERT, do pre-trained V+L models eectively encode linguistic knowledge for text-to-text (intra-modal) interaction?</h3><p>结论：For (e) Text-to-text Interaction, we evaluate the linguistic knowledge encoded in each layer of the tested model with SentEval tookit [8], and compare with the original BERT [9]. Experiments show that both single- and two-stream models, especially the former, can well capture cross-modal alignment, visual relations, and linguistic knowledge.</p>
 
       
     </div>
@@ -499,6 +542,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cross-modal/" rel="tag"># cross-modal</a>
+          
+        </div>
       
 
       
@@ -594,7 +643,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">232</span>
+                    <span class="site-state-item-count">234</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -792,7 +841,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">43</span>
+                      
+                    
+                    <span class="site-state-item-count">44</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -828,7 +879,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#本文研究的任务"><span class="nav-number">1.</span> <span class="nav-text">本文研究的任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文的实验发现"><span class="nav-number">2.</span> <span class="nav-text">本文的实验发现</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#本文研究的任务"><span class="nav-number">1.</span> <span class="nav-text">本文研究的任务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文的实验发现"><span class="nav-number">2.</span> <span class="nav-text">本文的实验发现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-What-is-the-correlation-between-multimodal-fusion-and-the-number-of-layers-in-pre-trained-models"><span class="nav-number">3.</span> <span class="nav-text">1. What is the correlation between multimodal fusion and the number of layers in pre-trained models?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Which-modality-plays-a-more-important-role-that-drives-the-pre-trained-model-to-make-final-predictions"><span class="nav-number">4.</span> <span class="nav-text">2. Which modality plays a more important role that drives the pre-trained model to make final predictions?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-What-knowledge-is-encoded-in-pre-trained-models-that-supports-cross-modal-interaction-and-alignment"><span class="nav-number">5.</span> <span class="nav-text">3. What knowledge is encoded in pre-trained models that supports cross-modal interaction and alignment?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-What-knowledge-has-been-learned-for-image-to-image-intra-modal-interaction-i-e-visual-relations"><span class="nav-number">6.</span> <span class="nav-text">4. What knowledge has been learned for image-to-image (intra-modal) interaction (i.e., visual relations)?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Compared-with-BERT-do-pre-trained-V-L-models-eectively-encode-linguistic-knowledge-for-text-to-text-intra-modal-interaction"><span class="nav-number">7.</span> <span class="nav-text">5. Compared with BERT, do pre-trained V+L models eectively encode linguistic knowledge for text-to-text (intra-modal) interaction?</span></a></li></ol></div>
             
 
           </div>
@@ -1385,6 +1436,43 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
   
 
 
