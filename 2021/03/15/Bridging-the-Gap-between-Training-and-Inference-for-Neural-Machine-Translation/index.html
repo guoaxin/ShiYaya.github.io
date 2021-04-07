@@ -111,7 +111,7 @@
 <meta property="og:image" content="https://i.loli.net/2021/03/14/oJlrVILE6FgkcyM.png">
 <meta property="og:image" content="https://i.loli.net/2021/03/14/wc7Ql4js39KBCXg.png">
 <meta property="og:image" content="https://i.loli.net/2021/03/15/H6U7Dc5wP8KAsNG.png">
-<meta property="og:updated_time" content="2021-04-07T12:23:32.749Z">
+<meta property="og:updated_time" content="2021-04-07T12:28:57.779Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bridging the Gap between Training and Inference for Neural Machine Translation">
 <meta name="twitter:description" content="1. 简介本文是ACL 2019 的 最佳长文奖。 论文主要解决神经网络在翻译领域，训练和测试时所用的上文信息不同造成的偏差问题。 论文提出了新的训练方法，而非新的模型。读完之后，发现这种方法适用于许多领域的训练-测试不匹配的问题，如：阅读理解、语言模型。 2. 存在的问题传统的神经机器翻译有两个问题：  exposure bias （训练和测试时所用的上文信息不同的问题） overcorrect">
@@ -447,7 +447,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-04-07 20:23:32" itemprop="dateModified" datetime="2021-04-07T20:23:32+08:00">2021-04-07</time>
+                <time title="修改时间：2021-04-07 20:28:57" itemprop="dateModified" datetime="2021-04-07T20:28:57+08:00">2021-04-07</time>
               
             
           </span>
@@ -544,7 +544,7 @@
 <p>一种方法是每个时间步采用词级别的 greedy search来生成oracle word, 称为word-level oracle(WO)。另一种方法是采用beam-search, 扩大搜索空间, 用句子级的衡量指标(如：BLEU)对beam-search的结果进行排序，称为sentence-level oracle(SO).</p>
 <h4 id="3-1-1-Word-Level-Oracle"><a href="#3-1-1-Word-Level-Oracle" class="headerlink" title="3.1.1 Word Level Oracle"></a>3.1.1 <strong>Word Level Oracle</strong></h4><p><img src="https://i.loli.net/2021/03/14/oJlrVILE6FgkcyM.png" alt="image-20210314200245535" style="zoom: 33%;"></p>
 <p><img src="https://i.loli.net/2021/03/14/wc7Ql4js39KBCXg.png" alt="image-20210314200310765" style="zoom:33%;"></p>
-<p>选择 $y_{t-1}^{\text {oracle }}$ 最简单直观的方法是, 在时间步$t$-1 , 选择公式 $P_{t-1}$ 中概率最高的词作为 $y_{t-1}^{\text {oracle }},$ 如Fig.2所 示。 为了获得更健壮的 $y_{t-1}^{\text {oracle }}$, 更好地选择是使用<a href="https://www.cnblogs.com/initial-h/p/9468974.html" target="_blank" rel="noopener">gumbel max技术</a>来冲离散分布中进行抽样, 如 Fig.3所示。<br>具体地讲, 将gumbel noise <strong style="color:blue;">$\eta$</strong> 作为正则化项加到decoder的预测概率分布上，进而再做softmax操作。</p>
+<p>选择 $y_{t-1}^{\text {oracle }}$ 最简单直观的方法是, 在时间步$t$-1 , 选择公式 $P_{t-1}$ 中概率最高的词作为 $y_{t-1}^{\text {oracle }},$ 如Fig.2所 示。 为了获得更健壮的 $y_{t-1}^{\text {oracle }}$, 更好地选择是使用<a href="https://www.cnblogs.com/initial-h/p/9468974.html" target="_blank" rel="noopener">gumbel max技术</a>来从分类分布中进行抽样, 如 Fig.3所示。<br>具体地讲, 将gumbel noise <strong style="color:blue;">$\eta$</strong> 作为正则化项加到decoder的预测概率分布上，进而再做softmax操作。</p>
 <p>$\eta=-\log (-\log u)$<br>$\tilde{o}_{j-1}=\left(o_{j-1}+\eta\right) / \tau$<br>$\tilde{P}_{j-1}=\operatorname{softmax}\left(\tilde{o}_{j-1}\right)$</p>
 <p>其中变量 $u \sim U(0,1)$ 服从均匀分布。 $\tau$ 为温度系数, 当 $\tau \rightarrow 0$ 时， 公式(8)的softmax()逐渐相当于<br>$\operatorname{argmax}()$ 函数 $;$ 当 $\tau \rightarrow \infty$ 时, $\operatorname{softmax}()$ 函数逐渐相当于均匀分布。</p>
 <p>则 $y_{t-1}^{\text {oracle }}$ 为：$y_{j-1}^{\text {oracle }}=\operatorname{argmax}\left(\tilde{P}_{j-1}\right)$</p>
