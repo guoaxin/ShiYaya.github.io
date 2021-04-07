@@ -112,7 +112,7 @@
 <meta property="og:image" content="https://i.loli.net/2021/03/20/qVFgDbyLQrXpZUt.png">
 <meta property="og:image" content="https://i.loli.net/2021/03/20/4QKcUYDtgAmeGqM.png">
 <meta property="og:image" content="https://i.loli.net/2021/03/20/cpGqLZ2twR5z4di.png">
-<meta property="og:updated_time" content="2021-03-21T08:12:00.787Z">
+<meta property="og:updated_time" content="2021-04-06T07:43:03.332Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[It’s Not Just Size That Matters] Small Language Models Are Also Few-Shot Learners">
 <meta name="twitter:description" content="转载：https://www.sohu.com/a/422484297_500659 显然，这标题对标的就是 GPT-3，于是笔者饶有兴趣地点进去看看是谁这么有勇气挑战 GPT-3，又是怎样的小模型能挑战 GPT-3？经过阅读，原来作者提出通过适当的构造， 用 BERT 的 MLM 模型也可以做小样本学习，看完之后颇有一种“原来还可以这样做”的恍然大悟感。在此与大家分享一下。 冉冉升起的MLMML">
@@ -269,7 +269,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">44</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">45</span></a>
 
   </li>
         
@@ -288,7 +288,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">43</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">44</span></a>
 
   </li>
         
@@ -307,7 +307,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">234</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">235</span></a>
 
   </li>
 
@@ -448,7 +448,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-03-21 16:12:00" itemprop="dateModified" datetime="2021-03-21T16:12:00+08:00">2021-03-21</time>
+                <time title="修改时间：2021-04-06 15:43:03" itemprop="dateModified" datetime="2021-04-06T15:43:03+08:00">2021-04-06</time>
               
             
           </span>
@@ -555,16 +555,7 @@
 <p>然后，我们需要构建预测 Token 的候选空间，并且建立 Token 到实际类别的映射，这在原论文中称为 <strong>Verbalizer</strong>，比如情感分类的例子，我们的候选空间是 很 不 ，映射关系是 很 正 面 不 负 面 ，候选空间与实际类别之间不一定是一一映射，比如我们还可以加入“挺”、“太”、“难”字，并且认为 很 挺 太 正 面 以 及 不 难 负 面 ，等等。</p>
 <p>不难理解，不少 NLP 任务都有可能进行这种转换，但显然这种转换一般只适用于 <strong>候选空间有限</strong>的任务，说白了就是只用来做 <strong>选择题</strong>，常见任务的就是 <strong>文本分类</strong>。</p>
 <p>刚才说了，同一个任务可以有多种不同的 Pattern，原论文是这样处理的：</p>
-<ol>
-<li><p>对于每种 Pattern，单独用训练集 Finetune一个 MLM 模型出来；</p>
-</li>
-<li><p>然后将不同 Pattern对应的模型进行集成，得到融合模型；</p>
-</li>
-<li><p>用融合模型预测未标注数据的伪标签；</p>
-</li>
-<li><p>用伪标签数据 Finetune 一个常规的（非 MLM 的）模型。</p>
-</li>
-</ol>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1. </span>对于每种 Pattern，单独用训练集 Finetune一个 MLM 模型出来；</span><br><span class="line"><span class="bullet">2. </span>然后将不同 Pattern对应的模型进行集成，得到融合模型；</span><br><span class="line"><span class="bullet">3. </span>用融合模型预测未标注数据的伪标签；</span><br><span class="line"><span class="bullet">4. </span>用伪标签数据 Finetune 一个常规的（非 MLM 的）模型。</span><br></pre></td></tr></table></figure>
 <p>具体的集成方式大家自己看论文就行，这不是重点。这种训练模式被称为 <strong>Pattern-Exploiting Training（PET）</strong>，它首先出现在论文 <strong>Exploiting Cloze Questions for Few Shot Text Classification and Natural Language Inference</strong>。</p>
 <p><strong style="color:blue;">yaya: 与 这篇论文思想很类似：How Many Data Points is a PromptWorth? （arXiv: 2103.08493v1）</strong></p>
 <p>本文要介绍的这篇论文则进一步肯定和完善了 Pattern-Exploiting Training 的价值和结果，并整合了多任务学习，使得它在 SuperGLUE 榜单上的小样本学习效果超过了 GPT3。两篇论文的作者是相同的，是一脉相承的作品。</p>
@@ -756,7 +747,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">234</span>
+                    <span class="site-state-item-count">235</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -855,7 +846,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">43</span>
+                      
+                    
+                    <span class="site-state-item-count">44</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -956,7 +949,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">44</span>
+                      
+                    
+                    <span class="site-state-item-count">45</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

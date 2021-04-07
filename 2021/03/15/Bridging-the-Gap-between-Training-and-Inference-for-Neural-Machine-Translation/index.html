@@ -111,7 +111,7 @@
 <meta property="og:image" content="https://i.loli.net/2021/03/14/oJlrVILE6FgkcyM.png">
 <meta property="og:image" content="https://i.loli.net/2021/03/14/wc7Ql4js39KBCXg.png">
 <meta property="og:image" content="https://i.loli.net/2021/03/15/H6U7Dc5wP8KAsNG.png">
-<meta property="og:updated_time" content="2021-03-15T09:31:10.180Z">
+<meta property="og:updated_time" content="2021-04-07T12:23:32.749Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bridging the Gap between Training and Inference for Neural Machine Translation">
 <meta name="twitter:description" content="1. 简介本文是ACL 2019 的 最佳长文奖。 论文主要解决神经网络在翻译领域，训练和测试时所用的上文信息不同造成的偏差问题。 论文提出了新的训练方法，而非新的模型。读完之后，发现这种方法适用于许多领域的训练-测试不匹配的问题，如：阅读理解、语言模型。 2. 存在的问题传统的神经机器翻译有两个问题：  exposure bias （训练和测试时所用的上文信息不同的问题） overcorrect">
@@ -268,7 +268,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">44</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">45</span></a>
 
   </li>
         
@@ -287,7 +287,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">43</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">44</span></a>
 
   </li>
         
@@ -306,7 +306,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">234</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">235</span></a>
 
   </li>
 
@@ -430,12 +430,24 @@
                 
               
 
-              <time title="创建时间：2021-03-15 16:15:51 / 修改时间：17:31:10" itemprop="dateCreated datePublished" datetime="2021-03-15T16:15:51+08:00">2021-03-15</time>
+              <time title="创建时间：2021-03-15 16:15:51" itemprop="dateCreated datePublished" datetime="2021-03-15T16:15:51+08:00">2021-03-15</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-04-07 20:23:32" itemprop="dateModified" datetime="2021-04-07T20:23:32+08:00">2021-04-07</time>
               
             
           </span>
@@ -525,7 +537,7 @@
 <h2 id="3-Method"><a href="#3-Method" class="headerlink" title="3. Method"></a>3. Method</h2><p><img src="https://i.loli.net/2021/03/14/QLSZEk4dqNln6jV.png" alt="image-20210314193828727" style="zoom:50%;"></p>
 <p>为了消除或减轻train阶段和infer阶段的差别, 论文提出从真实的词 $y_{t-1}^{*}$ 和预测的词 $y_{t-1}^{\text {oracle }}$ 中抽样, decoder根据抽样的词来预测下一个词 $y_{t}$ 。使用论文提出的方法, 在时间步 $t$ 预测 $y_{t}$ 分为三步:</p>
 <p>[1] 设真实输出中上一个词为 $y_{j-1}^{*}$ 。从预测的词中选择oracle word $y_{j-1}^{\text {oracle }},$ 论文提出了两种方法来选择oracle word，分别是词级别的方法和句子级别的方法。</p>
-<p>[2] 接着从 $\left\{y_{j-1}^{\text {oracle }}, y_{j-1}^{<em>}\right\}.$ 中抽样一个词，抽中 $y_{j-1}^{</em>}$ 的概率为 $p$, 抽中 $y_{j-1}^{\text {oracle }}$ 的概率为 $1-p_{\circ}$ </p>
+<p>[2] 接着从 ${y_{j-1}^{\text {oracle }}, y_{j-1}^{<em>}}.$ 中抽样一个词，抽中 $y_{j-1}^{</em>}$ 的概率为 $p$, 抽中 $y_{j-1}^{oracle}$ 的概率为 $1-p_{\circ}$ </p>
 <p>[3] 最后, decoder根据抽样的这个词来预测 $y_{j}$。</p>
 <h3 id="3-1-Oracle-Word-Selection"><a href="#3-1-Oracle-Word-Selection" class="headerlink" title="3.1 Oracle Word Selection"></a>3.1 Oracle Word Selection</h3><p>传统的方法中， decoder会根据上一个时间步真实的 $y_{t-1}^{*}$ 来预测 $y_{t}$ 。</p>
 <p>为了消除train阶段的infer阶段的 差别，可以从预测的词中选择oracle word $y_{t-1}^{\text {oracle }}$ 来代替 $y_{t-1^{\circ}}^{*}$ </p>
@@ -678,7 +690,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">234</span>
+                    <span class="site-state-item-count">235</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -777,7 +789,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">43</span>
+                      
+                    
+                    <span class="site-state-item-count">44</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -878,7 +892,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">44</span>
+                      
+                    
+                    <span class="site-state-item-count">45</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

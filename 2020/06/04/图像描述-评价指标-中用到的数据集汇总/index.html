@@ -106,7 +106,7 @@
 <meta property="og:description" content="为了评估 提出的metric 与 human judgement的相关性，提出了一些数据集。这些数据集，包含image-text-human_score, 通过利用统计学分析 metric_evaluation 与 human_score 的相关性，来验证提出评价指标的合理性。 Caption-level CorrelationFlickr 8k Dataset website: http://a">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1gcdc0x4s91j30ex04uaas.jpg">
-<meta property="og:updated_time" content="2020-07-05T11:06:44.746Z">
+<meta property="og:updated_time" content="2021-04-07T03:26:36.948Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="图像描述-评价指标-中用到的数据集汇总">
 <meta name="twitter:description" content="为了评估 提出的metric 与 human judgement的相关性，提出了一些数据集。这些数据集，包含image-text-human_score, 通过利用统计学分析 metric_evaluation 与 human_score 的相关性，来验证提出评价指标的合理性。 Caption-level CorrelationFlickr 8k Dataset website: http://a">
@@ -263,7 +263,7 @@
       
     
 
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">44</span></a>
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">45</span></a>
 
   </li>
         
@@ -282,7 +282,7 @@
       
     
 
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">43</span></a>
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">44</span></a>
 
   </li>
         
@@ -301,7 +301,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">234</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">235</span></a>
 
   </li>
 
@@ -442,7 +442,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2020-07-05 19:06:44" itemprop="dateModified" datetime="2020-07-05T19:06:44+08:00">2020-07-05</time>
+                <time title="修改时间：2021-04-07 11:26:36" itemprop="dateModified" datetime="2021-04-07T11:26:36+08:00">2021-04-07</time>
               
             
           </span>
@@ -601,6 +601,12 @@
 </ul>
 </li>
 </ul>
+<font size="2">**yaya** </font>
+
+<p>由(CVPR 2018) Learning to Evaluate Image Captioning中的描述：“we don’t have access to the COCO test set annotations, where the human judgments are collected on, we perform our experiments on the COCO validation set. There are 15 teams participated in the 2015 COCO captioning challenge and we use 12 of them that submitted results on the validation set. We assume the human judgment on the validation set is sufficiently similar to the judgment on the test set. “</p>
+<p>大致是说，<strong>我们无法访问到coco test set annotations，因此，假设system 在测试集和验证集上的human judgements是一致的，所以使用val set prediction caption 和 test test human judgements.</strong></p>
+<p>IJCV LCEval 采用的是和他们一致的思路</p>
+<p>SPICE 是将他们的code 发送给COCO官方（因为spice authors也无法访问 test captions）</p>
 <font size="2">**使用 Note** </font>
 
 <p>计算system-level correlation, （1）需要为每个 caption model 来计算一个metric score, 这个分数聚合了由该model 生成的所有的caption 的 metric socre。（2） 然后，该captio model 的aggregate metric score 与 system-level human assessments之间的相关性被计算。</p>
@@ -801,7 +807,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">234</span>
+                    <span class="site-state-item-count">235</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -900,7 +906,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">43</span>
+                      
+                    
+                    <span class="site-state-item-count">44</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1001,7 +1009,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">44</span>
+                      
+                    
+                    <span class="site-state-item-count">45</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
