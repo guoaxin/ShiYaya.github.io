@@ -107,7 +107,7 @@
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2021/03/15/VQDxijZcGtzlEph.png">
 <meta property="og:image" content="https://i.loli.net/2021/03/15/DdS1XPZvoEptVgw.png">
-<meta property="og:updated_time" content="2021-03-15T08:24:12.121Z">
+<meta property="og:updated_time" content="2021-04-07T12:45:39.853Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Beam Search">
 <meta name="twitter:description" content="1. 前言自然语言处理任务中，如机器翻译、对话、文本摘要等，都涉及到序列生成。文本序列生成解码过程中有用到 greedy search、维特比算法、beam search等。 2. Beam Search 介绍beam search尝试在广度优先基础上进行进行搜索空间的优化（类似于剪枝）达到减少内存消耗的目的。  算法过程  定义词表大小是V，beam size是 B，序列长度是L。 假设V=10">
@@ -426,12 +426,24 @@
                 
               
 
-              <time title="创建时间：2021-03-15 15:44:10 / 修改时间：16:24:12" itemprop="dateCreated datePublished" datetime="2021-03-15T15:44:10+08:00">2021-03-15</time>
+              <time title="创建时间：2021-03-15 15:44:10" itemprop="dateCreated datePublished" datetime="2021-03-15T15:44:10+08:00">2021-03-15</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-04-07 20:45:39" itemprop="dateModified" datetime="2021-04-07T20:45:39+08:00">2021-04-07</time>
               
             
           </span>
@@ -515,9 +527,9 @@
 </li>
 </ol>
 <ul>
-<li><strong>算法复杂度</strong> $O(B<em>V</em>L)$</li>
+<li><strong>算法复杂度</strong> $O(B<script type="math/tex">*</script>V<script type="math/tex">*</script>L)$</li>
 </ul>
-<p>在第2步，要计算 $B<em>V$ 次。序列长度是L，生成长度为L的序列，计算  $B</em>V*L$ 次。</p>
+<p>在第2步，要计算 $B<script type="math/tex">*</script>V$ 次。序列长度是L，生成长度为L的序列，计算  $B<script type="math/tex">*</script>V<script type="math/tex">*</script>L$ 次。</p>
 <h2 id="3-算法评价"><a href="#3-算法评价" class="headerlink" title="3. 算法评价"></a>3. 算法评价</h2><ul>
 <li><strong>优点</strong></li>
 </ul>
@@ -537,9 +549,9 @@
 <p>(2) B越小</p>
 <p>优点：计算代价小，速度快，内存占用越小</p>
 <p>缺点：可考虑的选择变少，结果没那么好</p>
-<h2 id="4-问题解决"><a href="#4-问题解决" class="headerlink" title="4. 问题解决"></a>4. 问题解决</h2><h3 id="4-1-数据下溢"><a href="#4-1-数据下溢" class="headerlink" title="4.1 数据下溢"></a>4.1 数据下溢</h3><p>求序列概率的时候，序列概率是多个条件概率的乘积$P\left(y^{<1>} y^{<2>} \ldots y^{T_{y}}\right)=P\left(y^{<1>} \mid x\right) P\left(y^{<2>} \mid x, y^{<1>}\right) \ldots P\left(y^{T_{y}} \mid x, y^{<1>} \ldots, y^{T_{y}-1}\right)$.</1></1></2></1></2></1></p>
+<h2 id="4-问题解决"><a href="#4-问题解决" class="headerlink" title="4. 问题解决"></a>4. 问题解决</h2><h3 id="4-1-数据下溢"><a href="#4-1-数据下溢" class="headerlink" title="4.1 数据下溢"></a>4.1 数据下溢</h3><p>求序列概率的时候，序列概率是多个条件概率的乘积$P(y^{<1>} y^{<2>} \ldots y^{T_{y}})=P(y^{<1>} \mid x) P(y^{<2>} \mid x, y^{<1>}) \ldots P(y^{T_{y}} \mid x, y^{<1>} \ldots, y^{T_{y}-1})$.</1></1></2></1></2></1></p>
 <p>每个概率都小于1甚至远远小于1，很多概率相乘起来，会得到很小很小的数字，会造成数据下溢，即数值太小，计算机的浮点表示不能精确储存。</p>
-<p><strong>解决</strong>：<strong>将最大化的乘积式取对数</strong>，由 $\log M^{*} N=\log M+\log N$ 公式可得，上述需要最大化的王积式可以转化为: $\arg \max _{y} \sum_{y=1}^{T_{y}} \log P\left(y^{<t>} \mid x, y^{<1>}, \ldots, y^{<t-1>}\right)$</t-1></1></t></p>
+<p><strong>解决</strong>：<strong>将最大化的乘积式取对数</strong>，由 $\log M^{*} N=\log M+\log N$ 公式可得，上述需要最大化的王积式可以转化为: $\arg \max _{y} \sum_{y=1}^{T_{y}} \log P(y^{<t>} \mid x, y^{<1>}, \ldots, y^{<t-1>})$</t-1></1></t></p>
 <p>即乘积的log变成了log的求和，最大化这个log的求和值能够得到同样的结果，并且不会出现 数值下溢和四舍五入。</p>
 <h3 id="4-2-倾向于生成短的序列"><a href="#4-2-倾向于生成短的序列" class="headerlink" title="4.2 倾向于生成短的序列"></a>4.2 倾向于生成短的序列</h3><p>生成的句子序列越长，对数概率相加的结果就越小（越为负值）, 所以倾向于生成短序列。 对序列长度进行惩罚，降低生成短序列的倾向。</p>
 <p><strong>解决方法：</strong> 对数概率相加的结果, 除以序列长度 $L$ 。<br>实践中，通常采用更柔和的方法, 在 $L$ 上加上指数 $a \in(0,1),$ 即 $L^{a},$ 例如 $a=0.7$ 。如果 $a=1, \quad L^{a}=L$ 就相当于完全用长度来归一化; 如果 $a=0, \quad L^{a}=1$ 就相当于完全没有 归一化, $a \in(0,1)$ 就是在完全归一化和没有归一化之间。</p>
