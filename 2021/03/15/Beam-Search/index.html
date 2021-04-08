@@ -108,7 +108,7 @@
 <meta property="og:image" content="https://i.loli.net/2021/04/07/8EfxMgsC43zmqSb.png">
 <meta property="og:image" content="https://i.loli.net/2021/03/15/VQDxijZcGtzlEph.png">
 <meta property="og:image" content="https://i.loli.net/2021/03/15/DdS1XPZvoEptVgw.png">
-<meta property="og:updated_time" content="2021-04-07T12:55:25.464Z">
+<meta property="og:updated_time" content="2021-04-08T05:22:08.755Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Beam Search">
 <meta name="twitter:description" content="1. 前言自然语言处理任务中，如机器翻译、对话、文本摘要等，都涉及到序列生成。文本序列生成解码过程中有用到 greedy search、维特比算法、beam search等。 2. Beam Search 介绍beam search尝试在广度优先基础上进行进行搜索空间的优化（类似于剪枝）达到减少内存消耗的目的。  算法过程  定义词表大小是V，beam size是 B，序列长度是L。 假设V=10">
@@ -444,7 +444,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-04-07 20:55:25" itemprop="dateModified" datetime="2021-04-07T20:55:25+08:00">2021-04-07</time>
+                <time title="修改时间：2021-04-08 13:22:08" itemprop="dateModified" datetime="2021-04-08T13:22:08+08:00">2021-04-08</time>
               
             
           </span>
@@ -528,9 +528,9 @@
 </li>
 </ol>
 <ul>
-<li><strong>算法复杂度</strong> O(B$<em>$V$</em>$L)</li>
+<li><strong>算法复杂度</strong> O(B×V×L)</li>
 </ul>
-<p>在第2步，要计算 B$<em>$V次。序列长度是L，生成长度为L的序列，计算 B$</em>$V$*$L 次。</p>
+<p>在第2步，要计算 B×V次。序列长度是L，生成长度为L的序列，计算 B×V×L 次。</p>
 <h2 id="3-算法评价"><a href="#3-算法评价" class="headerlink" title="3. 算法评价"></a>3. 算法评价</h2><ul>
 <li><strong>优点</strong></li>
 </ul>
