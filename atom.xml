@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-04-06T07:55:33.221Z</updated>
+  <updated>2021-04-13T11:04:30.673Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Fill-in-the-Blank as a Challenging Video Understanding Evaluation Framework</title>
+    <link href="http://yoursite.com/2021/04/13/Fill-in-the-Blank-as-a-Challenging-Video-Understanding-Evaluation-Framework/"/>
+    <id>http://yoursite.com/2021/04/13/Fill-in-the-Blank-as-a-Challenging-Video-Understanding-Evaluation-Framework/</id>
+    <published>2021-04-13T09:02:34.000Z</published>
+    <updated>2021-04-13T11:04:30.673Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="本文研究的任务"><a href="#本文研究的任务" class="headerlink" title="本文研究的任务"></a>本文研究的任务</h2><p>本文提出了一个新的任务，给定一段视频和一个带有blank的文本，目标是对blank进行补充。该任务的目的是测试系统（模型）对视频的理解。</p><p>In this task, given a video and a blanked caption, the model needs to generate the missing phrase.</p><h2 id="目前存在的问题"><a href="#目前存在的问题" class="headerlink" title="目前存在的问题"></a>目前存在的问题</h2><p>迄今为止，有关语言知识的视频理解的工作主要解决了两个任务：（1）<strong>使用多项选择题的方式来做视频VQA任务</strong>，当前模型的性能一般表现都相对较好，这是因为多项选择的方式，使得候选答案是容易获得的；（2）<strong>视频描述任务</strong>，通常会以开放式评估框架来对生成的caption进行评估，但是这种评估方式存在缺陷。比如，如果prediction的形式与reference有所不同，则prediction可能被认为是不正确的。</p><p>因此，在本文中，提出了一个fill-in-the-blanks任务来作为 视频理解评估框架，以解决以上的问题。这种任务形式，更加符合现实生活中，是没有预先给定多项选择的。</p><h2 id="fill-in-the-blank-task-的优势"><a href="#fill-in-the-blank-task-的优势" class="headerlink" title="fill-in-the-blank task 的优势"></a>fill-in-the-blank task 的优势</h2><ul><li>相比于 多项选择的video VQA 更加符合现实场景</li><li>不会遇到 video captioning 评估存在偏差的问题</li><li>fill-in-the-blank data 是可以自动生成的，因此训练数据的规模是可以无限增大的</li></ul><h2 id="构建数据集"><a href="#构建数据集" class="headerlink" title="构建数据集"></a>构建数据集</h2><p>我们通过两个步骤来构建这个 “填空 “视频数据集。 (1)数据生成，我们编制了大量的视频-字幕对，并有选择地挖去某些<strong>名词</strong>（multi-word spans）。 (2)数据标注，AMT workers 为这些空白提供<strong>额外</strong>的有效答案。（收集这种附加注释的主要原因是为了说明语言的自然多样性，并为每个空白有多个备选答案。）</p><p><strong>数据来源：</strong>we generate our training, validation, and test data starting with the VATEX v1.1 training set, a random subset of size 1,000 from the validation set, and a random subset of size 1,000 from the test set, respectively.</p><p><img src="https://i.loli.net/2021/04/13/dHsFYELJyvQunef.png" alt="image-20210413180750120" style="zoom: 50%;"></p><h2 id="本文设计的方法"><a href="#本文设计的方法" class="headerlink" title="本文设计的方法"></a>本文设计的方法</h2><p>本文设计了两种encoder: 早期融合encoder 和 后期融合encoder</p><p><img src="https://i.loli.net/2021/04/13/pJkgYWhMsncd7TN.png" alt="image-20210413183537583"></p><p>考虑到 <strong>T5</strong> 可以填充可变长度的blanks的能力，因此使用 <strong>T5</strong> 来初始化本文的多模态模型。</p><p>对于early fusion model: 使用T5-base weights。</p><p>对于late fusion model: 使用 T5-base 来初始化 text encoder 和 decoder。使用两个一层transformer 来作为video encoder 和 multimodal transformer encoder。</p><p>特殊字符：the special token <strong><extra_id_0></extra_id_0></strong> is used to represent the blanked phrase, and <strong>&lt;\s&gt;</strong> is used to separate the text and video sequences。</p><h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>本文提出了两个baseline:</p><ul><li>使用最频繁的answer作为预测：“a man”</li><li>Text-based Transformer (T5): 使用text-only model来测试该文构建数据集的language bias</li></ul><p>评估指标（Evaluation Metrics）</p><ul><li><p>exact match： we count a generated text string as correct if it has at least one string-level match among the provided annotations.</p></li><li><p>token-level F1：we compute the token overlap (true positives) between the generated text string and each annotation, normalize by the sum of the true positives and average of the false negatives/positives, then compute the maximum across all annotations. </p></li></ul><h3 id="本文数据集的-langauge-bias是很大的"><a href="#本文数据集的-langauge-bias是很大的" class="headerlink" title="本文数据集的 langauge bias是很大的"></a>本文数据集的 langauge bias是很大的</h3><p><img src="https://i.loli.net/2021/04/13/Pmf9nKMXdWvqAN8.png" alt="image-20210413185634092"></p><h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><ul><li><p>(1) 仅对 noun phrase 挖空，(2) 只挖了一个空，都是对任务的简化，使得该任务变得简单。</p></li><li><p>文中图表说明，最频繁的名词是 man, person。这是这个数据集的 language bias。</p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;本文研究的任务&quot;&gt;&lt;a href=&quot;#本文研究的任务&quot; class=&quot;headerlink&quot; title=&quot;本文研究的任务&quot;&gt;&lt;/a&gt;本文研究的任务&lt;/h2&gt;&lt;p&gt;本文提出了一个新的任务，给定一段视频和一个带有blank的文本，目标是对blank进行补充。该任务的
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Exploiting Cloze Questions for Few Shot Text Classification and Natural Language Inference</title>
@@ -506,37 +527,6 @@
     
     
       <category term="cross-modal" scheme="http://yoursite.com/tags/cross-modal/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Non-Autoregressive Coarse-to-Fine Video Captioning</title>
-    <link href="http://yoursite.com/2021/03/19/Non-Autoregressive-Coarse-to-Fine-Video-Captioning/"/>
-    <id>http://yoursite.com/2021/03/19/Non-Autoregressive-Coarse-to-Fine-Video-Captioning/</id>
-    <published>2021-03-19T08:49:05.000Z</published>
-    <updated>2021-04-06T02:39:39.195Z</updated>
-    
-    <content type="html"><![CDATA[<p>发表在AAAI 2021</p><h2 id="现在存在的问题"><a href="#现在存在的问题" class="headerlink" title="现在存在的问题"></a>现在存在的问题</h2><ul><li>由于自回归解码（autoregressive decoding）导致的 <strong>slow inference speed</strong> </li><li>由于对视觉单词的训练不充分，而使得模型更加<strong>偏向于生成泛化性句子</strong>，缺乏细节和多样性。</li><li>此外，具有误差累积倾向的模型产生令人满意的字幕是具有挑战性的。 因此，还需要一种<strong>支持单词修改的灵活解码范例</strong>（decoding paradigm）。</li></ul><h2 id="本文的点"><a href="#本文的点" class="headerlink" title="本文的点"></a>本文的点</h2><p><img src="https://i.loli.net/2021/03/22/Kyegni76dZ4kCrH.png" alt="image-20210322164100678" style="zoom:33%;"></p><ul><li>我们提出了一种具有粗略至精细 （coarse-to-fine）字幕过程的基于非自回归解码（nonautoregressive<br>decoding）的模型</li><li><p><strong>For achieving inference speedup</strong>：employ a bi-directional self-attention based network as our language model for achieving inference speedup</p></li><li><p><strong>For improving caption quality：</strong>propose an alternative paradigm to decompose the captioning procedure into two stages,</p></li></ul><h2 id="Other-non-autoregressive"><a href="#Other-non-autoregressive" class="headerlink" title="Other non-autoregressive"></a>Other non-autoregressive</h2><ul><li>Masked Non-Autoregressive Image Captioning</li><li>Non-Autoregressive Image Captioning with Counterfactuals-Critical Multi-Agent Learning</li></ul><h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><ul><li>看看这篇论文是如何获得 tags of video</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;发表在AAAI 2021&lt;/p&gt;
-&lt;h2 id=&quot;现在存在的问题&quot;&gt;&lt;a href=&quot;#现在存在的问题&quot; class=&quot;headerlink&quot; title=&quot;现在存在的问题&quot;&gt;&lt;/a&gt;现在存在的问题&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;由于自回归解码（autoregressive d
-      
-    
-    </summary>
-    
-      <category term="cross-modal" scheme="http://yoursite.com/categories/cross-modal/"/>
-    
-      <category term="video captioning" scheme="http://yoursite.com/categories/cross-modal/video-captioning/"/>
-    
-    
-      <category term="cross-modal" scheme="http://yoursite.com/tags/cross-modal/"/>
-    
-      <category term="video-captioning" scheme="http://yoursite.com/tags/video-captioning/"/>
     
   </entry>
   
