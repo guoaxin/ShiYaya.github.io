@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1. 本文研究的任务 图像描述的评价指标  2. 目前存在的问题 当前图像描述的评价指标(automatic metrics )都是基于 predicted caption 与 reference 之间的文本匹配。但是人类进行评价时是直接将图片与prediction进行对比。即 automatic metrics与 human evaluation的评价方式是不一样的 reference的收集需要">
+<meta name="keywords" content="cross-modal">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CLIPScore: A Reference-free Evaluation Metric for Image Captioning">
+<meta property="og:url" content="http://yoursite.com/2021/04/20/CLIPScore-A-Reference-free-Evaluation-Metric-for-Image-Captioning/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="1. 本文研究的任务 图像描述的评价指标  2. 目前存在的问题 当前图像描述的评价指标(automatic metrics )都是基于 predicted caption 与 reference 之间的文本匹配。但是人类进行评价时是直接将图片与prediction进行对比。即 automatic metrics与 human evaluation的评价方式是不一样的 reference的收集需要">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2021/04/21/8A2W4u7EalDmTYL.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/21/OUaqp5JvolduweY.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/21/3n72RmIfBZFUcza.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/21/ck1xFipoPAEf74m.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/21/Kqsab4TN7lC3OJX.png">
+<meta property="og:image" content="https://i.loli.net/2021/04/21/B1OvP7LW5ycr4u2.png">
+<meta property="og:updated_time" content="2021-04-21T07:56:41.077Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CLIPScore: A Reference-free Evaluation Metric for Image Captioning">
+<meta name="twitter:description" content="1. 本文研究的任务 图像描述的评价指标  2. 目前存在的问题 当前图像描述的评价指标(automatic metrics )都是基于 predicted caption 与 reference 之间的文本匹配。但是人类进行评价时是直接将图片与prediction进行对比。即 automatic metrics与 human evaluation的评价方式是不一样的 reference的收集需要">
+<meta name="twitter:image" content="https://i.loli.net/2021/04/21/8A2W4u7EalDmTYL.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/04/20/CLIPScore-A-Reference-free-Evaluation-Metric-for-Image-Captioning/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>CLIPScore: A Reference-free Evaluation Metric for Image Captioning | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">45</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">44</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">243</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/04/20/CLIPScore-A-Reference-free-Evaluation-Metric-for-Image-Captioning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CLIPScore: A Reference-free Evaluation Metric for Image Captioning
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-04-20 13:50:12" itemprop="dateCreated datePublished" datetime="2021-04-20T13:50:12+08:00">2021-04-20</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-04-21 15:56:41" itemprop="dateModified" datetime="2021-04-21T15:56:41+08:00">2021-04-21</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/cross-modal/" itemprop="url" rel="index"><span itemprop="name">cross-modal</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/04/20/CLIPScore-A-Reference-free-Evaluation-Metric-for-Image-Captioning/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2021/04/20/CLIPScore-A-Reference-free-Evaluation-Metric-for-Image-Captioning/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1-本文研究的任务"><a href="#1-本文研究的任务" class="headerlink" title="1. 本文研究的任务"></a>1. 本文研究的任务</h2><ul>
+<li>图像描述的评价指标</li>
+</ul>
+<h2 id="2-目前存在的问题"><a href="#2-目前存在的问题" class="headerlink" title="2. 目前存在的问题"></a>2. 目前存在的问题</h2><ul>
+<li>当前图像描述的评价指标(automatic metrics )都是基于 predicted caption 与 reference 之间的文本匹配。但是人类进行评价时是直接将图片与prediction进行对比。即 automatic metrics与 human evaluation的评价方式是不一样的</li>
+<li>reference的收集需要耗费人力，且较慢</li>
+<li>reference是有限的，并不能覆盖所有可能的描述。因此，这些automatic metrics 更加<strong>偏向于</strong>reference中出现的单词，对于新的且正确的单词会给予错误的<strong>惩罚</strong>。</li>
+</ul>
+<h2 id="3-Motivation"><a href="#3-Motivation" class="headerlink" title="3. Motivation"></a>3. Motivation</h2><p>本文提出使用 clip model 来作为 图像描述的reference-free metric，基于以下两点原因：</p>
+<ul>
+<li><p><strong>基于在WMT上的借鉴：</strong>在多语言机器翻译任务中，提出了使用多语言模型（M-BERT), 计算 source-target 之间的相似性，作为reference free metric 来评估机器翻译。因此，可以使用image-text matching model 来计算image 与 predicted caption 之间的相似性。</p>
+</li>
+<li><p>CLIP，ALIGN，这种模型以 <strong>zero-shot</strong> 的方式展示出了在image-text matching task 上的优异性能。因此CLIP可以作为一个现成的(<strong>off-the-shelf</strong>) 的reference-free caption evaluation。</p>
+</li>
+</ul>
+<h2 id="4-本文的贡献"><a href="#4-本文的贡献" class="headerlink" title="4. 本文的贡献"></a>4. 本文的贡献</h2><ul>
+<li>提出一个 评估图像描述的 reference-free metric（CLIPScore, CLIP-s）。<br>另外提出了一个增强版本(RefCLIPScore,)，可以结合reference。</li>
+<li>一个信息增益的分析实验，证明了CLIP-S 与 other metrics（B_4, Cider, Meteor， ViLBERTScore-F）是互相补充的。</li>
+<li>实验验证CLIP-S对恶意构建的图像标题是敏感的，其中一个名词短语被换成了一个可信的（但不正确的）单词。</li>
+<li><p>构建一个从未在网上公开发布过的图像语料库，以检验CLIP-S是否能够重建人类对从未见过的图像的判断。</p>
+</li>
+<li><p>最后，我们在四个与直接场景描述(direct scene description)不同的案例研究中评估CLIP-S。在两种情况下，CLIP-S效果很好。 它与<strong>Twitter</strong>上的alt-text质量评级实现了高度关联，并展示了对<strong>clipart images+captions</strong>进行推理的惊人能力。对于<strong>新闻标题</strong>的生成，基于参考的方法与人类的判断有最好的相关性。 而且，对于由<strong>社交媒体上的语言使用所激发的情感性标题</strong>，即使是基于参考的指标也是不足的。</p>
+</li>
+</ul>
+<h2 id="5-实验"><a href="#5-实验" class="headerlink" title="5. 实验"></a>5. 实验</h2><h3 id="5-1-Performance-on-a-set-of-literal-image-description-corpora"><a href="#5-1-Performance-on-a-set-of-literal-image-description-corpora" class="headerlink" title="5.1 Performance on a set of literal image description corpora"></a>5.1 Performance on a set of literal image description corpora</h3><h4 id="Caption-level-Likert-Judgments"><a href="#Caption-level-Likert-Judgments" class="headerlink" title="Caption-level Likert Judgments"></a>Caption-level Likert Judgments</h4><ul>
+<li>BERT-S  是指 BERTScore: Evaluating text generation with BERT</li>
+<li>BERT-S++ 是指 Improving image captioning evaluation by considering inter references variance.</li>
+</ul>
+<p><img src="https://i.loli.net/2021/04/21/8A2W4u7EalDmTYL.png" alt="image-20210421104120105"></p>
+<p><img src="https://i.loli.net/2021/04/21/OUaqp5JvolduweY.png" alt="image-20210421104130443"></p>
+<p><img src="https://i.loli.net/2021/04/21/3n72RmIfBZFUcza.png" alt="image-20210421104218527"></p>
+<h4 id="Pairwise-Ranking-on-Pascal-50S"><a href="#Pairwise-Ranking-on-Pascal-50S" class="headerlink" title="Pairwise Ranking on Pascal-50S"></a>Pairwise Ranking on Pascal-50S</h4><p><img src="https://i.loli.net/2021/04/21/ck1xFipoPAEf74m.png" alt="image-20210421104150925"></p>
+<h4 id="System-level-Correlation-for-MSCOCO"><a href="#System-level-Correlation-for-MSCOCO" class="headerlink" title="System-level Correlation for MSCOCO."></a>System-level Correlation for MSCOCO.</h4><p>该文章作者提出，该数据其实仅有12个数据，数据量太少，用来评估相关性，其实是不准确的。但是还是做了这方面的实验。</p>
+<p>在M1 和 M2 上，CLIP-S achieves Spearman $\rho_{M 1} / \rho_{M 2}=.59 / .63$ and RefCLIP-S achieves $\rho_{M 1} / \rho_{M 2}=.69 / .74$ </p>
+<h3 id="5-2-Sensitivity-of-CLIP-S-to-hallucination"><a href="#5-2-Sensitivity-of-CLIP-S-to-hallucination" class="headerlink" title="5.2 Sensitivity of CLIP-S to hallucination"></a>5.2 Sensitivity of CLIP-S to hallucination</h3><p>先前的研究（Object hallucination in image captioning）表明，人类在给human打分时，会更加偏向于caption是否正确，而不是caption是否足够具体(全面)。因此，了解评价指标是否以及如何处理包含不正确的 “幻觉 “(incorrect “hallucinations,”)的图像描述，例如，对未描述的物体的引用，是很重要的。</p>
+<p>本文使用FOIL数据集（FOIL it! find one mismatch between image and language caption），来测试CLIPScore对检测描述中潜在的微妙不准确的细节有多敏感。这个语料库由MSCOCO的reference进行修改后组成，其中有一个名词短语被对抗性地换掉，以使caption不正确，例如，将 “摩托车 “换成 “自行车”。</p>
+<p><img src="https://i.loli.net/2021/04/21/Kqsab4TN7lC3OJX.png" alt="image-20210421111246841"></p>
+<h3 id="5-3-Sensitivity-of-CLIP-S-to-memorization"><a href="#5-3-Sensitivity-of-CLIP-S-to-memorization" class="headerlink" title="5.3  Sensitivity of CLIP-S to memorization"></a>5.3  Sensitivity of CLIP-S to memorization</h3><p>以上数据集的成功表现，可能存在一种风险，即在评估时使用的数据已经在预训练时看到过。可能是在CLIP的预训练数据中包含了 COCO，Flickr 这种数据。为了消除这个疑虑，本文收集了250图片，这些图片没有上传到网上。然后使用Microsoft Azure Cognitive Services 和 Discriminability objective for training descriptive captions 这两个工具为每张图片生成两个预测的描述，然后，组织3个author去分析，哪个预测更好。</p>
+<p>CLIP-S 实验了86%的 accuracy（人类的一致性92%）。</p>
+<h3 id="5-4-评价指标之间的冗余和互补"><a href="#5-4-评价指标之间的冗余和互补" class="headerlink" title="5.4 评价指标之间的冗余和互补"></a>5.4 评价指标之间的冗余和互补</h3><p><img src="https://i.loli.net/2021/04/21/B1OvP7LW5ycr4u2.png" alt="image-20210421114103630"></p>
+<p>6个常用的metrics (B_1, B_4, Meteor, Rouge, Cider, Spice)</p>
+<p>4个新的metrics (TIGER, BERTScore, ViLBERTScore-F, and CLIP-S/RefCLIPS)</p>
+<p>在这10个评价指标上，执行greedy前向搜索，开始时为一个空集，选择最有信息量的metric 添加到集合中来。关于信息增益的考量：根据线性回归模型，一个指标与人类判断的additional (增加)相关性有多大。（yaya: 当前步，引入一个metric到集合中来，可以带来多少相关性的提升）</p>
+<p><strong>yaya: 具体实现细节不是很清楚，可以等代码开源之后看看</strong></p>
+<h2 id="6-Other-Captioning-Domains"><a href="#6-Other-Captioning-Domains" class="headerlink" title="6. Other Captioning Domains"></a>6. Other Captioning Domains</h2><ul>
+<li><p>Alt-Text ratings from Twitter</p>
+</li>
+<li><p>Abstract-50S</p>
+</li>
+<li>Personality Captions</li>
+<li>News Image Captioning</li>
+</ul>
+<h2 id="7-Future-Work"><a href="#7-Future-Work" class="headerlink" title="7. Future Work"></a>7. Future Work</h2><ul>
+<li><p>consider CLIP-S as a reinforcement learning reward for literal caption generators<br><strong>以clipscore 作为reward来做强化学习，提升captioning tasks</strong></p>
+</li>
+<li><p>explore whether a small amount of labelled human rating data could help CLIP-S adapt to domains where it struggles, e.g., engagingness prediction.</p>
+<p><strong>用human ratings data来提升CLIP-S 作为评价指标的性能，从而提升对于一些目前它比较困难的领域。</strong></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/cross-modal/" rel="tag"># cross-modal</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/04/20/TVR-A-Large-Scale-Dataset-for-Video-Subtitle-Moment-Retrieval/" rel="next" title="TVR: A Large-Scale Dataset for Video-Subtitle Moment Retrieval">
+                <i class="fa fa-chevron-left"></i> TVR: A Large-Scale Dataset for Video-Subtitle Moment Retrieval
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/04/20/CLIP4Clip-An-Empirical-Study-of-CLIP-for-End-to-End-Video-Clip-Retrieval/" rel="prev" title="CLIP4Clip: An Empirical Study of CLIP for End to End Video Clip Retrieval">
+                CLIP4Clip: An Empirical Study of CLIP for End to End Video Clip Retrieval <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">243</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-本文研究的任务"><span class="nav-number">1.</span> <span class="nav-text">1. 本文研究的任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-目前存在的问题"><span class="nav-number">2.</span> <span class="nav-text">2. 目前存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Motivation"><span class="nav-number">3.</span> <span class="nav-text">3. Motivation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-本文的贡献"><span class="nav-number">4.</span> <span class="nav-text">4. 本文的贡献</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-实验"><span class="nav-number">5.</span> <span class="nav-text">5. 实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-Performance-on-a-set-of-literal-image-description-corpora"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 Performance on a set of literal image description corpora</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Caption-level-Likert-Judgments"><span class="nav-number">5.1.1.</span> <span class="nav-text">Caption-level Likert Judgments</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pairwise-Ranking-on-Pascal-50S"><span class="nav-number">5.1.2.</span> <span class="nav-text">Pairwise Ranking on Pascal-50S</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#System-level-Correlation-for-MSCOCO"><span class="nav-number">5.1.3.</span> <span class="nav-text">System-level Correlation for MSCOCO.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-Sensitivity-of-CLIP-S-to-hallucination"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 Sensitivity of CLIP-S to hallucination</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-Sensitivity-of-CLIP-S-to-memorization"><span class="nav-number">5.3.</span> <span class="nav-text">5.3  Sensitivity of CLIP-S to memorization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-评价指标之间的冗余和互补"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 评价指标之间的冗余和互补</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Other-Captioning-Domains"><span class="nav-number">6.</span> <span class="nav-text">6. Other Captioning Domains</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-Future-Work"><span class="nav-number">7.</span> <span class="nav-text">7. Future Work</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 's22c7ikjlbMrGGRlCcDrqOjo-gzGzoHsz',
+      appKey: 'HnhoXmenrEs7Unb12AD7Sxgg',
+      placeholder: 'Just go go',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: false
+    });
+  </script>
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>

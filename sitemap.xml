@@ -2,6 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/04/20/A-Straightforward-Framework-For-Video-Retrieval-Using-CLIP/</loc>
+    
+    <lastmod>2021-04-23T02:16:36.664Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/04/20/CLIPScore-A-Reference-free-Evaluation-Metric-for-Image-Captioning/</loc>
+    
+    <lastmod>2021-04-21T07:56:41.077Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/04/20/Seeing-Out-of-tHe-bOx-End-to-End-Pre-training-for-Vision-Language-Representation-Learning-1/</loc>
+    
+    <lastmod>2021-04-20T05:57:17.985Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/04/20/Understanding-Chinese-Video-and-Language-via-Contrastive-Multimodal-Pre-Training/</loc>
+    
+    <lastmod>2021-04-20T05:56:47.322Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/04/20/CLIP4Clip-An-Empirical-Study-of-CLIP-for-End-to-End-Video-Clip-Retrieval/</loc>
+    
+    <lastmod>2021-04-20T05:53:18.256Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/04/20/TVR-A-Large-Scale-Dataset-for-Video-Subtitle-Moment-Retrieval/</loc>
+    
+    <lastmod>2021-04-20T01:25:51.931Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/04/19/Seeing-Out-of-tHe-bOx-End-to-End-Pre-training-for-Vision-Language-Representation-Learning/</loc>
+    
+    <lastmod>2021-04-19T07:24:37.002Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/04/13/Fill-in-the-Blank-as-a-Challenging-Video-Understanding-Evaluation-Framework/</loc>
     
     <lastmod>2021-04-13T11:04:30.673Z</lastmod>

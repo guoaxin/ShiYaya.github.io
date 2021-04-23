@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-04-13T11:04:30.673Z</updated>
+  <updated>2021-04-23T02:16:36.664Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,141 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>A Straightforward Framework For Video Retrieval Using CLIP</title>
+    <link href="http://yoursite.com/2021/04/20/A-Straightforward-Framework-For-Video-Retrieval-Using-CLIP/"/>
+    <id>http://yoursite.com/2021/04/20/A-Straightforward-Framework-For-Video-Retrieval-Using-CLIP/</id>
+    <published>2021-04-20T05:59:23.000Z</published>
+    <updated>2021-04-23T02:16:36.664Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="本文的任务"><a href="#本文的任务" class="headerlink" title="本文的任务"></a>本文的任务</h2><p>Zero-shot Video-Text Retrieval</p><h2 id="本文的点"><a href="#本文的点" class="headerlink" title="本文的点"></a>本文的点</h2><p>CLIP model 是用互联网上<strong>大规模</strong>的image-text pairs 训练出来的一个多模态检索模型，其在 image text 检索上获得了非常优异的性能，且适合于zero-shot 的场景。</p><p>在本文中，作者尝试使用clip model 来处理 video-text pair, 并且仍然以  <strong style="color:red;">zero-shot</strong> 的方式。</p><ul><li>使用clip的 image encoder 来 获取frame feature, 然后使用 平均聚合，获取video-level feature.</li><li><p>使用 clip 的 text encoder 来获取 text feature。</p></li><li><p>使用cosine similarity 来计算 video-text sim</p></li></ul><h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>TVR: Text Video Retrieval</p><p>VTR: Video Text Retrieval</p><h3 id="MSR-VTT"><a href="#MSR-VTT" class="headerlink" title="MSR-VTT"></a>MSR-VTT</h3><p><img src="https://i.loli.net/2021/04/23/pKQ6Y8msudJSgah.png" alt="image-20210423101035581" style="zoom: 67%;"></p><h3 id="MSVD"><a href="#MSVD" class="headerlink" title="MSVD"></a>MSVD</h3><p><img src="https://i.loli.net/2021/04/23/3jQUnoyTuNWBvPs.png" alt="image-20210423101137713" style="zoom:67%;"></p><h3 id="LSMDC"><a href="#LSMDC" class="headerlink" title="LSMDC"></a>LSMDC</h3><p><img src="https://i.loli.net/2021/04/23/bhjOL9yDcdunm7W.png" alt="image-20210423101208808" style="zoom:67%;"></p><h2 id="others"><a href="#others" class="headerlink" title="others"></a>others</h2><p>本文也探索了其他两种时域聚合的方式，但是不如取平均的方式好。</p><ul><li>（1） Follow【1】。将视频提取帧之后，取第30帧。由于视频每秒大约有30帧，所以，相当于取第一秒的最后一针。</li><li>（2）Follow【2】。使用 K-means， 获取K个video embedding , 计算每个embedding 与 text embedding 之间的相似度 and <strong>register each query’s minimum rank,</strong></li></ul><p>在MSR-VTT 验证集上的1000个视频-文本对上进行了实验：</p><p><img src="https://i.loli.net/2021/04/23/ZSOYgE2zj7nHpeI.png" alt="image-20210423100745024" style="zoom:67%;"></p><p>值得注意的是，在K-means方法中，结果之间没有明显的差异。 这可能是因为MSR视频的长度不超过32秒，这可能不足以在创建聚类时区分中心点。<strong style="color:red;">（<strong>yaya: 可能K-means 这种方法更加适合long-term video</strong>）</strong></p><h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>本文虽然创新性，没有那么强，但是在<strong>性能上是非常可观</strong>的。</p><p>而且采取的是 <strong>Zero-Shot</strong> 的方式。</p><p>这种zero-shot 的方式，就可以应用到很多需要泛化性的地方。</p><h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>但是本文只是在这几个数据集上进行了测试，在其他的数据集上的性能还不可知，例如，在long-term videos 上的性能如何呢？</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;本文的任务&quot;&gt;&lt;a href=&quot;#本文的任务&quot; class=&quot;headerlink&quot; title=&quot;本文的任务&quot;&gt;&lt;/a&gt;本文的任务&lt;/h2&gt;&lt;p&gt;Zero-shot Video-Text Retrieval&lt;/p&gt;
+&lt;h2 id=&quot;本文的点&quot;&gt;&lt;a href=&quot;
+      
+    
+    </summary>
+    
+      <category term="cross-modal" scheme="http://yoursite.com/categories/cross-modal/"/>
+    
+    
+      <category term="cross-modal" scheme="http://yoursite.com/tags/cross-modal/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Seeing Out of tHe bOx End-to-End Pre-training for Vision-Language Representation Learning</title>
+    <link href="http://yoursite.com/2021/04/20/Seeing-Out-of-tHe-bOx-End-to-End-Pre-training-for-Vision-Language-Representation-Learning-1/"/>
+    <id>http://yoursite.com/2021/04/20/Seeing-Out-of-tHe-bOx-End-to-End-Pre-training-for-Vision-Language-Representation-Learning-1/</id>
+    <published>2021-04-20T05:57:17.000Z</published>
+    <updated>2021-04-20T05:57:17.985Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Understanding Chinese Video and Language via Contrastive Multimodal Pre-Training</title>
+    <link href="http://yoursite.com/2021/04/20/Understanding-Chinese-Video-and-Language-via-Contrastive-Multimodal-Pre-Training/"/>
+    <id>http://yoursite.com/2021/04/20/Understanding-Chinese-Video-and-Language-via-Contrastive-Multimodal-Pre-Training/</id>
+    <published>2021-04-20T05:56:47.000Z</published>
+    <updated>2021-04-20T05:56:47.322Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>CLIP4Clip: An Empirical Study of CLIP for End to End Video Clip Retrieval</title>
+    <link href="http://yoursite.com/2021/04/20/CLIP4Clip-An-Empirical-Study-of-CLIP-for-End-to-End-Video-Clip-Retrieval/"/>
+    <id>http://yoursite.com/2021/04/20/CLIP4Clip-An-Empirical-Study-of-CLIP-for-End-to-End-Video-Clip-Retrieval/</id>
+    <published>2021-04-20T05:53:18.000Z</published>
+    <updated>2021-04-20T05:53:18.256Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>CLIPScore: A Reference-free Evaluation Metric for Image Captioning</title>
+    <link href="http://yoursite.com/2021/04/20/CLIPScore-A-Reference-free-Evaluation-Metric-for-Image-Captioning/"/>
+    <id>http://yoursite.com/2021/04/20/CLIPScore-A-Reference-free-Evaluation-Metric-for-Image-Captioning/</id>
+    <published>2021-04-20T05:50:12.000Z</published>
+    <updated>2021-04-21T07:56:41.077Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="1-本文研究的任务"><a href="#1-本文研究的任务" class="headerlink" title="1. 本文研究的任务"></a>1. 本文研究的任务</h2><ul><li>图像描述的评价指标</li></ul><h2 id="2-目前存在的问题"><a href="#2-目前存在的问题" class="headerlink" title="2. 目前存在的问题"></a>2. 目前存在的问题</h2><ul><li>当前图像描述的评价指标(automatic metrics )都是基于 predicted caption 与 reference 之间的文本匹配。但是人类进行评价时是直接将图片与prediction进行对比。即 automatic metrics与 human evaluation的评价方式是不一样的</li><li>reference的收集需要耗费人力，且较慢</li><li>reference是有限的，并不能覆盖所有可能的描述。因此，这些automatic metrics 更加<strong>偏向于</strong>reference中出现的单词，对于新的且正确的单词会给予错误的<strong>惩罚</strong>。</li></ul><h2 id="3-Motivation"><a href="#3-Motivation" class="headerlink" title="3. Motivation"></a>3. Motivation</h2><p>本文提出使用 clip model 来作为 图像描述的reference-free metric，基于以下两点原因：</p><ul><li><p><strong>基于在WMT上的借鉴：</strong>在多语言机器翻译任务中，提出了使用多语言模型（M-BERT), 计算 source-target 之间的相似性，作为reference free metric 来评估机器翻译。因此，可以使用image-text matching model 来计算image 与 predicted caption 之间的相似性。</p></li><li><p>CLIP，ALIGN，这种模型以 <strong>zero-shot</strong> 的方式展示出了在image-text matching task 上的优异性能。因此CLIP可以作为一个现成的(<strong>off-the-shelf</strong>) 的reference-free caption evaluation。</p></li></ul><h2 id="4-本文的贡献"><a href="#4-本文的贡献" class="headerlink" title="4. 本文的贡献"></a>4. 本文的贡献</h2><ul><li>提出一个 评估图像描述的 reference-free metric（CLIPScore, CLIP-s）。<br>另外提出了一个增强版本(RefCLIPScore,)，可以结合reference。</li><li>一个信息增益的分析实验，证明了CLIP-S 与 other metrics（B_4, Cider, Meteor， ViLBERTScore-F）是互相补充的。</li><li>实验验证CLIP-S对恶意构建的图像标题是敏感的，其中一个名词短语被换成了一个可信的（但不正确的）单词。</li><li><p>构建一个从未在网上公开发布过的图像语料库，以检验CLIP-S是否能够重建人类对从未见过的图像的判断。</p></li><li><p>最后，我们在四个与直接场景描述(direct scene description)不同的案例研究中评估CLIP-S。在两种情况下，CLIP-S效果很好。 它与<strong>Twitter</strong>上的alt-text质量评级实现了高度关联，并展示了对<strong>clipart images+captions</strong>进行推理的惊人能力。对于<strong>新闻标题</strong>的生成，基于参考的方法与人类的判断有最好的相关性。 而且，对于由<strong>社交媒体上的语言使用所激发的情感性标题</strong>，即使是基于参考的指标也是不足的。</p></li></ul><h2 id="5-实验"><a href="#5-实验" class="headerlink" title="5. 实验"></a>5. 实验</h2><h3 id="5-1-Performance-on-a-set-of-literal-image-description-corpora"><a href="#5-1-Performance-on-a-set-of-literal-image-description-corpora" class="headerlink" title="5.1 Performance on a set of literal image description corpora"></a>5.1 Performance on a set of literal image description corpora</h3><h4 id="Caption-level-Likert-Judgments"><a href="#Caption-level-Likert-Judgments" class="headerlink" title="Caption-level Likert Judgments"></a>Caption-level Likert Judgments</h4><ul><li>BERT-S  是指 BERTScore: Evaluating text generation with BERT</li><li>BERT-S++ 是指 Improving image captioning evaluation by considering inter references variance.</li></ul><p><img src="https://i.loli.net/2021/04/21/8A2W4u7EalDmTYL.png" alt="image-20210421104120105"></p><p><img src="https://i.loli.net/2021/04/21/OUaqp5JvolduweY.png" alt="image-20210421104130443"></p><p><img src="https://i.loli.net/2021/04/21/3n72RmIfBZFUcza.png" alt="image-20210421104218527"></p><h4 id="Pairwise-Ranking-on-Pascal-50S"><a href="#Pairwise-Ranking-on-Pascal-50S" class="headerlink" title="Pairwise Ranking on Pascal-50S"></a>Pairwise Ranking on Pascal-50S</h4><p><img src="https://i.loli.net/2021/04/21/ck1xFipoPAEf74m.png" alt="image-20210421104150925"></p><h4 id="System-level-Correlation-for-MSCOCO"><a href="#System-level-Correlation-for-MSCOCO" class="headerlink" title="System-level Correlation for MSCOCO."></a>System-level Correlation for MSCOCO.</h4><p>该文章作者提出，该数据其实仅有12个数据，数据量太少，用来评估相关性，其实是不准确的。但是还是做了这方面的实验。</p><p>在M1 和 M2 上，CLIP-S achieves Spearman $\rho_{M 1} / \rho_{M 2}=.59 / .63$ and RefCLIP-S achieves $\rho_{M 1} / \rho_{M 2}=.69 / .74$ </p><h3 id="5-2-Sensitivity-of-CLIP-S-to-hallucination"><a href="#5-2-Sensitivity-of-CLIP-S-to-hallucination" class="headerlink" title="5.2 Sensitivity of CLIP-S to hallucination"></a>5.2 Sensitivity of CLIP-S to hallucination</h3><p>先前的研究（Object hallucination in image captioning）表明，人类在给human打分时，会更加偏向于caption是否正确，而不是caption是否足够具体(全面)。因此，了解评价指标是否以及如何处理包含不正确的 “幻觉 “(incorrect “hallucinations,”)的图像描述，例如，对未描述的物体的引用，是很重要的。</p><p>本文使用FOIL数据集（FOIL it! find one mismatch between image and language caption），来测试CLIPScore对检测描述中潜在的微妙不准确的细节有多敏感。这个语料库由MSCOCO的reference进行修改后组成，其中有一个名词短语被对抗性地换掉，以使caption不正确，例如，将 “摩托车 “换成 “自行车”。</p><p><img src="https://i.loli.net/2021/04/21/Kqsab4TN7lC3OJX.png" alt="image-20210421111246841"></p><h3 id="5-3-Sensitivity-of-CLIP-S-to-memorization"><a href="#5-3-Sensitivity-of-CLIP-S-to-memorization" class="headerlink" title="5.3  Sensitivity of CLIP-S to memorization"></a>5.3  Sensitivity of CLIP-S to memorization</h3><p>以上数据集的成功表现，可能存在一种风险，即在评估时使用的数据已经在预训练时看到过。可能是在CLIP的预训练数据中包含了 COCO，Flickr 这种数据。为了消除这个疑虑，本文收集了250图片，这些图片没有上传到网上。然后使用Microsoft Azure Cognitive Services 和 Discriminability objective for training descriptive captions 这两个工具为每张图片生成两个预测的描述，然后，组织3个author去分析，哪个预测更好。</p><p>CLIP-S 实验了86%的 accuracy（人类的一致性92%）。</p><h3 id="5-4-评价指标之间的冗余和互补"><a href="#5-4-评价指标之间的冗余和互补" class="headerlink" title="5.4 评价指标之间的冗余和互补"></a>5.4 评价指标之间的冗余和互补</h3><p><img src="https://i.loli.net/2021/04/21/B1OvP7LW5ycr4u2.png" alt="image-20210421114103630"></p><p>6个常用的metrics (B_1, B_4, Meteor, Rouge, Cider, Spice)</p><p>4个新的metrics (TIGER, BERTScore, ViLBERTScore-F, and CLIP-S/RefCLIPS)</p><p>在这10个评价指标上，执行greedy前向搜索，开始时为一个空集，选择最有信息量的metric 添加到集合中来。关于信息增益的考量：根据线性回归模型，一个指标与人类判断的additional (增加)相关性有多大。（yaya: 当前步，引入一个metric到集合中来，可以带来多少相关性的提升）</p><p><strong>yaya: 具体实现细节不是很清楚，可以等代码开源之后看看</strong></p><h2 id="6-Other-Captioning-Domains"><a href="#6-Other-Captioning-Domains" class="headerlink" title="6. Other Captioning Domains"></a>6. Other Captioning Domains</h2><ul><li><p>Alt-Text ratings from Twitter</p></li><li><p>Abstract-50S</p></li><li>Personality Captions</li><li>News Image Captioning</li></ul><h2 id="7-Future-Work"><a href="#7-Future-Work" class="headerlink" title="7. Future Work"></a>7. Future Work</h2><ul><li><p>consider CLIP-S as a reinforcement learning reward for literal caption generators<br><strong>以clipscore 作为reward来做强化学习，提升captioning tasks</strong></p></li><li><p>explore whether a small amount of labelled human rating data could help CLIP-S adapt to domains where it struggles, e.g., engagingness prediction.</p><p><strong>用human ratings data来提升CLIP-S 作为评价指标的性能，从而提升对于一些目前它比较困难的领域。</strong></p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;1-本文研究的任务&quot;&gt;&lt;a href=&quot;#1-本文研究的任务&quot; class=&quot;headerlink&quot; title=&quot;1. 本文研究的任务&quot;&gt;&lt;/a&gt;1. 本文研究的任务&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;图像描述的评价指标&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;2-目前存
+      
+    
+    </summary>
+    
+      <category term="cross-modal" scheme="http://yoursite.com/categories/cross-modal/"/>
+    
+    
+      <category term="cross-modal" scheme="http://yoursite.com/tags/cross-modal/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>TVR: A Large-Scale Dataset for Video-Subtitle Moment Retrieval</title>
+    <link href="http://yoursite.com/2021/04/20/TVR-A-Large-Scale-Dataset-for-Video-Subtitle-Moment-Retrieval/"/>
+    <id>http://yoursite.com/2021/04/20/TVR-A-Large-Scale-Dataset-for-Video-Subtitle-Moment-Retrieval/</id>
+    <published>2021-04-20T00:50:08.000Z</published>
+    <updated>2021-04-20T01:25:51.931Z</updated>
+    
+    <content type="html"><![CDATA[<p>本文新提出了一个数据集 Video Corpus Moment Retrieval (VCMR)。</p><p>该数据集与以前数据集不同的点有：</p><ul><li>人类标注的query，不仅依据视频(视觉信息)，还根据subtitles(文本信息)</li><li>选取的moment不是对video进行均匀采样得到的(DiDeMo dataset)，而是自由选取的，这样可以更加关注于重要的moment</li><li>人类标注的query不依赖上下文信息，不会出现first, then这种描述（ActivityNet Captions），使得标注的数据更加适合检索任务。</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;本文新提出了一个数据集 Video Corpus Moment Retrieval (VCMR)。&lt;/p&gt;
+&lt;p&gt;该数据集与以前数据集不同的点有：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;人类标注的query，不仅依据视频(视觉信息)，还根据subtitles(文本信息)&lt;/li&gt;
+&lt;l
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Seeing Out of tHe bOx End-to-End Pre-training for Vision-Language Representation Learning</title>
+    <link href="http://yoursite.com/2021/04/19/Seeing-Out-of-tHe-bOx-End-to-End-Pre-training-for-Vision-Language-Representation-Learning/"/>
+    <id>http://yoursite.com/2021/04/19/Seeing-Out-of-tHe-bOx-End-to-End-Pre-training-for-Vision-Language-Representation-Learning/</id>
+    <published>2021-04-19T07:24:36.000Z</published>
+    <updated>2021-04-19T07:24:37.002Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Fill-in-the-Blank as a Challenging Video Understanding Evaluation Framework</title>
@@ -349,184 +484,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>Large-Scale Zero-Shot Image Classification from Rich and Diverse Textual Descriptions</title>
-    <link href="http://yoursite.com/2021/03/22/Large-Scale-Zero-Shot-Image-Classification-from-Rich-and-Diverse-Textual-Descriptions/"/>
-    <id>http://yoursite.com/2021/03/22/Large-Scale-Zero-Shot-Image-Classification-from-Rich-and-Diverse-Textual-Descriptions/</id>
-    <published>2021-03-22T11:59:13.000Z</published>
-    <updated>2021-03-22T13:18:01.808Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h2><ul><li><p>【目前常用的benchmark都比较小，且常常使用手工标注的类别属性作为补充数据。但是这种类型的补充数据，由于是手工标注的因此很难扩展到大规模数据集上（eg: ImageNet）。因此，目前在ImageNet 这样的大规模数据集上的零样本学习性能比较差】</p><p>ZSL benchmarks mostly cover either a very <strong>small</strong> or narrow set of classes, where <strong>human-made class attributes</strong> are often used as auxiliary data. Unfortunately, on ImageNet, where such attributes are not available, the performance is still very low.</p></li><li><p>【小规模数据集提供的类别有限，有可能训练集，测试集都是动物类别，无法评估模型在一个新颖类别上的性能，比如汽车。因此对于零样本学习任务，有必要发展一个大规模的数据集】</p><p>The large-scale setup enables us to study the main challenges of a more realistic and practical zero-shot image classification scenario and study the generalization of models to novel groups of classes (e.g., animal species in general), not only  individual classes (e.g., specific animal species).</p></li></ul><h2 id="本文的点"><a href="#本文的点" class="headerlink" title="本文的点"></a>本文的点</h2><ul><li><p>不对算法进行改进，而是研究 补充数据类型（auxiliary data type）对性能的影响。为 ImageNet class 收集对应的 wikipedia article，作为text descriptions。本文是第一个在大规模数据集上使用文本描述的。</p></li><li><p>在 ImageNet mp500 测试集上，使用本文提供的wikipedia文本描述作为补充数据，性能上取得了很大的提高，比以往的方法都好。</p></li><li>以前的小数据集受到类别有限的限制，无法评估在新颖类别上的泛化性。在本文提出的数据集上，证明了当前的ZSL model 的泛化性是比较差的。</li><li></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;存在的问题&quot;&gt;&lt;a href=&quot;#存在的问题&quot; class=&quot;headerlink&quot; title=&quot;存在的问题&quot;&gt;&lt;/a&gt;存在的问题&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;【目前常用的benchmark都比较小，且常常使用手工标注的类别属性作为补充数据。但是这种类型的补
-      
-    
-    </summary>
-    
-      <category term="Image Classification" scheme="http://yoursite.com/categories/Image-Classification/"/>
-    
-    
-      <category term="Image Classification" scheme="http://yoursite.com/tags/Image-Classification/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[MDMMT] Multidomain Multimodal Transformer for Video Retrieval</title>
-    <link href="http://yoursite.com/2021/03/22/MDMMT-Multidomain-Multimodal-Transformer-for-Video-Retrieval/"/>
-    <id>http://yoursite.com/2021/03/22/MDMMT-Multidomain-Multimodal-Transformer-for-Video-Retrieval/</id>
-    <published>2021-03-22T06:52:47.000Z</published>
-    <updated>2021-03-22T07:54:56.006Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>How Many Data Points is a PromptWorth?</title>
-    <link href="http://yoursite.com/2021/03/20/How-Many-Data-Points-is-a-PromptWorth/"/>
-    <id>http://yoursite.com/2021/03/20/How-Many-Data-Points-is-a-PromptWorth/</id>
-    <published>2021-03-20T03:24:45.000Z</published>
-    <updated>2021-04-06T07:36:05.953Z</updated>
-    
-    <content type="html"><![CDATA[<p>转载：<a href="https://mp.weixin.qq.com/s/vX6o4lJKP4ajVfGSw8-tqg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/vX6o4lJKP4ajVfGSw8-tqg</a></p><blockquote><p>今天介绍的是一篇 NAACL’21 新鲜出炉的工作！NAACL 上周四出的结果，这篇工作本周一上传 arxiv，周二被王苏小哥哥发现，周三拜读了一下，今天就来和大家分享啦！！</p></blockquote><p>给大家提个问题：如果训练样本只有几百条，这时候我们该怎么办呢？</p><p>传统的 RNN 在这个样本大小下很难被训练好，自然地，我们会想到使用预训练模型，在其基础上进行 finetune。具体来讲，就是将预训练模型作为模型的底层，在上面添加与当前任务特点相关的网络结构。这样就引入了预训练的知识，对当前任务能产生很大的帮助。</p><p><img src="https://i.loli.net/2021/03/21/QodMJ9GWgv6fcUy.png" alt="微信截图_20210321123106" style="zoom:33%;"></p><p>除了预训练的知识，是不是还有其他的信息我们没有用上呢？近年来，越来越多的人在使用另一种 finetune 方法，即<strong>结合具体场景，设计新的 finetune 任务形式，从而将与当前任务相关的提示信息（prompt）引入模型</strong>。我们大名鼎鼎的 GPT 系列就是这么干的。比如我们拿 GPT3 做 QA 的 finetune，直接喂给他一串“<em>Question：问题内容 Answer：</em>”，剩下的答案部分就让 GPT3 自己填完。</p><p><img src="https://i.loli.net/2021/03/21/s8DHwgmNJY7Ryvk.png" alt="image-20210321123155512" style="zoom: 33%;"></p><p>这类 finetune 技巧虽然陆续被使用，但并没有人论证：<strong>这种做法相比于传统的 finetune 方法，真的能带来提升吗</strong>？如果答案是肯定的，<strong>那么究竟能提升多少呢（能否量化这种提升）？</strong></p><p>今天这篇来自 Huggingface 的文章就填补了上述两个问题的答案。他们通过大量实验证明：<strong>引入提示信息和多标注几百条数据带来的性能提升是相当的</strong>！所以，下次老板只给少量样本，就要你 finetune 模型——不要慌！我们今天又多学了一个 trick！</p><p><strong>论文题目</strong>:<br><strong><em>How Many Data Points is a Prompt Worth?</em></strong></p><p><strong>论文链接</strong>:<br><em><a href="https://arxiv.org/abs/2103.08493" target="_blank" rel="noopener">https://arxiv.org/abs/2103.08493</a></em></p><h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>前文提到，这一类 finetune 是将任务对应的输入改写成新的完形填空格式，让模型预测 <mask> 部分的词，作为抽取任务的答案或者生成任务的结果。这种方法不需要改变模型结构、没有额外的参数，简直不要太方便！</mask></p><h3 id="引入描述集合"><a href="#引入描述集合" class="headerlink" title="引入描述集合"></a>引入描述集合</h3><p>本文对这类方法进行了进一步简化：不要求 <mask> 处生成任意的文本，而是只需要完成类似于有选项的完形填空任务。这里的选项是固定的几个词，我们称之为描述集合（verbalizer），不同任务会有不同的描述集合。</mask></p><p>比如，对于判断题的阅读理解任务，就可以将阅读文本、问题和 <mask> 拼接，让预训练模型直接预测 <mask> 属于描述集合 {yes, no} 中的哪一种描述：</mask></mask></p><blockquote><p>小明天天码代码码到天明 [SEP] <strong>小明有女朋友吗？</strong> <mask></mask></p></blockquote><p>其中前半部分是阅读文本，后面<strong>加粗</strong>的部分是问题。模型只需要判断 <mask> 属于描述集合 {yes, no} 中的哪一种。</mask></p><p>可能读到这里，大家会疑惑：直接拼起来搞一个 True / False 的二分类不就好了嘛，何必让模型填空呢？嘿嘿，这恰好是作者的用意：通过让模型填空，<strong>模型可以习得描述集合中标签文本的语义信息</strong>。</p><h3 id="引入提示信息"><a href="#引入提示信息" class="headerlink" title="引入提示信息"></a>引入提示信息</h3><p>直接拼接是最朴素的，但这能让模型知道自己在做什么任务嘛？为此，作者引入了<strong>提示信息</strong>（prompt）。</p><p>还是判断题的阅读理解任务，对文章 和问题 ，作者将他们与一些固定的词进行整合，以此输入模型，让模型预测 <mask> 。作者提出了三种整合方式：</mask></p><p><img src="https://i.loli.net/2021/03/21/QEPwMG7bfI2UzNH.png" alt="image-20210321123632246" style="zoom: 33%;"></p><p>没错，就是这么简单！这些固定的词作为提示信息，让模型了解当前在做的任务；同时，提示词文本的含义也对于模型的理解产生了一定的帮助。</p><p>除了单选阅读理解，这篇文章还关注了文本蕴含、多选阅读理解、指代销歧等共六个任务。对于不同的任务，有不同的提示信息与输入格式：</p><p>对于文本蕴含任务，可以将前提 (premise, ) 与假设 (hyphothesis, ) 通过提示信息整合，作者提出了两种整合方式：</p><p><img src="https://i.loli.net/2021/03/21/k1ul7icFX69IKnL.png" alt="image-20210321123241288" style="zoom: 33%;"></p><p>这样就只需要让模型预测 <mask> 属于描述集合 {yes, no, maybe} 中的哪一种，以此判断前提能否支撑假设。</mask></p><p>对于指代销歧任务，可以将句子 、带标记的介词 与名词 通过提示信息整合：</p><p><img src="https://i.loli.net/2021/03/21/sRZIGzn2Pg76mpd.png" alt="image-20210321123253166" style="zoom: 33%;"></p><p>这样就只需要让模型预测 <mask> ，以此判断介词是否指代名词。这里的描述集合是不受限制的，即让模型在 <mask> 处预测指代的名词 。</mask></mask></p><p>其他任务也采用类似的整合方式，感兴趣可以参考原文～</p><h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>作者发现，这种使用提示信息的整合方式，在低资源的情况下对模型性能有非常大的提升！</p><p>比如在阅读理解任务的 BoolQ 数据集上，作者将使用提示信息整合的 finetune 方法与增加一层分类层的 finetune 方法进行了对比。下图是在使用不同数量的样本训练时，模型准确率的对比。</p><p><img src="https://i.loli.net/2021/03/21/31cqsF5Q7VoSeLX.png" alt="image-20210321123431996" style="zoom:50%;"></p><p>可以发现，在数据量比较小的时候，使用提示信息整合的 finetune 方法（黄色）比增加一层分类层的 finetune 方法（紫色）有更好的表现。</p><p>在某些任务上，这种表现的提升是惊人的：</p><p><img src="https://i.loli.net/2021/03/21/WCo9uUakm1rOH8N.png" alt="image-20210321123504144" style="zoom:50%;"></p><p>这是在指代销歧任务的 WSC 数据集上的实验结果。在水平方向看，<strong>仅使用 25 个样本，就达到传统 fintune 方法使用 300 个样本才能达到的效果！</strong></p><p>此外，作者还进行了一系列的消融实验，得到一些有意思的结论：</p><ol><li>模型通过预测 <mask> 属于描述集合中的哪种，以此完成任务。如果将这里改为不带语义的单纯的分类，性能也会有所下降。</mask></li><li>作者为每个任务都提供了多种整合提示信息的方式，但是发现，不同方式的区别对性能影响甚微。</li></ol><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这篇文章对基于提示信息的 finetune 方法在进行了大量实验，证明了这类方法在低资源的情况下性能大幅优于传统方法。这种 finetune 的思路应该是可以应用于各类 NLP 下游任务的。尤其是低资源场景下，应该会非常有帮助。如果老板真的只给几百条数据让训练模型，这样的方法说不定就有奇效！</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;转载：&lt;a href=&quot;https://mp.weixin.qq.com/s/vX6o4lJKP4ajVfGSw8-tqg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://mp.weixin.qq.com/s/vX6o4lJKP4ajVfGS
-      
-    
-    </summary>
-    
-      <category term="NLP" scheme="http://yoursite.com/categories/NLP/"/>
-    
-      <category term="few-shot learning" scheme="http://yoursite.com/categories/NLP/few-shot-learning/"/>
-    
-    
-      <category term="NLP" scheme="http://yoursite.com/tags/NLP/"/>
-    
-      <category term="few-shot learning" scheme="http://yoursite.com/tags/few-shot-learning/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[It’s Not Just Size That Matters] Small Language Models Are Also Few-Shot Learners</title>
-    <link href="http://yoursite.com/2021/03/20/It%E2%80%99s-Not-Just-Size-That-Matters-Small-Language-Models-Are-Also-Few-Shot-Learners/"/>
-    <id>http://yoursite.com/2021/03/20/It’s-Not-Just-Size-That-Matters-Small-Language-Models-Are-Also-Few-Shot-Learners/</id>
-    <published>2021-03-20T02:51:52.000Z</published>
-    <updated>2021-04-06T07:43:03.332Z</updated>
-    
-    <content type="html"><![CDATA[<p>转载：<a href="https://www.sohu.com/a/422484297_500659" target="_blank" rel="noopener">https://www.sohu.com/a/422484297_500659</a></p><p>显然，这标题对标的就是 GPT-3，于是笔者饶有兴趣地点进去看看是谁这么有勇气挑战 GPT-3，又是怎样的小模型能挑战 GPT-3？经过阅读，原来作者提出通过适当的构造， <strong>用 BERT 的 MLM 模型</strong>也可以做小样本学习，看完之后颇有一种“原来还可以这样做”的恍然大悟感。在此与大家分享一下。</p><h2 id="冉冉升起的MLM"><a href="#冉冉升起的MLM" class="headerlink" title="冉冉升起的MLM"></a><strong>冉冉升起的MLM</strong></h2><p>MLM，全称“Masked Language Model”，可以翻译为“掩码语言模型”，实际上就是一个完形填空任务，随机 Mask 掉文本中的某些字词，然后要模型去预测被 Mask 的字词，示意图如下：</p><p><img src="https://i.loli.net/2021/03/20/izGapk4S6ZRqgFI.png" alt="img" style="zoom:50%;"></p><p>▲ BERT的MLM模型简单示意图</p><p>其中被 Mask 掉的部分，可以是直接随机选择的 Token，也可以是随机选择连续的能组成一整个词的 Token，后者称为 WWM（Whole Word Masking）。</p><p>开始，MLM 仅被视为 BERT 的一个预训练任务，训练完了就可以扔掉的那种，因此有一些开源的模型干脆没保留 MLM 部分的权重，比如 brightmart 版 [3] 和 clue 版 [4] 的 RoBERTa，而哈工大开源的 RoBERTa-wwm-ext-large [5]则不知道出于什么原因随机初始化了 MLM 部分的权重，因此如果要复现本文后面的结果，这些版本是不可取的。</p><p>然而，随着研究的深入，研究人员发现不止 BERT 的 Encoder 很有用，预训练用的 MLM 本身也很有用。</p><p>比如论文 <strong>BERT has a Mouth, and It Must Speak: BERT as a Markov Random Field Language Model</strong>[6]指出 MLM 可以作为一般的生成模型用，论文 <strong>Spelling Error Correction with Soft-Masked BERT</strong>[7] 则将 MLM 用于文本纠错。</p><p>笔者之前在 的实验也表明 MLM 的预训练权重也可以当作 UniLM 来用做 Seq2Seq 任务，还有一文将 MLM 的思想用于无监督分词和句法分析了。可以说 MLM 已经是大放异彩了。</p><h2 id="将任务转成完形填空"><a href="#将任务转成完形填空" class="headerlink" title="将任务转成完形填空"></a><strong>将任务转成完形填空</strong></h2><p>在本文里，我们再学习 MLM 的一个精彩应用：用于小样本学习或半监督学习，某些场景下甚至能做到零样本学习。</p><p>怎么将我们要做的任务跟 MLM 结合起来呢？很简单， <strong>给任务一个文本描述，然后转换为完形填空问题</strong>即可。举个例子，假如给定句子“这趟北京之旅我感觉很不错。”，那么我们补充个描述，构建如下的完形填空：</p><blockquote><p> <strong>__</strong>满意。这趟北京之旅我感觉很不错。</p></blockquote><p>进一步地，我们限制空位处只能填一个“很”或“不”，问题就很清晰了，就是要我们根据上下文一致性判断是否满意，如果“很”的概率大于“不”的概率，说明是正面情感倾向，否则就是负面的，这样我们就将<strong>情感分类问题</strong>转换为一个完形填空问题了，它可以用 MLM 模型给出预测结果，而 MLM 模型的训练可以不需要监督数据，因此理论上这能够实现零样本学习了。</p><p><strong style="color:blue;">多分类问题</strong>也可以做类似转换，比如<strong>新闻主题分类</strong>，输入句子为“八个月了，终于又能在赛场上看到女排姑娘们了。”，那么就可以构建：</p><blockquote><p> 下面播报一则<strong>__</strong>新闻。八个月了，终于又能在赛场上看到女排姑娘们了。</p></blockquote><p>这样我们就将新闻主题分类也转换为完形填空问题了，一个好的 MLM 模型应当能预测出“体育”二字来。</p><p>还有一些<strong style="color:blue;">简单的推理任务</strong>也可以做这样的转换，常见的是给定两个句子<strong>，判断这两个句子是否相容</strong>，比如“我去了北京”跟“我去了上海”就是矛盾的，“我去了北京”跟“我在天安门广场”是相容的，常见的做法就是将两个句子拼接起来输入到模型做，作为一个二分类任务。如果要转换为完形填空，那该怎么构造呢？一种比较自然的构建方式是：</p><blockquote><p>我去了北京？<strong>__</strong>，我去了上海。</p><p>我去了北京？<strong>__</strong>，我在天安门广场。</p><p>其中空位之处的候选词为 是 的 不 是 。</p></blockquote><h2 id="Pattern-Exploiting-Training"><a href="#Pattern-Exploiting-Training" class="headerlink" title="Pattern-Exploiting Training"></a><strong>Pattern-Exploiting Training</strong></h2><p>读到这里，读者应该不难发现其中的规律了，就是给输入的文本增加一个前缀或者后缀描述，并且 Mask 掉某些 Token，转换为完形填空问题，这样的转换在原论文中称为 <strong>Pattern</strong>，这个转换要尽可能与原来的句子组成一句自然的话，不能过于生硬，因为预训练的 MLM 模型就是在自然语言上进行的。</p><p>显然同一个问题可以有很多不同的 Pattern，比如情感分类的例子，描述可以放最后，变成“这趟北京之旅我感觉很不错。<strong><strong>满意。”；也可以多加几个字，比如“觉得如何？</strong></strong>满意。这趟北京之旅我感觉很不错。”。</p><p>然后，我们需要构建预测 Token 的候选空间，并且建立 Token 到实际类别的映射，这在原论文中称为 <strong>Verbalizer</strong>，比如情感分类的例子，我们的候选空间是 很 不 ，映射关系是 很 正 面 不 负 面 ，候选空间与实际类别之间不一定是一一映射，比如我们还可以加入“挺”、“太”、“难”字，并且认为 很 挺 太 正 面 以 及 不 难 负 面 ，等等。</p><p>不难理解，不少 NLP 任务都有可能进行这种转换，但显然这种转换一般只适用于 <strong>候选空间有限</strong>的任务，说白了就是只用来做 <strong>选择题</strong>，常见任务的就是 <strong>文本分类</strong>。</p><p>刚才说了，同一个任务可以有多种不同的 Pattern，原论文是这样处理的：</p><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">1. </span>对于每种 Pattern，单独用训练集 Finetune一个 MLM 模型出来；</span><br><span class="line"><span class="bullet">2. </span>然后将不同 Pattern对应的模型进行集成，得到融合模型；</span><br><span class="line"><span class="bullet">3. </span>用融合模型预测未标注数据的伪标签；</span><br><span class="line"><span class="bullet">4. </span>用伪标签数据 Finetune 一个常规的（非 MLM 的）模型。</span><br></pre></td></tr></table></figure><p>具体的集成方式大家自己看论文就行，这不是重点。这种训练模式被称为 <strong>Pattern-Exploiting Training（PET）</strong>，它首先出现在论文 <strong>Exploiting Cloze Questions for Few Shot Text Classification and Natural Language Inference</strong>。</p><p><strong style="color:blue;">yaya: 与 这篇论文思想很类似：How Many Data Points is a PromptWorth? （arXiv: 2103.08493v1）</strong></p><p>本文要介绍的这篇论文则进一步肯定和完善了 Pattern-Exploiting Training 的价值和结果，并整合了多任务学习，使得它在 SuperGLUE 榜单上的小样本学习效果超过了 GPT3。两篇论文的作者是相同的，是一脉相承的作品。</p><p><img src="https://i.loli.net/2021/03/20/dOMZNLsKykIDioQ.png" alt="img"></p><p>▲ PET在SuperGLUE上的小样本学习的结果</p><p>不过要吐槽一个点是，上图中 PET 的 223M 参数，所用的模型是 ALBERT-xxlarge-v2，事实上称 ALBERT 为“小模型”是一种很耍流氓的行为，因为它前向计算的速度并没有得到任何提升。ALBERT-xxlarge 共有 12 层，层与层之间参数是共享的，就前向计算而言，它应该等价于约 2700M（12 倍）参数的 GPT 才对。</p><h2 id="中文实践，检验效果"><a href="#中文实践，检验效果" class="headerlink" title="中文实践，检验效果"></a><strong>中文实践，检验效果</strong></h2><p>要真正确认一个方法或模型的价值，看论文的实验表格是不够的，论文给出的实验结果谁都不好说能否复现，其次就算英文上能复现也不代表中文上有价值，因此最实际的还是亲自动手做实验验证。下面是笔者的实验代码，供读者参考：</p><p>Github 地址：</p><p><a href="https://github.com/bojone/Pattern-Exploiting-Training" target="_blank" rel="noopener">https://github.com/bojone/Pattern-Exploiting-Training</a></p><p>我们将从以下几个角度来探讨 PET 的可行性：</p><p>\1. 直接利用现成的 MLM 模型效果如何？ <strong>（零样本学习1）</strong></p><p>\2. 用“大量无标签数据”微调现成的 MLM 模型效果如何？ <strong>（零样本学习2）</strong></p><p>\3. 用“小量标签数据”微调现成的 MLM 模型效果如何？ <strong>（小样本学习）</strong></p><p>\4. 用“小量标签数据+大量无标签数据”微调现成的MLM模型效果如何？ <strong>（半监督学习）</strong></p><p>下面主要给出 <strong>情感二分类</strong>的实验结果。另外还有一个新闻主题的多分类，代码也放到 Github 了，其结果是类似的，就不重复陈述了。</p><h3 id="4-1-零样本学习1"><a href="#4-1-零样本学习1" class="headerlink" title="4.1 零样本学习1"></a><strong>4.1 零样本学习1</strong></h3><p>这里主要探索的是给输入文本补上对应的 Pattern 后，直接基于现成的 MLM 模型进行预测，预测的准确率。由于构建模型的整个过程都不涉及到标签数据监督训练，因此这算是一种“零样本学习”。我们需要比较的是不同 Pattern、不同 MLM 模型上的效果：</p><p>下面是实验的几个 Pattern，其中空位处候选词语都为“很”和“不”：</p><p>P1：____满意。这趟北京之旅我感觉很不错。</p><p>P2：这趟北京之旅我感觉很不错。____满意。</p><p>P3：____好。这趟北京之旅我感觉很不错。</p><p>P4：____理想。这趟北京之旅我感觉很不错。</p><p>P5：感觉如何？____满意。这趟北京之旅我感觉很不错。</p><p>至于 MLM 模型，则是下面几个：</p><p>M1：Google 开源的中文版 BERT Base：</p><p><a href="https://github.com/google-research/bert" target="_blank" rel="noopener">https://github.com/google-research/bert</a></p><p>M2：哈工大开源的 RoBERTa-wwm-ext Base：</p><p><a href="https://github.com/ymcui/Chinese-BERT-wwm" target="_blank" rel="noopener">https://github.com/ymcui/Chinese-BERT-wwm</a></p><p>M3：腾讯 UER 开源的 BERT Base：</p><p><a href="https://share.weiyun.com/5QOzPqq" target="_blank" rel="noopener">https://share.weiyun.com/5QOzPqq</a></p><p>M4：腾讯 UER 开源的 BERT Large：</p><p><a href="https://share.weiyun.com/5G90sMJ" target="_blank" rel="noopener">https://share.weiyun.com/5G90sMJ</a></p><p>实验结果如下表（验证集/测试集）：</p><p><img src="https://i.loli.net/2021/03/20/8Yg2qH5CXoFPkcx.png" alt="img"></p><p>可以观察到，不同的 Pattern、不同的预训练模型之间还是有一定的差异的，整体而言 Large 版本的效果要明显好于 Base 版本的模型，说明像 GPT 到 GPT2 再到 GPT3 一样，还是把模型做得更大会更好。</p><p>此外，这还有可能说明实际上 MLM 还没有被充分训练好，或许是因为 BERT 这种 Mask 掉一部分的训练方式过于低效了，可能用 修改 Transformer 结构，设计一个更快更好的 MLM 模型 一文提到的改进版 MLM 会更好。</p><h3 id="4-2-零样本学习2"><a href="#4-2-零样本学习2" class="headerlink" title="4.2 零样本学习2"></a><strong>4.2 零样本学习2</strong></h3><p>看完上述结果，读者可能会想到：如果我用领域内的数据继续预训练 MLM 模型，那么能不能提升效果呢？答案是：能！下面是我们的实验结果，算力有限，我们只在 RoBERTa-wwm-ext（上述的 M2，继续预训练后的模型我们称为 M2+ 无监督）的基础上做了比较：</p><p><img src="https://i.loli.net/2021/03/20/Y8CdHbW1cjqByrD.png" alt="img"></p><p>要注意的是，这里我们只是用领域内的数据继续做 MLM 训练，这个过程是无监督的，也不需要标注信号，因此也算是“零样本学习”。同时，从到目前为止的结果我们可以看出，给输入本文加入“前缀”的效果比“后缀”更有优势一些。</p><h3 id="4-3-小样本学习"><a href="#4-3-小样本学习" class="headerlink" title="4.3 小样本学习"></a><strong>4.3 小样本学习</strong></h3><p>刚才我们讨论了无标签数据继续预训练 MLM 的提升，如果回到 PET 的目标场景，直接用小量的标签数据配合特定的 Pattern 训练 MLM 又如何呢？</p><p>这也就是真正的“小样本学习”训练了，这里我们保留约 200 个标注样本，构造样本的时候，我们先给每个句子补上 Pattern，除了 Pattern 自带的 Mask 位置之外，我们还随机 Mask 其他一部分，以增强对模型的正则。最终实验结果如下：</p><p><img src="https://i.loli.net/2021/03/20/qVFgDbyLQrXpZUt.png" alt="img"></p><p>结论就是除了“后缀式”的 P2 之外，其它结果都差不多，这进一步说明了“前缀式”的 Pattern 会比“后缀式”更有竞争力一些。在效果上，直接用同样的数据用常规的方法去微调一个 BERT 模型，大概的结果是 88.93 左右，所以基于 “MLP+Pattern” 的小样本学习方法可能带来轻微的性能提升。</p><h3 id="4-4-半监督学习"><a href="#4-4-半监督学习" class="headerlink" title="4.4 半监督学习"></a><strong>4.4 半监督学习</strong></h3><p>无监督的零样本学习和有监督的小样本学习都说完了，自然就轮到把标注数据和非标注数据都结合起来的“半监督学习”了。还是同样的任务，标注数据和非标注数据的比例大约是 1:99，标注数据带 Pattern，非标注数据不带 Pattern，大家都 Mask 掉一部分 Token 进行 MLM 预训练，最终测出来的效果如下：</p><p><img src="https://i.loli.net/2021/03/20/4QKcUYDtgAmeGqM.png" alt="img"></p><p>还是同样的，“后缀”明显比“前缀”差，“前缀”的效果差不多。具体效果上，则是肯定了额外的无标注数据也是有作用的。</p><p>直觉上来看，“前缀”比“后缀”要好，大体上是因为“前缀”的 Mask 位置比较固定，微弱的监督信号得以叠加增强？但这也不能解释为什么零样本学习的情况下也是“前缀”更好，估计还跟模型的学习难度有关系，可能句子前面部分的规律更加明显，相对来说更加容易学一些，所以前面部分就学习得更加充分？这一切都还只是猜测。</p><h3 id="4-5-汇总与结论"><a href="#4-5-汇总与结论" class="headerlink" title="4.5 汇总与结论"></a><strong>4.5 汇总与结论</strong></h3><p>将上述结果汇总如下：</p><p><img src="https://i.loli.net/2021/03/20/cpGqLZ2twR5z4di.png" alt="img"></p><p>读者还可以对比我们之前在文章 泛化性乱弹：从随机噪声、梯度惩罚到虚拟对抗训练 中用虚拟对抗训练（VAT）做半监督学习的结果，可以看到不管是零样本学习、小样本学习还是半监督学习，基于 MLM 模型的方式都能媲美基于 VAT 的半监督学习的结果。</p><p>我们在做短新闻多分类实验时的结果也是相似的。因此，这说明了 MLM 模型确实也可以作为一个优秀的零样本/小样本/半监督学习器来使用。</p><p>当然，基于 MLM 模型的缺点还是有的，比如 MLM 所使用的独立假设限制了它对更长文本的预测能力（说白了空位处的文字不能太长），以及无法预测不定长的答案也约束了它的场景（所以当前只能用于做选择题）。我们期待有更强的 MLM 模型出现，那时候就有可能在所有任务上都能与 GPT3 一较高下了。</p><h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本文介绍了 BERT 的 MLM 模型的一个新颖应用：配合特定的描述将任务转化为完形填空，利用 MLM 模型做零样本学习、小样本学习和半监督学习。</p><p>在原论文的 SuperGLUE 实验里边，它能达到媲美 GPT3 的效果，而笔者也在中文任务上做了一些实验，进一步肯定了该思路的有效性。整个思路颇为别致，给人一种“原来还可以这样做”的恍然大悟感，推荐大家学习一下。</p><h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p>[1] <a href="https://arxiv.org/abs/2005.14165" target="_blank" rel="noopener">https://arxiv.org/abs/2005.14165</a></p><p>[2] <a href="https://arxiv.org/abs/2009.07118" target="_blank" rel="noopener">https://arxiv.org/abs/2009.07118</a></p><p>[3] <a href="https://github.com/brightmart/roberta_zh" target="_blank" rel="noopener">https://github.com/brightmart/roberta_zh</a></p><p>[4] <a href="https://github.com/CLUEbenchmark/CLUEPretrainedModels" target="_blank" rel="noopener">https://github.com/CLUEbenchmark/CLUEPretrainedModels</a></p><p>[5] <a href="https://github.com/ymcui/Chinese-BERT-wwm" target="_blank" rel="noopener">https://github.com/ymcui/Chinese-BERT-wwm</a></p><p>[6] <a href="https://arxiv.org/abs/1902.04094" target="_blank" rel="noopener">https://arxiv.org/abs/1902.04094</a></p><p>[7] <a href="https://kexue.fm/archives/7661" target="_blank" rel="noopener">https://kexue.fm/archives/7661</a></p><p>[8] <a href="https://arxiv.org/abs/2001.07676" target="_blank" rel="noopener">https://arxiv.org/abs/2001.07676</a></p><h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><p>不懂的问题：</p><ul><li><p>mask 一个 Span, 多个空位然后逐词预测？？</p></li><li><p>在 [MASK] 位置 预测空间是多大？整个vocabulary ??</p></li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;转载：&lt;a href=&quot;https://www.sohu.com/a/422484297_500659&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://www.sohu.com/a/422484297_500659&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;显然
-      
-    
-    </summary>
-    
-      <category term="NLP" scheme="http://yoursite.com/categories/NLP/"/>
-    
-      <category term="few-shot" scheme="http://yoursite.com/categories/NLP/few-shot/"/>
-    
-    
-      <category term="NLP" scheme="http://yoursite.com/tags/NLP/"/>
-    
-      <category term="few-shot" scheme="http://yoursite.com/tags/few-shot/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>[All NLP Tasks Are Generation Tasks] A General Pretraining Framework</title>
-    <link href="http://yoursite.com/2021/03/20/All-NLP-Tasks-Are-Generation-Tasks-A-General-Pretraining-Framework/"/>
-    <id>http://yoursite.com/2021/03/20/All-NLP-Tasks-Are-Generation-Tasks-A-General-Pretraining-Framework/</id>
-    <published>2021-03-20T01:53:44.000Z</published>
-    <updated>2021-03-21T07:13:29.600Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="yaya-总结"><a href="#yaya-总结" class="headerlink" title="yaya 总结"></a>yaya 总结</h2><ul><li><p>模型结构上</p><p><strong style="color:red;">GLM 采用的是Transformer Model 中decoder 结构，而BERT采用的是 encoder 结构</strong></p></li><li><p>预训练任务上：<br>提出了两个 multi short span recover (benefit for NLU) and  a single longer span recover (benefit for NLG) 的预训练任务。</p><p>与这篇做 text filling 论文很相似：Enabling Language Models to Fill in the Blanks</p></li><li><p>下游任务的微调：</p><p>受到[1] [2] 的启发， 将分类任务转化为文本生成的填空任务。</p></li></ul><h2 id="1-存在的问题"><a href="#1-存在的问题" class="headerlink" title="1. 存在的问题"></a>1. 存在的问题</h2><p>目前基于预训练 的语言模型大致分为三类：</p><ul><li>autoregressive models (e.g.,GPT) 擅长长文本生成</li><li>autoencoding models (e.g., BERT) 擅长理解型任务，分类任务</li><li>encoder-decoder models (e.g., T5) 擅长基于条件的文本生成任务，比如 text summarize</li></ul><p>但是目前还未存在一个预训练框架可以在这三种任务上同时表现出优异的性能。这给模型的开发和选择带来了不便。</p><p>下表总结了不同的预训练框架可以处理的任务：</p><p><img src="https://i.loli.net/2021/03/20/ldKAem71a86xBcq.png" alt="image-20210320100920079" style="zoom: 25%;"></p><p>先前的工作试图通过多任务学习将各自的 objective 结合起来，从而统一不同的框架。但是，自回归和自编码的 objective 在本质上是不同的，简单的结合不能够充分的揭示所有框架的优势。</p><h2 id="2-本文的点"><a href="#2-本文的点" class="headerlink" title="2. 本文的点"></a>2. 本文的点</h2><h3 id="2-1-新颖的预训练框架GLM"><a href="#2-1-新颖的预训练框架GLM" class="headerlink" title="2.1 新颖的预训练框架GLM"></a>2.1 新颖的预训练框架GLM</h3><p>本文提出了一个新颖的预训练框架GLM（General Language Model）来解决这个问题。如图1。</p><p><img src="https://i.loli.net/2021/03/20/VrzfCnOFQi27NRU.png" alt="image-20210320103954828" style="zoom: 33%;"></p><ul><li>本文的预训练模型GLM基于autoregressive blank-filling（预训练方案），<strong style="color:red;">遵循自动编码(auto-encoding)的思想，我们从输入文本中随机消除了令牌的连续跨度。并遵循自回归预训练(auto-regressive)的思想训练模型以重建跨度。</strong></li><li>为了在一个框架中同时学习双向和单向的注意力机制，本文将文本分成两部分，未掩码的部分可以互相关注。掩码的部分不可以关注后续的掩码的token。</li><li>本文还提出了一个 2D位置编码技术，来指示inter- and intra- span position information。</li><li></li></ul><p>因此，本文的框架 GLM在预训练过程中，可以同时学习上下文表达和自回归生成。</p><h3 id="2-2-多任务预训练方案"><a href="#2-2-多任务预训练方案" class="headerlink" title="2.2 多任务预训练方案"></a>2.2 多任务预训练方案</h3><p>为了使本文的预训练模型更加适合文本生成任务，本文也研究了一个多任务预训练的设置：（1）采样多个short spans, 目标是重构masked spans，该预训练任务对下游NLU任务有益处（2）采样单个 longer span，目标是回复该单个spans。该预训练任务对下游NLG任务有益处。</p><p>这种多任务预训练方案，在理解型任务，条件生成任务和具有共享参数的语言建模任务方面均有改善。</p><h3 id="2-3-pretrain-finetune-consistency"><a href="#2-3-pretrain-finetune-consistency" class="headerlink" title="2.3 pretrain-finetune consistency"></a>2.3 pretrain-finetune consistency</h3><p>在下游任务微调GLM时，受到以下两篇文章[1] [2] 的启发，构建为blank-filling generation的形式。每个任务都与一个人工制作的完形填空问题相关联，并且该模型可以预测完形填空的答案。例如，情感分类任务被重新构造为一个 <strong>“[SENTENCE]. It’s really __ ”.</strong> 这种格式的填空任务。对于”good” or “bad” 的预测暗示了情感是积极地还是消极地。</p><p>在这种格式下，GLM 在预训练和微调的一致中受益。因为<strong style="color:blue;">预训练和微调都涉及到以给定上下文来生成文本的方式来训练模型</strong>。因此，GLM相比于BERT-like models 更适合下游分类任务。<strong style="color:red;"><strong>yaya：这里的因此，好像不能推断出来</strong></strong></p><h2 id="3-贡献"><a href="#3-贡献" class="headerlink" title="3. 贡献"></a>3. 贡献</h2><p>本文的结构有三个主要的优势：</p><ul><li>在一个预训练模型上，可以在三种任务上都表现的很好。</li><li>由于 <strong style="color:blue;">pretrain-finetune consistency</strong>，在分类任务上，本文提出的模型相比 BERT-like models 性能更加优异。</li><li>可以自然的处理 <strong style="color:red;">variable-length blank filling</strong>，这对很多下游任务是很重要的。</li></ul><h2 id="4-Method"><a href="#4-Method" class="headerlink" title="4. Method"></a>4. Method</h2><h3 id="4-1-Model-Architecture"><a href="#4-1-Model-Architecture" class="headerlink" title="4.1 Model Architecture"></a>4.1 Model Architecture</h3><p>本文提出的结构 GLM 与 BERT很相似。Following Megatron-LM, 对BERT的结构做了两点改动。（1）rearrange the order of layer normalization and the residual connection。（2）replace the feed-forward network for token prediction with a linear layer。</p><h3 id="4-2-Autoregressive-Blank-Infilling"><a href="#4-2-Autoregressive-Blank-Infilling" class="headerlink" title="4.2 Autoregressive Blank Infilling"></a>4.2 Autoregressive Blank Infilling</h3><p>通过优化 autoregressive blank infilling 任务对GLM进行训练。</p><p>给定 an input text $\boldsymbol{x}=\left[x_{1}, \cdots, x_{n}\right]$，多个被采样 text spans {$s_{1},…,s_{m}$} ，每个span $s_{i}$ 是一系列连续的tokens $\left[s_{i, 1}, \cdots, s_{i, l_{i}}\right]$。text spans 的数量和长度取决于预训练目标（将会在下文中被介绍）。</p><p>该模型以自回归的方式从损坏的文本中预测 span 中丢失的 tokens，这意味着在预测 span 中丢失的 tokens，模型可以访问损坏的文本<em>和</em>先前预测的spans。为了充分捕捉不同span之间的相互依存关系，我们随机地排列span的顺序。yaya: 以下公式中 $\boldsymbol{s}_{\boldsymbol{z}_{&lt;i}}$ 被随机排列了，并不是按照其在句子中的顺序。</p><p>预训练目标为：$\max _{\theta} \mathbb{E}_{\boldsymbol{z} \sim Z_{m}}\left[\sum_{i=1}^{m} \log p_{\theta}\left(\boldsymbol{s}_{z_{i}} \mid \boldsymbol{x}_{\text {corrupt }}, \boldsymbol{s}_{\boldsymbol{z}_{&lt;i}}\right)\right]$</p><p>该任务与SpanBERT 的区别在于 <strong>模型不知道span中丢失tokens 的数量</strong>。</p><p>具体来说，我们使用以下技巧实现了自动回归的空白填充任务。输入令牌分为两部分。A部分包含损坏的文本$x_{corrupt}$ ,其中采样的text span 被替换为 [MASK] 令牌。B部分由masked span 中的tokens 组成。A部分中的 tokens 可以 attend to A中的所有tokens ，但不能 attend to B中的任何tokens 。B部分中的tokens 可以 attend to A中的tokens 及其在B中的先行词，但不能attend to B中的任何后续位置。</p><p><strong style="color:red;">与原始Transformer 模型中的decoder 相似</strong>，span中的tokens被补充两个特殊token [START]和 [END]，以这种方式，本文提出的模型可以同时学习（1）一个双向encoder（PART A）和（2）一个单向decoder (PART B)。如下图2所示。</p><p><img src="https://i.loli.net/2021/03/21/i4AEV3J2psDv1aT.png" alt="image-20210321135425429"></p><h4 id="4-2-1-2D-Positional-Encoding"><a href="#4-2-1-2D-Positional-Encoding" class="headerlink" title="4.2.1 2D Positional Encoding"></a>4.2.1 2D Positional Encoding</h4><p>每个 token 都使用两个 position ids 进行编码。</p><p>第一个 position id 代表corrupted text 中的位置。对于B中的token，它是对应的[MASK] token的position。</p><p>第二位置id表示intra-span position。对于A中的令牌，第二个位置ID为0。对于B中的令牌，范围为1到span的长度。</p><p>这两个 position ids  通过两个单独的 embedding table 投影到两个位置向量中，并添加到 input embeddings 中。</p><h3 id="4-3-Pre-Training-Objectives"><a href="#4-3-Pre-Training-Objectives" class="headerlink" title="4.3 Pre-Training Objectives"></a>4.3 Pre-Training Objectives</h3><p>采样：the masked spans make up 15% of the original tokens.</p><p>span leagth:  drawn from a Poisson distribution with $\lambda$= 3</p><p>与其他BERT样式的模型类似，GLM 对 short spans 进行掩码，适用于NLU任务。 但是，我们对单个预训练模型可以同时处理NLU和text generation 感兴趣。</p><p>我们进一步研究了<em>多任务预训练</em>设置，第二个目标：生成更长文本。并与GLM联合优化。具体来说，我们采样了a single span 覆盖原始文本长度的50％–100％。跨度长度是从均匀分布中采样的。以与原始目标相同的方式定义新目标。唯一的区别是只有一个跨度，但跨度更长。</p><h3 id="4-4-Finetuning-GLM"><a href="#4-4-Finetuning-GLM" class="headerlink" title="4.4 Finetuning GLM"></a>4.4 Finetuning GLM</h3><h4 id="NLU-task"><a href="#NLU-task" class="headerlink" title="NLU task"></a>NLU task</h4><p><strong>对于NLU 任务，以前的PLMs 存在预训练-微调目标不一致的问题</strong>， 具体解释如下：</p><p>先前的方法处理NLU任务，通常采用将预训练模型得到的representation送入一个线性分类层中来预测答案。对于token classification: 使用 token representation；对于 sentence classification：使用 [CLS] token representation。但是对于预训练任务采用的是cloze filling task 。这就导致了预训练-微调目标不一致的问题。</p><p>本文中，将NLU中的分类任务定义为 blank filling task。</p><p>给定一个标注样本（$x$, y），经由一个包含了 single mask token 的 pattern。</p><p>将输入文本 $x$ 映射成一个 cloze question $c(x)$ 。情感分类任务被重新构造为一个 <strong>“[SENTENCE]. It’s really [MASK] ”.</strong>  </p><p>标签 $y$ 也映射为填空问题的答案，称为 verbalizer $v(y)$ 。在情感分类任务中消极和积极被映射到单词“好”或“坏”。</p><p>Therefore, the conditional probability of $y$ given $\boldsymbol{x}$ is</p><script type="math/tex; mode=display">p(y \mid \boldsymbol{x})=\frac{p(v(y) \mid c(\boldsymbol{x}))}{\sum_{y^{\prime} \in \mathcal{Y}} p\left(v\left(y^{\prime}\right) \mid c(\boldsymbol{x})\right)}</script><p>where $\mathcal{Y}$ is the label set. Then we can finetune GLM with the cross entropy loss.</p><h4 id="NLG-task"><a href="#NLG-task" class="headerlink" title="NLG task"></a>NLG task</h4><p>对于文本生成任务，可以直接的将GLM作为一个自回归模型来使用。</p><p>给定的上下文构成了输入的A部分，其中有一个[MASK]结尾的令牌。然后，GLM自动在B部分中生成文本。我们可以将预训练的GLM直接应用于无条件生成，也可以在下游的有条件生成任务上微调GLM。</p><p><img src="https://i.loli.net/2021/03/21/k3E8uCchorg5LO9.png" alt="image-20210321151303074" style="zoom:80%;"></p><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p>[1] [It’s Not Just Size That Matters] Small Language Models Are Also Few-Shot Learners</p><p>[2] Exploiting Cloze Questions for Few Shot Text Classification and Natural Language Inference</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;yaya-总结&quot;&gt;&lt;a href=&quot;#yaya-总结&quot; class=&quot;headerlink&quot; title=&quot;yaya 总结&quot;&gt;&lt;/a&gt;yaya 总结&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;模型结构上&lt;/p&gt;
-&lt;p&gt;&lt;strong style=&quot;color:red;&quot;&gt;G
-      
-    
-    </summary>
-    
-      <category term="NLP" scheme="http://yoursite.com/categories/NLP/"/>
-    
-    
-      <category term="NLP" scheme="http://yoursite.com/tags/NLP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Transformer</title>
-    <link href="http://yoursite.com/2021/03/19/Transformer/"/>
-    <id>http://yoursite.com/2021/03/19/Transformer/</id>
-    <published>2021-03-19T10:58:13.000Z</published>
-    <updated>2021-03-19T11:32:07.770Z</updated>
-    
-    <content type="html"><![CDATA[<p><img src="https://i.loli.net/2021/03/19/DrhRUENTcwXPo89.png" alt="image-20210319185913348" style="zoom:50%;"></p><p>Transformer模型中采用了 encoer-decoder 架构。论文中encoder层由6个encoder堆叠在一起，decoder层也一样。</p><h2 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h2><p>对于encoder，包含两层，一个self-attention层和一个前馈神经网络，self-attention能帮助当前节点不仅仅只关注当前的词，从而能获取到上下文的语义。</p><h2 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h2><p>decoder也包含encoder提到的两层网络，但是在这两层中间还有一层attention层，帮助当前节点获取到当前需要关注的重点内容。</p><p>Decoder 和 Encoder的结构差不多，但是多了一个attention的sub-layer，这里先明确一下decoder的输入输出和解码过程：</p><ul><li>输出：对应 $i$ 位置的输出词的概率分布</li><li>输入：encoder的输出 与 对应  $i-1$ 位置decoder的输出。所以中间的attention不是self-attention，它的<strong style="color:blue;">K，V来自encoder</strong>，<strong style="color:blue;">Q来自上一位置decoder的输出</strong></li><li><p>解码：这里要注意一下，训练和预测是不一样的。在训练时，解码是一次全部decode出来，用上一步的ground truth来预测（mask矩阵也会改动，让解码时看不到未来的token）；而预测时，因为没有ground truth了，需要一个个预测。</p><p>为了确保按照生成顺序：从左到右，使用sequence mask。</p><p>sequence mask 是为了使得 decoder 不能看见未来的信息。也就是对于一个序列，在 time_step 为 t 的时刻，我们的解码输出应该只能依赖于 t 时刻之前的输出，而不能依赖 t 之后的输出。因此我们需要想一个办法，把 t 之后的信息给隐藏起来。</p><p>那么具体怎么做呢？也很简单：产生一个上三角矩阵，上三角的值全为0。把这个矩阵作用在每一个序列上，就可以达到我们的目的。</p></li></ul><p><img src="https://julyedu-img.oss-cn-beijing.aliyuncs.com/quesbase64156846899939997439.gif" alt="img"></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;&lt;img src=&quot;https://i.loli.net/2021/03/19/DrhRUENTcwXPo89.png&quot; alt=&quot;image-20210319185913348&quot; style=&quot;zoom:50%;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;Transformer模型中采用了 en
-      
-    
-    </summary>
-    
-      <category term="NLP" scheme="http://yoursite.com/categories/NLP/"/>
-    
-    
-      <category term="NLP" scheme="http://yoursite.com/tags/NLP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>On Semantic Similarity in Video Retrieval</title>
-    <link href="http://yoursite.com/2021/03/19/On-Semantic-Similarity-in-Video-Retrieval/"/>
-    <id>http://yoursite.com/2021/03/19/On-Semantic-Similarity-in-Video-Retrieval/</id>
-    <published>2021-03-19T08:50:22.000Z</published>
-    <updated>2021-03-22T06:49:08.565Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h2><ul><li>当前的检索任务是目标实例进行检索（ target instance-based retrieval）（IVR），即，给定一个query caption，仅一个 origami video 被认为是正确的检索结果。但，实际上，数据集中的许多视频can be similar to the point of being identical。检索此类视频的顺序不应影响方法的评估。</li></ul><h2 id="本文的点"><a href="#本文的点" class="headerlink" title="本文的点"></a>本文的点</h2><p>本文提出 Semantic Similarity Video Retrieval（SVR），相比于 normal IVR 的不同点是：</p><ul><li>对于1个video，允许有多个captions与其 的相似度为1</li><li>如果 $sim(x_i, y_j)$ = $sim(x_i, j_k)$，$x_i$ 为 video set 中的一个video。则表示这两个caption被认为是与该video有相等的相关度。可以以任意的顺序来检索，并且不能被evaluation metric 惩罚。</li></ul><h2 id="Proxy-Measures-for-Semantic-Similarity"><a href="#Proxy-Measures-for-Semantic-Similarity" class="headerlink" title="Proxy Measures for Semantic Similarity"></a>Proxy Measures for Semantic Similarity</h2><p>video $x_i$ 与 caption $y_{i}$ 是ground truth pair。</p><p>定义video 与 other captions 的语义相似度为：corresponding caption 与 other captions 之间的语义相似度。</p><p>$S_{S}\left(x_{i}, y_{j}\right)=\left\{\begin{array}{ll}1 &amp; i==j \\ S^{\prime}\left(y_{i}, y_{j}\right) &amp; \text { otherwise }\end{array}\right.$</p><p>关于 $S^{\prime}$ ，本文使用了四种方式来度量文本之间的语义相似度：bag of words, part-of- speech knowledge, synset similarity and the METEOR metric。</p><h2 id="Evaluation"><a href="#Evaluation" class="headerlink" title="Evaluation"></a>Evaluation</h2><p><img src="https://i.loli.net/2021/03/22/oMS76vcp2HX5DgK.png" alt="image-20210322144739237" style="zoom:50%;"></p><h2 id="Training"><a href="#Training" class="headerlink" title="Training"></a>Training</h2><p>the log-ratio loss :</p><blockquote><p>Tao Qin, Tie-Yan Liu, and Hang Li. A general approximation framework for direct optimization of information retrieval measures. Information retrieval, 2010. </p></blockquote><p>nDCG loss</p><blockquote><p>Sungyeon Kim, Minkyo Seo, Ivan Laptev, Minsu Cho, and Suha Kwak. Deep metric learning beyond binary supervision. In CVPR, 2019. </p></blockquote>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;存在的问题&quot;&gt;&lt;a href=&quot;#存在的问题&quot; class=&quot;headerlink&quot; title=&quot;存在的问题&quot;&gt;&lt;/a&gt;存在的问题&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;当前的检索任务是目标实例进行检索（ target instance-based retrieval）（I
-      
-    
-    </summary>
-    
-      <category term="cross-modal" scheme="http://yoursite.com/categories/cross-modal/"/>
-    
-    
-      <category term="cross-modal" scheme="http://yoursite.com/tags/cross-modal/"/>
     
   </entry>
   
