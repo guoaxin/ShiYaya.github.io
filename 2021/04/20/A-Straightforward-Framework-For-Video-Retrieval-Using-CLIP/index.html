@@ -109,7 +109,7 @@
 <meta property="og:image" content="https://i.loli.net/2021/04/23/3jQUnoyTuNWBvPs.png">
 <meta property="og:image" content="https://i.loli.net/2021/04/23/bhjOL9yDcdunm7W.png">
 <meta property="og:image" content="https://i.loli.net/2021/04/23/ZSOYgE2zj7nHpeI.png">
-<meta property="og:updated_time" content="2021-04-23T02:16:36.664Z">
+<meta property="og:updated_time" content="2021-04-23T02:19:16.048Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="A Straightforward Framework For Video Retrieval Using CLIP">
 <meta name="twitter:description" content="本文的任务Zero-shot Video-Text Retrieval 本文的点CLIP model 是用互联网上大规模的image-text pairs 训练出来的一个多模态检索模型，其在 image text 检索上获得了非常优异的性能，且适合于zero-shot 的场景。 在本文中，作者尝试使用clip model 来处理 video-text pair, 并且仍然以  zero-shot">
@@ -445,7 +445,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-04-23 10:16:36" itemprop="dateModified" datetime="2021-04-23T10:16:36+08:00">2021-04-23</time>
+                <time title="修改时间：2021-04-23 10:19:16" itemprop="dateModified" datetime="2021-04-23T10:19:16+08:00">2021-04-23</time>
               
             
           </span>
@@ -540,6 +540,10 @@
 <p>而且采取的是 <strong>Zero-Shot</strong> 的方式。</p>
 <p>这种zero-shot 的方式，就可以应用到很多需要泛化性的地方。</p>
 <h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>但是本文只是在这几个数据集上进行了测试，在其他的数据集上的性能还不可知，例如，在long-term videos 上的性能如何呢？</p>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><ul>
+<li>本文的视频是直接解帧，然后对所有的帧进行时域聚合（平均池化）？</li>
+<li>这样的采样，是不是比较密集，且是不是含有冗余？？</li>
+</ul>
 
       
     </div>
@@ -897,7 +901,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的任务"><span class="nav-number">1.</span> <span class="nav-text">本文的任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的点"><span class="nav-number">2.</span> <span class="nav-text">本文的点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验"><span class="nav-number">3.</span> <span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MSR-VTT"><span class="nav-number">3.1.</span> <span class="nav-text">MSR-VTT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MSVD"><span class="nav-number">3.2.</span> <span class="nav-text">MSVD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LSMDC"><span class="nav-number">3.3.</span> <span class="nav-text">LSMDC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#others"><span class="nav-number">4.</span> <span class="nav-text">others</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yaya"><span class="nav-number">5.</span> <span class="nav-text">yaya</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">5.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">5.2.</span> <span class="nav-text">缺点</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的任务"><span class="nav-number">1.</span> <span class="nav-text">本文的任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的点"><span class="nav-number">2.</span> <span class="nav-text">本文的点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验"><span class="nav-number">3.</span> <span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MSR-VTT"><span class="nav-number">3.1.</span> <span class="nav-text">MSR-VTT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MSVD"><span class="nav-number">3.2.</span> <span class="nav-text">MSVD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LSMDC"><span class="nav-number">3.3.</span> <span class="nav-text">LSMDC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#others"><span class="nav-number">4.</span> <span class="nav-text">others</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yaya"><span class="nav-number">5.</span> <span class="nav-text">yaya</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#优点"><span class="nav-number">5.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">5.2.</span> <span class="nav-text">缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#问题"><span class="nav-number">5.3.</span> <span class="nav-text">问题</span></a></li></ol></li></ol></div>
             
 
           </div>
