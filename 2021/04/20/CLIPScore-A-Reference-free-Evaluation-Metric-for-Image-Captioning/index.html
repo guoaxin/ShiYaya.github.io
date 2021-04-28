@@ -111,7 +111,7 @@
 <meta property="og:image" content="https://i.loli.net/2021/04/21/ck1xFipoPAEf74m.png">
 <meta property="og:image" content="https://i.loli.net/2021/04/21/Kqsab4TN7lC3OJX.png">
 <meta property="og:image" content="https://i.loli.net/2021/04/21/B1OvP7LW5ycr4u2.png">
-<meta property="og:updated_time" content="2021-04-21T07:56:41.077Z">
+<meta property="og:updated_time" content="2021-04-23T09:41:12.682Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CLIPScore: A Reference-free Evaluation Metric for Image Captioning">
 <meta name="twitter:description" content="1. 本文研究的任务 图像描述的评价指标  2. 目前存在的问题 当前图像描述的评价指标(automatic metrics )都是基于 predicted caption 与 reference 之间的文本匹配。但是人类进行评价时是直接将图片与prediction进行对比。即 automatic metrics与 human evaluation的评价方式是不一样的 reference的收集需要">
@@ -306,7 +306,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">243</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">244</span></a>
 
   </li>
 
@@ -447,7 +447,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-04-21 15:56:41" itemprop="dateModified" datetime="2021-04-21T15:56:41+08:00">2021-04-21</time>
+                <time title="修改时间：2021-04-23 17:41:12" itemprop="dateModified" datetime="2021-04-23T17:41:12+08:00">2021-04-23</time>
               
             
           </span>
@@ -574,6 +574,8 @@
 <p><strong>用human ratings data来提升CLIP-S 作为评价指标的性能，从而提升对于一些目前它比较困难的领域。</strong></p>
 </li>
 </ul>
+<h2 id="8-yaya"><a href="#8-yaya" class="headerlink" title="8. yaya"></a>8. yaya</h2><font color="red">由于clip的预训练过程对文本添加了前缀，类似”A photo of"。因此，在本文CLIPScore 中，对candidate captions也添加了前缀：“A photo depicts"</font>
+
 
       
     </div>
@@ -695,7 +697,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">243</span>
+                    <span class="site-state-item-count">244</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -935,7 +937,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-本文研究的任务"><span class="nav-number">1.</span> <span class="nav-text">1. 本文研究的任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-目前存在的问题"><span class="nav-number">2.</span> <span class="nav-text">2. 目前存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Motivation"><span class="nav-number">3.</span> <span class="nav-text">3. Motivation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-本文的贡献"><span class="nav-number">4.</span> <span class="nav-text">4. 本文的贡献</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-实验"><span class="nav-number">5.</span> <span class="nav-text">5. 实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-Performance-on-a-set-of-literal-image-description-corpora"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 Performance on a set of literal image description corpora</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Caption-level-Likert-Judgments"><span class="nav-number">5.1.1.</span> <span class="nav-text">Caption-level Likert Judgments</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pairwise-Ranking-on-Pascal-50S"><span class="nav-number">5.1.2.</span> <span class="nav-text">Pairwise Ranking on Pascal-50S</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#System-level-Correlation-for-MSCOCO"><span class="nav-number">5.1.3.</span> <span class="nav-text">System-level Correlation for MSCOCO.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-Sensitivity-of-CLIP-S-to-hallucination"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 Sensitivity of CLIP-S to hallucination</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-Sensitivity-of-CLIP-S-to-memorization"><span class="nav-number">5.3.</span> <span class="nav-text">5.3  Sensitivity of CLIP-S to memorization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-评价指标之间的冗余和互补"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 评价指标之间的冗余和互补</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Other-Captioning-Domains"><span class="nav-number">6.</span> <span class="nav-text">6. Other Captioning Domains</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-Future-Work"><span class="nav-number">7.</span> <span class="nav-text">7. Future Work</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-本文研究的任务"><span class="nav-number">1.</span> <span class="nav-text">1. 本文研究的任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-目前存在的问题"><span class="nav-number">2.</span> <span class="nav-text">2. 目前存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Motivation"><span class="nav-number">3.</span> <span class="nav-text">3. Motivation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-本文的贡献"><span class="nav-number">4.</span> <span class="nav-text">4. 本文的贡献</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-实验"><span class="nav-number">5.</span> <span class="nav-text">5. 实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-Performance-on-a-set-of-literal-image-description-corpora"><span class="nav-number">5.1.</span> <span class="nav-text">5.1 Performance on a set of literal image description corpora</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Caption-level-Likert-Judgments"><span class="nav-number">5.1.1.</span> <span class="nav-text">Caption-level Likert Judgments</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pairwise-Ranking-on-Pascal-50S"><span class="nav-number">5.1.2.</span> <span class="nav-text">Pairwise Ranking on Pascal-50S</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#System-level-Correlation-for-MSCOCO"><span class="nav-number">5.1.3.</span> <span class="nav-text">System-level Correlation for MSCOCO.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-Sensitivity-of-CLIP-S-to-hallucination"><span class="nav-number">5.2.</span> <span class="nav-text">5.2 Sensitivity of CLIP-S to hallucination</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-Sensitivity-of-CLIP-S-to-memorization"><span class="nav-number">5.3.</span> <span class="nav-text">5.3  Sensitivity of CLIP-S to memorization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-评价指标之间的冗余和互补"><span class="nav-number">5.4.</span> <span class="nav-text">5.4 评价指标之间的冗余和互补</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-Other-Captioning-Domains"><span class="nav-number">6.</span> <span class="nav-text">6. Other Captioning Domains</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-Future-Work"><span class="nav-number">7.</span> <span class="nav-text">7. Future Work</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-yaya"><span class="nav-number">8.</span> <span class="nav-text">8. yaya</span></a></li></ol></div>
             
 
           </div>

@@ -2,16 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2021/04/20/A-Straightforward-Framework-For-Video-Retrieval-Using-CLIP/</loc>
+    <loc>http://yoursite.com/2021/03/20/All-NLP-Tasks-Are-Generation-Tasks-A-General-Pretraining-Framework/</loc>
     
-    <lastmod>2021-04-23T02:19:16.048Z</lastmod>
+    <lastmod>2021-04-28T12:51:44.940Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/04/28/T5-Exploring-the-Limits-of-Transfer-Learning-with-a-Unified-Text-to-Text-Transformer/</loc>
+    
+    <lastmod>2021-04-28T12:42:55.240Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://yoursite.com/2021/04/20/CLIPScore-A-Reference-free-Evaluation-Metric-for-Image-Captioning/</loc>
     
-    <lastmod>2021-04-21T07:56:41.077Z</lastmod>
+    <lastmod>2021-04-23T09:41:12.682Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/04/20/CLIP4Clip-An-Empirical-Study-of-CLIP-for-End-to-End-Video-Clip-Retrieval/</loc>
+    
+    <lastmod>2021-04-23T03:28:18.295Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/04/20/A-Straightforward-Framework-For-Video-Retrieval-Using-CLIP/</loc>
+    
+    <lastmod>2021-04-23T02:52:45.215Z</lastmod>
     
   </url>
   
@@ -26,13 +47,6 @@
     <loc>http://yoursite.com/2021/04/20/Understanding-Chinese-Video-and-Language-via-Contrastive-Multimodal-Pre-Training/</loc>
     
     <lastmod>2021-04-20T05:56:47.322Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/04/20/CLIP4Clip-An-Empirical-Study-of-CLIP-for-End-to-End-Video-Clip-Retrieval/</loc>
-    
-    <lastmod>2021-04-20T05:53:18.256Z</lastmod>
     
   </url>
   
@@ -236,13 +250,6 @@
     <loc>http://yoursite.com/2021/02/23/VX2TEXT-End-to-End-Learning-of-Video-Based-Text-Generation-From-Multimodal-Inputs/</loc>
     
     <lastmod>2021-03-21T09:22:20.474Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/03/20/All-NLP-Tasks-Are-Generation-Tasks-A-General-Pretraining-Framework/</loc>
-    
-    <lastmod>2021-03-21T07:13:29.600Z</lastmod>
     
   </url>
   

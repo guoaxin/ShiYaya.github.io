@@ -97,22 +97,22 @@
 
 
 
-  <meta name="description" content="本文的任务Zero-shot Video-Text Retrieval 本文的点CLIP model 是用互联网上大规模的image-text pairs 训练出来的一个多模态检索模型，其在 image text 检索上获得了非常优异的性能，且适合于zero-shot 的场景。 在本文中，作者尝试使用clip model 来处理 video-text pair, 并且仍然以  zero-shot">
+  <meta name="description" content="code 本文的任务Zero-shot Video-Text Retrieval 本文的点CLIP model 是用互联网上大规模的image-text pairs 训练出来的一个多模态检索模型，其在 image text 检索上获得了非常优异的性能，且适合于zero-shot 的场景。 在本文中，作者尝试使用clip model 来处理 video-text pair, 并且仍然以  zero-">
 <meta name="keywords" content="cross-modal">
 <meta property="og:type" content="article">
 <meta property="og:title" content="A Straightforward Framework For Video Retrieval Using CLIP">
 <meta property="og:url" content="http://yoursite.com/2021/04/20/A-Straightforward-Framework-For-Video-Retrieval-Using-CLIP/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="本文的任务Zero-shot Video-Text Retrieval 本文的点CLIP model 是用互联网上大规模的image-text pairs 训练出来的一个多模态检索模型，其在 image text 检索上获得了非常优异的性能，且适合于zero-shot 的场景。 在本文中，作者尝试使用clip model 来处理 video-text pair, 并且仍然以  zero-shot">
+<meta property="og:description" content="code 本文的任务Zero-shot Video-Text Retrieval 本文的点CLIP model 是用互联网上大规模的image-text pairs 训练出来的一个多模态检索模型，其在 image text 检索上获得了非常优异的性能，且适合于zero-shot 的场景。 在本文中，作者尝试使用clip model 来处理 video-text pair, 并且仍然以  zero-">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2021/04/23/pKQ6Y8msudJSgah.png">
 <meta property="og:image" content="https://i.loli.net/2021/04/23/3jQUnoyTuNWBvPs.png">
 <meta property="og:image" content="https://i.loli.net/2021/04/23/bhjOL9yDcdunm7W.png">
 <meta property="og:image" content="https://i.loli.net/2021/04/23/ZSOYgE2zj7nHpeI.png">
-<meta property="og:updated_time" content="2021-04-23T02:19:16.048Z">
+<meta property="og:updated_time" content="2021-04-23T02:52:45.215Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="A Straightforward Framework For Video Retrieval Using CLIP">
-<meta name="twitter:description" content="本文的任务Zero-shot Video-Text Retrieval 本文的点CLIP model 是用互联网上大规模的image-text pairs 训练出来的一个多模态检索模型，其在 image text 检索上获得了非常优异的性能，且适合于zero-shot 的场景。 在本文中，作者尝试使用clip model 来处理 video-text pair, 并且仍然以  zero-shot">
+<meta name="twitter:description" content="code 本文的任务Zero-shot Video-Text Retrieval 本文的点CLIP model 是用互联网上大规模的image-text pairs 训练出来的一个多模态检索模型，其在 image text 检索上获得了非常优异的性能，且适合于zero-shot 的场景。 在本文中，作者尝试使用clip model 来处理 video-text pair, 并且仍然以  zero-">
 <meta name="twitter:image" content="https://i.loli.net/2021/04/23/pKQ6Y8msudJSgah.png">
 
 
@@ -304,7 +304,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">243</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">244</span></a>
 
   </li>
 
@@ -445,7 +445,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-04-23 10:19:16" itemprop="dateModified" datetime="2021-04-23T10:19:16+08:00">2021-04-23</time>
+                <time title="修改时间：2021-04-23 10:52:45" itemprop="dateModified" datetime="2021-04-23T10:52:45+08:00">2021-04-23</time>
               
             
           </span>
@@ -513,7 +513,8 @@
       
 
       
-        <h2 id="本文的任务"><a href="#本文的任务" class="headerlink" title="本文的任务"></a>本文的任务</h2><p>Zero-shot Video-Text Retrieval</p>
+        <p><a href="https://github.com/Deferf/CLIP_Video_Representation" target="_blank" rel="noopener">code</a></p>
+<h2 id="本文的任务"><a href="#本文的任务" class="headerlink" title="本文的任务"></a>本文的任务</h2><p>Zero-shot Video-Text Retrieval</p>
 <h2 id="本文的点"><a href="#本文的点" class="headerlink" title="本文的点"></a>本文的点</h2><p>CLIP model 是用互联网上<strong>大规模</strong>的image-text pairs 训练出来的一个多模态检索模型，其在 image text 检索上获得了非常优异的性能，且适合于zero-shot 的场景。</p>
 <p>在本文中，作者尝试使用clip model 来处理 video-text pair, 并且仍然以  <strong style="color:red;">zero-shot</strong> 的方式。</p>
 <ul>
@@ -536,13 +537,18 @@
 <p>在MSR-VTT 验证集上的1000个视频-文本对上进行了实验：</p>
 <p><img src="https://i.loli.net/2021/04/23/ZSOYgE2zj7nHpeI.png" alt="image-20210423100745024" style="zoom:67%;"></p>
 <p>值得注意的是，在K-means方法中，结果之间没有明显的差异。 这可能是因为MSR视频的长度不超过32秒，这可能不足以在创建聚类时区分中心点。<strong style="color:red;">（<strong>yaya: 可能K-means 这种方法更加适合long-term video</strong>）</strong></p>
-<h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>本文虽然创新性，没有那么强，但是在<strong>性能上是非常可观</strong>的。</p>
-<p>而且采取的是 <strong>Zero-Shot</strong> 的方式。</p>
-<p>这种zero-shot 的方式，就可以应用到很多需要泛化性的地方。</p>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>但是本文只是在这几个数据集上进行了测试，在其他的数据集上的性能还不可知，例如，在long-term videos 上的性能如何呢？</p>
+<h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li>本文虽然创新性，没有那么强，但是在<strong>性能上是非常可观</strong>的。而且采取的是 <strong>Zero-Shot</strong> 的方式。</li>
+<li>这种zero-shot 的方式，就可以应用到很多需要泛化性的地方。</li>
+</ul>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li><p>但是本文只是在这几个数据集上进行了测试，在其他的数据集上的性能还不可知，例如，在long-term videos 上的性能如何呢？</p>
+</li>
+<li><p>因为CLIP是在英文的句子上进行预训练的，当前测试的数据集仅仅是 english text，那么对于Chinese text效果如何呢？</p>
+</li>
+</ul>
 <h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><ul>
-<li>本文的视频是直接解帧，然后对所有的帧进行时域聚合（平均池化）？</li>
-<li>这样的采样，是不是比较密集，且是不是含有冗余？？</li>
+<li>本文的视频是直接解帧，然后对所有的帧进行时域聚合（平均池化）？这样的采样，是不是比较密集，且是不是含有冗余？？</li>
 </ul>
 
       
@@ -589,6 +595,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/04/28/T5-Exploring-the-Limits-of-Transfer-Learning-with-a-Unified-Text-to-Text-Transformer/" rel="prev" title="[T5] Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer">
+                [T5] Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -661,7 +671,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">243</span>
+                    <span class="site-state-item-count">244</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
