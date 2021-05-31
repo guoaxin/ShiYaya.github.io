@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/04/06/GPT-Understands-Too/</loc>
+    
+    <lastmod>2021-05-31T06:01:25.751Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/05/29/Frozen-in-Time-A-Joint-Video-and-Image-Encoder-for-End-to-End-Retrieval/</loc>
+    
+    <lastmod>2021-05-29T02:33:06.447Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/04/13/Fill-in-the-Blank-as-a-Challenging-Video-Understanding-Evaluation-Framework/</loc>
     
-    <lastmod>2021-05-02T02:44:56.772Z</lastmod>
+    <lastmod>2021-05-29T02:03:57.199Z</lastmod>
     
   </url>
   
@@ -117,13 +131,6 @@
     <loc>http://yoursite.com/2021/03/20/How-Many-Data-Points-is-a-PromptWorth/</loc>
     
     <lastmod>2021-04-06T07:36:05.953Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/04/06/GPT-Understands-Too/</loc>
-    
-    <lastmod>2021-04-06T03:22:41.222Z</lastmod>
     
   </url>
   
