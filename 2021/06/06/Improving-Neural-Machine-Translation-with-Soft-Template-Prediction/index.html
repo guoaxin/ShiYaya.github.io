@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="任务机器翻译 本文的点受到人类翻译过程和其他领域基于模板和基于语法的方法启发，微软亚洲研究院提出了一种使用从语法树结构中提取的模板作为软目标模板来指导翻译过程的方法 ST-NMT。 摘要尽管近年来神经机器翻译（NMT）取得了长足的进步，但大多数神经机器翻译模型直接从源文本生成翻译。受到人类翻译过程和其他领域基于模板和基于语法的方法的成功启发，我们提出了一种使用从语法树结构中提取的模板作为软目标模板">
+<meta name="keywords" content="NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Improving Neural Machine Translation with Soft Template Prediction">
+<meta property="og:url" content="http://yoursite.com/2021/06/06/Improving-Neural-Machine-Translation-with-Soft-Template-Prediction/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="任务机器翻译 本文的点受到人类翻译过程和其他领域基于模板和基于语法的方法启发，微软亚洲研究院提出了一种使用从语法树结构中提取的模板作为软目标模板来指导翻译过程的方法 ST-NMT。 摘要尽管近年来神经机器翻译（NMT）取得了长足的进步，但大多数神经机器翻译模型直接从源文本生成翻译。受到人类翻译过程和其他领域基于模板和基于语法的方法的成功启发，我们提出了一种使用从语法树结构中提取的模板作为软目标模板">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/ipqb2FWnoZxsufz.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/UnaNz1vmtAidhTQ.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/MSToYB93vDrqCwz.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/Lz1C5HU7uFwle6K.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/qFu6TDtBbhQOXnf.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/2omSktuZxNEUYeC.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/F4RvzfdciHe3Jr8.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/BZDHSQC19LhXlOA.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/kvnLlAHoF42XbcG.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/BrkEVRDWHZen41L.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/EfX8xaJeFYLzpDb.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/19RGWj5xsK7HzXV.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/2HjICRYAgV9db5L.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/e4hJ8gaKn3xmXwz.png">
+<meta property="og:updated_time" content="2021-06-06T04:09:49.658Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Improving Neural Machine Translation with Soft Template Prediction">
+<meta name="twitter:description" content="任务机器翻译 本文的点受到人类翻译过程和其他领域基于模板和基于语法的方法启发，微软亚洲研究院提出了一种使用从语法树结构中提取的模板作为软目标模板来指导翻译过程的方法 ST-NMT。 摘要尽管近年来神经机器翻译（NMT）取得了长足的进步，但大多数神经机器翻译模型直接从源文本生成翻译。受到人类翻译过程和其他领域基于模板和基于语法的方法的成功启发，我们提出了一种使用从语法树结构中提取的模板作为软目标模板">
+<meta name="twitter:image" content="https://i.loli.net/2021/06/06/ipqb2FWnoZxsufz.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/06/06/Improving-Neural-Machine-Translation-with-Soft-Template-Prediction/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Improving Neural Machine Translation with Soft Template Prediction | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">45</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">44</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">246</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/06/Improving-Neural-Machine-Translation-with-Soft-Template-Prediction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Improving Neural Machine Translation with Soft Template Prediction
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-06-06 09:51:58 / 修改时间：12:09:49" itemprop="dateCreated datePublished" datetime="2021-06-06T09:51:58+08:00">2021-06-06</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/06/06/Improving-Neural-Machine-Translation-with-Soft-Template-Prediction/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2021/06/06/Improving-Neural-Machine-Translation-with-Soft-Template-Prediction/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h2><p>机器翻译</p>
+<h2 id="本文的点"><a href="#本文的点" class="headerlink" title="本文的点"></a>本文的点</h2><p>受到人类翻译过程和其他领域基于模板和基于语法的方法启发，微软亚洲研究院提出了一种使用<strong>从语法树结构中提取的模板</strong>作为<strong>软目标模板</strong>来指导翻译过程的方法 ST-NMT。</p>
+<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>尽管近年来神经机器翻译（NMT）取得了长足的进步，但大多数神经机器翻译模型直接从源文本生成翻译。受到人类翻译过程和其他领域基于模板和基于语法的方法的成功启发，我们提出了一种使用从语法树结构中提取的模板作为软目标模板来指导翻译过程的方法。为了学习目标句子的句法结构，我们采用语法分析树来生成候选模板，并将模板信息融合到编码器-解码器框架中，同时利用模板和源文本生成翻译。实验表明，我们的模型在四个数据集上明显优于基线模型，证明了软目标模板的有效性。</p>
+<h2 id="软模板预测"><a href="#软模板预测" class="headerlink" title="软模板预测"></a>软模板预测</h2><p>近年来，神经机器翻译取得了巨大的进步，但常规的神经机器翻译模型一般直接把源语言文本翻译到目标语言文本。但实际上，我们知道人类在翻译一句话时通常是先对目标文本的句型或者结构有一个大致的想法，然后再将源语言文本翻译成为目标语言文本，并不是直接逐词进行翻译。</p>
+<p>通常我们在进行造句训练的时候，最开始老师会教给我们一些句型，例如 “sb. like doing sth; There be…” 等，然后让我们做练习。下图是一个中英翻译训练教材的内容，要求根据以下句型将中文翻译到英文。</p>
+<p><img src="https://i.loli.net/2021/06/06/ipqb2FWnoZxsufz.png" alt="img" style="zoom:50%;"></p>
+<p><em>图1：中英翻译训练教材内容</em></p>
+<p>受到人类翻译过程的启示，我们提出了使用从句法分析树提取模板作为软目标语言模板来指导翻译过程的方法。为了学习目标句子的句法结构，我们采用句法分析树来生成候选模板。如图2所示，我们首先根据源语言文本预测将要用到的目标语言的模板，这里 “我喜欢打篮球”，很容易想到 “sb. like doing sth” 这个句型，随后我们根据源语言和模板来生成翻译。</p>
+<p><img src="https://i.loli.net/2021/06/06/UnaNz1vmtAidhTQ.png" alt="img" style="zoom:50%;"></p>
+<p><em>图2：使用软目标模板指导翻译过程示例</em></p>
+<p>基于这一核心思想以及模板方法在机器摘要、问答和其他文本上取得的成功。我们假设目标句子的候选模板可以指导句子翻译过程。我们将这些从句法分析树中提取的模板作为软模板，由 S, NP, VP 这些具有句子结构信息和目标语言组成。这里模板是“软 (soft) ”的，因为我们<strong>并不强制要求生成的目标语言翻译一定是完全基于模板来生成</strong>，这里的模板仅仅是提供一种参考来对翻译提供一定的帮助。</p>
+<p>为了更有效地使用软模板，我们引入了基于目标语言软模板的神经机器翻译模型 (Soft Template-based NMT，ST-NMT)，它可以使用源文本和软模板来预测最终的翻译。我们的方法可以分为两个阶段。在第一阶段，通过使用源文本和从句法分析树中提取的模板，训练一个标准的 Transformer 模型来专门预测软目标模板。在第二阶段，我们使用两种编码器，包括软目标模板编码器和源语言编码器，以对源文本和模板进行编码并生成最终翻译。</p>
+<h2 id="目标软模板预测"><a href="#目标软模板预测" class="headerlink" title="目标软模板预测"></a>目标软模板预测</h2><p><img src="https://i.loli.net/2021/06/06/MSToYB93vDrqCwz.png" alt="img" style="zoom:50%;"></p>
+<p><em>图3：从分析树中抽取模板</em></p>
+<p>在此过程中，通过使用源语言 S 和模板 T 数据，我们对 P(T|X) 建模，使得我们能够根据源语言对模板进行预测。为了构造源语言-模板数据集，我们使用句法分析树来解析目标语言文本并获得树形结构。然后，我们裁剪超过一定深度的节点，并将裁剪后的子树按照原有顺序还原回去得到模板数据。通过这些操作，我们获得了源语言-模板平行训练数据，并训练了 Transformer 模型 P(T|X) 来预测软目标模板。</p>
+<p>语法解析树可以显示整个句子的结构和语法信息，利用语法来区分终端（terminal nodes）和非终端节点（non-terminal nodes）。更确切地说，非终端节点由属于非终端节点集合 S，而终端节点属于目标语言节点集合 V。S={V, VP, NP, …, ASBR} 等代表语法成分的标记和 V={There, are, …, people} 包含目标语言单词。如 图3 所示，句子“有人在奔跑”通过语法解析树生成树形结构。在这种情况下，非终端节点集合S0={S, NP, VP, EX, VBP, NP, DT, NNS, VBG} 和终端节点集合 V0={There, are, some, people, running}。我们的模板 T={t1, t2, t3, t4} 是有序序列，由终端节点和非终端节点组成。在这种情况下，t1=There, t2=are, t3=VP, t4=NP。我们的模板是提取特定深度的子树，并使用位于子树的叶节上的终端和非终端节点来生成模板。</p>
+<p>为了预测软目标模板，我们根据源文本和提取的模板的训练数据来训练一个Transformer 模型。Transformer 模型读取源文本，并使用束搜索预测软目标模板。然后，我们选择束搜索的前 K 个结果作为模板。</p>
+<p><strong>选择子树的深度是一个权衡。在图3中，当深度等于1是一种特殊的情况，此时模板仅具有一个符号 S。模板 S 无法提供任何有用的信息。另一个特殊情况是当深度大于6时，“There are some people running” 此时模板只有终端节点。该模板仅包含目标语言单词，不能提供任何其他信息。而当深度等于4时，模板为 “There are VP NP”。该模板包含句子句法和结构信息，适用于我们的方法。</strong></p>
+<p>使用 Transformer 模型 P(T|X)，我们需要构造伪训练数据(源语言文本、目标语言文本、目标软模板)，而不是通过语法分析树直接提取的模板。给定源文本 X，我们使用 P(T|X) 通过束搜索来生成排名靠前的目标语言软模板 T。最后，我们得到三元组训练数据 (源语言文本、目标语言文本、软模板）为下一阶段做准备。</p>
+<h2 id="ST-NMT模型"><a href="#ST-NMT模型" class="headerlink" title="ST-NMT模型"></a>ST-NMT模型</h2><p>我们的模型首先通过源语言 Transformer 编码器以读取源语言序列 X=(x1, x2, x3, …, xn)并生成模板序列 T=(t1, t2, t3, …, tm) 由模板 Transformer 解码器提供。如图3所示，我们的模型使用源语言 Transformer 编码器和模板 Transformer 编码器，分别对源语言序列 X 和模板序列 T 进行编码，最终解码器生成最终翻译。我们的方法主要包括两个阶段：（1）训练数据由基于选区的解析树构造。然后，我们采用标准的 Transformer 将源文本转换为下一代软目标模板。（2）基于源文本和预测的软目标模板，我们使用两个编码器分别将两个序列编码为隐藏状态，并使用目标语言解码器生成最终翻译。</p>
+<p><img src="https://i.loli.net/2021/06/06/Lz1C5HU7uFwle6K.png" alt="image-20210606102157632"></p>
+<p><em>图4：ST-NMT 模型</em></p>
+<p>给定三元组训练数据（源语言文本，目标语言文本，软模板）后，我们使用源语言文本和软模板生成目标语言文本如下公式。源语言 Transformer 编码器和软模板Transformer 编码器将输入序列 X 和由目标语言单词和非终端节点组成的模板 T 映射到隐层向量。然后，与两个编码器交互的 Transformer 解码器生成最终翻译 Y，即：</p>
+<p><img src="https://i.loli.net/2021/06/06/qFu6TDtBbhQOXnf.png" alt="image-20210606102328094" style="zoom: 33%;"></p>
+<p>基于源语言编码器隐藏层状态和软模板编码器隐藏层状态，目标语言 Transformer 解码器使用编码器-解码器多头注意共同使用源语言和模板信息来生成最终翻译 Y。此外，目标序列解码器使用两组注意力机制参数用于不同的编码器。解码器分别使用源语句上下文 X=(x1, …, xm)和目标模板上下文 T=(t1, …, tn)，然后我们的模型通过关注源上下文和模板上下文获得两个隐藏状态,在这里，我们使用门控单元融合了包含源语言信息的隐藏层状态和包含模板信息的隐藏层状态，如下所示：</p>
+<p><img src="https://i.loli.net/2021/06/06/2omSktuZxNEUYeC.png" alt="image-20210606111455578" style="zoom:50%;"></p>
+<p><img src="https://i.loli.net/2021/06/06/F4RvzfdciHe3Jr8.png" alt="image-20210606111502794" style="zoom:50%;"></p>
+<p>与常规 NMT 相似，为了使模型能够预测目标序列，我们使用最大似然估计来更新模型参数。当我们在不使用模板 Transformer 编码器的情况下训练 P(Y|X) 时，我们仅需要优化以下损失函数:</p>
+<p><img src="https://i.loli.net/2021/06/06/BZDHSQC19LhXlOA.png" alt="image-20210606120505997" style="zoom:50%;"></p>
+<p>我们使用模板 Transformer 编码器训练 P(Y|X,T) 时，损失函数可以通过以下公式计算：</p>
+<p><img src="https://i.loli.net/2021/06/06/kvnLlAHoF42XbcG.png" alt="image-20210606120523147" style="zoom:50%;"></p>
+<p>在实践中，我们发现优化这两个目标可以使得模型更易于训练避免收到模板中噪声的干扰，并获得较高的 BLEU 分数，因为存在一些影响翻译质量的低质量模板。<strong>通过同时优化两个目标，我们可以减少某些低质量模板的影响并提高模型的稳定性。</strong>为了平衡这两个目标，我们的模型在两个目标上同时进行了迭代训练，如下所示：</p>
+<p><img src="https://i.loli.net/2021/06/06/BrkEVRDWHZen41L.png" alt="image-20210606120604504" style="zoom:50%;"></p>
+<h2 id="实验与分析"><a href="#实验与分析" class="headerlink" title="实验与分析"></a>实验与分析</h2><p>为了证明该方法的有效性，我们在多个数据集和多个语种进行了实验，包括 IWSLT14 德语-英语翻译任务，WMT14 英语-德语翻译任务，LDC 中英翻译任务和 ASPEC 日中翻译任务。实验表明，与基线模型相比，我们的方法取得了更好的结果，这表明软目标模板可以有效地指导翻译过程并提供积极的影响。同时我们的方法可用于不同规模、不同语种、不同领域的数据集。</p>
+<p><img src="https://i.loli.net/2021/06/06/EfX8xaJeFYLzpDb.png" alt="image-20210606120732113"></p>
+<p><em>表1：LDC 中英翻译任务结果</em></p>
+<p><img src="https://i.loli.net/2021/06/06/19RGWj5xsK7HzXV.png" alt="image-20210606120755429" style="zoom: 50%;"></p>
+<p><em>表2：WMT14 英语-德语翻译任务结果</em></p>
+<p><img src="https://i.loli.net/2021/06/06/2HjICRYAgV9db5L.png" alt="image-20210606120824797" style="zoom:50%;"></p>
+<p><em>表3：IWSLT14 德语-英语翻译任务结果</em></p>
+<p><img src="https://i.loli.net/2021/06/06/e4hJ8gaKn3xmXwz.png" alt="image-20210606120844581"></p>
+<p><em>表4：ASPEC 日中翻译任务结果</em></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在这项工作中，我们提出了一种利用源文本和软模板生成翻译的机器翻译模型。我们的方法可以从子树中提取模板，该子树是从语法分析树的特定深度得到的。然后，我们使用 Transformer 模型来预测源文本的软目标模板。进一步，我们结合了源文本和模板信息来指导翻译过程。我们将软模板神经机器翻译模型（ST-NMT）与其他基线模型在多个数据集上进行比较。实验结果表明，ST-NMT 可以显著提高翻译性能。</p>
+<h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><ul>
+<li>其实也可以构造成 hard target, 强硬使其输出为对应的span</li>
+<li>但是如果这样的话，soft target 是作为辅助信息，影响力 (&gt;=0)。如果使用强硬的，则影响力可能为&lt;0</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/05/29/Frozen-in-Time-A-Joint-Video-and-Image-Encoder-for-End-to-End-Retrieval/" rel="next" title="Frozen in Time: A Joint Video and Image Encoder for End-to-End Retrieval">
+                <i class="fa fa-chevron-left"></i> Frozen in Time: A Joint Video and Image Encoder for End-to-End Retrieval
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">246</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#任务"><span class="nav-number">1.</span> <span class="nav-text">任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的点"><span class="nav-number">2.</span> <span class="nav-text">本文的点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">3.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软模板预测"><span class="nav-number">4.</span> <span class="nav-text">软模板预测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标软模板预测"><span class="nav-number">5.</span> <span class="nav-text">目标软模板预测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ST-NMT模型"><span class="nav-number">6.</span> <span class="nav-text">ST-NMT模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验与分析"><span class="nav-number">7.</span> <span class="nav-text">实验与分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yaya"><span class="nav-number">9.</span> <span class="nav-text">yaya</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 's22c7ikjlbMrGGRlCcDrqOjo-gzGzoHsz',
+      appKey: 'HnhoXmenrEs7Unb12AD7Sxgg',
+      placeholder: 'Just go go',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: false
+    });
+  </script>
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
