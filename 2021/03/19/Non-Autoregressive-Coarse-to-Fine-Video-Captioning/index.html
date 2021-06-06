@@ -106,7 +106,14 @@
 <meta property="og:description" content="发表在AAAI 2021 现在存在的问题 由于自回归解码（autoregressive decoding）导致的 slow inference speed  由于对视觉单词的训练不充分，而使得模型更加偏向于生成泛化性句子，缺乏细节和多样性。 此外，具有误差累积倾向的模型产生令人满意的字幕是具有挑战性的。 因此，还需要一种支持单词修改的灵活解码范例（decoding paradigm）。  本文的点">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2021/03/22/Kyegni76dZ4kCrH.png">
-<meta property="og:updated_time" content="2021-04-06T02:39:39.195Z">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/K7UPsboZR35kDA8.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/NXBbIJYkq3F1lnC.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/EtCnDsgSXVTJ1Px.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/CpGFWMm39Tohwas.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/ZGmOiCVTnUFj3Ww.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/mZIgPbAlh3doQkt.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/06/ZvdTOPBbFp1e5GJ.png">
+<meta property="og:updated_time" content="2021-06-06T10:55:59.545Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Non-Autoregressive Coarse-to-Fine Video Captioning">
 <meta name="twitter:description" content="发表在AAAI 2021 现在存在的问题 由于自回归解码（autoregressive decoding）导致的 slow inference speed  由于对视觉单词的训练不充分，而使得模型更加偏向于生成泛化性句子，缺乏细节和多样性。 此外，具有误差累积倾向的模型产生令人满意的字幕是具有挑战性的。 因此，还需要一种支持单词修改的灵活解码范例（decoding paradigm）。  本文的点">
@@ -301,7 +308,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">247</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">248</span></a>
 
   </li>
 
@@ -442,7 +449,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-04-06 10:39:39" itemprop="dateModified" datetime="2021-04-06T10:39:39+08:00">2021-04-06</time>
+                <time title="修改时间：2021-06-06 18:55:59" itemprop="dateModified" datetime="2021-06-06T18:55:59+08:00">2021-06-06</time>
               
             
           </span>
@@ -531,6 +538,41 @@
 <li><p><strong>For improving caption quality：</strong>propose an alternative paradigm to decompose the captioning procedure into two stages,</p>
 </li>
 </ul>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="https://i.loli.net/2021/06/06/K7UPsboZR35kDA8.png" alt="image-20210606171106991" style="zoom:50%;"></p>
+<p>（1）使用 <code>visual word generation</code>模块，来生成视觉单词，并以此来生成 a coarse-grained sentence “template”。（2）然后 使用合适的单词来 fill the blanks in the “template” 。（3）<strong>迭代 </strong>mask并重新考虑语言模型最没有信心的一些不适当的词，以确保句子的流畅性或捕捉更多的相关细节。</p>
+<h3 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h3><p>使用 pre-trained 2D/3D CNNs 提取视觉特征。</p>
+<h3 id="Length-Predictor"><a href="#Length-Predictor" class="headerlink" title="Length Predictor"></a>Length Predictor</h3><p>具体看论文</p>
+<p><img src="https://i.loli.net/2021/06/06/NXBbIJYkq3F1lnC.png" alt="image-20210606171252873" style="zoom:50%;"></p>
+<p><img src="https://i.loli.net/2021/06/06/EtCnDsgSXVTJ1Px.png" alt="image-20210606171304819" style="zoom:50%;"></p>
+<h3 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h3><p>To obtain a non-autoregressive decoder, we adopt one-layer decoder of Transformer。(1) 移去 causal mask 使用双向attention。（2）图2中的虚线部分。</p>
+<p>做了两处修改：</p>
+<ul>
+<li>按照MLM的方式，对 GT sentence, 进行随机掩码，然后补全。</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/06/CpGFWMm39Tohwas.png" alt="image-20210606165623746" style="zoom:50%;"></p>
+<h3 id="Visual-Word-Generation"><a href="#Visual-Word-Generation" class="headerlink" title="Visual Word Generation"></a>Visual Word Generation</h3><p>使用上文提到的decoder 来作为 visual word generation.</p>
+<p>给定一个长度为 $N$ 的 ground-truth sentence $Y^{<em>}$ ， 首先构建一个相对应的 <em>*target sequence</em></em> $Y^{\text {vis }}=\left\{y_{n}^{\text {vis }}\right\}_{n=1}^{N}$ as follows:</p>
+<script type="math/tex; mode=display">
+y_{n}^{v i s}=\left\{\begin{array}{ll}
+y_{n}^{*} & \text { if } \operatorname{POS}\left(y_{n}^{*}\right) \in\{\text { noun, verb }\} \\
+{[\text { mask }]} & \text { otherwise }
+\end{array}\right.</script><p>where POS(·) denotes the part-of-speech of a word. </p>
+<p>the decoder 在没有任何单词信息的提示下来强制预测  $Y^{\text {vis }}$, i.e., $Y_{o b s}^{v i s}=\varnothing_{[v i s]}$ (a sequence of the same special token $[v i s]$ in practice). </p>
+<p>因此 visual word generation的损失函数如下：</p>
+<p><img src="https://i.loli.net/2021/06/06/ZGmOiCVTnUFj3Ww.png" alt="image-20210606171720504" style="zoom:50%;"></p>
+<script type="math/tex; mode=display">
+\mathcal{L}_{v i s}=-\sum_{y \in Y^{v i s}} \log p_{\theta}\left(y \mid \varnothing_{[v i s]}, R\right)</script><h3 id="训练"><a href="#训练" class="headerlink" title="训练"></a>训练</h3><p><img src="https://i.loli.net/2021/06/06/mZIgPbAlh3doQkt.png" alt="image-20210606171854039" style="zoom:50%;"></p>
+<h3 id="测试（Coarse-to-Fine-Captioning）"><a href="#测试（Coarse-to-Fine-Captioning）" class="headerlink" title="测试（Coarse-to-Fine Captioning）"></a>测试（Coarse-to-Fine Captioning）</h3><ul>
+<li><p>第一步： 使用 visual word generation, 生成一个粗粒度的模板： “template” Y(0)</p>
+</li>
+<li><p>第二步：本文引入三种解码算法，来生成细粒度的描述：Mask-Predict (MP) (Ghazvininejad et al. 2019), Easy-First (EF) and Left-to-Right (L2R)</p>
+<blockquote>
+<p>Ghazvininejad, M.; Levy, O.; Liu, Y.; and Zettlemoyer, L. 2019. <strong>Mask-predict: Parallel decoding of conditional masked language models</strong>. In EMNLP-IJCNLP.</p>
+<p><a href="https://shiyaya.github.io/2021/06/06/Mask-Predict-Parallel-Decoding-of-Conditional-Masked-Language-Models/" target="_blank" rel="noopener">https://shiyaya.github.io/2021/06/06/Mask-Predict-Parallel-Decoding-of-Conditional-Masked-Language-Models/</a></p>
+</blockquote>
+</li>
+</ul>
+<p><img src="https://i.loli.net/2021/06/06/ZvdTOPBbFp1e5GJ.png" alt="image-20210606184525396" style="zoom:50%;"></p>
 <h2 id="Other-non-autoregressive"><a href="#Other-non-autoregressive" class="headerlink" title="Other non-autoregressive"></a>Other non-autoregressive</h2><ul>
 <li>Masked Non-Autoregressive Image Captioning</li>
 <li>Non-Autoregressive Image Captioning with Counterfactuals-Critical Multi-Agent Learning</li>
@@ -661,7 +703,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">247</span>
+                    <span class="site-state-item-count">248</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -901,7 +943,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#现在存在的问题"><span class="nav-number">1.</span> <span class="nav-text">现在存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的点"><span class="nav-number">2.</span> <span class="nav-text">本文的点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Other-non-autoregressive"><span class="nav-number">3.</span> <span class="nav-text">Other non-autoregressive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yaya"><span class="nav-number">4.</span> <span class="nav-text">yaya</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#现在存在的问题"><span class="nav-number">1.</span> <span class="nav-text">现在存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的点"><span class="nav-number">2.</span> <span class="nav-text">本文的点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Method"><span class="nav-number">3.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Encoder"><span class="nav-number">3.1.</span> <span class="nav-text">Encoder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Length-Predictor"><span class="nav-number">3.2.</span> <span class="nav-text">Length Predictor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Decoder"><span class="nav-number">3.3.</span> <span class="nav-text">Decoder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Visual-Word-Generation"><span class="nav-number">3.4.</span> <span class="nav-text">Visual Word Generation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#训练"><span class="nav-number">3.5.</span> <span class="nav-text">训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试（Coarse-to-Fine-Captioning）"><span class="nav-number">3.6.</span> <span class="nav-text">测试（Coarse-to-Fine Captioning）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Other-non-autoregressive"><span class="nav-number">4.</span> <span class="nav-text">Other non-autoregressive</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yaya"><span class="nav-number">5.</span> <span class="nav-text">yaya</span></a></li></ol></div>
             
 
           </div>

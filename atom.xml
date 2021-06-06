@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-06-06T06:45:05.562Z</updated>
+  <updated>2021-06-06T08:21:43.522Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,37 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Masked Non-Autoregressive Image Captioning</title>
+    <link href="http://yoursite.com/2021/06/06/Masked-Non-Autoregressive-Image-Captioning/"/>
+    <id>http://yoursite.com/2021/06/06/Masked-Non-Autoregressive-Image-Captioning/</id>
+    <published>2021-06-06T06:53:49.000Z</published>
+    <updated>2021-06-06T08:21:43.522Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h2><p>以 Non-Autoregressive 的方式来做 Image Captioning</p><h2 id="存在的问题"><a href="#存在的问题" class="headerlink" title="存在的问题"></a>存在的问题</h2><ul><li><p>自回归的方式做生成任务存在的问题</p><p>自回归解码导致了一些问题，如连续的错误积累、生成缓慢、不恰当的语义和缺乏多样性。 </p><p><strong>顺序解码很容易从训练数据中 copy tokens 来提高语法准确性</strong>，这很容易造成语义错误，而且在图像字幕的生成方面缺乏多样性。</p></li><li><p>非自回归的方式</p><p>非自回归解码已被提出来解决神经机器翻译（NMT）的生成速度较慢的问题。但直接应用到多模态描述生成任务上不是很直接：由于对真实目标分布的间接建模，不可避免地引入了另一个问题，被称为 “多模态问题”。</p><p>多模态问题【网络】：一种特殊的<strong>问题</strong>，其中不存在唯一的全局解决方案。可以在搜索空间周围找到多个全局优化或一个具有多个局部优化（或峰值）的全局优化。即，一对多问题。</p><p>多模态问题【本文】：完全的条件独立会导致对真实目标分布的近似度低。complete conditional independence results in the poor approximation to the true target distribution。</p></li></ul><h2 id="本文的点"><a href="#本文的点" class="headerlink" title="本文的点"></a>本文的点</h2><p>本文提出 masked non-autoregressive decoding 来解决 自回归解码 和 非自回归解码 中存在的问题。</p><ul><li><p>训练阶段</p><p>对于输入句子，以几种 （K） 比例进行掩码。</p></li><li><p>在推理阶段</p><p>在推理过程中，从一个<strong>完全被掩盖</strong>的序列到一个<strong>完全没有被掩盖</strong>的序列，以一种合成的方式，分几个 （K） 阶段平行地生成字幕。</p></li></ul><p>实验证明，我们提出的模型可以更有效地保留语义内容，并可以生成更多样性的标题。</p><h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="https://i.loli.net/2021/06/06/GagfcOSPqskTiEW.png" alt="image-20210606152813892"></p><h3 id="Encoder"><a href="#Encoder" class="headerlink" title="Encoder"></a>Encoder</h3><p>使用CNN提取的特征图，或者是 使用目标检测器检测得到的 object features.</p><h3 id="Decoder"><a href="#Decoder" class="headerlink" title="Decoder"></a>Decoder</h3><p>与传统的Tansformer 来做seq-to-seq 是一样的，只是移去了 decoder的 autoregressive mask ， 即decoder 中的每个token，是双向attention。</p><h3 id="Masked-non-autoregressive-decoding"><a href="#Masked-non-autoregressive-decoding" class="headerlink" title="Masked non-autoregressive decoding"></a>Masked non-autoregressive decoding</h3><p>如图1</p><p>训练阶段，以 K 种比例进行掩码，比如 K = [1, 0.6, 0.2],其中 k=1, 代表全部掩码</p><p>测试阶段，使用 K stage，从全部掩码到部分掩码，来一步一步的优化caption。</p><details><summary>细节-增强鲁邦性</summary>我们还以一定比例的随机词来替代 [MASK] token 或 ground-truth token。 在我们的实验中，由于标题的长度相对较短，我们只是在每个非完全屏蔽的输入序列中用一个随机的词替换一个词。 使用随机词可以增强标记的上下文表示，并通过在训练期间引入噪声标记来提高推理过程的稳健性，因为模型在推理的早期阶段很容易产生错误的标记。</details><h3 id="作者分析"><a href="#作者分析" class="headerlink" title="作者分析"></a>作者分析</h3><p>我们提供了更多的分析和讨论，关于模型在不同比例的掩蔽序列中所学习的内容，以及模型在推理过程中不同阶段的预测。 我们进一步讨论了自回归和屏蔽式非自回归解码之间的内在差异。</p><ul><li><p>在训练阶段</p><ul><li>掩码的比例大时，会输出视觉单词</li><li>掩码的比例小时，会对语法进行修正</li></ul></li><li><p>在测试阶段</p><p>在推理过程中，the masked non-autoregressive 解码过程很好地反映了模型在训练过程中所学习的内容。 在早期阶段，该模型倾向于在语言组织较差的图像中生成包含高频率（如 “a”、”on”）和突出的视觉线索（如物体、颜色名词和重要动词）的caption，而在后期阶段，该模型可以通过采用训练好的双向语言模型来选择最合适的词来连接子序列的两边，从而生成语义和语法上正确的标题。 如图1 </p></li><li><p>自回归和屏蔽式非自回归解码之间的内在差异</p><p>在推理过程中，自回归解码和掩码非自回归解码的区别在于掩码非自回归解码自然接近人类的语言生成。更具体地说，人类首先在大脑中生成视觉场景的关键词，然后选择其他词来连接不同的部分，并按照语言规则组成整个句子。这是一个<strong>先视觉再语言</strong>的生成过程，视觉信息奠定了字幕的基础，语言信息辅助以组合的方式而不是顺序的方式形成最终的字幕，这样会更好地保留有意义的语义信息。<strong>掩码非自回归解码一步生成整个句子，因此前面标记的质量不会显着影响后面的标记，这从根本上缓解了自回归解码中存在的顺序错误累积</strong>。相比之下，自回归解码是一个从左到右逐字的生成过程，因此后面步骤生成的标记在很大程度上取决于前面步骤的标记，一旦前面的标记不合适，就容易出现顺序错误累积。更糟糕的是，它只有一次机会生成整个标题，而无法调整前面不适当的标记。因此，自回归解码在保持流畅性方面相当不错，但难以准确说出图像丰富的显着语义内容。</p></li></ul><h2 id="Inference-rules"><a href="#Inference-rules" class="headerlink" title="Inference rules"></a>Inference rules</h2><ul><li><p>推理阶段每个 stage, 如何确定mask 哪些token？或者保留哪些token ?</p><p><strong>保留信息量最大的 token</strong> 并屏蔽每个阶段生成的字幕中的其他位置以生成新的屏蔽输入序列至关重要。</p><p>在本文中，我们采用了一种直接的方法。在这种方法中，在这种方法中，那些不包括在高频率的标记集中的 tokens (tf-idf的思想) ，以及具有高概率且与迄今所选标记不重复的 tokens ，被指定为高度优先保留的 tokens 。例如，在图 <a href="https://www.arxiv-vanity.com/papers/1906.00717/#S3.F1" target="_blank" rel="noopener">1中</a>，我们保留了第一阶段输出序列的 “二”、“鸭子”、“游泳” 和“水”。此外，对最后阶段生成的 caption 进行处理，选择与之前选择的 tokens 不重复的 tokens 。 </p></li><li><p>推理阶段，caption的长度是如何确定的？</p><p>关于推理过程中 length of caption 的确定, 我们首先计算训练数据中的长度的分布情况，然后从这个分布中选择一个随机的长度 T 作为标题。 随后。由T个 [MASK] token 组成的序列被送入模型，这样，一个完整的标题就可以最终被解码。 另一个选择是，我们直接为所有图像设置一个固定的序列长度。 该模型将根据长度自动强制生成粗略或精细的标题，但具有类似的语义信息。</p></li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;任务&quot;&gt;&lt;a href=&quot;#任务&quot; class=&quot;headerlink&quot; title=&quot;任务&quot;&gt;&lt;/a&gt;任务&lt;/h2&gt;&lt;p&gt;以 Non-Autoregressive 的方式来做 Image Captioning&lt;/p&gt;
+&lt;h2 id=&quot;存在的问题&quot;&gt;&lt;a href
+      
+    
+    </summary>
+    
+      <category term="cross-modal" scheme="http://yoursite.com/categories/cross-modal/"/>
+    
+    
+      <category term="cross-modal" scheme="http://yoursite.com/tags/cross-modal/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Mask-Predict: Parallel Decoding of Conditional Masked Language Models</title>
     <link href="http://yoursite.com/2021/06/06/Mask-Predict-Parallel-Decoding-of-Conditional-Masked-Language-Models/"/>
     <id>http://yoursite.com/2021/06/06/Mask-Predict-Parallel-Decoding-of-Conditional-Masked-Language-Models/</id>
     <published>2021-06-06T06:38:51.000Z</published>
-    <updated>2021-06-06T06:45:05.562Z</updated>
+    <updated>2021-06-06T06:45:31.307Z</updated>
     
     <content type="html"><![CDATA[<p>Facebook发表在EMNLP 2019上的工作</p><h2 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h2><p>机器翻译</p><h2 id="本文的点"><a href="#本文的点" class="headerlink" title="本文的点"></a>本文的点</h2><p>非自回归的生成方式</p><h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p>这篇文章将masked language model和iterative refinement进行了结合。并提出了更精确的解码方法。</p><p>具体来说，在训练时，这篇文章采用了和masked language model一样的设定。即，随机mask掉目标语句中的一些单词作为decoder input，mask的策略也和Bert中的一致。而decoder output则是这些位置上被mask掉的原始单词。其中，与Bert对每个句子固定mask掉15%的单词不同的是，这篇文章中被mask单词的数目是在从1到句子长度的范围中随机选取的。这样做的好处会在decoding时显现出来。</p><p><img src="https://i.loli.net/2021/06/06/bBgAcQlLFVSt6Es.jpg" alt="img"></p><p>图二：Mask-Predict 解码示意图</p><p>在预测时，这篇文章提出了基于mask and predict的解码方法，是文章的主要贡献。其实在masked language model这个框架下，解码方法是水到渠成的，即每次迭代时，都在当前翻译结果上mask掉一些词，再预测这些词即可。这里有几个点需要特别考虑。一是如何决定mask掉哪些词。文中给出的解决方法是选取top k个解码时置信度最小的词，把他们mask掉再重新预测。二是如何确定mask掉多少个词，也就是如何选取k。文中给出了基于迭代次数递减的策略，即<strong>在第一次解码时，将所有位置都置为[MASK]</strong>，同时预测所有位置的词。<strong>在之后解码迭代中，按照随迭代次数线性衰减的方式确定需要mask的单词个数</strong>：</p><p>$n=N \cdot \frac{T-t}{T}$</p><p>其中N是目标语句的长度，T和t则分别是总的迭代次数和当前迭代次数。上图中展示了解码过程的一个例子。</p><p>上面提到对每个句子，训练时每个epoch确定被mask单词数目时都是随机从 [1，句子长度] 中选取得到的。由于在解码时，被mask单词的个数是线性递减的，即会从 [句子长度，1] 依次递减。因此，训练时这样选取被mask单词的数目可以增加模型的capacity，让模型能处理任意个单词被mask掉时的情况，从而更符合解码时的策略，减少bias并达到更好的效果。</p><p>在确定目标语句的长度时，这篇文章采用了与上篇文章相同的方法，即通过encoder output来预测目标语句的长度，和golden目标语句的长度作为额外的loss function单独训练。</p><h2 id="Results"><a href="#Results" class="headerlink" title="Results"></a><strong>Results</strong></h2><p><img src="https://i.loli.net/2021/06/06/xongXjtwZciSe42.jpg" alt="img" style="zoom:50%;"></p><p>从上表中可以看到，这篇文章在WMT14 En-De和WMT16 En-Ro上均达到了SOTA。但有一点存疑的是，由于文章中也采用了knowledge distillation来训练non-autoregressive模型，而其采用的autoregressive teacher模型均为比较强的模型（28.6 on WMT14 En-De and 34.28 on WMT16 En-Ro），没有控制变量采用和baseline相同效果的autoregressive teacher。而一般来说，teacher越强训练出的non-autoregressive模型也会越强，因此<strong>这篇文章良好的效果应该也有一部分是得益于其选择了较强的teacher</strong>。</p><p>文中也做了在WMT17 En-Zh上的实验，以及对迭代次数和mutiple length candidates的分析，这里就不一一赘述了。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Iterative refinement无疑是一个改善 $O(1)$非自回归模型的良好方向，在增加了有限的复杂度（通常是 $O(10)$)的代价下，非自回归模型的翻译质量得到了大幅提高。在这个方向中， Mask-Predict这篇文章给出了一个优良的解码范例，即每次迭代并不会预测所有的单词，而是预测置信度较低的数个单词。</p><p>但这样的解码范例也可能并不是最优的。因为模型给出的概率上的置信度有时候并不会反应真正的翻译质量。如何证明/设计与翻译质量挂钩的解码策略也是一个值得思考的问题。</p>]]></content>
     
@@ -479,31 +505,6 @@
       <category term="cross-modal" scheme="http://yoursite.com/tags/cross-modal/"/>
     
       <category term="real-time" scheme="http://yoursite.com/tags/real-time/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Neural Baby Talk</title>
-    <link href="http://yoursite.com/2021/03/26/Neural-Baby-Talk/"/>
-    <id>http://yoursite.com/2021/03/26/Neural-Baby-Talk/</id>
-    <published>2021-03-26T06:31:12.000Z</published>
-    <updated>2021-03-26T06:39:41.198Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="当前存在的问题"><a href="#当前存在的问题" class="headerlink" title="当前存在的问题"></a>当前存在的问题</h2><p>当前的模型缺少 visual grounding，比如，不能将生成的named concept 与 image 中的pixels相关联起来。</p><p>模型的关注点与人类的关注点不同，并且倾向于从训练数据中copy captionings，即，得到 Hallucination Objects。 </p><h2 id="本文的点"><a href="#本文的点" class="headerlink" title="本文的点"></a>本文的点</h2><p>本文提出了两步走策略来处理图像描述任务：（1）sentence template generation （2）slot filling with object detectors。</p><ul><li>First generatesa sentence ‘template’ with slot locations explicitly tied tospecific  image  regions.</li><li>These  slots  are  then  filled  in  by visual  concepts  identified  in  the  regions  by  object  detectors.</li></ul><p>整个结构是端到端可微分的。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;当前存在的问题&quot;&gt;&lt;a href=&quot;#当前存在的问题&quot; class=&quot;headerlink&quot; title=&quot;当前存在的问题&quot;&gt;&lt;/a&gt;当前存在的问题&lt;/h2&gt;&lt;p&gt;当前的模型缺少 visual grounding，比如，不能将生成的named concept 与 
-      
-    
-    </summary>
-    
-      <category term="image captioning" scheme="http://yoursite.com/categories/image-captioning/"/>
-    
-    
-      <category term="image captioning" scheme="http://yoursite.com/tags/image-captioning/"/>
     
   </entry>
   

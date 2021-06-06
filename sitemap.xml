@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/03/19/Non-Autoregressive-Coarse-to-Fine-Video-Captioning/</loc>
+    
+    <lastmod>2021-06-06T10:55:59.545Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/06/06/Masked-Non-Autoregressive-Image-Captioning/</loc>
+    
+    <lastmod>2021-06-06T08:21:43.522Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/06/06/Mask-Predict-Parallel-Decoding-of-Conditional-Masked-Language-Models/</loc>
     
-    <lastmod>2021-06-06T06:45:05.562Z</lastmod>
+    <lastmod>2021-06-06T06:45:31.307Z</lastmod>
     
   </url>
   
@@ -145,13 +159,6 @@
     <loc>http://yoursite.com/2021/03/20/It%E2%80%99s-Not-Just-Size-That-Matters-Small-Language-Models-Are-Also-Few-Shot-Learners/</loc>
     
     <lastmod>2021-04-06T07:43:03.332Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/03/19/Non-Autoregressive-Coarse-to-Fine-Video-Captioning/</loc>
-    
-    <lastmod>2021-04-06T02:39:39.195Z</lastmod>
     
   </url>
   
