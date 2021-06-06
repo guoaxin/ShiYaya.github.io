@@ -119,7 +119,7 @@
 <meta property="og:image" content="https://i.loli.net/2021/06/06/19RGWj5xsK7HzXV.png">
 <meta property="og:image" content="https://i.loli.net/2021/06/06/2HjICRYAgV9db5L.png">
 <meta property="og:image" content="https://i.loli.net/2021/06/06/e4hJ8gaKn3xmXwz.png">
-<meta property="og:updated_time" content="2021-06-06T04:09:49.658Z">
+<meta property="og:updated_time" content="2021-06-06T04:11:11.576Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Improving Neural Machine Translation with Soft Template Prediction">
 <meta name="twitter:description" content="任务机器翻译 本文的点受到人类翻译过程和其他领域基于模板和基于语法的方法启发，微软亚洲研究院提出了一种使用从语法树结构中提取的模板作为软目标模板来指导翻译过程的方法 ST-NMT。 摘要尽管近年来神经机器翻译（NMT）取得了长足的进步，但大多数神经机器翻译模型直接从源文本生成翻译。受到人类翻译过程和其他领域基于模板和基于语法的方法的成功启发，我们提出了一种使用从语法树结构中提取的模板作为软目标模板">
@@ -314,7 +314,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">246</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">247</span></a>
 
   </li>
 
@@ -438,7 +438,7 @@
                 
               
 
-              <time title="创建时间：2021-06-06 09:51:58 / 修改时间：12:09:49" itemprop="dateCreated datePublished" datetime="2021-06-06T09:51:58+08:00">2021-06-06</time>
+              <time title="创建时间：2021-06-06 09:51:58 / 修改时间：12:11:11" itemprop="dateCreated datePublished" datetime="2021-06-06T09:51:58+08:00">2021-06-06</time>
             
 
             
@@ -545,13 +545,13 @@
 <p>在实践中，我们发现优化这两个目标可以使得模型更易于训练避免收到模板中噪声的干扰，并获得较高的 BLEU 分数，因为存在一些影响翻译质量的低质量模板。<strong>通过同时优化两个目标，我们可以减少某些低质量模板的影响并提高模型的稳定性。</strong>为了平衡这两个目标，我们的模型在两个目标上同时进行了迭代训练，如下所示：</p>
 <p><img src="https://i.loli.net/2021/06/06/BrkEVRDWHZen41L.png" alt="image-20210606120604504" style="zoom:50%;"></p>
 <h2 id="实验与分析"><a href="#实验与分析" class="headerlink" title="实验与分析"></a>实验与分析</h2><p>为了证明该方法的有效性，我们在多个数据集和多个语种进行了实验，包括 IWSLT14 德语-英语翻译任务，WMT14 英语-德语翻译任务，LDC 中英翻译任务和 ASPEC 日中翻译任务。实验表明，与基线模型相比，我们的方法取得了更好的结果，这表明软目标模板可以有效地指导翻译过程并提供积极的影响。同时我们的方法可用于不同规模、不同语种、不同领域的数据集。</p>
-<p><img src="https://i.loli.net/2021/06/06/EfX8xaJeFYLzpDb.png" alt="image-20210606120732113"></p>
+<p><img src="https://i.loli.net/2021/06/06/EfX8xaJeFYLzpDb.png" alt="image-20210606120732113" style="zoom:50%;"></p>
 <p><em>表1：LDC 中英翻译任务结果</em></p>
 <p><img src="https://i.loli.net/2021/06/06/19RGWj5xsK7HzXV.png" alt="image-20210606120755429" style="zoom: 50%;"></p>
 <p><em>表2：WMT14 英语-德语翻译任务结果</em></p>
 <p><img src="https://i.loli.net/2021/06/06/2HjICRYAgV9db5L.png" alt="image-20210606120824797" style="zoom:50%;"></p>
 <p><em>表3：IWSLT14 德语-英语翻译任务结果</em></p>
-<p><img src="https://i.loli.net/2021/06/06/e4hJ8gaKn3xmXwz.png" alt="image-20210606120844581"></p>
+<p><img src="https://i.loli.net/2021/06/06/e4hJ8gaKn3xmXwz.png" alt="image-20210606120844581" style="zoom:50%;"></p>
 <p><em>表4：ASPEC 日中翻译任务结果</em></p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>在这项工作中，我们提出了一种利用源文本和软模板生成翻译的机器翻译模型。我们的方法可以从子树中提取模板，该子树是从语法分析树的特定深度得到的。然后，我们使用 Transformer 模型来预测源文本的软目标模板。进一步，我们结合了源文本和模板信息来指导翻译过程。我们将软模板神经机器翻译模型（ST-NMT）与其他基线模型在多个数据集上进行比较。实验结果表明，ST-NMT 可以显著提高翻译性能。</p>
 <h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><ul>
@@ -603,6 +603,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/06/06/Mask-Predict-Parallel-Decoding-of-Conditional-Masked-Language-Models/" rel="prev" title="Mask-Predict: Parallel Decoding of Conditional Masked Language Models">
+                Mask-Predict: Parallel Decoding of Conditional Masked Language Models <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -675,7 +679,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">246</span>
+                    <span class="site-state-item-count">247</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
