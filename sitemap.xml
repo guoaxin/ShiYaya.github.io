@@ -2,16 +2,37 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://yoursite.com/2021/06/07/Non-Autoregressive-Neural-Machine-Translation/</loc>
+    <loc>http://yoursite.com/2021/06/15/UniT-Multimodal-Multitask-Learning-with-a-Unified-Transformer/</loc>
     
-    <lastmod>2021-06-07T03:24:49.672Z</lastmod>
+    <lastmod>2021-06-15T05:04:13.722Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://yoursite.com/2021/06/07/The-multimodality-problem-in-NAT/</loc>
     
-    <lastmod>2021-06-07T03:22:24.870Z</lastmod>
+    <lastmod>2021-06-12T08:57:41.913Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/06/07/Non-Autoregressive-Neural-Machine-Translation/</loc>
+    
+    <lastmod>2021-06-12T03:44:40.846Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/06/11/SimCSE-Simple-Contrastive-Learning-of-Sentence-Embeddings/</loc>
+    
+    <lastmod>2021-06-11T02:50:57.626Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/06/07/%E6%9C%80%E6%96%B0%E6%9C%BA%E5%99%A8%E7%BF%BB%E8%AF%91%E8%BF%9B%E5%B1%95/</loc>
+    
+    <lastmod>2021-06-07T04:24:20.202Z</lastmod>
     
   </url>
   
@@ -19,13 +40,6 @@
     <loc>http://yoursite.com/2021/03/19/Non-Autoregressive-Coarse-to-Fine-Video-Captioning/</loc>
     
     <lastmod>2021-06-07T03:17:02.554Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2021/06/07/%E6%9C%80%E6%96%B0%E6%9C%BA%E5%99%A8%E7%BF%BB%E8%AF%91%E8%BF%9B%E5%B1%95/</loc>
-    
-    <lastmod>2021-06-07T02:41:40.585Z</lastmod>
     
   </url>
   

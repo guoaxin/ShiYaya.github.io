@@ -97,18 +97,18 @@
 
 
 
-  <meta name="description" content="简介本篇博客针对当前使用非自回归方式处理机器翻译任务的相关论文进行总结。 为什么要进行非自回归机器翻译？最近的一系列工作提出了非自回归机器翻译的方法 (NAT, Gu et al. 2018) 。NAT并行生成目标单词，这与标准自动回归翻译（AT）形成对比，后者可以预测以所有先前单词为条件的每个单词。虽然AT通常在相似配置下比NAT表现更好，但是NAT通过并行计算加快了推理速度。这种非自回归生成的">
+  <meta name="description" content="来源 https://homes.cs.washington.edu/~jkasai/2020-01-28/nat/ 翻译版：https://zhuanlan.zhihu.com/p/110794460 简介本篇博客针对当前使用非自回归方式处理机器翻译任务的相关论文进行总结。 为什么要进行非自回归机器翻译？最近的一系列工作提出了非自回归机器翻译的方法 (NAT, Gu et al. 2018) 。">
 <meta name="keywords" content="NLP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Non-Autoregressive Neural Machine Translation">
 <meta property="og:url" content="http://yoursite.com/2021/06/07/Non-Autoregressive-Neural-Machine-Translation/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="简介本篇博客针对当前使用非自回归方式处理机器翻译任务的相关论文进行总结。 为什么要进行非自回归机器翻译？最近的一系列工作提出了非自回归机器翻译的方法 (NAT, Gu et al. 2018) 。NAT并行生成目标单词，这与标准自动回归翻译（AT）形成对比，后者可以预测以所有先前单词为条件的每个单词。虽然AT通常在相似配置下比NAT表现更好，但是NAT通过并行计算加快了推理速度。这种非自回归生成的">
+<meta property="og:description" content="来源 https://homes.cs.washington.edu/~jkasai/2020-01-28/nat/ 翻译版：https://zhuanlan.zhihu.com/p/110794460 简介本篇博客针对当前使用非自回归方式处理机器翻译任务的相关论文进行总结。 为什么要进行非自回归机器翻译？最近的一系列工作提出了非自回归机器翻译的方法 (NAT, Gu et al. 2018) 。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-06-07T03:24:49.672Z">
+<meta property="og:updated_time" content="2021-06-12T03:44:40.846Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Non-Autoregressive Neural Machine Translation">
-<meta name="twitter:description" content="简介本篇博客针对当前使用非自回归方式处理机器翻译任务的相关论文进行总结。 为什么要进行非自回归机器翻译？最近的一系列工作提出了非自回归机器翻译的方法 (NAT, Gu et al. 2018) 。NAT并行生成目标单词，这与标准自动回归翻译（AT）形成对比，后者可以预测以所有先前单词为条件的每个单词。虽然AT通常在相似配置下比NAT表现更好，但是NAT通过并行计算加快了推理速度。这种非自回归生成的">
+<meta name="twitter:description" content="来源 https://homes.cs.washington.edu/~jkasai/2020-01-28/nat/ 翻译版：https://zhuanlan.zhihu.com/p/110794460 简介本篇博客针对当前使用非自回归方式处理机器翻译任务的相关论文进行总结。 为什么要进行非自回归机器翻译？最近的一系列工作提出了非自回归机器翻译的方法 (NAT, Gu et al. 2018) 。">
 
 
 
@@ -299,7 +299,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">251</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">253</span></a>
 
   </li>
 
@@ -423,12 +423,24 @@
                 
               
 
-              <time title="创建时间：2021-06-07 10:50:12 / 修改时间：11:24:49" itemprop="dateCreated datePublished" datetime="2021-06-07T10:50:12+08:00">2021-06-07</time>
+              <time title="创建时间：2021-06-07 10:50:12" itemprop="dateCreated datePublished" datetime="2021-06-07T10:50:12+08:00">2021-06-07</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-06-12 11:44:40" itemprop="dateModified" datetime="2021-06-12T11:44:40+08:00">2021-06-12</time>
               
             
           </span>
@@ -496,10 +508,12 @@
       
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>本篇博客针对当前使用<strong>非自回归</strong>方式处理<strong>机器翻译</strong>任务的相关论文进行总结。</p>
+        <h2 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h2><p> <a href="https://homes.cs.washington.edu/~jkasai/2020-01-28/nat/" target="_blank" rel="noopener">https://homes.cs.washington.edu/~jkasai/2020-01-28/nat/</a></p>
+<p>翻译版：<a href="https://zhuanlan.zhihu.com/p/110794460" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/110794460</a></p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>本篇博客针对当前使用<strong>非自回归</strong>方式处理<strong>机器翻译</strong>任务的相关论文进行总结。</p>
 <h2 id="为什么要进行非自回归机器翻译？"><a href="#为什么要进行非自回归机器翻译？" class="headerlink" title="为什么要进行非自回归机器翻译？"></a>为什么要进行非自回归机器翻译？</h2><p>最近的一系列工作提出了非自回归机器翻译的方法 (NAT, <a href="https://arxiv.org/abs/1711.02281" target="_blank" rel="noopener">Gu et al. 2018</a>) 。NAT并行生成目标单词，这与标准自动回归翻译（AT）形成对比，后者可以预测以所有先前单词为条件的每个单词。虽然AT通常在相似配置下比NAT表现更好，但是NAT通过并行计算加快了推理速度。这种非自回归生成的一个非常成功的应用是Parallel WaveNet  (<a href="https://arxiv.org/abs/1711.10433" target="_blank" rel="noopener">Oord et al. 2017</a>)，将原始自回归Wavenet的速度提高了1000倍以上，并部署在了Google助手中。从NAT快速推断得到的收益可以允许在工业界的特定延迟和预算下部署更大，更深的Transformer模型。在这篇博客文章中，我将概述有关非自回归翻译的最新研究，并讨论我认为对进一步发展而言缺失或重要的内容。</p>
 <h2 id="基本问题和可能的解决方法"><a href="#基本问题和可能的解决方法" class="headerlink" title="基本问题和可能的解决方法"></a>基本问题和可能的解决方法</h2><p>生成中的<a href="https://arxiv.org/abs/1711.02281" target="_blank" rel="noopener">多模式性(Multimodality)</a>对NAT提出了根本的挑战。我们都知道语言是高度多模态的(multimodal)。举一个小例子，英文句子<code>he is very good at Japanese</code>和<code>he speaks Japanese very well</code>是日语句子<code>彼は日本語が上手です</code>的两个有效译文。但是，看起很像的两个句子：<code>he speaks very good at Japanese</code>或<code>he is very good at very well</code>则没有任何意义。我们需要知道模型提交给它自己的两种可能的翻译是哪一种，但是在条件独立的解码中很难实现这一点。并行解码打破了条件依赖性，并经常导致输出不一致。文献中的一些工作已经提出解决NAT中Multimodality问题的方法。在这里，我对提出的方法进行了概括和分类。</p>
-<h3 id="1-基于迭代（Iteration-based）的方法"><a href="#1-基于迭代（Iteration-based）的方法" class="headerlink" title="1. 基于迭代（Iteration-based）的方法"></a>1. 基于迭代（Iteration-based）<strong>的方法</strong></h3><p>解决并行解码问题的一种方法是迭代地优化模型输出([1,2,3])。在此框架中，我们放弃了完全可并行化的生成，而是在<strong>每次迭代中优化了先前生成的单词</strong>。由于通常我们所需的迭代次数比输出句子中单词的数量少得多，因此与自回归模型相比，迭代方法仍可以改善等待时间。这些论文均采用不同的方法进行细化，为了更清晰地理解，您可以参考 [2] 提出的一种典型的条件屏蔽语言模型（CMLM）。在给定源文本的情况下，使用目标端的BERT-style的掩蔽语言建模目标对CMLM进行训练，在推断中，我们Mask住<em>低置信度</em>的token，并在每次迭代中对其进行更新。[3] 工作提出了DisCo Transformer，该Transformer可计算出这种掩盖语言建模MLM的有效替代方案。特别地，在给定其他reference token的任意子集的情况下，可以训练DisCo Transformer来预测每个输出token。可以将其视为一次模拟多个masking。我们证明了DisCo Transformer可以减少所需的迭代次数（从而减少解码时间），同时保持转换质量。</p>
+<h3 id="1-基于迭代（Iteration-based）的方法"><a href="#1-基于迭代（Iteration-based）的方法" class="headerlink" title="1. 基于迭代（Iteration-based）的方法"></a>1. 基于迭代（Iteration-based）<strong>的方法</strong></h3><p>解决并行解码问题的一种方法是迭代地优化模型输出(<a href="https://arxiv.org/abs/1802.06901" target="_blank" rel="noopener">Lee et al., 2018</a>; <a href="https://arxiv.org/abs/1904.09324" target="_blank" rel="noopener">Ghazvininejad et al., 2019</a>; <a href="https://homes.cs.washington.edu/~jkasai/2020-01-28/nat/Ghazvininejad et al., 2019" target="_blank" rel="noopener">Gu et al. 2019</a>; <a href="https://arxiv.org/pdf/2001.05136.pdf" target="_blank" rel="noopener">Kasai et al. 2020</a>)。在此框架中，我们放弃了完全可并行化的生成，而是在<strong>每次迭代中优化了先前生成的单词</strong>。由于通常我们所需的迭代次数比输出句子中单词的数量少得多，因此与自回归模型相比，迭代方法仍可以改善等待时间。这些论文均采用不同的方法进行细化，为了更清晰地理解，您可以参考<a href="https://arxiv.org/abs/1904.09324" target="_blank" rel="noopener">Ghazvininejad et al., 2019</a>  提出的一种典型的条件屏蔽语言模型（CMLM）。在给定源文本的情况下，使用目标端的BERT-style的掩蔽语言建模目标对CMLM进行训练，在推断中，我们Mask住<em>低置信度</em>的token，并在每次迭代中对其进行更新。 <a href="https://arxiv.org/pdf/2001.05136.pdf" target="_blank" rel="noopener">Kasai et al. 2020</a> 工作提出了DisCo Transformer，该Transformer可计算出这种掩盖语言建模MLM的有效替代方案。特别地，在给定其他reference token的任意子集的情况下，可以训练DisCo Transformer来预测每个输出token。可以将其视为一次模拟多个masking。我们证明了DisCo Transformer可以减少所需的迭代次数（从而减少解码时间），同时保持转换质量。</p>
 <blockquote>
 <p>[1] Deterministic Non-Autoregressive Neural Sequence Modeling by Iterative Refinement</p>
 <p>[2] Mask-Predict: Parallel Decoding of Conditional Masked Language Models. Marjan Ghazvininejad, Omer Levy, Yinhan Liu, Luke Zettlemoyer</p>
@@ -515,9 +529,10 @@
 <li><strong>我们需要预测目标长度吗？</strong>我仍然发现目标长度预测很奇怪。当前的许多NAT方法都要求目标长度预测并且以这个预测的长度作为条件。虽然长度预测为我们提供了在潜在变量空间中进行搜索的机会，但长度预测会破坏生成的灵活性。</li>
 <li><strong>NAT可以胜过AT吗？</strong>我们已经看到，在相同的配置下，AT的性能通常优于NAT。但是，NAT可以做得更好吗？或者更实际的说，在相同的延迟预算下，NAT是否能明显胜过AT？NAT可以使用更大的配置。</li>
 <li><strong>预训练和NAT。</strong>在非自回归机器翻译中使用大规模预训练的掩蔽语言模型MLM可能比在自回归翻译中使用更容易。NAT中的解码器（例如条件屏蔽语言模型）看起来更像BERT。</li>
-<li><strong>训练和推理中的隔阂(bridge)。</strong>在迭代NAT框架中，<strong><strong style="color:red;">训练和推理之间经常会出现差距</strong></strong>。例如，训练条件语言模型（CMLM），以在给定其他观察到的token的情况下预测被掩盖的token。最近一项成功的尝试是对CMLM进行SMART训练 (<a href="https://arxiv.org/abs/2001.08785" target="_blank" rel="noopener">Ghazvininejad et al. 2020</a>) ，他们训练模型以从先前的预测误差中恢复。这种方法可普及到基于迭代的NAT。</li>
+<li><strong>训练和推理中的隔阂(bridge)。</strong>在迭代NAT框架中，<strong><strong style="color:red;">训练和推理之间经常会出现差距</strong></strong>。For example, a conditional language model (CMLM) is trained to predict masked tokens given the other <strong>gold</strong> observed tokens. 最近一项成功的尝试是对CMLM进行SMART训练 (<a href="https://arxiv.org/abs/2001.08785" target="_blank" rel="noopener">Ghazvininejad et al. 2020</a>) ，他们训练模型以从先前的预测误差中恢复。这种方法可普及到基于迭代的NAT。</li>
 <li><strong>向结构化预测学习。</strong>NLP中已经在结构化预测（例如语法和语义解析）方面投入了很多精力。我们可以从结构化预测的方法中学习以更好地处理生成中的条件依赖性吗？训练和推理之间的上述差距是句法分析中研究的一个问题 (e.g. dynamic oracle, <a href="https://www.aclweb.org/anthology/C12-1059/" target="_blank" rel="noopener">Goldberg &amp; Nivre 2012</a>)。我怀疑从结构化预测中还会吸取更多教训。</li>
 </ul>
+<h2 id="ACL-2021"><a href="#ACL-2021" class="headerlink" title="ACL 2021"></a>ACL 2021</h2><p>【ACL findings】Progressive Multi-Granularity Training for Non-Autoregressive  Translation<br><strong>标题</strong>：非自回归翻译的渐进式多粒度训练</p>
 <h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://zhuanlan.zhihu.com/p/110794460" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/110794460</a></p>
 <p><a href="https://homes.cs.washington.edu/~jkasai/2020-01-28/nat/" target="_blank" rel="noopener">https://homes.cs.washington.edu/~jkasai/2020-01-28/nat/</a></p>
 
@@ -565,6 +580,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/06/11/SimCSE-Simple-Contrastive-Learning-of-Sentence-Embeddings/" rel="prev" title="SimCSE: Simple Contrastive Learning of Sentence Embeddings">
+                SimCSE: Simple Contrastive Learning of Sentence Embeddings <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -637,7 +656,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">251</span>
+                    <span class="site-state-item-count">253</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -877,7 +896,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要进行非自回归机器翻译？"><span class="nav-number">2.</span> <span class="nav-text">为什么要进行非自回归机器翻译？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本问题和可能的解决方法"><span class="nav-number">3.</span> <span class="nav-text">基本问题和可能的解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-基于迭代（Iteration-based）的方法"><span class="nav-number">3.1.</span> <span class="nav-text">1. 基于迭代（Iteration-based）的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-比NLL更好的训练目标"><span class="nav-number">3.2.</span> <span class="nav-text">2. 比NLL更好的训练目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-精简-部分的自回归解码"><span class="nav-number">3.3.</span> <span class="nav-text">3. 精简/部分的自回归解码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-用潜在变量建模"><span class="nav-number">3.4.</span> <span class="nav-text">4. 用潜在变量建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-从自回归模型中蒸馏"><span class="nav-number">3.5.</span> <span class="nav-text">5. 从自回归模型中蒸馏</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#悬而未决的问题和未来目标"><span class="nav-number">4.</span> <span class="nav-text">悬而未决的问题和未来目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">5.</span> <span class="nav-text">Reference</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#来源"><span class="nav-number">1.</span> <span class="nav-text">来源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">2.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要进行非自回归机器翻译？"><span class="nav-number">3.</span> <span class="nav-text">为什么要进行非自回归机器翻译？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本问题和可能的解决方法"><span class="nav-number">4.</span> <span class="nav-text">基本问题和可能的解决方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-基于迭代（Iteration-based）的方法"><span class="nav-number">4.1.</span> <span class="nav-text">1. 基于迭代（Iteration-based）的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-比NLL更好的训练目标"><span class="nav-number">4.2.</span> <span class="nav-text">2. 比NLL更好的训练目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-精简-部分的自回归解码"><span class="nav-number">4.3.</span> <span class="nav-text">3. 精简/部分的自回归解码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-用潜在变量建模"><span class="nav-number">4.4.</span> <span class="nav-text">4. 用潜在变量建模</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-从自回归模型中蒸馏"><span class="nav-number">4.5.</span> <span class="nav-text">5. 从自回归模型中蒸馏</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#悬而未决的问题和未来目标"><span class="nav-number">5.</span> <span class="nav-text">悬而未决的问题和未来目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ACL-2021"><span class="nav-number">6.</span> <span class="nav-text">ACL 2021</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Reference"><span class="nav-number">7.</span> <span class="nav-text">Reference</span></a></li></ol></div>
             
 
           </div>
