@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="来源：https://mp.weixin.qq.com/s/12UvfXnaB4NTy54wWIFZdQ 2020 年的 Moco 和 SimCLR 等，掀起了对比学习在 CV 领域的热潮，2021 年的 SimCSE，则让 NLP 也乘上了对比学习的东风。下面就尝试用 QA 的形式挖掘其中一些细节知识点，去更好地理解对比学习和 SimCSE。  如何去理解对比学习，它和度量学习的差别是什么？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解对比学习和 SimCSE">
+<meta property="og:url" content="http://yoursite.com/2021/06/22/理解对比学习和-SimCSE/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="来源：https://mp.weixin.qq.com/s/12UvfXnaB4NTy54wWIFZdQ 2020 年的 Moco 和 SimCLR 等，掀起了对比学习在 CV 领域的热潮，2021 年的 SimCSE，则让 NLP 也乘上了对比学习的东风。下面就尝试用 QA 的形式挖掘其中一些细节知识点，去更好地理解对比学习和 SimCSE。  如何去理解对比学习，它和度量学习的差别是什么？">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2021/06/22/Omj8YCPkqeWwyp4.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/22/YFIfqETp1S7Kg83.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/22/saTEDlBWg1uUNAp.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/22/QTPnuCLMc6Ug1sb.png">
+<meta property="og:image" content="https://i.loli.net/2021/06/22/bE15TPnoGCRvFZk.png">
+<meta property="og:updated_time" content="2021-06-22T13:19:04.382Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="理解对比学习和 SimCSE">
+<meta name="twitter:description" content="来源：https://mp.weixin.qq.com/s/12UvfXnaB4NTy54wWIFZdQ 2020 年的 Moco 和 SimCLR 等，掀起了对比学习在 CV 领域的热潮，2021 年的 SimCSE，则让 NLP 也乘上了对比学习的东风。下面就尝试用 QA 的形式挖掘其中一些细节知识点，去更好地理解对比学习和 SimCSE。  如何去理解对比学习，它和度量学习的差别是什么？">
+<meta name="twitter:image" content="https://i.loli.net/2021/06/22/Omj8YCPkqeWwyp4.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/06/22/理解对比学习和-SimCSE/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>理解对比学习和 SimCSE | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">45</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">44</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">257</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/22/理解对比学习和-SimCSE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">理解对比学习和 SimCSE
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-06-22 21:03:55 / 修改时间：21:19:04" itemprop="dateCreated datePublished" datetime="2021-06-22T21:03:55+08:00">2021-06-22</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/06/22/理解对比学习和-SimCSE/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2021/06/22/理解对比学习和-SimCSE/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>来源：<a href="https://mp.weixin.qq.com/s/12UvfXnaB4NTy54wWIFZdQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/12UvfXnaB4NTy54wWIFZdQ</a></p>
+<p>2020 年的 Moco 和 SimCLR 等，掀起了对比学习在 CV 领域的热潮，2021 年的 SimCSE，则让 NLP 也乘上了对比学习的东风。下面就尝试用 QA 的形式挖掘其中一些细节知识点，去更好地理解对比学习和 SimCSE。</p>
+<ul>
+<li><p>如何去理解对比学习，它和度量学习的差别是什么？</p>
+</li>
+<li><p>对比学习中一般选择一个 batch 中的所有其他样本作为负例，那如果负例中有很相似的样本怎么办？</p>
+</li>
+<li><p>infoNCE loss 如何去理解，和 CE loss有什么区别？</p>
+</li>
+<li><p>对比学习的 infoNCE loss 中的温度常数的作用是什么？</p>
+</li>
+<li><p>SimCSE 中的 dropout mask 指的是什么，dropout rate 的大小影响的是什么？</p>
+</li>
+<li><p>SimCSE 无监督模式下的具体实现流程是怎样的，标签生成和 loss 计算如何实现？</p>
+</li>
+</ul>
+<h2 id="1-如何去理解对比学习，它和度量学习的差别是什么？"><a href="#1-如何去理解对比学习，它和度量学习的差别是什么？" class="headerlink" title="1. 如何去理解对比学习，它和度量学习的差别是什么？"></a><strong>1. 如何去理解对比学习，它和度量学习的差别是什么？</strong></h2><p>对比学习的思想是去拉近相似的样本，推开不相似的样本，而目标是要从样本中学习到一个好的语义表示空间。</p>
+<p>论文 [1] 给出的 “Alignment and Uniformity on the Hypersphere”，就是一个非常好的去理解对比学习的角度。</p>
+<p>好的对比学习系统应该具备两个属性：Alignment和Uniformity（参考上图）。</p>
+<p>所谓“Alignment”，指的是相似的例子，也就是正例，映射到单位超球面后，应该有接近的特征，也即是说，在超球面上距离比较近；</p>
+<p>所谓“Uniformity”，指的是系统应该倾向在特征里保留尽可能多的信息，这等价于使得映射到单位超球面的特征，尽可能均匀地分布在球面上，分布得越均匀，意味着保留的信息越充分。分布均匀意味着两两有差异，也意味着各自保有独有信息，这代表信息保留充分（参考自 [2]）。</p>
+<p>度量学习和对比学习的思想是一样的，都是去拉近相似的样本，推开不相似的样本。但是对比学习是无监督或者自监督学习方法，而度量学习一般为有监督学习方法。而且对比学习在 loss 设计时，为单正例多负例的形式，因为是无监督，数据是充足的，也就可以找到无穷的负例，但<font color="red">如何构造有效正例才是重点。</font></p>
+<p>而度量学习多为二元组或三元组的形式，如常见的 Triplet 形式（anchor，positive，negative），Hard Negative 的挖掘对最终效果有较大的影响。</p>
+<h2 id="2-对比学习中一般选择一个-batch-中的所有其他样本作为负例，那如果负例中有很相似的样本怎么办？"><a href="#2-对比学习中一般选择一个-batch-中的所有其他样本作为负例，那如果负例中有很相似的样本怎么办？" class="headerlink" title="2. 对比学习中一般选择一个 batch 中的所有其他样本作为负例，那如果负例中有很相似的样本怎么办？"></a>2. <strong>对比学习中一般选择一个 batch 中的所有其他样本作为负例，那如果负例中有很相似的样本怎么办？</strong></h2><p>在无监督无标注的情况下，这样的伪负例，其实是不可避免的，首先可以想到的方式是去扩大语料库，去加大 batch size，以降低 batch 训练中采样到伪负例的概率，减少它的影响。</p>
+<p>另外，神经网络是有一定容错能力的，像伪标签方法就是一个很好的印证，但前提是错误标签数据或伪负例占较小的比例。</p>
+<p>PS：也确有人考虑研究过这个问题，可以参考论文 [3] [4]</p>
+<h2 id="3-infoNCE-loss-如何去理解，和-CE-loss-有什么区别？"><a href="#3-infoNCE-loss-如何去理解，和-CE-loss-有什么区别？" class="headerlink" title="3. infoNCE loss 如何去理解，和 CE loss 有什么区别？"></a>3. <strong>infoNCE loss 如何去理解，和 CE loss 有什么区别？</strong></h2><p><strong>infoNCE loss</strong> 全称 info Noise Contrastive Estimation loss，对于一个 batch 中的样本 i，它的 loss 为：</p>
+<p><img src="https://i.loli.net/2021/06/22/Omj8YCPkqeWwyp4.png" alt="image-20210622211019708" style="zoom:50%;"></p>
+<p>要注意的是，<font color="red">log 里面的分母叠加项是<strong>包括了分子项</strong>的。</font> 分子是正例对的相似度，分母是正例对+所有负例对的相似度，最小化 infoNCE loss，就是去最大化分子的同时最小化分母，也就是最大化正例对的相似度，最小化负例对的相似度。</p>
+<p>上面公式直接看可能没那么清晰，可以把负号放进去，分子分母倒过来化简一下就会很明了了。</p>
+<p><strong>CE loss</strong>，Cross Entropy loss，在输入 p 是 softmax 的输出时：</p>
+<p><img src="https://i.loli.net/2021/06/22/YFIfqETp1S7Kg83.png" alt="image-20210622211041814" style="zoom:50%;"></p>
+<p>在分类场景下，真实标签 y 一般为 one-hot 的形式，因此，CE loss 可以简化成（i 位置对应标签 1）：</p>
+<p><img src="https://i.loli.net/2021/06/22/saTEDlBWg1uUNAp.png" alt="image-20210622211108963" style="zoom:50%;"></p>
+<p>看的出来，info NCE loss 和在一定条件下简化后的 CE loss 是非常相似的，但有一个区别要注意的是：</p>
+<p>infoNCE loss 中的 K 是 batch 的大小，是可变的，是第 i 个样本要和 batch 中的每个样本计算相似度，而 batch 里的每一个样本都会如此计算，因此上面公式只是样本 i 的 loss。</p>
+<p>CE loss 中的 K 是分类类别数的大小，任务确定时是不变的，i 位置对应标签为 1 的位置。不过实际上，infoNCE loss 就是直接可以用 CE loss 去计算的。</p>
+<p>注：1）info NCE loss 不同的实现方式下，它的计算方式和 K 的含义可能会有差异；2）info NCE loss 是基于 NCE loss 的，对公式推导感兴趣的可以参考 [5]。</p>
+<h2 id="4-对比学习的-infoNCE-loss-中的温度常数-t-的作用是什么？"><a href="#4-对比学习的-infoNCE-loss-中的温度常数-t-的作用是什么？" class="headerlink" title="4. 对比学习的 infoNCE loss 中的温度常数 t 的作用是什么？"></a>4. <strong>对比学习的 infoNCE loss 中的温度常数 t 的作用是什么？</strong></h2><p>论文 [6] 给出了非常细致的分析，知乎博客 [7] 则对论文 [6] 做了细致的解读，这里摘录它的要点部分：</p>
+<p>温度系数的作用是调节对困难样本的关注程度：<strong>越小的温度系数越关注于将本样本和最相似的困难样本分开</strong>，去得到更均匀的表示。然而困难样本往往是与本样本相似程度较高的，很多困难负样本其实是潜在的正样本，过分强迫与困难样本分开会破坏学到的潜在语义结构，因此，温度系数不能过小。</p>
+<p>考虑两个极端情况，温度系数趋向于 0 时，对比损失退化为只关注最困难的负样本的损失函数；当温度系数趋向于无穷大时，对比损失对所有负样本都一视同仁，失去了困难样本关注的特性。</p>
+<p>还有一个角度：</p>
+<p>可以把不同的负样本想像成同极点电荷在不同距离处的受力情况，距离越近的点电荷受到的库伦斥力更大，而距离越远的点电荷受到的斥力越小。</p>
+<p>对比损失中，越近的负例受到的斥力越大，具体的表现就是对应的负梯度值越大 [4]。这种性质更有利于形成在超球面均匀分布的特征。</p>
+<p>对照着公式去理解：</p>
+<p><img src="https://i.loli.net/2021/06/22/QTPnuCLMc6Ug1sb.png" alt="image-20210622211420543" style="zoom:33%;"></p>
+<p>温度系数很小时，越相似也即越困难的负例，对应的 就会越大，在分母叠加项中所占的比重就会越大，对整体 loss 的影响就会越大，具体的表现就是对应的负梯度值越大 [7]。</p>
+<p>当然，这仅仅是提供了一种定性的认识，定量的认识和推导可以参见博客 [7]。</p>
+<h2 id="5-SimCSE-中的-dropout-mask-指的是什么，dropout-rate-的大小影响的是什么？"><a href="#5-SimCSE-中的-dropout-mask-指的是什么，dropout-rate-的大小影响的是什么？" class="headerlink" title="5. SimCSE 中的 dropout mask 指的是什么，dropout rate 的大小影响的是什么？"></a>5. <strong>SimCSE 中的 dropout mask 指的是什么，dropout rate 的大小影响的是什么？</strong></h2><p>一般而言的 mask 是对 token 级别的 mask，比如说 BERT MLM 中的 mask，batch 训练时对 padding 位的 mask 等。</p>
+<p>SimCSE 中的 dropout mask，对于 BERT 模型本身，是一种网络模型的随机，是对网络参数 W 的 mask，起到防止过拟合的作用。</p>
+<p>而 SimCSE 巧妙的把它作为了一种 noise，起到数据增强的作用，因为同一句话，经过带 dropout 的模型两次，得到的句向量是不一样的，但是因为是相同的句子输入，最后句向量的语义期望是相同的，因此作为正例对，让模型去拉近它们之间的距离。</p>
+<p>在实现上，因为一个 batch 中的任意两个样本，经历的 dropout mask 都是不一样的，因此，一个句子过两次 dropout，SimCSE 源码中实际上是在一个 batch 中实现的，即 [a,a,b,b…] 作为一个 batch 去输入。</p>
+<p>dropout rate 大小的影响，可以理解为，这个概率会对应有 dropout 的句向量相对无 dropout 句向量，在整个单位超球体中偏移的程度，因为 BERT 是多层的结构，每一层都会有 dropout，这些 noise 的累积，会让句向量在每个维度上都会有偏移的，只是 p 较小的情况下，两个向量在空间中仍较为接近，如论文所说，“keeps a steady alignment”，保证了一个稳定的对齐性。</p>
+<h2 id="6-SimCSE-无监督模式下的具体实现流程是怎样的，标签生成和-loss-计算如何实现？"><a href="#6-SimCSE-无监督模式下的具体实现流程是怎样的，标签生成和-loss-计算如何实现？" class="headerlink" title="6. SimCSE 无监督模式下的具体实现流程是怎样的，标签生成和 loss 计算如何实现？"></a>6. <strong>SimCSE 无监督模式下的具体实现流程是怎样的，标签生成和 loss 计算如何实现？</strong></h2><p>这里用一个简单的例子和 Pytorch 代码来说明：</p>
+<p><strong>前向句子 embedding 计算：</strong></p>
+<p>假设初始输入一个句子集 sents = [a,b]，每一句要过两次 BERT，因此复制成 sents = [a,a,b,b]。</p>
+<p>sents 以 batch 的形式过 BERT 等语言模型得到句向量：batch_emb = [a1,a2,b1,b2]。</p>
+<p><strong>batch 标签生成：</strong>标签为 1 的地方是相同句子不同 embedding 对应的位置。</p>
+<p><img src="https://i.loli.net/2021/06/22/bE15TPnoGCRvFZk.png" alt="image-20210622211637062" style="zoom: 33%;"></p>
+<p>pytorch 中的 CE_loss，要使用一维的数字标签，上面的 one-hot 标签可转换成：[1,0,3,2]。</p>
+<p>可以把 label 拆成两个部分：奇数部分 [1,3…] 和偶数部分 [0,2…]，交替的每个奇数在偶数前面。因此实际生成的时候，可以分别生成两个部分再 concat 并 reshape 成一维。</p>
+<p>pytorch 中 label 的生成代码如下：</p>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构造标签</span></span><br><span class="line"><span class="keyword">batch</span>_size = <span class="keyword">batch</span>_emb.size<span class="params">(0)</span></span><br><span class="line">y_<span class="literal">true</span> = torch.cat<span class="params">([torch.arange(1,batch_size,<span class="attr">step</span>=2,<span class="attr">dtype</span>=torch.long)</span><span class="string">.unsqueeze</span><span class="params">(1)</span>,</span><br><span class="line">                    torch.arange<span class="params">(0,batch_size,<span class="attr">step</span>=2,<span class="attr">dtype</span>=torch.long)</span><span class="string">.unsqueeze</span><span class="params">(1)</span>],</span><br><span class="line">                    dim=1)<span class="string">.reshape</span><span class="params">([batch_size,])</span></span><br></pre></td></tr></table></figure>
+<p><strong>score 和 loss计算：</strong></p>
+<p>batch_emb 会先 norm，再计算任意两个向量之间的点积，得到向量间的余弦相似度，维度是：[batch_size, batch_size]。</p>
+<p>但是对角线的位置，也就是自身的余弦相似度，需要 mask 掉，因为它肯定是 1，是不产生 loss 的。</p>
+<p>然后，要除以温度系数，再进行 loss 的计算，loss_func 采用 CE loss，注意 CE loss 中是自带 softmax 计算的。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 计算score和loss</span></span><br><span class="line"><span class="attr">norm_emb</span> = F.normalize(batch_emb, dim=<span class="number">1</span>, p=<span class="number">2</span>)</span><br><span class="line"><span class="attr">sim_score</span> = torch.matmul(norm_emb, norm_emb.transpose(<span class="number">0</span>,<span class="number">1</span>))</span><br><span class="line"><span class="attr">sim_score</span> = sim_score - torch.eye(batch_size) * <span class="number">1</span>e12</span><br><span class="line"><span class="attr">sim_score</span> = sim_score * <span class="number">20</span>        <span class="comment"># 温度系数为 0.05，也就是乘以20</span></span><br><span class="line"><span class="attr">loss</span> = loss_func(sim_score, y_<span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+<p>完整代码：</p>
+<figure class="highlight nix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">loss_func</span> = nn.CrossEntropyLoss()</span><br><span class="line">def simcse_loss(batch_emb):</span><br><span class="line">    <span class="string">""</span><span class="string">"用于无监督SimCSE训练的loss</span></span><br><span class="line"><span class="string">    "</span><span class="string">""</span></span><br><span class="line">    <span class="comment"># 构造标签</span></span><br><span class="line">    <span class="attr">batch_size</span> = batch_emb.size(<span class="number">0</span>)</span><br><span class="line">    <span class="attr">y_true</span> = torch.cat([torch.arange(<span class="number">1</span>, batch_size, <span class="attr">step=2,</span> <span class="attr">dtype=torch.long).unsqueeze(1),</span></span><br><span class="line">                        torch.arange(<span class="number">0</span>, batch_size, <span class="attr">step=2,</span> <span class="attr">dtype=torch.long).unsqueeze(1)],</span></span><br><span class="line">                       <span class="attr">dim=1).reshape([batch_size,])</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 计算score和loss</span></span><br><span class="line">    <span class="attr">norm_emb</span> = F.normalize(batch_emb, <span class="attr">dim=1,</span> <span class="attr">p=2)</span></span><br><span class="line">    <span class="attr">sim_score</span> = torch.matmul(norm_emb, norm_emb.transpose(<span class="number">0</span>,<span class="number">1</span>))</span><br><span class="line">    <span class="attr">sim_score</span> = sim_score - torch.eye(batch_size) * <span class="number">1</span>e12</span><br><span class="line">    <span class="attr">sim_score</span> = sim_score * <span class="number">20</span></span><br><span class="line">    <span class="attr">loss</span> = loss_func(sim_score, y_true)</span><br><span class="line">    return loss</span><br></pre></td></tr></table></figure>
+<p>注：看过论文源码 [8] 的同学可能会发现，这个和论文源码中的实现方式不一样，论文源码是为了兼容无监督 SimCSE 和有监督 SimCSE，并兼容有 hard negative 的三句输入设计的，因此实现上有差异。</p>
+<p>看过苏神源码 [9] 的同学也会发现，构造标签的地方不一样，那是因为 keras 的 CE loss 用的是 one-hot 标签，pytorch 用的是数字标签，但本质一样。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><p>[1] Understanding Contrastive Representation Learning through Alignment and Uniformity on the Hypersphere</p>
+<p>[2] <a href="https://zhuanlan.zhihu.com/p/367290573" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/367290573</a></p>
+<p>[3] Debiased Contrastive Learning</p>
+<p>[4] ADACLR: Adaptive Contrastive Learning Of Representation By Nearest Positive Expansion</p>
+<p>[5] <a href="https://zhuanlan.zhihu.com/p/334772391" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/334772391</a></p>
+<p>[6] Understanding the Behaviour of Contrastive Loss</p>
+<p>[7] <a href="https://zhuanlan.zhihu.com/p/357071960" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/357071960</a></p>
+<p>[8] <a href="https://github.com/princeton-nlp/SimCSE" target="_blank" rel="noopener">https://github.com/princeton-nlp/SimCSE</a></p>
+<p>[9] <a href="https://github.com/bojone/SimCSE" target="_blank" rel="noopener">https://github.com/bojone/SimCSE</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/06/22/GEM-A-General-Evaluation-Benchmark-for-Multimodal-Tasks/" rel="next" title="GEM: A General Evaluation Benchmark for Multimodal Tasks">
+                <i class="fa fa-chevron-left"></i> GEM: A General Evaluation Benchmark for Multimodal Tasks
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">257</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">44</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">45</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-如何去理解对比学习，它和度量学习的差别是什么？"><span class="nav-number">1.</span> <span class="nav-text">1. 如何去理解对比学习，它和度量学习的差别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-对比学习中一般选择一个-batch-中的所有其他样本作为负例，那如果负例中有很相似的样本怎么办？"><span class="nav-number">2.</span> <span class="nav-text">2. 对比学习中一般选择一个 batch 中的所有其他样本作为负例，那如果负例中有很相似的样本怎么办？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-infoNCE-loss-如何去理解，和-CE-loss-有什么区别？"><span class="nav-number">3.</span> <span class="nav-text">3. infoNCE loss 如何去理解，和 CE loss 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-对比学习的-infoNCE-loss-中的温度常数-t-的作用是什么？"><span class="nav-number">4.</span> <span class="nav-text">4. 对比学习的 infoNCE loss 中的温度常数 t 的作用是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-SimCSE-中的-dropout-mask-指的是什么，dropout-rate-的大小影响的是什么？"><span class="nav-number">5.</span> <span class="nav-text">5. SimCSE 中的 dropout mask 指的是什么，dropout rate 的大小影响的是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-SimCSE-无监督模式下的具体实现流程是怎样的，标签生成和-loss-计算如何实现？"><span class="nav-number">6.</span> <span class="nav-text">6. SimCSE 无监督模式下的具体实现流程是怎样的，标签生成和 loss 计算如何实现？</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文献"><span class="nav-number"></span> <span class="nav-text">参考文献</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 's22c7ikjlbMrGGRlCcDrqOjo-gzGzoHsz',
+      appKey: 'HnhoXmenrEs7Unb12AD7Sxgg',
+      placeholder: 'Just go go',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: false
+    });
+  </script>
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
