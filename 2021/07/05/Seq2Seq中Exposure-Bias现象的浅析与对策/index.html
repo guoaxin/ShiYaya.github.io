@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Seq2Seq中Exposure Bias现象的浅析与对策前些天笔者写了CRF用过了，不妨再了解下更快的MEMM？，里边提到了 MEMM 的局部归一化和 CRF 的全局归一化的优劣。 同时，笔者联想到了 Seq2Seq 模型，因为 Seq2Seq 模型的典型训练方案 Teacher Forcing 就是一个局部归一化模型，所以它也存在着局部归一化所带来的毛病——也就是我们经常说的“Exposure">
+<meta name="keywords" content="NLP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Seq2Seq中Exposure Bias现象的浅析与对策">
+<meta property="og:url" content="http://yoursite.com/2021/07/05/Seq2Seq中Exposure-Bias现象的浅析与对策/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="Seq2Seq中Exposure Bias现象的浅析与对策前些天笔者写了CRF用过了，不妨再了解下更快的MEMM？，里边提到了 MEMM 的局部归一化和 CRF 的全局归一化的优劣。 同时，笔者联想到了 Seq2Seq 模型，因为 Seq2Seq 模型的典型训练方案 Teacher Forcing 就是一个局部归一化模型，所以它也存在着局部归一化所带来的毛病——也就是我们经常说的“Exposure">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/3zdSt9gLwn41GZa.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/l5dg34prCf8vzbB.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/9SyY3m6nARxGofN.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/KblSQv4UzCkoVW5.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/ae1MA82g9zBV6Lr.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/WlX9DUvHn1iYA62.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/ZOhswW8mGaSxIYc.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/J1pAQX28GScMPIB.png">
+<meta property="og:updated_time" content="2021-07-05T04:25:42.759Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Seq2Seq中Exposure Bias现象的浅析与对策">
+<meta name="twitter:description" content="Seq2Seq中Exposure Bias现象的浅析与对策前些天笔者写了CRF用过了，不妨再了解下更快的MEMM？，里边提到了 MEMM 的局部归一化和 CRF 的全局归一化的优劣。 同时，笔者联想到了 Seq2Seq 模型，因为 Seq2Seq 模型的典型训练方案 Teacher Forcing 就是一个局部归一化模型，所以它也存在着局部归一化所带来的毛病——也就是我们经常说的“Exposure">
+<meta name="twitter:image" content="https://i.loli.net/2021/07/05/3zdSt9gLwn41GZa.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/07/05/Seq2Seq中Exposure-Bias现象的浅析与对策/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Seq2Seq中Exposure Bias现象的浅析与对策 | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">46</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">46</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">261</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/05/Seq2Seq中Exposure-Bias现象的浅析与对策/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Seq2Seq中Exposure Bias现象的浅析与对策
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-07-05 11:53:43 / 修改时间：12:25:42" itemprop="dateCreated datePublished" datetime="2021-07-05T11:53:43+08:00">2021-07-05</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/07/05/Seq2Seq中Exposure-Bias现象的浅析与对策/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2021/07/05/Seq2Seq中Exposure-Bias现象的浅析与对策/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="Seq2Seq中Exposure-Bias现象的浅析与对策"><a href="#Seq2Seq中Exposure-Bias现象的浅析与对策" class="headerlink" title="Seq2Seq中Exposure Bias现象的浅析与对策"></a>Seq2Seq中Exposure Bias现象的浅析与对策</h2><p>前些天笔者写了<a href="https://mp.weixin.qq.com/s?__biz=MzIwMTc4ODE0Mw==&amp;mid=2247503481&amp;idx=1&amp;sn=f998484d31148762630e2fdc16af01aa&amp;chksm=96ea11f9a19d98ef4a4c29e7fd86c01a278888374bc5a5ae9bd208de41cdfe6e53b67a09e967&amp;token=748748465&amp;lang=zh_CN&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">CRF用过了，不妨再了解下更快的MEMM？</a>，里边提到了 MEMM 的局部归一化和 CRF 的全局归一化的优劣。</p>
+<p>同时，笔者联想到了 Seq2Seq 模型，因为 Seq2Seq 模型的典型训练方案 Teacher Forcing 就是一个局部归一化模型，所以它也存在着局部归一化所带来的毛病——也就是我们经常说的“Exposure Bias”。</p>
+<p>带着这个想法，笔者继续思考了一翻，将最后的思考结果记录在此文。</p>
+<p><img src="https://i.loli.net/2021/07/05/3zdSt9gLwn41GZa.png" alt="image-20210705121610582" style="zoom:50%;"></p>
+<p>▲ 经典的 Seq2Seq 模型图示</p>
+<p>本文算是一篇进阶文章，适合对Seq2Seq模型已经有一定的了解、希望进一步提升模型的理解或表现的读者。关于Seq2Seq的入门文章，可以阅读旧作<a href="https://mp.weixin.qq.com/s?__biz=MzIwMTc4ODE0Mw==&amp;mid=2247491314&amp;idx=1&amp;sn=3e22d4a6d732b0877fdc567d2bce1076&amp;chksm=96e9c172a19e48646005da05e143751aa9012c141dd1cf9846a2b418cbf854c7d343013105a1&amp;token=748748465&amp;lang=zh_CN&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">玩转Keras之seq2seq自动生成标题</a>和<a href="https://mp.weixin.qq.com/s?__biz=MzIwMTc4ODE0Mw==&amp;mid=2247499793&amp;idx=1&amp;sn=685c54d27186a89dcf32d91ce0927274&amp;chksm=96ea1f91a19d9687af5dbe751accc9c1ddd7392f6cf4294dc8a024751a64053cbcb8c60ef8f8&amp;token=748748465&amp;lang=zh_CN&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">从语言模型到Seq2Seq：Transformer如戏，全靠Mask。</a></p>
+<p>本文的内容大致为：</p>
+<ol>
+<li>Exposure Bias 的成因分析及例子；</li>
+<li>简单可行的缓解 Exposure Bias 问题的策略。</li>
+</ol>
+<h2 id="1-Softmax"><a href="#1-Softmax" class="headerlink" title="1. Softmax"></a>1. Softmax</h2><p>首先，我们来回顾 Softmax 相关内容。大家都知道，对于向量 $\left(x_{1}, x_{2}, \ldots, x_{n}\right)$, 它的 Softmax 为:<br>$<br>\left(p_{1}, p_{2}, \ldots, p_{n}\right)=\frac{1}{\sum_{i=1}^{n} e^{x_{i}}}\left(e^{x_{1}}, e^{x_{2}}, \ldots, e^{x_{n}}\right)<br>$<br>由于 $e^{t}$ 是关于 $t$ 的严格单调递增函数，所以如果 $x_{k}$ 是 $x_{1}, x_{2}, \ldots, x_{n}$ 中的最大者， 那么 $p_{k}$也是 $p_{1}, p_{2}, \ldots, p_{n}$ 中的最大者。<br>对于分类问题，我们所用的 Ioss 一般是交叉嫡，也就是：<br>$<br>-\log p_{t}=\log \left(\sum_{i=1}^{n} e^{x_{i}}\right)-x_{t}(2)<br>$<br>其中 $t$ 是目标类。如文章 《寻求一个光滑的最大值函数》[1] 所述，上式第一项实际上是$\max \left(x_{1}, x_{2}, \ldots, x_{n}\right)$ 的光滑近似，所以为了形象理解交叉嫡, 我们可以写出:<br>$<br>-\log p_{t} \approx \max \left(x_{1}, x_{2}, \ldots, x_{n}\right)-x_{t}<br>$<br>也就是说，交叉商实际上在缩小目标类得分 $x_{t}$ 与全局最大值的差距，显然这个差距最小只能为 0 ，并且此时目标类得分就是最大值者。所以， Softmax 加交叉嫡的效果就是“希望目标类的得分成为最大值”。</p>
+<h2 id="2-Teacher-Forcing"><a href="#2-Teacher-Forcing" class="headerlink" title="2. Teacher Forcing"></a>2. Teacher Forcing</h2><p>现在，我们来看 Seq2Seq，它通过条件分解来建模联合概率分布：</p>
+<p>$\begin{aligned} p(\boldsymbol{y} \mid \boldsymbol{x}) &amp;=p\left(y_{1}, y_{2}, \ldots, y_{n} \mid \boldsymbol{x}\right) \\ &amp;=p\left(y_{1} \mid \boldsymbol{x}\right) p\left(y_{2} \mid \boldsymbol{x}, y_{1}\right) \ldots p\left(y_{n} \mid \boldsymbol{x}, y_{1}, \ldots, y_{n-1}\right) \end{aligned}$</p>
+<p>每一项自然也就用 Softmax 来建模的，即：</p>
+<p>$p\left(y_{1} \mid \boldsymbol{x}\right)=\frac{e^{f\left(y_{1} ; \boldsymbol{x}\right)}}{\sum_{y_{1}} e^{f\left(y_{1} ; \boldsymbol{x}\right)}}$,<br>$p\left(y_{2} \mid \boldsymbol{x}, y_{1}\right)=\frac{e^{f\left(y_{1}, y_{2} ; \boldsymbol{x}\right)}}{\sum_{y_{2}} e^{f\left(y_{1}, y_{2} ; \boldsymbol{x}\right)}}$,<br>$\ldots$,<br>$p\left(y_{n} \mid \boldsymbol{x}, y_{1}, \ldots, y_{n-1}\right)=\frac{e^{f\left(y_{1}, y_{2}, \ldots, y_{n} ; \boldsymbol{x}\right)}}{\sum_{y_{n}} e^{f\left(y_{1}, y_{2}, \ldots, y_{n} ; \boldsymbol{x}\right)}}$</p>
+<p>乘起来就是：<br>$<br>p(\boldsymbol{y} \mid \boldsymbol{x})=\frac{e^{f\left(y_{1} ; \boldsymbol{x}\right)}}{\left(\sum_{y_{1}} e^{f\left(y_{1} ; \boldsymbol{x}\right)}\right)\left(\sum_{y} e^{f\left(y_{1}, y_{2} ; \boldsymbol{x}\right)}\right) \ldots\left(\sum_{y_{n}} e^{f\left(y_{1}, y_{2}, \ldots, y_{n} ; \boldsymbol{x}\right)}\right)}<br>$<br>而训练目标就是：<br>$-\log p(\boldsymbol{y} \mid \boldsymbol{x})=-\log p\left(y_{1} \mid \boldsymbol{x}\right)-\log p\left(y_{2} \mid \boldsymbol{x}, y_{1}\right)-\cdots-\log p\left(y_{n} \mid \boldsymbol{x}, y_{1}, \ldots, y_{n-1}\right)$这个直接的训练目标就叫做 Teacher Forcing, 因为在算 $-\log p\left(y_{2} \mid \boldsymbol{x}, y_{1}\right)$ 的时候我们要知道真实的 $y_{1}$, 在算 $-\log p\left(y_{3} \mid \boldsymbol{x}, y_{1}, y_{2}\right)$ 我们需要知道真实的 $y_{1}, y_{2}$, 依此类推， 这就好像有一个经验丰富的老师预先给我们铺好了大部分的路，让我们只需要求下一步即可。</p>
+<p>这个直接的训练目标就叫做 Teacher Forcing，因为在算 的时候我们要知道真实的 ，在算 我们需要知道真实的 ，依此类推，这就好像有一个经验丰富的老师预先给我们铺好了大部分的路，让我们只需要求下一步即可。</p>
+<p>这种方法训练起来简单，而且结合 CNN 或 Transformer 那样的模型就可以实现并行的训练，但它可能会带来 Exposure Bias 问题。</p>
+<h2 id="3-Exposure-Bias"><a href="#3-Exposure-Bias" class="headerlink" title="3. Exposure Bias"></a>3. Exposure Bias</h2><p>其实 Teacher Forcing 这个名称本身就意味着它本身会存在 Exposure Bias 问题。回想一下老师教学生解题的过程，一般的步骤为：</p>
+<ul>
+<li>第一步应该怎么思考；</li>
+<li>第一步想出来后，第二步我们有哪些选择；</li>
+<li>确定了第二步后，第三步我们可以怎么做；</li>
+<li>…</li>
+<li>有了这 n-1 步后，最后一步就不难想到了。</li>
+</ul>
+<p>这个过程其实跟 Seq2Seq 的 Teacher Forcing 方案的假设是一样的。有过教学经验的读者就知道，通常来说学生们都能听得频频点头，感觉全都懂了，然后让学生课后自己做题，多数还是一脸懵比。</p>
+<p>为什么会这样呢？其中一个原因就是 Exposure Bias。说白了，问题就在于，老师总是假设学生能想到前面若干步后，然后教学生下一步，但如果前面有一步想错了或者想不出来呢？这时候这个过程就无法进行下去了，也就是没法得到正确答案了，这就是 Exposure Bias 问题。</p>
+<h2 id="4-Beam-Search"><a href="#4-Beam-Search" class="headerlink" title="4. Beam Search"></a>4. Beam Search</h2><p>事实上，我们真正做题的时候并不总是这样子，假如我们卡在某步无法确定时，我们就遍历几种选择，然后继续推下去，看后面的结果反过来辅助我们确定前面无法确定的那步。对应到 Seq2Seq 来说，这其实就相当于基于 Beam Search 的解码过程。</p>
+<p>对于 Beam Search，我们应该能发现，beam size 并不是越大越好，有些情况甚至是 beam size 等于 1 时最好，这看起来有点不合理，因为 beam size 越大，理论上找到的序列就越接近最优序列，所以应该越有可能正确才对。事实上这也算是 Exposure Bias 的现象之一。</p>
+<p>从式（6）我们可以看出，Seq2Seq 对目标序列 的打分函数为：</p>
+<p>$f\left(y_{1} ; \boldsymbol{x}\right)+f\left(y_{1}, y_{2} ; \boldsymbol{x}\right)+\cdots+f\left(y_{1}, y_{2}, \ldots, y_{n} ; \boldsymbol{x}\right)$</p>
+<p>正常来说，我们希望目标序列是所有候选序列之中分数最高的，根据本文开头介绍的 Softmax 方法，我们建立的概率分布应该是：</p>
+<p>$p(\boldsymbol{y} \mid \boldsymbol{x})=\frac{e^{f\left(y_{1} ; \boldsymbol{x}\right)+f\left(y_{1}, y_{2} ; \boldsymbol{x}\right)+\cdots+f\left(y_{1}, y_{2}, \ldots, y_{n} ; \boldsymbol{x}\right)}}{\sum_{y_{1}, y_{2}, \ldots, y_{n}} e^{f\left(y_{1} ; \boldsymbol{x}\right)+f\left(y_{1}, y_{2} ; \boldsymbol{x}\right)+\cdots+f\left(y_{1}, y_{2}, \ldots, y_{n} ; \boldsymbol{x}\right)}}$</p>
+<p>但上式的分母需要遍历所有路径求和，难以实现，而式（6）就作为一种折衷的选择得到了广泛应用。但式（6）跟式（9）并不等价，因此哪怕模型已经成功优化，也可能出现“最优序列并不是目标序列”的现象。</p>
+<h2 id="5-简单例子"><a href="#5-简单例子" class="headerlink" title="5. 简单例子"></a>5. 简单例子</h2><p>我们来举一个简单例子。设序列长度只有 2，候选序列是 $(a, b)$ 和 $(c, d)$, 而目标序列是<br>$(a, b)$, 训练完成后，模型的概率分布情况为：</p>
+<p><img src="https://i.loli.net/2021/07/05/l5dg34prCf8vzbB.png" alt="image-20210705122243485" style="zoom:50%;"></p>
+<p>如果 beam size 为 1, 那么因为 $p(a)&gt;p(c)$, 所以第一步只能输出 $a$, 接着因为$p(b \mid a)&gt;p(d \mid a)$, 所以第二步只能输出 $b$, 成功输出了正确序列 $(a, b)$ 。但如果 beam size 为 2，那么第一步输出 $(a, 0.6),(c, 0.4)$, 而第二步遍历所有组合，我们得到：</p>
+<p><img src="https://i.loli.net/2021/07/05/9SyY3m6nARxGofN.png" alt="image-20210705122317192" style="zoom:50%;"></p>
+<p>所以输出了错误的序列 $(c,d)$。</p>
+<p>那是因为模型没训练好吗？并不是，前面说过 Softmax 加交叉商的目的就是让目标的得分最大，对于第一步我们有 $p(a)&gt;p(c)$, 所以第一步的训练目标已经达到了，而第二步在 $a$ 已经预先知道的前提下我们有 $p(b \mid a)&gt;p(d \mid a)$ ，这说明第二步的训练目标也达到了。</p>
+<p>因此，模型已经算是训练好了，只不过可能因为模型表达能力限制等原因，得分并没有特别高，但“让目标的得分最大”这个目标已经完成了。</p>
+<h2 id="6-思考对策"><a href="#6-思考对策" class="headerlink" title="6. 思考对策"></a>6. 思考对策</h2><p>从上述例子中读者或许可以看出问题所在了：主要是 $p(d \mid c)$ 太高了，而 $p(d \mid c)$ 是没有经过训练的，没有任何显式的机制去抑制 $p(d \mid c)$ 变大，因此就出现了“最优序列并不是目标序列”的现象。</p>
+<p>看到这里，读者可能就能想到一个朴素的对策了：添加额外的优化目标，降低那些Beam Search出来的非目标序列不就行了？</p>
+<p>事实上，这的确是一个有效的解决方法，相关结果发表在 2016 年的论文 <strong><em>Sequence-to-Sequence Learning as Beam-Search Optimization</em></strong> [2]。但这样一来几乎要求每步训练前的每个样本都要进行一次 Beam Search，计算成本太大。</p>
+<p>还有一些更新的结果，比如 ACL 2019 的最佳长论文 <strong><em>Bridging the Gap between Training and Inference for Neural Machine Translation\</em></strong> [3] 就是聚焦于解决 Exposure Bias 问题。此外，通过强化学习直接优化 BLEU 等方法，也能一定程度上缓解 Exposure Bias。</p>
+<p>然而，据笔者所了解，这些致力于解决 Exposure Bias 的方法，大部分都是大刀阔斧地改动了训练过程，甚至会牺牲原来模型的训练并行性（需要递归地采样负样本，如果模型本身是 RNN 那倒无妨，但如果本身是 CNN 或 Transformer，那伤害就很大了），成本的提升幅度比效果的提升幅度大得多。</p>
+<h2 id="7-构建负样本"><a href="#7-构建负样本" class="headerlink" title="7. 构建负样本"></a>7. 构建负样本</h2><p>纵观大部分解决 Exposure Bias 的论文，以及结合我们前面的例子和体会，不难想到，其主要思想就是构造有代表性的负样本，然后在训练过程中降低这些负样本的概率，所以问题就是如何构造“有代表性”的负样本了。</p>
+<p>这里给出笔者构思的一种简单策略，实验证明它能一定程度上缓解 Exposure Bias，提升文本生成的表现，重要的是，这种策略比较简单，基本能做到即插即用，几乎不损失训练性能。</p>
+<p>方法很简单，就是随机替换一下 Decoder 的输入词（Decoder 的输入词有个专门的名字，叫做 oracle words），如下图所示：</p>
+<p><img src="https://i.loli.net/2021/07/05/KblSQv4UzCkoVW5.png" alt="image-20210705121402164" style="zoom:50%;"></p>
+<p>▲ 一种缓解Exposure Bias的简单策略：直接将Decoder的部分输入词随机替换为别的词</p>
+<p>其中紫色的 [R] 代表被随机替换的词。其实不少 Exposure Bias 的论文也是这个思路，只不过随机选词的方案不一样。笔者提出的方案很简单：</p>
+<ol>
+<li><p>50% 的概率不做改变；</p>
+</li>
+<li><p>50% 的概率把输入序列中 30% 的词替换掉，替换对象为原目标序列的任意一个词。</p>
+</li>
+</ol>
+<p>也就是说，随机替换发生概率是 50%&gt;&gt;随机替换的比例是 30%，随机抽取空间就是目标序列的词集。</p>
+<p>这个策略的灵感在于：尽管 Seq2Seq 不一定能完全生成目标序列，但它通常能生成大部分目标序列的词（但顺序可能不对，或者重复出现同一些词），因此这样替换后的输入序列通常可以作为有代表性的负样本。对了，说明一下，50% 和 30% 这两个比例纯粹是拍脑袋的，没仔细调参，因为生成模型调一次实在是太累了。</p>
+<p>效果如何呢？笔者做了两个标题（摘要）生成的实验（就是 CLGE [4] 的前两个），其中 baseline 是 task_seq2seq_autotitle_csl.py [5]，代码开源于：</p>
+<p><a href="https://github.com/bojone/exposure_bias" target="_blank" rel="noopener">https://github.com/bojone/exposure_bias</a></p>
+<p>结果如下表：</p>
+<p><img src="https://i.loli.net/2021/07/05/ae1MA82g9zBV6Lr.png" alt="image-20210705121333189" style="zoom:50%;"></p>
+<p><img src="https://i.loli.net/2021/07/05/WlX9DUvHn1iYA62.png" alt="image-20210705121322078" style="zoom:50%;"></p>
+<p>可以发现，在 CSL 任务中，基于随机替换的策略稳定提升了文本生成的所有指标，而 LCSTS 任务的各个指标则各有优劣，考虑到 LCSTS 本身比较难，各项指标本来就低，所以应该说 CSL 的结果更有说服力一些。</p>
+<p>这表明，笔者提出的上述策略确实是一种值得尝试的方案（注：所有实验都重复了两次然后取平均，所以实验结果应该是比较可靠的了）。</p>
+<h2 id="8-对抗训练"><a href="#8-对抗训练" class="headerlink" title="8. 对抗训练"></a>8. 对抗训练</h2><p>思考到这里，我们不妨再“天马行空”一下：既然解决 Exposure Bias 的思路之一就是要构造有代表性的负样本输入，说白了就是让模型在扰动下依然能预测正确，而前些天我们不是才讨论了一种生成扰动样本的方法吗？</p>
+<p>不错，那就是<a href="https://mp.weixin.qq.com/s?__biz=MzIwMTc4ODE0Mw==&amp;mid=2247504686&amp;idx=2&amp;sn=087dc7e98ede7960b3baacb20d55ce40&amp;chksm=96ea0caea19d85b8dccc52f07763b82f4aaffda6dd4cbdd784e682f13de6a11c6ced5b8df96f&amp;token=748748465&amp;lang=zh_CN&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">对抗训练</a>。如果直接往 baseline 模型里边加入对抗训练，能不能提升模型的性能呢？简单起见，笔者做了往 baseline 模型里边梯度惩罚（也算是对抗训练的一种）的实验，结果对比如下：</p>
+<p><img src="https://i.loli.net/2021/07/05/ZOhswW8mGaSxIYc.png" alt="image-20210705121226535" style="zoom:50%;"></p>
+<p><img src="https://i.loli.net/2021/07/05/J1pAQX28GScMPIB.png" alt="image-20210705121209230" style="zoom:50%;"></p>
+<p>可以看到，对抗训练（梯度惩罚）进一步提升了 CSL 生成的所有指标，而 LCSTS 上则同样比较“随缘”。因此，对抗训练也可以列入“提升文本生成模型的潜力技巧”名单之中。</p>
+<h2 id="9-本文小结"><a href="#9-本文小结" class="headerlink" title="9. 本文小结"></a>9. 本文小结</h2><p>本文讨论了 Seq2Seq 中的 Exposure Bias 现象，尝试从直观上和理论上分析 Exposure Bias 的原因，并给出了简单可行的缓解 Exposure Bias 问题的对策。</p>
+<p>其中包括笔者构思的一种随机替换策略，以及基于对抗训练的策略，这两种策略的好处是它们几乎是即插即用的，并且实验表明它们能一定程度上提升文本生成的各个指标。</p>
+<p><strong>相关链接</strong></p>
+<p>[1] <a href="https://kexue.fm/archives/3290" target="_blank" rel="noopener">https://kexue.fm/archives/3290</a></p>
+<p>[2] <a href="https://arxiv.org/abs/1606.02960" target="_blank" rel="noopener">https://arxiv.org/abs/1606.02960</a></p>
+<p>[3] <a href="https://arxiv.org/abs/1906.02448" target="_blank" rel="noopener">https://arxiv.org/abs/1906.02448</a></p>
+<p>[4] <a href="https://github.com/CLUEbenchmark/CLGE" target="_blank" rel="noopener">https://github.com/CLUEbenchmark/CLGE</a></p>
+<p>[5] <a href="https://github.com/bojone/bert4keras/blob/master/examples/task_seq2seq_autotitle_csl.py" target="_blank" rel="noopener">https://github.com/bojone/bert4keras/blob/master/examples/task_seq2seq_autotitle_csl.py</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP/" rel="tag"># NLP</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/07/05/R-Drop-Regularized-Dropout-for-Neural-Networks/" rel="next" title="R-Drop: Regularized Dropout for Neural Networks">
+                <i class="fa fa-chevron-left"></i> R-Drop: Regularized Dropout for Neural Networks
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">261</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Seq2Seq中Exposure-Bias现象的浅析与对策"><span class="nav-number">1.</span> <span class="nav-text">Seq2Seq中Exposure Bias现象的浅析与对策</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Softmax"><span class="nav-number">2.</span> <span class="nav-text">1. Softmax</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Teacher-Forcing"><span class="nav-number">3.</span> <span class="nav-text">2. Teacher Forcing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Exposure-Bias"><span class="nav-number">4.</span> <span class="nav-text">3. Exposure Bias</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-Beam-Search"><span class="nav-number">5.</span> <span class="nav-text">4. Beam Search</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-简单例子"><span class="nav-number">6.</span> <span class="nav-text">5. 简单例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-思考对策"><span class="nav-number">7.</span> <span class="nav-text">6. 思考对策</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-构建负样本"><span class="nav-number">8.</span> <span class="nav-text">7. 构建负样本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-对抗训练"><span class="nav-number">9.</span> <span class="nav-text">8. 对抗训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#9-本文小结"><span class="nav-number">10.</span> <span class="nav-text">9. 本文小结</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 's22c7ikjlbMrGGRlCcDrqOjo-gzGzoHsz',
+      appKey: 'HnhoXmenrEs7Unb12AD7Sxgg',
+      placeholder: 'Just go go',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: false
+    });
+  </script>
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
