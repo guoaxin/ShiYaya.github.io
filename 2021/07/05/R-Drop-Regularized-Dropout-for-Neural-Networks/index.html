@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="来源：https://mp.weixin.qq.com/s/IvhGbFEMotpKJIUPExUklg 关注 NLP 新进展的读者，想必对四月份发布的 SimCSE [1] 印象颇深，它通过简单的“Dropout 两次”来构造正样本进行对比学习，达到了无监督语义相似度任务的全面 SOTA。无独有偶，最近的论文《R-Drop: Regularized Dropout for Neural Netw">
+<meta name="keywords" content="NLP, ML">
+<meta property="og:type" content="article">
+<meta property="og:title" content="R-Drop: Regularized Dropout for Neural Networks">
+<meta property="og:url" content="http://yoursite.com/2021/07/05/R-Drop-Regularized-Dropout-for-Neural-Networks/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="来源：https://mp.weixin.qq.com/s/IvhGbFEMotpKJIUPExUklg 关注 NLP 新进展的读者，想必对四月份发布的 SimCSE [1] 印象颇深，它通过简单的“Dropout 两次”来构造正样本进行对比学习，达到了无监督语义相似度任务的全面 SOTA。无独有偶，最近的论文《R-Drop: Regularized Dropout for Neural Netw">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/fCjDeTwZyztI3s6.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/Z8UKsXLWCAyp3dO.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/PkRl8QUn2uC1W5j.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/Ff3U5wNhAv9kEjz.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/tVo7znGCKvUDN5m.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/gm1UzqLS9pB5KIy.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/6WdlENPmujJQh8y.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/epuUgz8yJSC6jxY.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/05/UT8bI3qG54D19wt.png">
+<meta property="og:updated_time" content="2021-07-05T03:31:36.342Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="R-Drop: Regularized Dropout for Neural Networks">
+<meta name="twitter:description" content="来源：https://mp.weixin.qq.com/s/IvhGbFEMotpKJIUPExUklg 关注 NLP 新进展的读者，想必对四月份发布的 SimCSE [1] 印象颇深，它通过简单的“Dropout 两次”来构造正样本进行对比学习，达到了无监督语义相似度任务的全面 SOTA。无独有偶，最近的论文《R-Drop: Regularized Dropout for Neural Netw">
+<meta name="twitter:image" content="https://i.loli.net/2021/07/05/fCjDeTwZyztI3s6.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/07/05/R-Drop-Regularized-Dropout-for-Neural-Networks/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>R-Drop: Regularized Dropout for Neural Networks | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">46</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">46</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">260</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/05/R-Drop-Regularized-Dropout-for-Neural-Networks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">R-Drop: Regularized Dropout for Neural Networks
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-07-05 11:14:14 / 修改时间：11:31:36" itemprop="dateCreated datePublished" datetime="2021-07-05T11:14:14+08:00">2021-07-05</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/NLP-ML/" itemprop="url" rel="index"><span itemprop="name">NLP, ML</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/07/05/R-Drop-Regularized-Dropout-for-Neural-Networks/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2021/07/05/R-Drop-Regularized-Dropout-for-Neural-Networks/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>来源：<a href="https://mp.weixin.qq.com/s/IvhGbFEMotpKJIUPExUklg" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/IvhGbFEMotpKJIUPExUklg</a></p>
+<p>关注 NLP 新进展的读者，想必对四月份发布的 SimCSE [1] 印象颇深，它通过简单的“Dropout 两次”来构造正样本进行对比学习，达到了无监督语义相似度任务的全面 SOTA。无独有偶，最近的论文《R-Drop: Regularized Dropout for Neural Networks》提出了 R-Drop，它将“Dropout两次”的思想用到了有监督任务中，每个实验结果几乎都取得了明显的提升。此外，笔者在自己的实验还发现，它在半监督任务上也能有不俗的表现。</p>
+<p>小小的“Dropout两次”，居然跑出了“五项全能”的感觉，不得不令人惊讶。本文来介绍一下 R-Drop，并分享一下笔者对它背后原理的思考。</p>
+<p><img src="https://i.loli.net/2021/07/05/fCjDeTwZyztI3s6.png" alt="image-20210705111612040" style="zoom:50%;"></p>
+<p><strong>论文标题：</strong>R-Drop: Regularized Dropout for Neural Networks</p>
+<p><strong>论文链接：</strong><a href="https://arxiv.org/abs/2106.14448" target="_blank" rel="noopener">https://arxiv.org/abs/2106.14448</a></p>
+<p><strong>代码链接：</strong><a href="https://github.com/dropreg/R-Drop" target="_blank" rel="noopener">https://github.com/dropreg/R-Drop</a></p>
+<h2 id="1-SimCSE"><a href="#1-SimCSE" class="headerlink" title="1. SimCSE"></a>1. SimCSE</h2><p>《中文任务还是 SOTA 吗？我们给 SimCSE 补充了一些实验》[1] 中，我们已经对 SimCSE 进行了介绍。简单来说，SimCSE 是 NLP 的一种对比学习方案，对比学习的标准流程是同一个样本通过不同的数据扩增手段得到的结果视为正样本对，而 batch 内的所有其他样本视为负样本，然后就是通过 loss 来缩小正样本的距离、拉大负样本的距离了。</p>
+<p>所以难度主要集中在数据扩增手段上。对于 NLP 来说，我们很难人工构建保证语义不变的数据扩增，所以 SimCSE 干脆不人工进行数据扩增，而是通过“Dropout 两次”的方式来得到同一个输入的不同特征向量，并将它们视为正样本对。奇怪的是，这个简单的“Dropout 两次”构造正样本，看上去是一种“无可奈何”的妥协选择，但消融实验却发现它几乎优于所有其他数据扩增方法，令人惊讶之余又让人感叹“大道至简”。</p>
+<p><img src="https://i.loli.net/2021/07/05/Z8UKsXLWCAyp3dO.png" alt="image-20210705112154737" style="zoom:50%;"></p>
+<p>在实现上，SimCSE 也相当简单，所谓“Dropout 两次”，只需要将样本重复地输入到模型，然后计算相应的 loss 就行了，如上图所示。由于 Dropout 本身的随机性，每个样本的 Dropout 模式都是不一样的，所以只要单纯地重复样本，就可以实现“Dropout 两次”的效果。</p>
+<h2 id="2-R-Drop"><a href="#2-R-Drop" class="headerlink" title="2. R-Drop"></a>2. R-Drop</h2><p>从结果上来看，SimCSE 就是希望 Dropout对模型结果不会有太大影响，也就是模型输出对 Dropout 是鲁棒的。所以很明显，“Dropout 两次”这种思想是可以推广到一般任务的，这就是 R-Drop（Regularized Dropout）。</p>
+<h3 id="2-1-分类问题"><a href="#2-1-分类问题" class="headerlink" title="2.1 分类问题"></a>2.1 分类问题</h3><p>在笔者看来，R-Drop 跟 SimCSE 是高度相关的，甚至 R-Drop 应该是受到了 SimCSE 启发的，不过 R-Drop 论文并没有引用 SimCSE，所以这就比较迷了。</p>
+<p><img src="https://i.loli.net/2021/07/05/PkRl8QUn2uC1W5j.png" alt="image-20210705112225164" style="zoom: 80%;"></p>
+<p>具体来说，以分类问题为例，训练数据为 ，模型为 ，每个样本的 loss 一般是交叉熵：</p>
+<p>$\mathcal{L}_{i}=-\log P_{\theta}\left(y_{i} \mid x_{i}\right)$</p>
+<p>在“Dropout 两次”的情况下，其实我们可以认为样本已经通过了两个略有不同的模型，我们分别记为 和 。这时候 R-Drop 的 loss 分为两部分，一部分是常规的交叉熵：</p>
+<p>$\mathcal{L}_{i}^{(C E)}=-\log P_{\theta}^{(1)}\left(y_{i} \mid x_{i}\right)-\log P_{\theta}^{(2)}\left(y_{i} \mid x_{i}\right)$</p>
+<p>另一部分则是两个模型之间的对称 KL 散度，它希望不同 Dropout 的模型输出尽可能一致：</p>
+<p>$\mathcal{L}_{i}^{(K L)}=\frac{1}{2}\left[K L\left(P_{\theta}^{(2)}\left(y \mid x_{i}\right) | P_{\theta}^{(1)}\left(y \mid x_{i}\right)\right)+K L\left(P_{\theta}^{(1)}\left(y \mid x_{i}\right) | P_{\theta}^{(2)}\left(y \mid x_{i}\right)\right)\right]$</p>
+<p>最终 loss 就是两个 loss 的加权和：</p>
+<p>$\mathcal{L}_{i}=\mathcal{L}_{i}^{(C E)}+\alpha \mathcal{L}_{i}^{(K L)}$</p>
+<p>也就是说，它在常规交叉熵的基础上，加了一项强化模型鲁棒性正则项。</p>
+<h3 id="2-2-一般形式"><a href="#2-2-一般形式" class="headerlink" title="2.2 一般形式"></a>2.2 一般形式</h3><p>可能有些读者会问非分类问题应该将 KL 项替换为什么，事实上原论文并没有在非分类问题上进行实验，不过这里可以补充一下。我们可以留意到：</p>
+<p>$-\log P_{\theta}\left(y_{i} \mid x_{i}\right)=K L\left(\right.$ one_hot $\left.\left(y_{i}\right) | P_{\theta}\left(y \mid x_{i}\right)\right)$</p>
+<p>所以，上述 只不过是 KL 散度的反复使用，它的一般形式是：</p>
+<p>$\mathcal{L}_{i}=\mathcal{D}\left(y_{i}, f_{\theta}^{(1)}\left(x_{i}\right)\right)+\mathcal{D}\left(y_{i}, f_{\theta}^{(2)}\left(x_{i}\right)\right)+\frac{\alpha}{2}\left[\mathcal{D}\left(f_{\theta}^{(2)}\left(x_{i}\right), f_{\theta}^{(1)}\left(x_{i}\right)\right)+\mathcal{D}\left(f_{\theta}^{(1)}\left(x_{i}\right), f_{\theta}^{(2)}\left(x_{i}\right)\right)\right]$</p>
+<p>因此对于非分类问题，我们将 换成适当的度量（而不是 KL 散度）即可。</p>
+<h2 id="3-实验效果"><a href="#3-实验效果" class="headerlink" title="3. 实验效果"></a>3. 实验效果</h2><p>我们先来看看 R-Drop 的实验结果。</p>
+<p>R-Drop 的主要超参有三个：batch_size、 和 Dropout 概率。batch_size 一 般取决于我们的算力，对个人来说调整空间不大；原论文的 从 都有，笔者自己的实验中，则取了 ，也没细调。至于 Dropout的概率，跟笔者在《中文任务还是 SOTA 吗？我们给 SimCSE  补充了一些实验》[1] 所选的一样，设为 0.3 效果比较好。</p>
+<h3 id="3-1-论文报告"><a href="#3-1-论文报告" class="headerlink" title="3.1 论文报告"></a>3.1 论文报告</h3><p>说实话，原论文所报告的 R-Drop 的效果是相当让人惊艳的，这也是笔者不得不要介绍一波 R-Drop 的主要原因。原论文在 NLU、NLG、CV 的分类等多种任务上都对 R-Drop 做了对比实验，大部分实验效果都称得上“明显提升”。</p>
+<p>官方实现：<a href="https://github.com/dropreg/R-Drop" target="_blank" rel="noopener">https://github.com/dropreg/R-Drop</a></p>
+<p>下面截图一部分实验结果：</p>
+<p><img src="https://i.loli.net/2021/07/05/Ff3U5wNhAv9kEjz.png" alt="image-20210705112718166" style="zoom:50%;"></p>
+<p>▲ R-Drop在机器翻译任务上的效果</p>
+<p><img src="https://i.loli.net/2021/07/05/tVo7znGCKvUDN5m.png" alt="image-20210705112750407" style="zoom: 50%;"></p>
+<p>▲ R-Drop在GLUE任务上的效果</p>
+<p>特别地，在机器翻译任务上，简单的“Transformer + R-Drop”超过了其他更加复杂方法的效果：</p>
+<p><img src="https://i.loli.net/2021/07/05/gm1UzqLS9pB5KIy.png" alt="image-20210705112819739" style="zoom: 50%;"></p>
+<p>▲ 机器翻译任务上不同方法的对比</p>
+<p>论文还包括自动摘要、语言模型、图像分类等实验，以及关于超参数的一些消融实验，大家仔细看原论文就好。总的来说，R-Drop 的这份“成绩单”，确实足以让人为之点赞了。</p>
+<h3 id="3-2-个人尝试"><a href="#3-2-个人尝试" class="headerlink" title="3.2 个人尝试"></a>3.2 个人尝试</h3><p>当然，笔者坚持的观点是“没有在中文测试过的模型是没有灵魂的”，一般情况下笔者都是在中文任务上亲自尝试过之后，才会写作分享。</p>
+<p>个人实现：<a href="https://github.com/bojone/r-drop" target="_blank" rel="noopener">https://github.com/bojone/r-drop</a></p>
+<p>有中文监督任务上，笔者实验了两个文本分类任务（CLUE 榜单的 IFLYTEK 和 TNEWS）。</p>
+<p><img src="https://i.loli.net/2021/07/05/6WdlENPmujJQh8y.png" alt="image-20210705112907796" style="zoom:50%;"></p>
+<p>和一个文本生成任务（CSL 标题生成，参考 <a href="https://mp.weixin.qq.com/s?__biz=MzIwMTc4ODE0Mw==&amp;mid=2247504805&amp;idx=2&amp;sn=e0e149112e3318bf65d309e32db356b2&amp;chksm=96ea0c25a19d8533ec3d623547b415a58072b353037ac4cd95c68d9dc67f6eb48370684dc6dd&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">Seq2Seq 中 Exposure Bias 现象的浅析与对策</a>）：</p>
+<p><img src="https://i.loli.net/2021/07/05/epuUgz8yJSC6jxY.png" alt="image-20210705112924382" style="zoom:50%;"></p>
+<p>可以看到，R-Drop 的结果足以 PK 在<a href="https://mp.weixin.qq.com/s?__biz=MzIwMTc4ODE0Mw==&amp;mid=2247504686&amp;idx=2&amp;sn=087dc7e98ede7960b3baacb20d55ce40&amp;chksm=96ea0caea19d85b8dccc52f07763b82f4aaffda6dd4cbdd784e682f13de6a11c6ced5b8df96f&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">对抗训练浅谈：意义、方法和思考（附Keras 实现</a>）中介绍的著名正则化手段“对抗训练”和“梯度惩罚”了。</p>
+<h3 id="3-3-实现要点"><a href="#3-3-实现要点" class="headerlink" title="3.3 实现要点"></a>3.3 实现要点</h3><p>相比于对抗学习等复杂正则化方法，R-Drop 的实现难度可谓是相当低了，这里以 bert4keras 为例，简单介绍一下如何将一个普通的训练脚本改为带 Dropout 的模式。</p>
+<p>首先，是数据生成部分，改动如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">data_generator</span><span class="params">(DataGenerator)</span>:</span></span><br><span class="line">    <span class="string">"""数据生成器</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self, random=False)</span>:</span></span><br><span class="line">        batch_token_ids, batch_segment_ids, batch_labels = [], [], []</span><br><span class="line">        <span class="keyword">for</span> is_end, (text, label) <span class="keyword">in</span> self.sample(random):</span><br><span class="line">            token_ids, segment_ids = tokenizer.encode(text, maxlen=maxlen)</span><br><span class="line">            <span class="comment"># batch_token_ids.append(token_ids)</span></span><br><span class="line">            <span class="comment"># batch_segment_ids.append(segment_ids)</span></span><br><span class="line">            <span class="comment"># batch_labels.append([label])</span></span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>):</span><br><span class="line">                batch_token_ids.append(token_ids)</span><br><span class="line">                batch_segment_ids.append(segment_ids)</span><br><span class="line">                batch_labels.append([label])</span><br><span class="line">            <span class="comment"># if len(batch_token_ids) == self.batch_size or is_end:</span></span><br><span class="line">            <span class="keyword">if</span> len(batch_token_ids) == self.batch_size * <span class="number">2</span> <span class="keyword">or</span> is_end:</span><br><span class="line">                batch_token_ids = sequence_padding(batch_token_ids)</span><br><span class="line">                batch_segment_ids = sequence_padding(batch_segment_ids)</span><br><span class="line">                batch_labels = sequence_padding(batch_labels)</span><br><span class="line">                <span class="keyword">yield</span> [batch_token_ids, batch_segment_ids], batch_labels</span><br><span class="line">                batch_token_ids, batch_segment_ids, batch_labels = [], [], []</span><br></pre></td></tr></table></figure>
+<p>然后，自定义一个新 loss：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras.losses <span class="keyword">import</span> kullback_leibler_divergence <span class="keyword">as</span> kld</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">categorical_crossentropy_with_rdrop</span><span class="params">(y_true, y_pred)</span>:</span></span><br><span class="line">    <span class="string">"""配合上述生成器的R-Drop Loss</span></span><br><span class="line"><span class="string">    其实loss_kl的除以4，是为了在数量上对齐公式描述结果。</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    loss_ce = K.categorical_crossentropy(y_true, y_pred)  <span class="comment"># 原来的loss</span></span><br><span class="line">    loss_kl = kld(y_pred[::<span class="number">2</span>], y_pred[<span class="number">1</span>::<span class="number">2</span>]) + kld(y_pred[<span class="number">1</span>::<span class="number">2</span>], y_pred[::<span class="number">2</span>])</span><br><span class="line">    <span class="keyword">return</span> K.mean(loss_ce) + K.mean(loss_kl) / <span class="number">4</span> * alpha</span><br></pre></td></tr></table></figure>
+<p>最后把模型的 Dropout 打开，并用这个 data_generator 和 categorical_crossentropy_with_rdrop 来训练模型就行了。</p>
+<h2 id="4-个人理解"><a href="#4-个人理解" class="headerlink" title="4. 个人理解"></a>4. 个人理解</h2><p>看完了让人赏心悦目的实验结果后，我们来啃一下理论。原论文提供了对 R-Drop 的一个理论分析，大致意思是 R-Drop 会促进参数的同化，从而起到正则化作用。不过个人感觉这个解释并不直观，而且还不够本质。下面笔者试图提供 R-Drop 的另外几个角度的理解。</p>
+<h3 id="4-1-一致性"><a href="#4-1-一致性" class="headerlink" title="4.1 一致性"></a>4.1 一致性</h3><p>R-Dropout 可以看成是 Dropout 的改进，那 Dropout 有什么问题呢？其实 Dropout 是典型的训练和预测不一致的方法。具体来说，Dropout 在训练阶段往（某些层的）输入加上了乘性噪声，使得模型从 变成了 ，其中 的每个元素有 p 的概率为 0，剩下 1-p 的概率为 1/(1-p)，训练目标就是：</p>
+<p>$\mathbb{E}_{(x, y) \sim \mathcal{D}} \mathbb{E}_{\varepsilon}\left[l\left(y, f_{\theta}(x, \varepsilon)\right)\right]$</p>
+<p>这样训练之后，我们应该用哪个模型预测最好呢？不确定，但如果损失函数是 距离的话，那么我们可以推出最佳预测模型应该是：</p>
+<p>$\mathbb{E}_{\varepsilon}\left[f_{\theta}(x, \varepsilon)\right]$</p>
+<p><strong>推导：</strong>如果用 损失，此时单个样本的损失是：</p>
+<p>$\mathbb{E}_{\varepsilon}\left[\left|y-f_{\theta}(x, \varepsilon)\right|^{2}\right]=|y|^{2}-2\left\langle y, \mathbb{E}_{\varepsilon}\left[f_{\theta}(x, \varepsilon)\right]\right\rangle+\mathbb{E}_{\varepsilon}\left[\left|f_{\theta}(x, \varepsilon)\right|^{2}\right]$</p>
+<p>注意，现在我们的问题是“模型训练完后应该用什么函数来预测”，所以 是常数，y 才是要优化的变量，这只不过是一个二次函数的最小值问题，容易解得 时损失函数最小。</p>
+<p>我们假定这个结果能泛化到一般情况。上式告诉我们，带 Dropout 的模型的正确步骤是“模型融合”：</p>
+<p>对同一个输入多次传入模型中（模型不关闭 Dropout），然后把多次的预测结果平均值作为最终的预测结果。</p>
+<p>但我们一般情况下的预测方式显然不是这样的，而是直接关闭 Dropout 进行确定性的预测，这等价于预测模型由“模型平均”变成了“权重平均”：</p>
+<p>$f_{\theta}\left(x, \mathbb{E}_{\varepsilon}[\varepsilon]\right)=f_{\theta}(x, 1)=f_{\theta}(x)$</p>
+<p>这里的 1 指的是全 1 向量。所以，我们训练的是不同 Dropout 的融合模型，预测的时候用的是关闭 Dropout 的单模型，两者未必等价，这就是 Dropout 的训练预测不一致问题。</p>
+<p>现在，我们就不难理解 R-Drop 了，它通过增加一个正则项，来强化模型对 Dropout 的鲁棒性，使得不同的 Dropout 下模型的输出基本一致，因此能降低这种不一致性，促进“模型平均”与“权重平均”的相似性，从而使得简单关闭 Dropout 的效果等价于多 Dropout 模型融合的结果，提升模型最终性能。</p>
+<h3 id="4-2-连续性"><a href="#4-2-连续性" class="headerlink" title="4.2 连续性"></a>4.2 连续性</h3><p>本文开头就提到 R-Drop 与 SimCSE 的相似性，事实上它还跟另外一个方法相当相似，那便是“虚拟对抗训练（Virtual Adversarial Training，VAT）”。（不过 R-Drop 也没引 VAT，难道就只有笔者觉得像吗？？）</p>
+<p>关于 VAT 的介绍，大家可以参考笔者之前的文章<a href="https://mp.weixin.qq.com/s?__biz=MzIwMTc4ODE0Mw==&amp;mid=2247507771&amp;idx=1&amp;sn=b92559c624c7c58e77a11c89bec5e99a&amp;chksm=96ea00bba19d89adb05dd98193e7371d43f090fcaf6be401e01c0109beee7920e84cb13274c9&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">泛化性乱弹：从随机噪声、梯度惩罚到虚拟对抗训练</a>。简单来说，VAT 也是通过一个正则项，使得模型对扰动更加鲁棒，增强模型本身的连续性（小的变化不至于对结果产生大的影响）。它们不同的地方在于加扰动的方式，VAT 只把扰动加入到输入中，并且通过对抗的思想提升扰动的针对性；R-Drop 的扰动则可以施加到模型的每一层中，并且扰动是随机的。</p>
+<p>有读者可能想到了，VAT 可是主打半监督训练的，那是不是意味着 R-Drop 也可以做半监督训练？这部分原论文并没有实验，是笔者自己做的实验，答案是确实可以，跟 VAT 类似，R-Drop 新增的 KL 散度项是不需要标签的，因此可以无监督训练，混合起来就是半监督了，效果也还不错。下面是笔者的实验结果：</p>
+<p><img src="https://i.loli.net/2021/07/05/UT8bI3qG54D19wt.png" alt="image-20210705113103693" style="zoom:50%;"></p>
+<p>可以看到，R-Drop 的半监督效果完全不逊色于 VAT，而且它实现比 VAT 简单，速度也比 VAT 快！看来 VAT 有望退休了～ 直觉上来看，虽然 R-Drop 的扰动是随机的，但是 R-Drop 的扰动更多，所以它造成的扰动也会放大，也可能比得上 VAT 经过对抗优化的扰动，所以 R-Drop 能够不逊色于 VAT。</p>
+<h3 id="4-3-非目标类"><a href="#4-3-非目标类" class="headerlink" title="4.3 非目标类"></a>4.3 非目标类</h3><p>一个比较直接的疑问是，如果我的模型够复杂，单靠交叉熵这一项，不能使得模型对 Dropout 鲁棒吗？KL 散度那一项造成了什么直接的区别？</p>
+<p>事实上，还真的不能。要注意的是，交叉熵的训练目标主要是：让目标类的得分大于非目标类的得分，这样模型就能正确地把目标类预测出来了（参考<a href="https://mp.weixin.qq.com/s?__biz=MzIwMTc4ODE0Mw==&amp;mid=2247505145&amp;idx=1&amp;sn=42467a5475b64d3031a46594261600d2&amp;chksm=96ea0b79a19d826fb7e040968bbe928daf528d38e63d916b05cbc60a5d350755e619abc2aff8&amp;scene=21#wechat_redirect" target="_blank" rel="noopener">将“softmax+交叉熵”推广到多标签分类问题</a>）。也就是说，如果只有交叉熵这一项，模型的训练结果顶多是：</p>
+<blockquote>
+<p>不同的 Dropout 下，目标类的得分都大于非目标类的得分。</p>
+</blockquote>
+<p>而不能做到：</p>
+<blockquote>
+<p>不同的 Dropout 下，每个类的得分一致。</p>
+</blockquote>
+<p>所以也就没有解决训练预测不一致的问题。从公式上来看，交叉熵（2）只跟目标类别有关，不关心非目标类的分布，假如目标类为第一个类别，那么预测结果是 [0.5, 0.2, 0.3] 或 [0.5, 0.3, 0.2]，对它来说都没区别。但对于 KL 散度项（3）来说就不一样了，每个类的得分都要参与计算，[0.5, 0.2, 0.3] 或 [0.5, 0.3, 0.2] 是有非零损失的。</p>
+<h2 id="5-本文小结"><a href="#5-本文小结" class="headerlink" title="5. 本文小结"></a>5. 本文小结</h2><p>本文介绍了 R-Drop，它将“Dropout 两次”的思想用到了有监督任务中，每个实验结果几乎都取得了明显的提升。此外，笔者在自己的实验还发现，它在半监督任务上也能有不俗的表现。最后，分享了笔者对 R-Drop 的三个角度的思考。</p>
+<h2 id="6-参考文献"><a href="#6-参考文献" class="headerlink" title="6. 参考文献"></a>6. 参考文献</h2><p>[1] <a href="https://kexue.fm/archives/8348" target="_blank" rel="noopener">https://kexue.fm/archives/8348</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NLP-ML/" rel="tag"># NLP, ML</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/07/03/Unifying-Vision-and-Language-Tasks-via-Text-Generation/" rel="next" title="Unifying Vision-and-Language Tasks via Text Generation">
+                <i class="fa fa-chevron-left"></i> Unifying Vision-and-Language Tasks via Text Generation
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">260</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-SimCSE"><span class="nav-number">1.</span> <span class="nav-text">1. SimCSE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-R-Drop"><span class="nav-number">2.</span> <span class="nav-text">2. R-Drop</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-分类问题"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 分类问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-一般形式"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 一般形式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-实验效果"><span class="nav-number">3.</span> <span class="nav-text">3. 实验效果</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-论文报告"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 论文报告</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-个人尝试"><span class="nav-number">3.2.</span> <span class="nav-text">3.2 个人尝试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-实现要点"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 实现要点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-个人理解"><span class="nav-number">4.</span> <span class="nav-text">4. 个人理解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-一致性"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-连续性"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 连续性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-非目标类"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 非目标类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-本文小结"><span class="nav-number">5.</span> <span class="nav-text">5. 本文小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-参考文献"><span class="nav-number">6.</span> <span class="nav-text">6. 参考文献</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 's22c7ikjlbMrGGRlCcDrqOjo-gzGzoHsz',
+      appKey: 'HnhoXmenrEs7Unb12AD7Sxgg',
+      placeholder: 'Just go go',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: false
+    });
+  </script>
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
