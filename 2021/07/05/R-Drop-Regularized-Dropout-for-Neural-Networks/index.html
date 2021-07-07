@@ -114,7 +114,7 @@
 <meta property="og:image" content="https://i.loli.net/2021/07/05/6WdlENPmujJQh8y.png">
 <meta property="og:image" content="https://i.loli.net/2021/07/05/epuUgz8yJSC6jxY.png">
 <meta property="og:image" content="https://i.loli.net/2021/07/05/UT8bI3qG54D19wt.png">
-<meta property="og:updated_time" content="2021-07-05T03:31:36.342Z">
+<meta property="og:updated_time" content="2021-07-07T02:51:35.584Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="R-Drop: Regularized Dropout for Neural Networks">
 <meta name="twitter:description" content="来源：https://mp.weixin.qq.com/s/IvhGbFEMotpKJIUPExUklg 关注 NLP 新进展的读者，想必对四月份发布的 SimCSE [1] 印象颇深，它通过简单的“Dropout 两次”来构造正样本进行对比学习，达到了无监督语义相似度任务的全面 SOTA。无独有偶，最近的论文《R-Drop: Regularized Dropout for Neural Netw">
@@ -433,12 +433,24 @@
                 
               
 
-              <time title="创建时间：2021-07-05 11:14:14 / 修改时间：11:31:36" itemprop="dateCreated datePublished" datetime="2021-07-05T11:14:14+08:00">2021-07-05</time>
+              <time title="创建时间：2021-07-05 11:14:14" itemprop="dateCreated datePublished" datetime="2021-07-05T11:14:14+08:00">2021-07-05</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-07-07 10:51:35" itemprop="dateModified" datetime="2021-07-07T10:51:35+08:00">2021-07-07</time>
               
             
           </span>
@@ -535,7 +547,7 @@
 <p>$\mathcal{L}_{i}=\mathcal{D}\left(y_{i}, f_{\theta}^{(1)}\left(x_{i}\right)\right)+\mathcal{D}\left(y_{i}, f_{\theta}^{(2)}\left(x_{i}\right)\right)+\frac{\alpha}{2}\left[\mathcal{D}\left(f_{\theta}^{(2)}\left(x_{i}\right), f_{\theta}^{(1)}\left(x_{i}\right)\right)+\mathcal{D}\left(f_{\theta}^{(1)}\left(x_{i}\right), f_{\theta}^{(2)}\left(x_{i}\right)\right)\right]$</p>
 <p>因此对于非分类问题，我们将 换成适当的度量（而不是 KL 散度）即可。</p>
 <h2 id="3-实验效果"><a href="#3-实验效果" class="headerlink" title="3. 实验效果"></a>3. 实验效果</h2><p>我们先来看看 R-Drop 的实验结果。</p>
-<p>R-Drop 的主要超参有三个：batch_size、 和 Dropout 概率。batch_size 一 般取决于我们的算力，对个人来说调整空间不大；原论文的 从 都有，笔者自己的实验中，则取了 ，也没细调。至于 Dropout的概率，跟笔者在《中文任务还是 SOTA 吗？我们给 SimCSE  补充了一些实验》[1] 所选的一样，设为 0.3 效果比较好。</p>
+<p>R-Drop 的主要超参有三个：batch_size, $\alpha$ 和 Dropout 概率。batch_size 一 般取决于我们的算力，对个人来说调整空间不大; 原论文的 $\alpha$ 从 $1 \sim 5$ 都有，笔者自己的实验中，则取了 $\alpha=4$, 也没细调。至于 Dropout的概率，跟笔者在《中文任务还是 SOTA 吗？ 我们给 $\operatorname{SimCSE}$ 补充了一些实验》 [1] 所选的一样，设为 $0.3$ 效果比较好。</p>
 <h3 id="3-1-论文报告"><a href="#3-1-论文报告" class="headerlink" title="3.1 论文报告"></a>3.1 论文报告</h3><p>说实话，原论文所报告的 R-Drop 的效果是相当让人惊艳的，这也是笔者不得不要介绍一波 R-Drop 的主要原因。原论文在 NLU、NLG、CV 的分类等多种任务上都对 R-Drop 做了对比实验，大部分实验效果都称得上“明显提升”。</p>
 <p>官方实现：<a href="https://github.com/dropreg/R-Drop" target="_blank" rel="noopener">https://github.com/dropreg/R-Drop</a></p>
 <p>下面截图一部分实验结果：</p>
@@ -561,13 +573,13 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras.losses <span class="keyword">import</span> kullback_leibler_divergence <span class="keyword">as</span> kld</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">categorical_crossentropy_with_rdrop</span><span class="params">(y_true, y_pred)</span>:</span></span><br><span class="line">    <span class="string">"""配合上述生成器的R-Drop Loss</span></span><br><span class="line"><span class="string">    其实loss_kl的除以4，是为了在数量上对齐公式描述结果。</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    loss_ce = K.categorical_crossentropy(y_true, y_pred)  <span class="comment"># 原来的loss</span></span><br><span class="line">    loss_kl = kld(y_pred[::<span class="number">2</span>], y_pred[<span class="number">1</span>::<span class="number">2</span>]) + kld(y_pred[<span class="number">1</span>::<span class="number">2</span>], y_pred[::<span class="number">2</span>])</span><br><span class="line">    <span class="keyword">return</span> K.mean(loss_ce) + K.mean(loss_kl) / <span class="number">4</span> * alpha</span><br></pre></td></tr></table></figure>
 <p>最后把模型的 Dropout 打开，并用这个 data_generator 和 categorical_crossentropy_with_rdrop 来训练模型就行了。</p>
 <h2 id="4-个人理解"><a href="#4-个人理解" class="headerlink" title="4. 个人理解"></a>4. 个人理解</h2><p>看完了让人赏心悦目的实验结果后，我们来啃一下理论。原论文提供了对 R-Drop 的一个理论分析，大致意思是 R-Drop 会促进参数的同化，从而起到正则化作用。不过个人感觉这个解释并不直观，而且还不够本质。下面笔者试图提供 R-Drop 的另外几个角度的理解。</p>
-<h3 id="4-1-一致性"><a href="#4-1-一致性" class="headerlink" title="4.1 一致性"></a>4.1 一致性</h3><p>R-Dropout 可以看成是 Dropout 的改进，那 Dropout 有什么问题呢？其实 Dropout 是典型的训练和预测不一致的方法。具体来说，Dropout 在训练阶段往（某些层的）输入加上了乘性噪声，使得模型从 变成了 ，其中 的每个元素有 p 的概率为 0，剩下 1-p 的概率为 1/(1-p)，训练目标就是：</p>
+<h3 id="4-1-一致性"><a href="#4-1-一致性" class="headerlink" title="4.1 一致性"></a>4.1 一致性</h3><p>R-Dropout 可以看成是 Dropout 的改进，那 Dropout 有什么问题呢? 其实 Dropout 是典型的训练和预测不一致的方法。具体来说， Dropout 在训练阶段往 $\left(\right.$ 某些层的) 输入加上了乘性噪声，使得模型从 $f_{\theta}(x)$ 变成了 $f_{\theta}(x, \varepsilon)$, 其中 $\varepsilon$ 的每个元素有 $\mathrm{p}$的概率为 0 ，剩下 1-p 的概率为 $1 /(1-\mathrm{p})$ ，训练目标就是：</p>
 <p>$\mathbb{E}_{(x, y) \sim \mathcal{D}} \mathbb{E}_{\varepsilon}\left[l\left(y, f_{\theta}(x, \varepsilon)\right)\right]$</p>
-<p>这样训练之后，我们应该用哪个模型预测最好呢？不确定，但如果损失函数是 距离的话，那么我们可以推出最佳预测模型应该是：</p>
+<p>这样训练之后，我们应该用哪个模型预测最好呢？不确定，但如果损失函数是 $l_{2}$距离的话，那么我们可以推出最佳预测模型应该是：</p>
 <p>$\mathbb{E}_{\varepsilon}\left[f_{\theta}(x, \varepsilon)\right]$</p>
-<p><strong>推导：</strong>如果用 损失，此时单个样本的损失是：</p>
+<p><strong>推导：</strong>如果用$l_{2}$ 损失，此时单个样本的损失是：</p>
 <p>$\mathbb{E}_{\varepsilon}\left[\left|y-f_{\theta}(x, \varepsilon)\right|^{2}\right]=|y|^{2}-2\left\langle y, \mathbb{E}_{\varepsilon}\left[f_{\theta}(x, \varepsilon)\right]\right\rangle+\mathbb{E}_{\varepsilon}\left[\left|f_{\theta}(x, \varepsilon)\right|^{2}\right]$</p>
-<p>注意，现在我们的问题是“模型训练完后应该用什么函数来预测”，所以 是常数，y 才是要优化的变量，这只不过是一个二次函数的最小值问题，容易解得 时损失函数最小。</p>
+<p>注意，现在我们的问题是“模型训练完后应该用什么函数来预测”，所以 $f_{\theta}(x, \varepsilon)$ 是常数， $\mathrm{y}$ 才是要优化的变量，这只不过是一个 二次函数的最小值问题，容易解得 $y=\mathbb{E}_{\varepsilon}\left[f_{\theta}(x, \varepsilon)\right]$ 时损失函数最小。</p>
 <p>我们假定这个结果能泛化到一般情况。上式告诉我们，带 Dropout 的模型的正确步骤是“模型融合”：</p>
 <p>对同一个输入多次传入模型中（模型不关闭 Dropout），然后把多次的预测结果平均值作为最终的预测结果。</p>
 <p>但我们一般情况下的预测方式显然不是这样的，而是直接关闭 Dropout 进行确定性的预测，这等价于预测模型由“模型平均”变成了“权重平均”：</p>
