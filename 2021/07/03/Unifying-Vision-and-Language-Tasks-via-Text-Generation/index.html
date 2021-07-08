@@ -105,10 +105,16 @@
 <meta property="og:site_name" content="ShiYaya">
 <meta property="og:description" content="code 当前跨模态预训练模型存在的问题 当前跨模态预训练模型在做下游任务时，通常都是根据特定任务设计相应的 head 和 objective。例如，a multi-label answer classifier for visual question answering, a region scorer for referring expression comprehension, and a">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-07-04T14:00:11.166Z">
+<meta property="og:image" content="https://i.loli.net/2021/07/08/Yr5dLpGUzo6Rtl2.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/08/xFwyLG16aPCNMir.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/08/6z5B19PCcUJQbxT.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/08/oKvQEH2TeXAz8LO.png">
+<meta property="og:image" content="c:/Users/shiyaya/AppData/Roaming/Typora/typora-user-images/image-20210708212215025.png">
+<meta property="og:updated_time" content="2021-07-08T13:26:28.927Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Unifying Vision-and-Language Tasks via Text Generation">
 <meta name="twitter:description" content="code 当前跨模态预训练模型存在的问题 当前跨模态预训练模型在做下游任务时，通常都是根据特定任务设计相应的 head 和 objective。例如，a multi-label answer classifier for visual question answering, a region scorer for referring expression comprehension, and a">
+<meta name="twitter:image" content="https://i.loli.net/2021/07/08/Yr5dLpGUzo6Rtl2.png">
 
 
 
@@ -440,7 +446,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-07-04 22:00:11" itemprop="dateModified" datetime="2021-07-04T22:00:11+08:00">2021-07-04</time>
+                <time title="修改时间：2021-07-08 21:26:28" itemprop="dateModified" datetime="2021-07-08T21:26:28+08:00">2021-07-08</time>
               
             
           </span>
@@ -519,6 +525,30 @@
 <li>不需要为特定任务设计特定的head</li>
 <li>对于一个新的任务，通过对input and output 进行 text rewrite即可，而不需要增加额外的参数或者是设计新的结构和训练目标。</li>
 <li>由于预训练任务是生成式任务，因此相比于MLM这种理解型任务，文本生成能力更强。比如，当我们回答需要非简单答案的开放式问题时，这一点尤其有帮助，在这种情况下，判别性方法只能从<strong>预定义的频繁候选者集合中</strong>回答，而我们的模型可以生成开放式的自然语言答案。</li>
+</ul>
+<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>整体上，模型基于NLP的 T5 和 BART的 backbone 来设计。下图中以T5为例。</p>
+<p>类似于T5，针对特定的任务，在输入文本的前面追加了关于任务的描述（task description）, 如下图中的 visual grounding.</p>
+<p>模型设计上的一个比较特殊的点：we use the text embeddings of visual sentinel tokens as region id embeddings in Sec. 3.1. The embedding sharing enables our model to build the correspondence among query text, label text, and objects, which are useful in the grounding tasks。</p>
+<p><img src="https://i.loli.net/2021/07/08/Yr5dLpGUzo6Rtl2.png" alt="image-20210708203404311"></p>
+<h2 id="推理"><a href="#推理" class="headerlink" title="推理"></a>推理</h2><p>与T5类似，无论是判别式任务或是生成式任务，都会以自回归的生成式方式来解决。</p>
+<p>如下图(a) 和 图(b) 以前的跨模态预训练模型需要为特定的任务设计特定的head, 但是，本文的方法，图(c) 和 图(d)  都以language modeling 生成式的方式来做。</p>
+<p>we <font color="red"> <strong>formulate the task labels to corresponding text</strong></font>, and we learn these dif- ferent tasks by predicting label text with the same language modeling objective</p>
+<p><img src="https://i.loli.net/2021/07/08/xFwyLG16aPCNMir.png" alt="image-20210708204113897"></p>
+<h2 id="预训练任务"><a href="#预训练任务" class="headerlink" title="预训练任务"></a>预训练任务</h2><p>下图给出了预训练任务和下游任务的输入数据的格式</p>
+<p>预训练任务中图文匹配任务也转化为生成 true/false。</p>
+<p>预训练任务中 caption region 这个倒是挺新颖的</p>
+<p>下游任务中，对于VQA and GQA 这两个任务，以前的方式都是多项选择的方式，但是本文中采用的是生成的方式。</p>
+<p><img src="https://i.loli.net/2021/07/08/6z5B19PCcUJQbxT.png" alt="image-20210708204838585"></p>
+<h2 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h2><p>实验一，预训练后的模型在各个下游任务上分别微调</p>
+<p><img src="https://i.loli.net/2021/07/08/oKvQEH2TeXAz8LO.png" alt="image-20210708212303877"></p>
+<p>实验二，微调下游任务时，采取多任务一起微调的方式</p>
+<p>多任务一起微调效果也很不错，实现了一个模型参数可以处理多个任务，且不需要特定的head!!!</p>
+<p><img src="C:\Users\shiyaya\AppData\Roaming\Typora\typora-user-images\image-20210708212215025.png" alt="image-20210708212215025"></p>
+<h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><ul>
+<li>存在的缺陷：不是端到端的，需要预先使用 faster r-cnn 提取 proposals; 虽然 ViLT是端到端的，但是ViLT 不方便做 visual grounding task。</li>
+<li><font color="green">预训练任务中，有一个visual grounding task, 但是，region description 是如何得到的？？论文中有讲，但是没有看懂</font>
+
+</li>
 </ul>
 
       
@@ -887,7 +917,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#当前跨模态预训练模型存在的问题"><span class="nav-number">1.</span> <span class="nav-text">当前跨模态预训练模型存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的点"><span class="nav-number">2.</span> <span class="nav-text">本文的点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#当前跨模态预训练模型存在的问题"><span class="nav-number">1.</span> <span class="nav-text">当前跨模态预训练模型存在的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本文的点"><span class="nav-number">2.</span> <span class="nav-text">本文的点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">3.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推理"><span class="nav-number">4.</span> <span class="nav-text">推理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预训练任务"><span class="nav-number">5.</span> <span class="nav-text">预训练任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验"><span class="nav-number">6.</span> <span class="nav-text">实验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#yaya"><span class="nav-number">7.</span> <span class="nav-text">yaya</span></a></li></ol></div>
             
 
           </div>
