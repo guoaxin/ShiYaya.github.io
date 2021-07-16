@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=6.7.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.7.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.7.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.7.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.7.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="来源：https://zhuanlan.zhihu.com/p/150667499 这是一篇收录于CVPR2019的图像描述生成文章，该文章提出了一种可以通过外部信号（图像区域）进行控制的图像描述生成模型，并且在可控描述质量与多样性两方面达到了Flickr30k Entities与COCO Entities数据集上的SOTA。作者声称，这是他们所知道的第一个可以基于图像区域进行控制的图像描述生成模">
+<meta name="keywords" content="图像描述">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Show, Control and Tell: A Framework for Generating Controllable and Grounded Captions">
+<meta property="og:url" content="http://yoursite.com/2021/07/16/Show-Control-and-Tell-A-Framework-for-Generating-Controllable-and-Grounded-Captions/index.html">
+<meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="来源：https://zhuanlan.zhihu.com/p/150667499 这是一篇收录于CVPR2019的图像描述生成文章，该文章提出了一种可以通过外部信号（图像区域）进行控制的图像描述生成模型，并且在可控描述质量与多样性两方面达到了Flickr30k Entities与COCO Entities数据集上的SOTA。作者声称，这是他们所知道的第一个可以基于图像区域进行控制的图像描述生成模">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2021/07/16/aJeySqRXlhZCBNr.png">
+<meta property="og:image" content="c:/Users/shiyaya/AppData/Roaming/Typora/typora-user-images/image-20210716101331736.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/16/63CENAQTO5w9vhg.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/16/4a6jA7cxRDlqo8k.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/16/fCqmM3vZonAdbOu.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/16/vGzUDmCHS4qZt2f.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/16/6KAp8l9vDuWnMba.jpg">
+<meta property="og:image" content="https://i.loli.net/2021/07/16/HukQ4vXIm291sWS.jpg">
+<meta property="og:image" content="https://i.loli.net/2021/07/16/FWhJRBAcynQiafC.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/16/kONCgj7Z9iMpwJE.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/16/TgZWAOdFJzwexGc.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/16/tajQBzJMN1GViLW.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/16/x5qd7ConpzR6haJ.png">
+<meta property="og:updated_time" content="2021-07-16T02:55:15.127Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Show, Control and Tell: A Framework for Generating Controllable and Grounded Captions">
+<meta name="twitter:description" content="来源：https://zhuanlan.zhihu.com/p/150667499 这是一篇收录于CVPR2019的图像描述生成文章，该文章提出了一种可以通过外部信号（图像区域）进行控制的图像描述生成模型，并且在可控描述质量与多样性两方面达到了Flickr30k Entities与COCO Entities数据集上的SOTA。作者声称，这是他们所知道的第一个可以基于图像区域进行控制的图像描述生成模">
+<meta name="twitter:image" content="https://i.loli.net/2021/07/16/aJeySqRXlhZCBNr.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/07/16/Show-Control-and-Tell-A-Framework-for-Generating-Controllable-and-Grounded-Captions/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Show, Control and Tell: A Framework for Generating Controllable and Grounded Captions | ShiYaya</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+	
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShiYaya</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">46</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类<span class="badge">46</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">265</span></a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/16/Show-Control-and-Tell-A-Framework-for-Generating-Controllable-and-Grounded-Captions/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ShiYaya">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShiYaya">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Show, Control and Tell: A Framework for Generating Controllable and Grounded Captions
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2021-07-16 10:07:16 / 修改时间：10:55:15" itemprop="dateCreated datePublished" datetime="2021-07-16T10:07:16+08:00">2021-07-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/图像描述/" itemprop="url" rel="index"><span itemprop="name">图像描述</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2021/07/16/Show-Control-and-Tell-A-Framework-for-Generating-Controllable-and-Grounded-Captions/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2021/07/16/Show-Control-and-Tell-A-Framework-for-Generating-Controllable-and-Grounded-Captions/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>来源：<a href="https://zhuanlan.zhihu.com/p/150667499" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/150667499</a></p>
+<p>这是一篇收录于CVPR2019的图像描述生成文章，该文章提出了一种可以通过外部信号（图像区域）进行控制的图像描述生成模型，并且在可控描述质量与多样性两方面达到了Flickr30k Entities与COCO Entities数据集上的SOTA。作者声称，这是他们所知道的第一个可以基于图像区域进行控制的图像描述生成模型。</p>
+<h2 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h2><p>在对一张图像进行描述时，<strong>由于描述者的目标不同、关注的区域不同，进行描述的方式与角度也不尽相同</strong>。在对复杂的场景进行描述时，常常需要对模型进行控制，使模型更加关注于使用者感兴趣的区域，而现有的模型在生成图像描述时通常处于黑箱的状态，缺乏可控性与可解释性。</p>
+<p>这篇文章提出了一种可控的图片描述生成模型，可以通过外界的控制信号操控模型生成多样化的描述。具体地，<strong>模型将图像中的一组区域作为控制信号</strong>，并生成基于这些区域的图像描述。如下图所示：</p>
+<p><img src="https://i.loli.net/2021/07/16/aJeySqRXlhZCBNr.png" alt="image-20210716101209297" style="zoom:80%;"></p>
+<p>上图中的（a）表示原始的图像描述生成模型，该模型将整张图像的特征作为输入，并得到基于图像整体的描述；（b）表示Up-Down模型生成描述的过程，该模型通过Faster R-CNN检测出一些目标区域，并综合这些目标区域的特征生成描述；（c）表示本文模型生成描述的过程，<strong>给定一个区域序列（或集合），模型会基于这些<font color="red">区域的特征</font>与<font color="red">顺序</font>生成描述，而忽略其他区域的特征，从而实现可控的图像描述</strong>。</p>
+<p><img src="C:\Users\shiyaya\AppData\Roaming\Typora\typora-user-images\image-20210716101331736.png" alt="image-20210716101331736" style="zoom: 67%;"></p>
+<p>上图是将无序的区域集合作为控制信号时，模型的描述效果，图中的方框表示作为控制信号的区域。可以看到，控制信号中的物体都准确地出现在了描述中，而不在控制信号中的物体则没有出现。</p>
+<p><img src="https://i.loli.net/2021/07/16/63CENAQTO5w9vhg.png" alt="image-20210716101547116"></p>
+<p>上图是将有序的集合序列作为控制信号时模型的效果，可以看到描述中的名词块顺序与控制信号中的顺序一致。</p>
+<h2 id="二、方法"><a href="#二、方法" class="headerlink" title="二、方法"></a>二、方法</h2><p><img src="https://i.loli.net/2021/07/16/4a6jA7cxRDlqo8k.png" alt="image-20210716101714728" style="zoom:67%;"></p>
+<p>我们可以将图像描述中的单词分为两种：第一种是视觉词（visual words），表示对应于图中某个视觉实体的单词，如图中的boy、cap、shirt等；第二种是文本词（textual words），表示在图中没有对应实体的单词，如图中的a、with、on等。</p>
+<p>进一步地，句中的每个名词可以与它的修饰语组成一个“名词块”（noun chunk），比如上文中的“a young boy”、“gray sweat jacket”等。这些名词块类似视觉词，通常与图像中的特定区域相对应，某些情况下，一个名词块也可能会与多个图像区域相对应。</p>
+<p>每条描述由一系列的名词块连接而成，因此也对应着图像中的一组区域。只要改变生成描述时所考虑的图像区域或描述区域的顺序，便可以生成不同的图像描述。</p>
+<p>基于上述假设，本文将图像中的一组区域作为控制信号输入模型中，使模型根据控制信号逐个生成名词块，并将名词块拼接成完整的句子，从而生成可控的、多样的图像描述。</p>
+<p><img src="https://i.loli.net/2021/07/16/fCqmM3vZonAdbOu.png" alt="image-20210716101935615"></p>
+<p>具体模型如上图所示，该模型的主要结构有：</p>
+<p>1.Language model，由两层LSTM组成的语言模型，在每个时间点基于当前区域的特征与当前状态生成下一时刻的单词；</p>
+<p>2.Chunk shifting gate，用于决定何时切换到下一个图像区域；</p>
+<p>3.Adaptive attention，用于决定将要生成的单词是视觉词（基于视觉信息生成）还是文本词（基于当前的语句信息生成）；</p>
+<p>4.Sorting network，在输入的控制信号为区域集合（无序）时，使用sorting network对控制信号进行排序。</p>
+<p><strong>Language Model</strong></p>
+<p><img src="https://i.loli.net/2021/07/16/vGzUDmCHS4qZt2f.png" alt="image-20210716102126047" style="zoom:50%;"></p>
+<p>本文使用了双层LSTM结合attention作为语言模型。</p>
+<p>第一层LSTM主要用于计算attention，给定上一时刻输出的单词向量 $y_{t-1}$ 、图像的总体特 征 $I$ 、上一时刻第二层LSTM的隐藏状态 $h_{t-1}^{2}$ 作为输入，第一层LSTM的输出结果用于计 算Adaptive Attention以及Chunk Shifting Gate, 决定下一步生成视觉词还是文本词, 以 及决定是否切换到下一个图像区域;<br>第二层LSTM主要作为language model，接受第一层的隐藏状态 $h_{t}^{1}$ 以及经过Adaptive Attention的上下文特征 $c_{t}$ 作为输入，预测下一个单词。<br>注意，本文通过对控制信号中所有区域的特征向量进行mean-pooling，将得到的结果作为 图像的总体特征 $I$ 。</p>
+<p><strong>Chunk Shifting Gate</strong></p>
+<p>Chunk Shifting Gate是一个布尔类型的门控变量，使用它更新当前区域的规则如下：</p>
+<p>$\boldsymbol{r}_{t+1} \leftarrow \boldsymbol{R}[i], \quad$ where $i=\min \left(\sum_{k=1}^{t} g_{k}, N\right), g_{k} \in\{0,1\}$</p>
+<p>上式中R表示由图像区域组成的有序序列，需要注意的是，由于每个名词块可能是基于多个 图像区域产生的，因此R中的每个元素都是一个区域集合，集合中通常只有一个区域，在集 合中包含多个区域的情况下，名词块便会综合这些区域的信息而产生。<br>上式中的 $r_{t+1}$ 表示在t+1时刻所考虑的区域集合, $\mathrm{N}$ 表示R中的区域集合数量。对于每个区 域, 作者使用Resnet-101提取区域中的特征, 并使用特征向量表示这个区域，因此控制信号 也可以视作由一组区域的特征向量组成。<br>可以看到，在每个时刻，如果该时刻的门控变量 $g_{t}$ 为 1, 则将 $r_{t+1}$ 更新为R中的下一个区 域集合，否则不更新。<br>门控变量 $g_{t}$ 的具体计算方法如下。在每个时间点，基于第一层LSTM的状态设立一个chunk sentinel, 记作 $s_{c}^{t}$, chunk sentinel可以表示在每个chunk结尾处LSTM的状态。</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&l_{t}^{c}=\sigma\left(\boldsymbol{W}_{i g} \boldsymbol{x}_{t}+\boldsymbol{W}_{h g} \boldsymbol{h}_{t-1}\right) \\
+&\boldsymbol{s}_{t}^{c}=l_{t}^{c} \odot \tanh \left(\boldsymbol{m}_{t}\right)
+\end{aligned}</script><p>其中 $m_{t}$ 表示LSTM的cel|状态, $h_{t-1}$ 表示上一时刻 $\mathrm{STM}$ 的隐藏状态。随后, 模型基于 $s_{c}^{t}$ 与区域特征 $r_{t} ，$ 计算 $g_{t}$ 的概率分布:</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+z_{t}^{c}=\boldsymbol{w}_{h}^{T} \tanh \left(\boldsymbol{W}_{s g} \boldsymbol{s}_{t}^{c}+\boldsymbol{W}_{g} \boldsymbol{h}_{t}\right) \\
+\boldsymbol{z}_{t}^{r}=\boldsymbol{w}_{h}^{T} \tanh \left(\boldsymbol{W}_{s r} \boldsymbol{r}_{t}+\left(\boldsymbol{W}_{g} \boldsymbol{h}_{t}\right) \mathbb{1}^{T}\right)
+\end{gathered}</script><script type="math/tex; mode=display">
+p\left(g_{t}=1 \mid \boldsymbol{R}\right)=\frac{\exp z_{t}^{c}}{\exp z_{t}^{c}+\sum_{i=1}^{n} \exp z_{t i}^{r}}</script><p>计算过程类似于计算 $h_{t}$ 与 [ $\left.s_{t}^{c} ; r_{t}\right]$ 的attention，当模型更加注意 $s_{t}^{c}$ 时, $g_{t}=1$ 的概率 更大， 因此模型有更大的概率切换到下一个区域; 当模型更加注意 $r_{t}$ 时，模型则更有可能 停留在当前的区域。借助Chunk Shifting Gate，模型便可以决定何时切换关注的区域, 并 按照顺序生成这些区域对应的名词块。</p>
+<p><strong>Adaptive Attention</strong></p>
+<p>在生成单词时，为了判断当前单词究竟是基于视觉信息的视觉词还是基于当前语句信息的文本词，本文引入了Adaptive Attention机制。Adaptive Attention的计算方式如下，首先设立一个visual sentinel（类似上文的chunk sentinel）：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+l_{t}^{v} &=\sigma\left(\boldsymbol{W}_{i s} \boldsymbol{x}_{t}+\boldsymbol{W}_{h s} \boldsymbol{h}_{t-1}\right) \\
+\boldsymbol{s}_{t}^{v} &=\boldsymbol{l}_{t}^{v} \odot \tanh \left(\boldsymbol{m}_{t}\right)
+\end{aligned}</script><p>随后, 计算 $h_{t}$ 对 $\left[r_{t} ; s_{t}^{v}\right.$ ]的attention:</p>
+<script type="math/tex; mode=display">
+\begin{gathered}
+\boldsymbol{z}_{t}^{r}=\boldsymbol{w}_{h}^{T} \tanh \left(\boldsymbol{W}_{s r} \boldsymbol{r}_{t}+\left(\boldsymbol{W}_{g} \boldsymbol{h}_{t}\right) \mathbb{1}^{T}\right) \\
+\boldsymbol{\alpha}_{t}=\operatorname{softmax}\left(\left[\boldsymbol{z}_{t}^{r} ; \boldsymbol{w}_{h}^{T} \tanh \left(\boldsymbol{W}_{s s} \boldsymbol{s}_{t}^{v}+\boldsymbol{W}_{g} \boldsymbol{h}_{t}\right)\right]\right)
+\end{gathered}</script><p>基于attention的结果, 可以计算出当前时刻模型正在关注的上下文特征 $c_{t}:$</p>
+<script type="math/tex; mode=display">
+\boldsymbol{c}_{t}=\sum_{i=1}^{n+1} \boldsymbol{\alpha}_{t i}\left[\boldsymbol{r}_{t} ; \boldsymbol{s}_{t}^{v}\right]</script><p>在大多数时候, 模型只会关注 $s_{t}^{v}$ 或 $r_{t}$ 所包含的区域中的一个，如果模型更加关注visual sentinel, 便会生成textual word; 反之, 便会生成基于 $r_{t}$ 中某个区域的的visual word.</p>
+<p><strong>Sorting Network</strong></p>
+<p>上述讨论的前提是控制信号R是一组有序的图像区域序列，模型可以按照区域在R中的顺序生成相应的文本。如果给定的控制信号是无序的，如何使模型按照合适的顺序生成文本？本文使用了一种sorting network对无序的控制信号进行排序，实现方法如下。</p>
+<p>假设无序的集合R中包含N个区域集，首先使用全连接层将每个区域集的特征映射为N维向量，随后将所有特征向量拼接，得到N*N的特征矩阵；随后使用Sinkhorn算子迭代地处理特征矩阵，经过该算子可以得到一个类似置换矩阵的“软”置换矩阵，它与置换矩阵的主要区别在于置换矩阵是离散的，而它是连续的。</p>
+<p>在训练时，作者通过最小化该置换与真实结果之间的均方误差来训练网络；在测试时，则使用匈牙利算法进行匹配，将“软”置换矩阵转化为最终的置换，以此来对R进行排序。</p>
+<h2 id="三、训练"><a href="#三、训练" class="headerlink" title="三、训练"></a>三、训练</h2><p>由于模型需要同时预测两个分布, $-$ 个是 $p\left(y_{t} \mid R\right) ，$ 表示寺刻生成单词的概率分布; 另一 个是 $p\left(g_{t} \mid R\right) ，$ 表示t时刻chunk shifting gate的概率分布。为了同时训练两个分布, 模型 训练时的loss function如下:</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+L(\theta) &=-\sum_{t=1}^{T}(\log \overbrace{p\left(y_{t}^{*} \mid \boldsymbol{r}_{1: t}^{*}, \boldsymbol{y}_{1: t-1}^{*}\right)}^{\text {Word-level probability }}+\\
+&+g_{t}^{*} \log p\left(g_{t}=1 \mid \boldsymbol{r}_{1: t}^{*}, \boldsymbol{y}_{1: t-1}^{*}\right)+\\
+&+\left(1-g_{t}^{*}\right)(1-\log \underbrace{p\left(g_{t}=1 \mid \boldsymbol{r}_{1: t}^{*}, \boldsymbol{y}_{1: t-1}^{*}\right)}_{\text {Chunk-level probability }})
+\end{aligned}</script><p>其中 $y_{1: t}^{<em>}, g_{1: t}^{</em>} \quad r_{1: t}^{*}$ 为ground truth。除了使用cross entropy作为损失函数，本文 还使用了强化学习对模型进行优化，并使用如下表达式计算损失函数的梯度：</p>
+<script type="math/tex; mode=display">
+\nabla_{\theta} L(\theta)=-\left(r\left(\boldsymbol{w}^{s}\right)-b\right)\left(\nabla_{\theta} \log p\left(\boldsymbol{w}^{s}\right)+\nabla_{\theta} \log p\left(\boldsymbol{g}^{s}\right)\right)</script><p>其中 $w^{s}$ 与 $g^{s}$ 表示模型预测得到的句子与chunk shifting gate序列, $r\left(w^{s}\right)$ 表示对于 $w^{s}$ 的奖励, 而b表示奖励的baseline, 只有超过baseline才能获得奖励。此处b $=r\left(w^{\prime}\right)$, $w^{\prime}$ 表示模型使用贪心策略生成的句子。<br>除了提高描述的质量，本文模型还需要保证描述的可控性，因此除了衡量描述质量的指标 CIDEr, 本文还提出了另一种指标NW，用于衡量模型生成的语句与控制信号的对齐程度，并 将CIDEr与NW同时作为强化学习时的奖励。NW的计算方式如下。<br>对于模型生成的句子y与数据集中与之对应的句子 $\mathrm{y}^{\star}$, 首先将所有名词从两个句子中提取出 来，随后将这些名词对齐。 对于相匹配的两个名词，将它们的embedding向量夹角的cos值 作为匹配分数; 如果存在未匹配的名词，则将匹配分数记作-1。将所有匹配分数加和后，使 用两个句子中较多的名次数对分数做归一化, 公式如下:</p>
+<script type="math/tex; mode=display">
+\mathrm{NW}\left(\boldsymbol{y}, \boldsymbol{y}^{*}\right)=\frac{a l\left(\boldsymbol{y}, \boldsymbol{y}^{*}\right)}{\max \left(\# \boldsymbol{y}, \# \boldsymbol{y}^{*}\right)}</script><p>在所有的名词对齐中，挑选最高的NW分数作为最终的NW分数。</p>
+<h2 id="四、评估"><a href="#四、评估" class="headerlink" title="四、评估"></a>四、评估</h2><h3 id="4-1-数据集"><a href="#4-1-数据集" class="headerlink" title="4.1 数据集"></a>4.1 <strong>数据集</strong></h3><p>本文在两个数据集上进行评估，分别是Flickr30k Entities与COCO Entities。其中，Flickr30k是图像描述生成工作中常用的数据集，Flickr30k Entities是它的扩展数据集。对于每条描述，Flickr30k Entities挑选出其中的所有名词块，并使用bounding box标注出图像中的对应物体。如下图所示：</p>
+<p><img src="https://i.loli.net/2021/07/16/6KAp8l9vDuWnMba.jpg" alt="img"></p>
+<p>MSCOCO是图像描述生成工作的常用数据集，COCO Entities是MSCOCO数据集的扩展，由本文作者提出。对于MSCOCO中的每条描述，作者将其中的每个名词与5个相似度最高的物体类别关联到一起（使用词向量的相似度）；随后使用目标检测器检测图片中的目标，如果检测到的目标类别与名词类别匹配，便将名词与目标区域相关联；最后，人工检查每个关联是否正确。下图是COCO Entities数据集中的一个例子：</p>
+<p><img src="https://i.loli.net/2021/07/16/HukQ4vXIm291sWS.jpg" alt="img"></p>
+<h3 id="4-2-评估指标"><a href="#4-2-评估指标" class="headerlink" title="4.2 评估指标"></a>4.2 <strong>评估指标</strong></h3><p>文章的评估方法与常规的image captioning评估有所区别。在评估时，除了将图像作为输入外，作者还将图像中的一系列区域作为控制信号输入；相应地，在评估生成描述的质量时，在数据集中只有控制信号与其相同的句子会作为衡量标准。</p>
+<p>关于评估指标的选取，除了常用的BLUE-4、METEOR、ROUGE、CIDEr、SPICE外，在使用区域序列作为控制信号时，作者还使用了上文提到的NW分数来评估生成描述中的名词块与控制信号的对齐效果；而在使用区域集合作为控制信号时，为了评估生成的描述对控制信号的覆盖效果，作者还提出了一种类似交并比(IoU)的评测指标：</p>
+<script type="math/tex; mode=display">
+\operatorname{IoU}\left(\boldsymbol{y}, \boldsymbol{y}^{*}\right)=\frac{\mathrm{I}\left(\boldsymbol{y}, \boldsymbol{y}^{*}\right)}{\# \boldsymbol{y}+\# \boldsymbol{y}^{*}-\mathrm{I}\left(\boldsymbol{y}, \boldsymbol{y}^{*}\right)}</script><p>其中, $I\left(y, y^{*}\right)$ 表示将两个句子中的名词对齐后，相应名词的词向量cos相似度之和。 $10 \mathrm{U}$ 越高, 两个句子中名词的重合率便越高。</p>
+<h3 id="4-3-Baselines"><a href="#4-3-Baselines" class="headerlink" title="4.3 Baselines"></a>4.3 <strong>Baselines</strong></h3><p><strong>1.Controllable LSTM</strong></p>
+<p>在Controllable LSTM中，作者使用一个没有attention的、单层的LSTM作为语言模型。随后，作者将控制信号序列R中的特征输入到另一个LSTM中，并提取这个LSTM最终的隐藏状态，将该隐藏状态与图像特征进行拼接，输入到LSTM语言模型中，以此实现控制效果。</p>
+<p><strong>2.Controllable Up-Down</strong></p>
+<p>Up-Down模型是一种比较具有代表性的图像描述生成模型，它通过目标检测器检测出图像中的物体，并基于这些物体所在的图像区域生成描述。作者实现Controllable Up-Down的方式比较简单，将控制信号R中的区域输入到Up-Down模型中，并忽略图像中的其他区域即可。当然，由于Up-Down模型中对于不同区域的关注是无序的，因此Controllable Up-Down并不能按照给定的区域顺序生成描述。</p>
+<p><strong>3.Ours without visual sentinel</strong></p>
+<p>为了验证visual sentinel的重要性，作者提出了没有visual sentinel的模型，此时模型缺乏识别visual word与textual word的能力。</p>
+<p><strong>4.Ours with single sentinel</strong></p>
+<p>本文中visual sentinel与chunk sentinel的计算方式比较相似，为了验证它们的重要性，作者提出了将visual sentinel与chunk sentinel融合的模型，此时将有一个单独的sentinel同时充当二者的功能。</p>
+<p><strong>5.Others</strong></p>
+<p>本文还使用了几种不可控的模型作为对比，分别是FC-2K、Up-Down、Neural Baby Talk。需要注意的是，由于这几种模型无法接收控制信号所带来的额外信息，因此将本文模型与它们直接做对比是不公平的。</p>
+<h3 id="4-4-定量评估"><a href="#4-4-定量评估" class="headerlink" title="4.4 定量评估"></a>4.4 <strong>定量评估</strong></h3><p>作者从三个角度评估模型的效果，分别是在有序控制信号下的效果、无序控制信号下的效果以及描述生成的多样性。</p>
+<p><img src="https://i.loli.net/2021/07/16/FWhJRBAcynQiafC.png" alt="image-20210716105025286"></p>
+<center>在COCO Entities上的评估结果（有序控制信号）</center>
+
+<p><img src="https://i.loli.net/2021/07/16/kONCgj7Z9iMpwJE.png" alt="image-20210716105151176" style="zoom:50%;"></p>
+<center>在Flickr30k Entities上的评测结果（有序控制信号）</center>
+
+<p>作者首先使用COCO Entities与Flickr30k Entities评估模型在有序控制信号下的效果。可以看到，本文的模型在所有指标上都达到了最好的效果，不过由于FC-2K、Up-Down、Neural Baby Talk模型本身是不可控的，而Controllable Up-Down模型虽然可控，但无法按照控制信号的顺序生成描述，因此<font color="red">本文模型与它们的比较并不公平</font>&gt;</p>
+<p><img src="https://i.loli.net/2021/07/16/TgZWAOdFJzwexGc.png" alt="image-20210716105307222" style="zoom:50%;"></p>
+<center>在COCO Entities上的评估结果（无序控制信号）</center>
+
+<p><img src="https://i.loli.net/2021/07/16/tajQBzJMN1GViLW.png" alt="image-20210716105318174" style="zoom:50%;"></p>
+<center>Flickr30k Entities上的评测结果（无序控制信号）</center>
+
+<p>随后，作者又在两个数据集上评估了模型在无序控制信号下的效果，此时本文模型与Controllable Up-Down模型的对比是有意义的。可以发现，本文模型在绝大多数指标上都优于Controllable Up-Down。</p>
+<p><img src="https://i.loli.net/2021/07/16/x5qd7ConpzR6haJ.png" alt="image-20210716105441980" style="zoom: 50%;"></p>
+<center>在COCO Entities数据集上的多样性评估结果</center>
+
+
+
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/图像描述/" rel="tag"># 图像描述</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/07/09/Multimodal-Few-Shot-Learning-with-Frozen-Language-Models/" rel="next" title="Multimodal Few-Shot Learning with Frozen Language Models">
+                <i class="fa fa-chevron-left"></i> Multimodal Few-Shot Learning with Frozen Language Models
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">ShiYaya</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">265</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、简介"><span class="nav-number">1.</span> <span class="nav-text">一、简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、方法"><span class="nav-number">2.</span> <span class="nav-text">二、方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、训练"><span class="nav-number">3.</span> <span class="nav-text">三、训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、评估"><span class="nav-number">4.</span> <span class="nav-text">四、评估</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-数据集"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-评估指标"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 评估指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-Baselines"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 Baselines</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-定量评估"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 定量评估</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">ShiYaya</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.7.0</div>
+
+
+
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv" title="总访客量">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="site-pv" title="总访问量">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+  
+  <script color="0,0,255" opacity="0.5" zindex="-1" count="99" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=6.7.0"></script>
+
+  <script src="/js/src/motion.js?v=6.7.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=6.7.0"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=6.7.0"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=6.7.0"></script>
+<script src="/js/src/post-details.js?v=6.7.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=6.7.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  <script>
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item) > -1;
+    });
+    new Valine({
+      el: '#comments' ,
+      verify: false,
+      notify: false,
+      appId: 's22c7ikjlbMrGGRlCcDrqOjo-gzGzoHsz',
+      appKey: 'HnhoXmenrEs7Unb12AD7Sxgg',
+      placeholder: 'Just go go',
+      avatar: 'mm',
+      meta:guest,
+      pageSize: '10' || 10,
+      visitor: false
+    });
+  </script>
+
+
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: "AMS"
+      }
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+      for (i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+<style>
+.MathJax_Display {
+  overflow: auto hidden;
+}
+</style>
+
+    
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+  
+</body>
+</html>
