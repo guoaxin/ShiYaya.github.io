@@ -106,7 +106,7 @@
 <meta property="og:description" content="来源：https://zhuanlan.zhihu.com/p/150667499 这是一篇收录于CVPR2019的图像描述生成文章，该文章提出了一种可以通过外部信号（图像区域）进行控制的图像描述生成模型，并且在可控描述质量与多样性两方面达到了Flickr30k Entities与COCO Entities数据集上的SOTA。作者声称，这是他们所知道的第一个可以基于图像区域进行控制的图像描述生成模">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://i.loli.net/2021/07/16/aJeySqRXlhZCBNr.png">
-<meta property="og:image" content="c:/Users/shiyaya/AppData/Roaming/Typora/typora-user-images/image-20210716101331736.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/16/ANkfqLd3vpGQTRX.png">
 <meta property="og:image" content="https://i.loli.net/2021/07/16/63CENAQTO5w9vhg.png">
 <meta property="og:image" content="https://i.loli.net/2021/07/16/4a6jA7cxRDlqo8k.png">
 <meta property="og:image" content="https://i.loli.net/2021/07/16/fCqmM3vZonAdbOu.png">
@@ -118,7 +118,7 @@
 <meta property="og:image" content="https://i.loli.net/2021/07/16/TgZWAOdFJzwexGc.png">
 <meta property="og:image" content="https://i.loli.net/2021/07/16/tajQBzJMN1GViLW.png">
 <meta property="og:image" content="https://i.loli.net/2021/07/16/x5qd7ConpzR6haJ.png">
-<meta property="og:updated_time" content="2021-07-16T02:55:15.127Z">
+<meta property="og:updated_time" content="2021-07-16T04:18:57.475Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Show, Control and Tell: A Framework for Generating Controllable and Grounded Captions">
 <meta name="twitter:description" content="来源：https://zhuanlan.zhihu.com/p/150667499 这是一篇收录于CVPR2019的图像描述生成文章，该文章提出了一种可以通过外部信号（图像区域）进行控制的图像描述生成模型，并且在可控描述质量与多样性两方面达到了Flickr30k Entities与COCO Entities数据集上的SOTA。作者声称，这是他们所知道的第一个可以基于图像区域进行控制的图像描述生成模">
@@ -313,7 +313,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">265</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">266</span></a>
 
   </li>
 
@@ -437,7 +437,7 @@
                 
               
 
-              <time title="创建时间：2021-07-16 10:07:16 / 修改时间：10:55:15" itemprop="dateCreated datePublished" datetime="2021-07-16T10:07:16+08:00">2021-07-16</time>
+              <time title="创建时间：2021-07-16 10:07:16 / 修改时间：12:18:57" itemprop="dateCreated datePublished" datetime="2021-07-16T10:07:16+08:00">2021-07-16</time>
             
 
             
@@ -516,7 +516,7 @@
 <p>这篇文章提出了一种可控的图片描述生成模型，可以通过外界的控制信号操控模型生成多样化的描述。具体地，<strong>模型将图像中的一组区域作为控制信号</strong>，并生成基于这些区域的图像描述。如下图所示：</p>
 <p><img src="https://i.loli.net/2021/07/16/aJeySqRXlhZCBNr.png" alt="image-20210716101209297" style="zoom:80%;"></p>
 <p>上图中的（a）表示原始的图像描述生成模型，该模型将整张图像的特征作为输入，并得到基于图像整体的描述；（b）表示Up-Down模型生成描述的过程，该模型通过Faster R-CNN检测出一些目标区域，并综合这些目标区域的特征生成描述；（c）表示本文模型生成描述的过程，<strong>给定一个区域序列（或集合），模型会基于这些<font color="red">区域的特征</font>与<font color="red">顺序</font>生成描述，而忽略其他区域的特征，从而实现可控的图像描述</strong>。</p>
-<p><img src="C:\Users\shiyaya\AppData\Roaming\Typora\typora-user-images\image-20210716101331736.png" alt="image-20210716101331736" style="zoom: 67%;"></p>
+<p><img src="https://i.loli.net/2021/07/16/ANkfqLd3vpGQTRX.png" alt="image-20210716101331736" style="zoom: 67%;"></p>
 <p>上图是将无序的区域集合作为控制信号时，模型的描述效果，图中的方框表示作为控制信号的区域。可以看到，控制信号中的物体都准确地出现在了描述中，而不在控制信号中的物体则没有出现。</p>
 <p><img src="https://i.loli.net/2021/07/16/63CENAQTO5w9vhg.png" alt="image-20210716101547116"></p>
 <p>上图是将有序的集合序列作为控制信号时模型的效果，可以看到描述中的名词块顺序与控制信号中的顺序一致。</p>
@@ -617,6 +617,10 @@ L(\theta) &=-\sum_{t=1}^{T}(\log \overbrace{p\left(y_{t}^{*} \mid \boldsymbol{r}
 
 
 
+<p>作者在COCO Entities数据集上评测了模型生成描述的多样性，并与另外两个专注于提高描述多样性的模型作对比。在评估多样性时，作者将所有可行的区域都作为控制信号输入到模型中，以此保证生成多样的描述；在计算评估指标时，作者首先使用每个模型各自生成20条描述，对于数据集中的每条描述，将选择模型生成的描述中得分最高的一条进行评估，并对每个评估指标都进行如上操作。</p>
+<p>经过上述操作，可以得到每个模型的20条描述对于每个指标的最高分，并将其作为最终的评估分数。模型能得到的最高分越高，说明模型有能力生成效果更好的描述，这也意味着模型的多样性更好。从评估结果中可以看到，在大多数指标中，本文的模型要明显好于其他两种模型。</p>
+<h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><p>这篇文章提出了一种可控的图像描述生成模型。这种可控性体现在两方面：第一，给定图像中的一些区域，模型会基于这些区域生成描述，忽视其他的区域；第二，给定这些区域的顺序，模型会按照顺序生成描述。</p>
+<p>在COCO Entities与Flickr30k Entities数据集上，作者评估了模型的可控描述生成质量，并在与其他模型的对比中得到了最佳效果（<font color="red"><strong>个人认为只有在无序控制信号时，与Controllable Up-Down模型的对比比较有意义</strong></font>）；此外，作者还评估了模型的多样性，并在与其他模型的对比中得到了较好的效果，说明该模型有能力生成更高质量的描述。</p>
 
       
     </div>
@@ -662,6 +666,10 @@ L(\theta) &=-\sum_{t=1}^{T}(\log \overbrace{p\left(y_{t}^{*} \mid \boldsymbol{r}
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/07/18/Bridging-the-Gap-between-Vision-and-Language-Domains-for-Improved-Image-Captioning/" rel="prev" title="Bridging the Gap between Vision and Language Domains for Improved Image Captioning">
+                Bridging the Gap between Vision and Language Domains for Improved Image Captioning <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -734,7 +742,7 @@ L(\theta) &=-\sum_{t=1}^{T}(\log \overbrace{p\left(y_{t}^{*} \mid \boldsymbol{r}
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">265</span>
+                    <span class="site-state-item-count">266</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -980,7 +988,7 @@ L(\theta) &=-\sum_{t=1}^{T}(\log \overbrace{p\left(y_{t}^{*} \mid \boldsymbol{r}
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、简介"><span class="nav-number">1.</span> <span class="nav-text">一、简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、方法"><span class="nav-number">2.</span> <span class="nav-text">二、方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、训练"><span class="nav-number">3.</span> <span class="nav-text">三、训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、评估"><span class="nav-number">4.</span> <span class="nav-text">四、评估</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-数据集"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-评估指标"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 评估指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-Baselines"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 Baselines</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-定量评估"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 定量评估</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、简介"><span class="nav-number">1.</span> <span class="nav-text">一、简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、方法"><span class="nav-number">2.</span> <span class="nav-text">二、方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、训练"><span class="nav-number">3.</span> <span class="nav-text">三、训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、评估"><span class="nav-number">4.</span> <span class="nav-text">四、评估</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-数据集"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-评估指标"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 评估指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-Baselines"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 Baselines</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-定量评估"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 定量评估</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、总结"><span class="nav-number">5.</span> <span class="nav-text">五、总结</span></a></li></ol></div>
             
 
           </div>

@@ -97,14 +97,23 @@
 
 
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="来源：https://zhuanlan.zhihu.com/p/369153230 今年年初刚出的CLIP可以说是震惊了NLP和CV界，它让大白话搜图不再是梦想，就像这样：  以上是一个老哥用CLIP在unsplash数据集上做的大白话搜图引擎，有兴趣的同学们可以去感受一下： natural-language-image-searchgithub.com 其实CLIP做的事情很简单，简单说来就是学">
+<meta name="keywords" content="目标检测">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Zero-Shot Detection via Vision and Language Knowledge Distillation">
 <meta property="og:url" content="http://yoursite.com/2021/06/25/Zero-Shot-Detection-via-Vision-and-Language-Knowledge-Distillation/index.html">
 <meta property="og:site_name" content="ShiYaya">
+<meta property="og:description" content="来源：https://zhuanlan.zhihu.com/p/369153230 今年年初刚出的CLIP可以说是震惊了NLP和CV界，它让大白话搜图不再是梦想，就像这样：  以上是一个老哥用CLIP在unsplash数据集上做的大白话搜图引擎，有兴趣的同学们可以去感受一下： natural-language-image-searchgithub.com 其实CLIP做的事情很简单，简单说来就是学">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-06-25T09:28:47.189Z">
+<meta property="og:image" content="https://i.loli.net/2021/07/19/sXp4lcNJHfdTg6a.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/19/QcueiMgxDAGhk2H.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/19/5g479jOJ2PB6ikQ.png">
+<meta property="og:image" content="https://i.loli.net/2021/07/19/WnESNvxVQCYmKRg.png">
+<meta property="og:updated_time" content="2021-07-19T02:27:49.076Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zero-Shot Detection via Vision and Language Knowledge Distillation">
+<meta name="twitter:description" content="来源：https://zhuanlan.zhihu.com/p/369153230 今年年初刚出的CLIP可以说是震惊了NLP和CV界，它让大白话搜图不再是梦想，就像这样：  以上是一个老哥用CLIP在unsplash数据集上做的大白话搜图引擎，有兴趣的同学们可以去感受一下： natural-language-image-searchgithub.com 其实CLIP做的事情很简单，简单说来就是学">
+<meta name="twitter:image" content="https://i.loli.net/2021/07/19/sXp4lcNJHfdTg6a.png">
 
 
 
@@ -295,7 +304,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">265</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">266</span></a>
 
   </li>
 
@@ -423,8 +432,42 @@
             
 
             
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-07-19 10:27:49" itemprop="dateModified" datetime="2021-07-19T10:27:49+08:00">2021-07-19</time>
+              
+            
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/目标检测/" itemprop="url" rel="index"><span itemprop="name">目标检测</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -470,7 +513,29 @@
       
 
       
-        
+        <p>来源：<a href="https://zhuanlan.zhihu.com/p/369153230" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/369153230</a></p>
+<p>今年年初刚出的CLIP可以说是震惊了NLP和CV界，它让大白话搜图不再是梦想，就像这样：</p>
+<p><img src="https://i.loli.net/2021/07/19/sXp4lcNJHfdTg6a.png" alt="image-20210719102532427" style="zoom:67%;"></p>
+<p>以上是一个老哥用CLIP在unsplash数据集上做的大白话搜图引擎，有兴趣的同学们可以去感受一下：</p>
+<p><a href="https://link.zhihu.com/?target=https%3A//github.com/haltakov/natural-language-image-search" target="_blank" rel="noopener">natural-language-image-searchgithub.com</a></p>
+<p>其实CLIP做的事情很简单，简单说来就是<strong>学习出了一个图像和文本的共同空间</strong>，给定任意图像和文本都可以映射到这个空间中，然后这些图像和文本就可以<strong>直接计算相似度</strong>，于是就可以做到用大白话来搜图。换句话说，CLIP找到了一个方式<strong>填平了文本和视觉的gap</strong>。</p>
+<p>那既然如此，可不可以进一步拓展，利用CLIP来做检测，比如我随便说一句话就可以检测出图像里面对应的物体，不管我这句话里面的物体属于任意类别呢？当然可以！而且谷歌已经做出来了，就在前天挂上了arXiv，不得不感叹他们真的太快了（CLIP才出了3个月啊）</p>
+<p>这篇文章的名字就叫<strong>Zero-Shot Detection via Vision and Language Knowledge Distillation。</strong>zero-shot顾名思义，就是对于一个新类别，一张训练图像都不给的情况下训练出能检测这个类别物体的检测器；而knowledge distillation呢，指的就是从CLIP中蒸馏出知识来训练检测器（毕竟CLIP用了4亿个文本-图像对训练，肯定得好好利用啊）。</p>
+<p>这个方法的名字叫做ViLD（Vision and Language knowledge Distillation），首先感受一下它的效果：</p>
+<p><img src="https://i.loli.net/2021/07/19/QcueiMgxDAGhk2H.png" alt="image-20210719102620483"></p>
+<p>这些玩具都是训练集里没有出现过的类别哦。</p>
+<p>那么ViLD是怎么做的呢？框架图先贴出来：</p>
+<p><img src="https://i.loli.net/2021/07/19/5g479jOJ2PB6ikQ.png" alt="image-20210719102700196"></p>
+<p>定位网络用的是Mask R-CNN，BackBone提特征图，RPN提proposal，然后RoiAlign提proposal的特征就不用多说了。</p>
+<p>训练时，重点在图像会用proposal进行裁剪，裁剪下来的图像会送入预训练好的CLIP中得到在其<strong>共同空间</strong>中的特征，训练的目标就是<strong>拉近proposal特征和CLIP得到的裁剪图像特征的距离</strong>，这个训练可以认为是一种蒸馏，把CLIP中的知识传递给了训练的模型。这样训练好的模型提取出的proposal特征也可以认为已经在CLIP的共同空间中了。这一部分对应于图中上半部分的Training<strong>。</strong></p>
+<p>测试时，先把需要分类的文本标签通过其在CLIP共同空间的特征。然后图像中的proposal特征就可以<strong>直接与这些文本标签特征进行相似度计算</strong>（因为它们可以假设都位于CLIP的共同空间中），完成分类。</p>
+<p>具体来看训练时候是怎么做的：</p>
+<p><img src="https://i.loli.net/2021/07/19/WnESNvxVQCYmKRg.png" alt="image-20210719102730131"></p>
+<p>直接看（b）部分，其中的ViLD-text部分就是在文本模态进行训练，比如当前的proposal对应的类别为“猫”，那么相应的，这个proposal特征应该和CLIP对“猫”这个文本生成的在共同空间中的特征相近。</p>
+<p>ViLD-image则是在视觉模态进行训练，即proposal特征应该和根据这个proposal裁剪下来的图像在CLIP的共同空间的特征相近。</p>
+<p>总结一下，就是在两个模态上对CLIP进行知识蒸馏，目的是将proposal特征映射到CLIP的共同空间中，其中文本模态由类别标签得到，视觉模态由裁剪的图像得到。</p>
+<p>说下自己的感受吧，这个idea本来我刚刚想到，结果现在看到这篇文章，心里还是暗喜还好没开始做hhhhh。更多还是感叹大厂的速度是真的快，仅仅三个月就整出来了完成度和创新度都很不错的一篇文章。另外利用CLIP做跨模态肯定是以后的趋势了，毕竟用了4亿图像-文本对训练出来的模型填平了视觉和文本的gap，绝对大有搞头。</p>
+
       
     </div>
 
@@ -490,6 +555,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/目标检测/" rel="tag"># 目标检测</a>
+          
+        </div>
       
 
       
@@ -576,7 +647,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">265</span>
+                    <span class="site-state-item-count">266</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
