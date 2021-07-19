@@ -109,7 +109,7 @@
 <meta property="og:image" content="https://i.loli.net/2021/07/19/QcueiMgxDAGhk2H.png">
 <meta property="og:image" content="https://i.loli.net/2021/07/19/5g479jOJ2PB6ikQ.png">
 <meta property="og:image" content="https://i.loli.net/2021/07/19/WnESNvxVQCYmKRg.png">
-<meta property="og:updated_time" content="2021-07-19T02:27:49.076Z">
+<meta property="og:updated_time" content="2021-07-19T03:36:39.594Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zero-Shot Detection via Vision and Language Knowledge Distillation">
 <meta name="twitter:description" content="来源：https://zhuanlan.zhihu.com/p/369153230 今年年初刚出的CLIP可以说是震惊了NLP和CV界，它让大白话搜图不再是梦想，就像这样：  以上是一个老哥用CLIP在unsplash数据集上做的大白话搜图引擎，有兴趣的同学们可以去感受一下： natural-language-image-searchgithub.com 其实CLIP做的事情很简单，简单说来就是学">
@@ -445,7 +445,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2021-07-19 10:27:49" itemprop="dateModified" datetime="2021-07-19T10:27:49+08:00">2021-07-19</time>
+                <time title="修改时间：2021-07-19 11:36:39" itemprop="dateModified" datetime="2021-07-19T11:36:39+08:00">2021-07-19</time>
               
             
           </span>
@@ -535,6 +535,8 @@
 <p>ViLD-image则是在视觉模态进行训练，即proposal特征应该和根据这个proposal裁剪下来的图像在CLIP的共同空间的特征相近。</p>
 <p>总结一下，就是在两个模态上对CLIP进行知识蒸馏，目的是将proposal特征映射到CLIP的共同空间中，其中文本模态由类别标签得到，视觉模态由裁剪的图像得到。</p>
 <p>说下自己的感受吧，这个idea本来我刚刚想到，结果现在看到这篇文章，心里还是暗喜还好没开始做hhhhh。更多还是感叹大厂的速度是真的快，仅仅三个月就整出来了完成度和创新度都很不错的一篇文章。另外利用CLIP做跨模态肯定是以后的趋势了，毕竟用了4亿图像-文本对训练出来的模型填平了视觉和文本的gap，绝对大有搞头。</p>
+<h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><p>本文使用了两个损失，一个是L1 loss,用于知识蒸馏，而cross entropy loss 则是为了使用CLIP预测的范式（使用匹配的方式来做分类预测）。</p>
+<p>这两个损失是缺一不可的，仅使用L1 loss 来知识蒸馏是没有任何用的，因为这里并不是想获取更好的视觉特征，而是使用clip的预测范式。</p>
 
       
     </div>
@@ -631,8 +633,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -882,6 +893,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#yaya"><span class="nav-number">1.</span> <span class="nav-text">yaya</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       

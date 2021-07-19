@@ -97,18 +97,20 @@
 
 
 
-  <meta name="description" content="本文认为视频描述模型分两步：  1) first link the image modality to the text modality. 2) generate a semanti- cally and grammatically correct descriptive sentence based on such textual guided visual information. 但是 目">
+  <meta name="description" content="本文认为视频描述模型分两步：  1) first link the image modality to the text modality. 2) generate a semantically and grammatically correct descriptive sentence based on such textual guided visual information. 但是 目前的">
 <meta name="keywords" content="视频描述">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Bridging the Gap between Vision and Language Domains for Improved Image Captioning">
 <meta property="og:url" content="http://yoursite.com/2021/07/18/Bridging-the-Gap-between-Vision-and-Language-Domains-for-Improved-Image-Captioning/index.html">
 <meta property="og:site_name" content="ShiYaya">
-<meta property="og:description" content="本文认为视频描述模型分两步：  1) first link the image modality to the text modality. 2) generate a semanti- cally and grammatically correct descriptive sentence based on such textual guided visual information. 但是 目">
+<meta property="og:description" content="本文认为视频描述模型分两步：  1) first link the image modality to the text modality. 2) generate a semantically and grammatically correct descriptive sentence based on such textual guided visual information. 但是 目前的">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-07-18T11:41:49.633Z">
+<meta property="og:image" content="https://i.loli.net/2021/07/19/MygTjfGBRxeCt9W.png">
+<meta property="og:updated_time" content="2021-07-19T06:54:35.519Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bridging the Gap between Vision and Language Domains for Improved Image Captioning">
-<meta name="twitter:description" content="本文认为视频描述模型分两步：  1) first link the image modality to the text modality. 2) generate a semanti- cally and grammatically correct descriptive sentence based on such textual guided visual information. 但是 目">
+<meta name="twitter:description" content="本文认为视频描述模型分两步：  1) first link the image modality to the text modality. 2) generate a semantically and grammatically correct descriptive sentence based on such textual guided visual information. 但是 目前的">
+<meta name="twitter:image" content="https://i.loli.net/2021/07/19/MygTjfGBRxeCt9W.png">
 
 
 
@@ -423,12 +425,24 @@
                 
               
 
-              <time title="创建时间：2021-07-18 19:34:19 / 修改时间：19:41:49" itemprop="dateCreated datePublished" datetime="2021-07-18T19:34:19+08:00">2021-07-18</time>
+              <time title="创建时间：2021-07-18 19:34:19" itemprop="dateCreated datePublished" datetime="2021-07-18T19:34:19+08:00">2021-07-18</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-07-19 14:54:35" itemprop="dateModified" datetime="2021-07-19T14:54:35+08:00">2021-07-19</time>
               
             
           </span>
@@ -498,10 +512,21 @@
       
         <p>本文认为视频描述模型分两步：</p>
 <p> 1) first link the image modality to the text modality.</p>
-<p>2) generate a semanti- cally and grammatically correct descriptive sentence based on such textual guided visual information.</p>
+<p>2) generate a semantically and grammatically correct descriptive sentence based on such textual guided visual information.</p>
 <p>但是 目前的captioning models将这两步都融合在一个模块中，即decoder。由于视觉和语言领域之间的巨大差异，这类模型中的解码器必须将其大部分能力用于执行步骤1），从而分散注意力，无法高质量地完成步骤2）。</p>
 <p>因此，本文conduct the step 1) in the encoder by enriching image features with textual concepts. Specifically, we provide complete semantics information for the image features. In implementations, our approach consists of a Textual Distilling Module (TDM) and a Textual Association Module (TAM).</p>
-<p>The TDM focuses on distilling textual concepts to the corresponding visual objects. Since the textual concepts are single words and only represent a fraction of a semantics, we further introduce the TAM to group related concepts to form a complete semantics.</p>
+<p>The TDM focuses on distilling textual concepts to the corresponding visual objects. Since the textual concepts are single words and only represent a fraction of a semantics, we further introduce the TAM to group related concepts to form a complete semantics. For instance, we group three separated concepts “woman”, “tennis” and “playing” into a phrase “woman playing tennis”. </p>
+<blockquote>
+<p>yaya: 所以<font color="blue"><strong>其实TAM的提出完全是因为TDM存在不足</strong></font>。这恰恰也是本文的缺陷。因为即便TAM把相关的概念组合到一起，也存在失误的问题，毕竟没有显式的监督。</p>
+</blockquote>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p><img src="https://i.loli.net/2021/07/19/MygTjfGBRxeCt9W.png" alt="image-20210719123527662"></p>
+<h4 id="Image-Encoder-and-Concept-Extractor"><a href="#Image-Encoder-and-Concept-Extractor" class="headerlink" title="Image Encoder and Concept Extractor"></a>Image Encoder and Concept Extractor</h4><p>对于图像特征，使用在VIsual-Genome上预训练的 Region-CNN model （Bottom-Up and Top-Down）.</p>
+<p>对于 textual concepts, 使用 弱监督多示例学习方法： From Captions to Visual Concepts and Back。具体而言，是在MS-COCO caption 数据集上的1000个视觉概念上训练的。提取的视觉概念包括 objects, attributes, 和 relationships。对于每张图片，提取20个文本概念， 集合 $T=\left\{w_{1}, w_{2}, \ldots, w_{m}\right\} \in \mathbb{R}^{m \times e}$ where $w_{i} \in \mathbb{R}^{e}$ refers to the embedding of the $i^{t h}$ concept.</p>
+<h3 id="Textual-Distilling-Module"><a href="#Textual-Distilling-Module" class="headerlink" title="Textual Distilling Module"></a>Textual Distilling Module</h3><p>使用注意力机制来选择与图像最相关的 top-K 文本概念。</p>
+<blockquote>
+<p>yaya: 其实没有必要，毕竟上一步提取到的textual concepts 就是与该图像最相关的内容。而且说是叫蒸馏，也没有任何蒸馏的操作!!!</p>
+</blockquote>
+<h3 id><a href="#" class="headerlink" title=" "></a> </h3><h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><p>整体比较水，但是写作水平比较好。</p>
 
       
     </div>
@@ -594,8 +619,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -845,6 +879,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Method"><span class="nav-number">1.</span> <span class="nav-text">Method</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Image-Encoder-and-Concept-Extractor"><span class="nav-number">1.0.1.</span> <span class="nav-text">Image Encoder and Concept Extractor</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Textual-Distilling-Module"><span class="nav-number">1.1.</span> <span class="nav-text">Textual Distilling Module</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#null"><span class="nav-number">1.2.</span> <span class="nav-text"> </span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#yaya"><span class="nav-number">2.</span> <span class="nav-text">yaya</span></a></li></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
