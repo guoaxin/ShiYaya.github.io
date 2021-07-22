@@ -110,7 +110,7 @@
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1ghbdj6x0ruj30m402haa0.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1ghbdt8khggj31cg0mw4i2.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/006uWRWVly1ghbe0h10qcj30pt0avmy9.jpg">
-<meta property="og:updated_time" content="2020-08-01T08:35:13.103Z">
+<meta property="og:updated_time" content="2021-07-19T08:03:57.363Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Bridging by Word Image Grounded Vocabulary Construction for Visual Captioning">
 <meta name="twitter:description" content="Abstract当前 普遍使用的 CNN-RNN 策略，基于整个 training dataset构建 vocabulary，但是，这会导致生成的句子中的 N-grams 也是在训练集中常见的，但是语义上却与given image 无关。 为了解决这个问题，本文提出了构建一个 image-grounded vocabulary。具体地，提出了一个 two-step approach，通过结合 vi">
@@ -305,7 +305,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">266</span></a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">269</span></a>
 
   </li>
 
@@ -429,12 +429,24 @@
                 
               
 
-              <time title="创建时间：2020-08-01 16:34:04 / 修改时间：16:35:13" itemprop="dateCreated datePublished" datetime="2020-08-01T16:34:04+08:00">2020-08-01</time>
+              <time title="创建时间：2020-08-01 16:34:04" itemprop="dateCreated datePublished" datetime="2020-08-01T16:34:04+08:00">2020-08-01</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2021-07-19 16:03:57" itemprop="dateModified" datetime="2021-07-19T16:03:57+08:00">2021-07-19</time>
               
             
           </span>
@@ -525,7 +537,7 @@
 </li>
 </ul>
 <p>本文挑选 top k words 来构成 <strong style="color:red;">the image-grounded vocabulary ($W_i$) </strong>for given image.</p>
-<h4 id="Text-Generation-with-Vocabulary-Constraints"><a href="#Text-Generation-with-Vocabulary-Constraints" class="headerlink" title="Text Generation with Vocabulary Constraints"></a>Text Generation with Vocabulary Constraints</h4><p>提出了两个不同的策略来利用 the image-grounded vocab-ulary $W_i$ 和 word relevance distribution  $S_i^{(V)}$ : 一种，使用$W_i$ 作为 hard constraint; 另一种，聚合每个单词的相关性到 RNN cell 来生成 caption.</p>
+<h4 id="Text-Generation-with-Vocabulary-Constraints"><a href="#Text-Generation-with-Vocabulary-Constraints" class="headerlink" title="Text Generation with Vocabulary Constraints"></a>Text Generation with Vocabulary Constraints</h4><p>提出了两个不同的策略来利用 the image-grounded vocabulary $W_i$ 和 word relevance distribution  $S_i^{(V)}$ : 一种，使用$W_i$ 作为 hard constraint; 另一种，聚合每个单词的相关性到 RNN cell 来生成 caption.</p>
 <p><strong>Generator with Hard Constraint</strong></p>
 <p>正常的方法，是生成 full vocab 的 概率分布，然后取 argmax。</p>
 <p>但是在 hard constraint 下，生成 $W_i$ 的概率分布，再取 argmax。</p>
@@ -658,7 +670,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">266</span>
+                    <span class="site-state-item-count">269</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>

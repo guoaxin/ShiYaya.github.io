@@ -2,6 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://yoursite.com/2021/07/22/Show-Edit-and-Tell-A-Framework-for-Editing-Image-Captions/</loc>
+    
+    <lastmod>2021-07-22T08:59:32.257Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/07/20/Align-before-Fuse-Vision-and-Language-Representation-Learning-with-Momentum-Distillation/</loc>
+    
+    <lastmod>2021-07-20T11:52:26.853Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2021/07/19/Learning-Semantic-Concepts-and-Temporal-Alignment-for-Narrated-Video-Procedural-Captioning/</loc>
+    
+    <lastmod>2021-07-19T09:40:53.559Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite.com/2020/08/01/Bridging-by-Word-Image-Grounded-Vocabulary-Construction-for-Visual-Captioning/</loc>
+    
+    <lastmod>2021-07-19T08:03:57.363Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite.com/2021/07/18/Bridging-the-Gap-between-Vision-and-Language-Domains-for-Improved-Image-Captioning/</loc>
     
     <lastmod>2021-07-19T06:54:35.519Z</lastmod>
@@ -817,13 +845,6 @@
     <loc>http://yoursite.com/2020/01/15/TIGEr-Text-to-Image-Grounding-for-Image-Caption-Evaluation/</loc>
     
     <lastmod>2020-08-02T12:53:28.070Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite.com/2020/08/01/Bridging-by-Word-Image-Grounded-Vocabulary-Construction-for-Visual-Captioning/</loc>
-    
-    <lastmod>2020-08-01T08:35:13.103Z</lastmod>
     
   </url>
   
