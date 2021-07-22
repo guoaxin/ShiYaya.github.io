@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-07-22T08:59:32.257Z</updated>
+  <updated>2021-07-22T11:01:55.035Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Informative Image Captioning with External Sources of Information</title>
+    <link href="http://yoursite.com/2021/07/22/Informative-Image-Captioning-with-External-Sources-of-Information/"/>
+    <id>http://yoursite.com/2021/07/22/Informative-Image-Captioning-with-External-Sources-of-Information/</id>
+    <published>2021-07-22T09:08:59.000Z</published>
+    <updated>2021-07-22T11:01:55.035Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="1-当前存在的问题"><a href="#1-当前存在的问题" class="headerlink" title="1. 当前存在的问题"></a>1. 当前存在的问题</h2><p>一个图像caption应该流畅地呈现出给定图像中的重要信息，包括信息丰富的、细粒度的实体和这些实体的互动方式。 然而，目前的caption模型通常被训练成生成的caption只包含常见物体名称，因此在 “信息量 “这个维度上有所欠缺。 </p><h2 id="2-本文方法简介"><a href="#2-本文方法简介" class="headerlink" title="2. 本文方法简介"></a>2. 本文方法简介</h2><p>我们提出了一种机制，将图像信息与细粒度的标签（假定由一些上游模型生成）整合到caption中，从而以一种流畅和信息丰富的方式描述图像。 我们介绍了一个基于Transformer的多模态、多编码器模型，它同时摄取了图像特征和实体标签的多个来源。 我们证明，我们可以学习控制这些实体标签在输出caption中的出现，从而产生既流畅又有信息的caption。</p><ol><li>一个多编码器模型结构，并与一个多门 (multi gate) 解码器配对，将基于图像的信息与细粒度的实体信息结合起来，使我们能够生成实体丰富的标题 </li><li>一个覆盖率控制机制，使我们能够学习如何在生成的标题中控制细粒度实体的出现。</li></ol><h2 id="3-新颖性"><a href="#3-新颖性" class="headerlink" title="3. 新颖性"></a>3. 新颖性</h2><p>在数据准备和模型方面都是新颖的。 对于数据，我们在网络规模层面进行操作，使用 Conceptual Captions（330万张图片）的细粒度注释。 对于模型，我们设计了一个框架，它扩展了Transformer网络并允许对多种多模态输入信号进行原则性的整合。 </p><h2 id="4-Data-Preparation"><a href="#4-Data-Preparation" class="headerlink" title="4. Data Preparation"></a>4. Data Preparation</h2><p>这一阶段的目标是获得标注数据，其中包含（i）实体信息丰富的caption（ii）使用细粒度的标签检测器对每张图片的相关实体进行检测。 本文在 Conceptual Captions数据集上进行构造。</p><p>在<strong>原始的</strong> Conceptual Captions 数据集中，将Alt-text中细粒度的实体替换为相应的超关键词（例如，”Los Angeles “被替换为 “city”）来获得 GT caption。 虽然这使得caption更容易被学习，但却导致了严重的信息损失。 </p><p>为了实现上述目标（i），我们重新处理了 Conceptual Captions 中的URLs，并将混合词重新映射到其相应的细粒度实体（例如，将 “城市 “映射到 “洛杉矶”），使用周围的文本作为锚。</p><h3 id="4-1-Fine-grained-Image-Labels"><a href="#4-1-Fine-grained-Image-Labels" class="headerlink" title="4.1 Fine-grained Image Labels"></a>4.1 Fine-grained Image Labels</h3><p>为了实现上述目标(ii)，我们采用预训练的模型从输入图像中提取 (1)<strong>物体检测标签</strong>和 (2)使用谷歌云视觉API获取<strong>网络实体标签</strong>。</p><p>物体标签指的是细粒度的普通物体（例如，”桉树 “和 “轿车”）。 另一方面，网络实体标签是指细粒度的命名实体（例如，”洛杉矶 “和 “丰田”）。 除了图像像素外，这些标签也是输入，在训练过程中，模型需要学习这些标签和GT caption 中相应的细粒度实体之间的映射。</p><h3 id="4-2-Selective-Hypernym-Substitution"><a href="#4-2-Selective-Hypernym-Substitution" class="headerlink" title="4.2 Selective Hypernym Substitution"></a>4.2 Selective Hypernym Substitution</h3><p>blabla， 看原文吧，其实即便不看，也不是很影响对论文的理解。</p><h2 id="5-Model"><a href="#5-Model" class="headerlink" title="5. Model"></a>5. Model</h2><h3 id="5-1-Multi-Encoder-Transformer"><a href="#5-1-Multi-Encoder-Transformer" class="headerlink" title="5.1 Multi-Encoder Transformer"></a>5.1 Multi-Encoder Transformer</h3><p>我们引入了一个 multi-encoder extension to Transformer Networks，用于处理我们的多模态输入。 图像特征、对象标签和网络实体标签 (下图). Transformer编码器中的自我注意层有助于在其他标签的文本中学习标签表征。</p><p><img src="https://i.loli.net/2021/07/22/6p4sm2GLocdYjDV.png" alt="image-20210722183719980" style="zoom: 67%;"></p><p>网络结构中，分别为 image, object label, Web Entity Label, 使用 transformer 作为encoder.</p><h3 id="5-2-Multi-gated-Transformer-Decoder"><a href="#5-2-Multi-gated-Transformer-Decoder" class="headerlink" title="5.2 Multi-gated Transformer Decoder"></a>5.2 Multi-gated Transformer Decoder</h3><p>为了适应输入端的 multi-encoder 架构，我们提出了对Transformer decoder 的多门 (multi-gated) 扩展。 像往常一样，这个解码器是一个由K个相同层组成的堆栈，其中每个层有3个子层。 一个自我注意层，一个编码器注意层，和一个全连接前馈层。 在3个子层中，我们通过引入一种机制，将来自不同编码器的信息结合起来，对编码器-注意力子层进行修改。</p><p>yaya: 没啥，就是设计了一个 gate, 来分配给每个输入源的权重。</p><h3 id="5-3-Label-Coverage-Control"><a href="#5-3-Label-Coverage-Control" class="headerlink" title="5.3 Label Coverage Control"></a>5.3 Label Coverage Control</h3><p>由于图像输入和标签输入之间的不对称性，我们引入了一个机制来控制所提供的物体标签和网络实体标签在生成的caption中的覆盖率。 该机制由两部分组成。 (i) 两个回归器模型，学习将输入标签（一个用于object，一个用于网络实体）与输出内容相关联的覆盖分数，以及(ii) 两个控制 “旋钮”，允许我们在推理时指定所需的覆盖分数。 这种覆盖率控制机制受到 Label-Fine Tuning 模型 的启发，尽管它在这里被用来实现不同的目标。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;1-当前存在的问题&quot;&gt;&lt;a href=&quot;#1-当前存在的问题&quot; class=&quot;headerlink&quot; title=&quot;1. 当前存在的问题&quot;&gt;&lt;/a&gt;1. 当前存在的问题&lt;/h2&gt;&lt;p&gt;一个图像caption应该流畅地呈现出给定图像中的重要信息，包括信息丰富的、细粒
+      
+    
+    </summary>
+    
+      <category term="图像描述" scheme="http://yoursite.com/categories/%E5%9B%BE%E5%83%8F%E6%8F%8F%E8%BF%B0/"/>
+    
+    
+      <category term="图像描述" scheme="http://yoursite.com/tags/%E5%9B%BE%E5%83%8F%E6%8F%8F%E8%BF%B0/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Show, Edit and Tell : A Framework for Editing Image Captions</title>
     <link href="http://yoursite.com/2021/07/22/Show-Edit-and-Tell-A-Framework-for-Editing-Image-Captions/"/>
     <id>http://yoursite.com/2021/07/22/Show-Edit-and-Tell-A-Framework-for-Editing-Image-Captions/</id>
     <published>2021-07-22T02:29:15.000Z</published>
-    <updated>2021-07-22T08:59:32.257Z</updated>
+    <updated>2021-07-22T08:59:46.311Z</updated>
     
     <content type="html"><![CDATA[<h2 id="yaya"><a href="#yaya" class="headerlink" title="yaya"></a>yaya</h2><ul><li><p>本文的范式与以往的captioning model 是不同的，以往的结构通常是输入image representation，然后转化为中间向量，进而生成预测的句子。但是本文是输入 image 和一个 existing caption, 然后根据图像信息对该existing caption 进行编辑（在每一步对caption 中的单词分配权重，然后选择权重最大的那一个，然后根据一个gate,来选择是直接复制，还是根据图片信息进行生成）。</p></li><li><p>那么问题来了，这个 existing caption是从哪里来的？？文章中说是，使用一个训练好的captioning  model( AoANet) 来生成的。其实它是基于一个base captioning model的。</p></li></ul><h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>大多数图像字幕框架直接从图像生成字幕，学习从视觉特征到自然语言的映射。但是，编辑现有字幕可能比从头开始生成新字幕更容易。直观地说，当编辑字幕时，模型不需要学习已经存在于字幕中的信息(即句子结构)，从而使其能够专注于固定细节(例如，替换重复的单词)。我们提出了一种基于对现有字幕的迭代适应性改进而不是从头开始生成字幕的新的图像字幕方法。具体地说，我们的字幕编辑模型由两个子模块组成：(1)EditNet，具有自适应复制机制(Copy-LSTM)和选择性复制记忆注意机制(SCMA)的语言模块；(2)DCNet，基于LSTM的去噪自动编码器。这些组件使我们的模型能够直接复制和修改现有字幕。实验表明，无论有无序列级训练，我们的新方法在MS Coco数据集上都取得了最好的性能。</p><h2 id="2-本文的模型如何编辑现有的图像标题？"><a href="#2-本文的模型如何编辑现有的图像标题？" class="headerlink" title="2. 本文的模型如何编辑现有的图像标题？"></a>2. 本文的模型如何编辑现有的图像标题？</h2><p>在字幕编辑过程的每个解码步骤中，都会从正在编辑的字幕中选择一个词，并将其相应的内存状态复制到LSTM的内部结构中（Copy-LSTM）。 这个Copy-LSTM包括一个单独的 selective copy attention mechanism (SCMA)，使它能够进一步编辑或复制现有的词到最终输出的caption。 </p><p><img src="https://i.loli.net/2021/07/22/RxUYkEIDNiwgzAu.png" alt="image-20210722103740692"></p><p>我们的字幕编辑模型由两个子模块组成：(1)EditNet， (2)DCNet.</p><h3 id="2-1-EditNet"><a href="#2-1-EditNet" class="headerlink" title="2.1 EditNet"></a>2.1 EditNet</h3><p>EditNet 存在两个模块，(1) a Selective Memory Attention Mechanism (SCMA) and (2) a Copy- LSTM decoder.</p><p>在每个解码步骤中，都会生成注意权重（图中的 $\alpha_{p}$​），这些权重对应于现有标题中每个单词的重要性。采用选择性复制记忆注意(SCMA)机制，我们选择概率最高的单词，并直接将其相应的LSTM内存状态复制到我们的语言Copy-LSTM中。也就是说，我们不是学习直接从输入标题中复制单词，而是学习是否复制与这些单词对应的记忆状态（图中Caption Encoder的 $c^{e}_{t}$）。</p><p>EditNet及其解码器（中间）表示，现有的标题首先使用单向LSTM编码，其中每个LSTM单元输出一个单词表示（h代表隐藏状态，c代表内存状态）。隐藏状态用于计算注意力权重，然后将其与内存状态一起传递给SCMA机制。SCMA选择单个内存状态并直接将其复制到Copy-LSTM中。<br>文本注意向量被门控删除不正确的词，然后作为输入传递到copy-LSTM以及视觉注意向量， EditNet配备了一个基于LSTM的降噪自动编码器，将现有字幕作为输入，并将其编码为压缩后的表示形式，然后将压缩的表示形式解码为其预期的输出。</p>]]></content>
     
@@ -454,31 +479,6 @@
       
       
         &lt;h2 id=&quot;来源&quot;&gt;&lt;a href=&quot;#来源&quot; class=&quot;headerlink&quot; title=&quot;来源&quot;&gt;&lt;/a&gt;来源&lt;/h2&gt;&lt;p&gt; &lt;a href=&quot;https://homes.cs.washington.edu/~jkasai/2020-01-28/nat/&quot; tar
-      
-    
-    </summary>
-    
-      <category term="NLP" scheme="http://yoursite.com/categories/NLP/"/>
-    
-    
-      <category term="NLP" scheme="http://yoursite.com/tags/NLP/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>The multimodality problem in NAT</title>
-    <link href="http://yoursite.com/2021/06/07/The-multimodality-problem-in-NAT/"/>
-    <id>http://yoursite.com/2021/06/07/The-multimodality-problem-in-NAT/</id>
-    <published>2021-06-07T02:40:43.000Z</published>
-    <updated>2021-06-12T08:57:41.913Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="multimodality-problem"><a href="#multimodality-problem" class="headerlink" title="multimodality problem"></a>multimodality problem</h2><p>非自回归神经机器翻译系统(NAT)通过打破自回归性，并行地生成所有目标词，大幅度地提高了推断速度。然而，现有的NAT模型由于<strong>多峰问题</strong>，与自回归神经网络机器翻译模型相比，翻译质量仍有很大差距。</p><p><strong><strong style="color:red;">什么是多峰问题</strong></strong>，举个简单的例子将汉语句子“干/得/好/！”翻译成英文，可以翻译成“Good job !”或者“Well done !”。由于<strong style="color:blue;">非自回归模型</strong>的条件独立性假设，推断时第一个词“Good”和“Well”的概率是差不多大的，如果第二个词“job”和“done”的概率也差不多大，会使得模型生成出“Good done !”或者“Well job !”这样错误的翻译。</p><h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>Learning to Recover from Multi-Modality Errors for Non-Autoregressive Neural Machine Translation</p><p>Syntactically Supervised Transformers for Faster Neural Machine Translation</p><p>ICML 2021 (Oral)：Order-Agnostic Cross Entropy for Non-Autoregressive Machine Translation</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;multimodality-problem&quot;&gt;&lt;a href=&quot;#multimodality-problem&quot; class=&quot;headerlink&quot; title=&quot;multimodality problem&quot;&gt;&lt;/a&gt;multimodality problem&lt;/
       
     
     </summary>
