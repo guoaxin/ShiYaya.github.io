@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2021-07-22T11:01:55.035Z</updated>
+  <updated>2021-08-03T04:20:05.775Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,72 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Pre-train, Prompt, and Predict: A Systematic Survey of Prompting Methods in Natural Language Processing</title>
+    <link href="http://yoursite.com/2021/08/03/Pre-train-Prompt-and-Predict-A-Systematic-Survey-of-Prompting-Methods-in-Natural-Language-Processing/"/>
+    <id>http://yoursite.com/2021/08/03/Pre-train-Prompt-and-Predict-A-Systematic-Survey-of-Prompting-Methods-in-Natural-Language-Processing/</id>
+    <published>2021-08-03T03:50:07.000Z</published>
+    <updated>2021-08-03T04:20:05.775Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>论文链接：</strong></p><p><a href="https://arxiv.org/abs/2107.13586" target="_blank" rel="noopener">https://arxiv.org/abs/2107.13586</a></p><p><strong>网站</strong></p><p><a href="http://pretrain.nlpedia.ai/" target="_blank" rel="noopener">http://pretrain.nlpedia.ai/</a></p><h2 id="1-概要"><a href="#1-概要" class="headerlink" title="1. 概要"></a>1. 概要</h2><p><strong>本文针对自然语言处理的新范式——我们称之为“prompt-based 学习”，进行了综述与组织。</strong></p><p>区别于传统的监督学习中训练模型接受输入 x 并将输出 y 预测为 P(y|x)，Prompt-based 学习基于直接对文本概率进行建模的语言模型。为了使用这些模型执行预测任务，使用模板将原始输入 x 修改为具有一些未填充槽的文本字符串 prompt  x’，然后使用语言模型对未填充信息进行概率填充以获得最终字符串 x ，从中可以导出最终输出 y。</p><p>这个框架强大且有吸引力的原因有很多：它允许语言模型在大量原始文本上进行预训练，并且通过定义一个新的 prompting 函数，模型能够执行少样本甚至零样本学习，可以适应很少或没有标记数据的新场景。</p><p>在本文中，我们介绍了这种有发展前途的范式的基础知识，描述了一组统一的数学符号，可以涵盖现有的很多工作；并沿多个维度组织现有工作，例如预训练模型的选择、prompt 和调整策略。为了让感兴趣的初学者更容易接触到该领域，我们不仅对现有工作以及基于 prompt 的概念的高度结构化类型进行了系统综述和，还发布了其他资源，在这个网站中包含了持续更新的综述以及论文列表：</p><p><a href="http://pretrain.nlpedia.ai/" target="_blank" rel="noopener">http://pretrain.nlpedia.ai/</a> </p><h2 id="2-引言"><a href="#2-引言" class="headerlink" title="2. 引言"></a>2. 引言</h2><p>第一次巨变是“pre-train and fine-tune” 范式，第二次巨变则是目前的 “pre-train, prompt, and predict”。如图，是 NLP 中的四种范式。</p><p><img src="https://i.loli.net/2021/08/03/lfiOhGqW3j1569m.png" alt="image-20210803115431247"></p><h2 id="3-Prompting-的正式描述"><a href="#3-Prompting-的正式描述" class="headerlink" title="3. Prompting 的正式描述"></a>3. Prompting 的正式描述</h2><p>在传统的 NLP 监督学习系统中，我们采用输入 x（通常是文本），并基于模型 $P(y|x;\theta)$ 预测输出 y。y 可以是标签、文本或其他各种输出。为了学习这个模型的参数 ，我们使用一个包含输入和输出对的数据集，并训练一个模型来预测这个条件概率。</p><p><font color="red">监督学习的主要问题是，为了训练模型$P(y|x;\theta)$​  ，必须有任务的监督数据，而对于许多任务来说，这些数据是无法大量获取的。</font> Prompt-based 学习方法试图通过学习一个语言模型（LM）来规避这个问题，该 LM 对文本 x 本身的概率 $P(x;\theta)$ 进行建模，并使用该概率来预测 y，从而减少或消除了对于大型监督数据集的需求。</p><p>在本节中，我们对最基本的提示形式进行了数学描述，其中包含许多有关 prompt 的工作，并且可以扩展以涵盖其他内容。具体来说，基本 prompt 分三步预测得分最高的 $\hat{y}$ 。分别为：</p><ul><li>prompt 添加：通过 $f_{prompt}(x)$将输入文本转化为一个 prompt</li><li>回答搜索：找到能将 LM 分数最大化的得分最高的文本 $\hat{z}$</li><li>回答mapping：通过得分最高的回答 $\hat{z}$​，得到得分最高的输出 $\hat{y}$</li></ul><p>如图所示，是 Prompt 方法的一些术语和符号表示。</p><p><img src="https://i.loli.net/2021/08/03/V1ktlPNzWHKbSwd.png" alt="image-20210803121153745"></p><h2 id="4-Prompting-设计过程中的注意事项"><a href="#4-Prompting-设计过程中的注意事项" class="headerlink" title="4. Prompting 设计过程中的注意事项"></a>4. Prompting 设计过程中的注意事项</h2><p>有了基本的数学公式后，还需要了解一些基本设计注意事项：</p><ul><li>预训练模型选择：有多种预训练 LM 可用于计算 $P(y|x;\theta)$。对于 Prompt 方法在效用维度存在差异。</li><li>Prompt 工程：鉴于 prompt 指定了任务，选择合适的 prompt 不仅对准确性有很大影响，而且对模型首先执行的任务也有很大影响；</li><li>回答工程：根据任务的不同，我们可能希望设计不同的 Z，可能与映射函数一起设计；</li><li>扩展范式：如上所述，上述等式仅代表已被提议用于执行此类 prompt 的各种基础框架中最简单的。还有一些扩展这种基本范式以进一步提高结果或适用性的方法；</li><li>基于 prompt 的训练策略：有训练参数的方法，包括 prompt 和 LM。</li></ul><h2 id="5-Prompt-方法分类"><a href="#5-Prompt-方法分类" class="headerlink" title="5. Prompt 方法分类"></a>5. Prompt 方法分类</h2><p><img src="https://i.loli.net/2021/08/03/Vic9PNBJg85zZXS.png" alt="640"></p><p><img src="https://i.loli.net/2021/08/03/2LQxD1MP6zqy9hj.png" alt="641"></p><h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6. 总结"></a>6. 总结</h2><p>在本文中，作者总结并分析了统计自然语言处理技术发展中的几个范式，并认为 Prompt-based 学习是一种很有前途的新范式，它可能代表着我们看待 NLP 方式的另一个重大变化。 </p><p>作者在原文中列出了详细的表格、实例甚至 timeline 以帮助读者更加直观地了解这一新范式，非常值得阅读原文。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;论文链接：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://arxiv.org/abs/2107.13586&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://arxiv.org/abs/2107.13586&lt;
+      
+    
+    </summary>
+    
+      <category term="NLP" scheme="http://yoursite.com/categories/NLP/"/>
+    
+    
+      <category term="NLP" scheme="http://yoursite.com/tags/NLP/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Multi-stage Pre-training over Simplified Multimodal Pre-training Models</title>
+    <link href="http://yoursite.com/2021/08/03/Multi-stage-Pre-training-over-Simplified-Multimodal-Pre-training-Models/"/>
+    <id>http://yoursite.com/2021/08/03/Multi-stage-Pre-training-over-Simplified-Multimodal-Pre-training-Models/</id>
+    <published>2021-08-03T02:09:50.000Z</published>
+    <updated>2021-08-03T02:09:50.445Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Towards General Purpose Vision Systems</title>
+    <link href="http://yoursite.com/2021/08/03/Towards-General-Purpose-Vision-Systems/"/>
+    <id>http://yoursite.com/2021/08/03/Towards-General-Purpose-Vision-Systems/</id>
+    <published>2021-08-03T01:54:33.000Z</published>
+    <updated>2021-08-03T01:58:04.520Z</updated>
+    
+    <content type="html"><![CDATA[<p>CODE: <a href="https://github.com/allenai/gpv-1" target="_blank" rel="noopener">https://github.com/allenai/gpv-1</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;CODE: &lt;a href=&quot;https://github.com/allenai/gpv-1&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/allenai/gpv-1&lt;/a&gt;&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+      <category term="cross-modal" scheme="http://yoursite.com/categories/cross-modal/"/>
+    
+    
+      <category term="cross-modal" scheme="http://yoursite.com/tags/cross-modal/"/>
+    
+  </entry>
   
   <entry>
     <title>Informative Image Captioning with External Sources of Information</title>
@@ -423,70 +489,6 @@
     
     
       <category term="cross-modal" scheme="http://yoursite.com/tags/cross-modal/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>UniT: Multimodal Multitask Learning with a Unified Transformer</title>
-    <link href="http://yoursite.com/2021/06/15/UniT-Multimodal-Multitask-Learning-with-a-Unified-Transformer/"/>
-    <id>http://yoursite.com/2021/06/15/UniT-Multimodal-Multitask-Learning-with-a-Unified-Transformer/</id>
-    <published>2021-06-15T04:56:08.000Z</published>
-    <updated>2021-06-16T02:22:02.690Z</updated>
-    
-    <content type="html"><![CDATA[<p>曾几何时，多模态预训练已经不是一个新的话题，各大顶会诸多论文仿佛搭上Visual和BERT，就能成功paper+=1，VisualBERT、ViLBERT层出不穷，傻傻分不清楚……这些年NLPer在跨界上忙活的不亦乐乎，提取视觉特征后和文本词向量一同输入到万能的Transformer中，加大力度预训练，总有意想不到的SOTA。</p><p>如何在多模态的语境中更细致准确地利用Transformer强大的表达能力呢？Facebook最新的 <strong><em>Transformer is All You Need</em></strong> 也许可以给你答案。</p><p><img src="https://i.loli.net/2021/06/15/7HAQCbFuxkGpOgt.png" alt="image-20210615125803091" style="zoom:67%;"></p><p>这篇貌似标题党的文章开宗明义，针对文本+视觉的多模态任务，用好Transformer就够了，与许多前作不同，这次提出的模型一个模型可以解决多个任务：目标检测、自然语言理解、视觉问答，各个模型板块各司其职、条理清晰：<strong>视觉编码器</strong>、<strong>文本编码器</strong>、<strong>特征融合解码器</strong>，都是建立在多层Transformer之上，最后添加为每个任务设计的<strong>处理器</strong>，通过多任务训练，一举刷新了多个任务的榜单。</p><p><strong>论文题目</strong>:<br><strong><em>Transformer is All You Need: Multimodal Multitask Learning with a Unified Transformer</em></strong></p><p><strong>论文链接</strong>:<br><em><a href="https://arxiv.org/pdf/2102.10772.pdf" target="_blank" rel="noopener">https://arxiv.org/pdf/2102.10772.pdf</a></em></p><p><img src="https://i.loli.net/2021/06/15/EXpkQu8UT67eYrn.png" alt="image-20210615125848323" style="zoom: 67%;"></p><h2 id="文本编码器"><a href="#文本编码器" class="headerlink" title="文本编码器"></a>文本编码器</h2><p>用Transformer提取文本特征是个老生常谈的问题，从BERT石破天惊开始，纯文本领域近乎已被Transformer蚕食殆尽，所以该文也不能免俗，直接借用BERT的结构提取文本内容，区别在于，为了解决多个任务，在文本序列前添加了一个针对不同任务的参数向量，在最后输出隐藏状态到解码器时再去掉。</p><p><img src="https://i.loli.net/2021/06/15/l5z9uxCfsK3iEkD.png" alt="image-20210615125939485" style="zoom:50%;"></p><h2 id="视觉编码器"><a href="#视觉编码器" class="headerlink" title="视觉编码器"></a>视觉编码器</h2><p>本文将Transformer强大的表达能力运用到视觉特征的提取中，由于图片像素点数量巨大，首先通过基于卷积神经网络的ResNet-50提取卷积特征，极大程度上地降低了特征数量，最终得到的feature map大小为，然后用全联接层调整单个特征的维度到，再利用多层Transformer中的注意力机制提取各个feature之间的关系，由于Transformer的输入是序列，文章将拉成一条长为的序列，另外和文本编码器类似，同样添加了与下游任务相关的。</p><p><img src="https://i.loli.net/2021/06/15/8s9PnX7Zgz3piNS.png" alt="image-20210615130014598" style="zoom:67%;"></p><p>其中是调整维度的全联接层，是多层Transformer编码器。</p><h2 id="模态融合解码器"><a href="#模态融合解码器" class="headerlink" title="模态融合解码器"></a>模态融合解码器</h2><p>多模态的关键之一就在于怎么同时利用多个模态，在本文中是通过Transformer的解码器实现的，这个解码器首先将任务相关的query做self-attention，再将结果与文本编码器和视觉编码器的结果做cross-attention，针对单一模态的任务，选取对应编码器的输出即可，针对多模态的任务，取两个编码器输出的拼接。</p><p><img src="https://i.loli.net/2021/06/15/TJHRK84Ppv9jzYU.png" alt="image-20210615130046055" style="zoom:50%;"></p><h2 id="任务处理器-task-specific-output-head"><a href="#任务处理器-task-specific-output-head" class="headerlink" title="任务处理器(task-specific output head)"></a>任务处理器(task-specific output head)</h2><p>之前多模态预训练模型往往只针对某一项任务，而本文提出的一个模型可以解决多个文本+视觉任务，与BERT可以解决多个文本任务类似，本文的模型在模态融合解码器的结果上添加为每个任务设计的处理器，这个处理器相对简单，用于从隐藏状态中提取出与特定任务相匹配的特征。</p><ul><li><strong>目标检测</strong>：添加box_head和class_head两个前馈神经网络从最后一层隐藏状态中提取特征用来确定目标位置和预测目标类型。</li></ul><p><img src="https://i.loli.net/2021/06/15/jZhuaekyDWdP46w.png" alt="image-20210615130137970"></p><ul><li><strong>自然语言理解、视觉问答</strong>：通过基于全联接层的分类模型实现，将模态融合解码器结果的第一位隐藏状态输入到两层全联接层并以GeLU作为激活函数，最后计算交叉熵损失。</li></ul><p><img src="https://i.loli.net/2021/06/15/kCJYopFwB7MKRE4.png" alt="image-20210615130146288"></p><h2 id="实验与总结"><a href="#实验与总结" class="headerlink" title="实验与总结"></a>实验与总结</h2><p>本文提出的多模态预训练模型各个板块划分明确，通过多层Transformer分别提取特征，再利用解码器机制融合特征并完成下游任务，同时借助最后一层任务相关的处理器，可以通过一个模型解决多个任务，同时也让多任务预训练成为可能，并在实验中的各个数据集上得到了论文主要进行了两部分实验：</p><h3 id="多任务学习："><a href="#多任务学习：" class="headerlink" title="多任务学习："></a>多任务学习：</h3><p>这里的多任务涉及目标检测和视觉问答两个任务，在目标检测上运用COCO和VG两个数据集，在视觉问答上运用VQAv2数据集。对比了单一任务和多任务同时训练的结果，同时对比了不同任务共用解码器的结果。</p><p><img src="C:\Users\shiyaya\AppData\Roaming\Typora\typora-user-images\image-20210615130353457.png" alt="image-20210615130353457"></p><p>从结果中我们可以看出，单纯的使用多任务训练并不一定可以提高结果，不同任务间虽然相关但是却不完全相同，这可能是任务本身差异或者数据集的特性所导致，第二行和第五行可以很明显地看出COCO上的目标检测和VQAv2的视觉问答相结合后，结果有显著的下降，然而VG上的目标检测却能够和视觉问答很好地结合，通过三个数据集上的共同训练，可以得到最高的结果。</p><h3 id="多模态学习："><a href="#多模态学习：" class="headerlink" title="多模态学习："></a>多模态学习：</h3><p>这一实验中，为了体现所提出模型能够有效解决多个多种模态的不同任务，论文作者在之前COCO、VG、VQAv2的基础上，增加了单一文本任务GLUE的几个数据集（QNLI、QQP、MNLI、SST-2）和视觉推断数据集SNLI-VE，从数据集的数量上可以看出本文模型的全能性。与本文对比的有纯文本的BERT、基于Transformer的视觉模型DETR、多模态预训练模型VisualBERT。</p><p><img src="https://i.loli.net/2021/06/15/hSUibrVRlXz8KF2.png" alt="image-20210615130226872"></p><p>仔细看各个数据集上的结果，不难看出本文提出的模型其实并不能在所有数据集多上刷出SOTA，比如COCO上逊色于DETR，SNLI-VE逊色于VisualBERT，SST-2逊色于BERT，其他数据集上都有一定的提高，但是模型却胜在一个“全”字，模型的结构十分清晰明了，各个板块的作用十分明确，同时针对不同任务的处理器也对后续多模态任务富有启发性。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;曾几何时，多模态预训练已经不是一个新的话题，各大顶会诸多论文仿佛搭上Visual和BERT，就能成功paper+=1，VisualBERT、ViLBERT层出不穷，傻傻分不清楚……这些年NLPer在跨界上忙活的不亦乐乎，提取视觉特征后和文本词向量一同输入到万能的Transf
-      
-    
-    </summary>
-    
-      <category term="cross-modal" scheme="http://yoursite.com/categories/cross-modal/"/>
-    
-    
-      <category term="cross-modal" scheme="http://yoursite.com/tags/cross-modal/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SimCSE: Simple Contrastive Learning of Sentence Embeddings</title>
-    <link href="http://yoursite.com/2021/06/11/SimCSE-Simple-Contrastive-Learning-of-Sentence-Embeddings/"/>
-    <id>http://yoursite.com/2021/06/11/SimCSE-Simple-Contrastive-Learning-of-Sentence-Embeddings/</id>
-    <published>2021-06-11T02:50:57.000Z</published>
-    <updated>2021-06-11T02:50:57.626Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Non-Autoregressive Neural Machine Translation</title>
-    <link href="http://yoursite.com/2021/06/07/Non-Autoregressive-Neural-Machine-Translation/"/>
-    <id>http://yoursite.com/2021/06/07/Non-Autoregressive-Neural-Machine-Translation/</id>
-    <published>2021-06-07T02:50:12.000Z</published>
-    <updated>2021-06-12T03:44:40.846Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h2><p> <a href="https://homes.cs.washington.edu/~jkasai/2020-01-28/nat/" target="_blank" rel="noopener">https://homes.cs.washington.edu/~jkasai/2020-01-28/nat/</a></p><p>翻译版：<a href="https://zhuanlan.zhihu.com/p/110794460" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/110794460</a></p><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>本篇博客针对当前使用<strong>非自回归</strong>方式处理<strong>机器翻译</strong>任务的相关论文进行总结。</p><h2 id="为什么要进行非自回归机器翻译？"><a href="#为什么要进行非自回归机器翻译？" class="headerlink" title="为什么要进行非自回归机器翻译？"></a>为什么要进行非自回归机器翻译？</h2><p>最近的一系列工作提出了非自回归机器翻译的方法 (NAT, <a href="https://arxiv.org/abs/1711.02281" target="_blank" rel="noopener">Gu et al. 2018</a>) 。NAT并行生成目标单词，这与标准自动回归翻译（AT）形成对比，后者可以预测以所有先前单词为条件的每个单词。虽然AT通常在相似配置下比NAT表现更好，但是NAT通过并行计算加快了推理速度。这种非自回归生成的一个非常成功的应用是Parallel WaveNet  (<a href="https://arxiv.org/abs/1711.10433" target="_blank" rel="noopener">Oord et al. 2017</a>)，将原始自回归Wavenet的速度提高了1000倍以上，并部署在了Google助手中。从NAT快速推断得到的收益可以允许在工业界的特定延迟和预算下部署更大，更深的Transformer模型。在这篇博客文章中，我将概述有关非自回归翻译的最新研究，并讨论我认为对进一步发展而言缺失或重要的内容。</p><h2 id="基本问题和可能的解决方法"><a href="#基本问题和可能的解决方法" class="headerlink" title="基本问题和可能的解决方法"></a>基本问题和可能的解决方法</h2><p>生成中的<a href="https://arxiv.org/abs/1711.02281" target="_blank" rel="noopener">多模式性(Multimodality)</a>对NAT提出了根本的挑战。我们都知道语言是高度多模态的(multimodal)。举一个小例子，英文句子<code>he is very good at Japanese</code>和<code>he speaks Japanese very well</code>是日语句子<code>彼は日本語が上手です</code>的两个有效译文。但是，看起很像的两个句子：<code>he speaks very good at Japanese</code>或<code>he is very good at very well</code>则没有任何意义。我们需要知道模型提交给它自己的两种可能的翻译是哪一种，但是在条件独立的解码中很难实现这一点。并行解码打破了条件依赖性，并经常导致输出不一致。文献中的一些工作已经提出解决NAT中Multimodality问题的方法。在这里，我对提出的方法进行了概括和分类。</p><h3 id="1-基于迭代（Iteration-based）的方法"><a href="#1-基于迭代（Iteration-based）的方法" class="headerlink" title="1. 基于迭代（Iteration-based）的方法"></a>1. 基于迭代（Iteration-based）<strong>的方法</strong></h3><p>解决并行解码问题的一种方法是迭代地优化模型输出(<a href="https://arxiv.org/abs/1802.06901" target="_blank" rel="noopener">Lee et al., 2018</a>; <a href="https://arxiv.org/abs/1904.09324" target="_blank" rel="noopener">Ghazvininejad et al., 2019</a>; <a href="https://homes.cs.washington.edu/~jkasai/2020-01-28/nat/Ghazvininejad et al., 2019" target="_blank" rel="noopener">Gu et al. 2019</a>; <a href="https://arxiv.org/pdf/2001.05136.pdf" target="_blank" rel="noopener">Kasai et al. 2020</a>)。在此框架中，我们放弃了完全可并行化的生成，而是在<strong>每次迭代中优化了先前生成的单词</strong>。由于通常我们所需的迭代次数比输出句子中单词的数量少得多，因此与自回归模型相比，迭代方法仍可以改善等待时间。这些论文均采用不同的方法进行细化，为了更清晰地理解，您可以参考<a href="https://arxiv.org/abs/1904.09324" target="_blank" rel="noopener">Ghazvininejad et al., 2019</a>  提出的一种典型的条件屏蔽语言模型（CMLM）。在给定源文本的情况下，使用目标端的BERT-style的掩蔽语言建模目标对CMLM进行训练，在推断中，我们Mask住<em>低置信度</em>的token，并在每次迭代中对其进行更新。 <a href="https://arxiv.org/pdf/2001.05136.pdf" target="_blank" rel="noopener">Kasai et al. 2020</a> 工作提出了DisCo Transformer，该Transformer可计算出这种掩盖语言建模MLM的有效替代方案。特别地，在给定其他reference token的任意子集的情况下，可以训练DisCo Transformer来预测每个输出token。可以将其视为一次模拟多个masking。我们证明了DisCo Transformer可以减少所需的迭代次数（从而减少解码时间），同时保持转换质量。</p><blockquote><p>[1] Deterministic Non-Autoregressive Neural Sequence Modeling by Iterative Refinement</p><p>[2] Mask-Predict: Parallel Decoding of Conditional Masked Language Models. Marjan Ghazvininejad, Omer Levy, Yinhan Liu, Luke Zettlemoyer</p><p>[3] Non-autoregressive Machine Translation with Disentangled Context Transformer. Jungo Kasai,  James Cross,  Marjan Ghazvininejad, Jiatao Gu</p></blockquote><h3 id="2-比NLL更好的训练目标"><a href="#2-比NLL更好的训练目标" class="headerlink" title="2. 比NLL更好的训练目标"></a>2. 比NLL更好的训练目标</h3><p>一些工作提出了对数负似然性NLL的替代损失函数。我的直觉是使用普通NLL损失进行训练无法捕捉高度多峰分布(multimodal distributions)的表征。这在某种程度上让人联想到生成对抗网络（GAN）中的对抗损失。在图像生成中，原始的L2重建损失将使模式崩溃并产生模糊的图像，当使用NLL损失训练NAT模型时，可能会发生类似情况。拟议的替代损失函数包括NAT模型与自回归教师之间的隐藏状态的距离(<a href="https://arxiv.org/abs/1909.06708" target="_blank" rel="noopener">Li et al. 2019</a>)，Ngram词袋差 (<a href="https://arxiv.org/pdf/1911.09320.pdf" target="_blank" rel="noopener">Shao et al. 2020</a>) 和辅助正则化 (<a href="https://arxiv.org/pdf/1902.10245.pdf" target="_blank" rel="noopener">Wang et al. 2019</a>). 。与基于迭代的方法相比，这一系列方法可以并行实现一次生成，但代价是性能大大降低。</p><h3 id="3-精简-部分的自回归解码"><a href="#3-精简-部分的自回归解码" class="headerlink" title="3. 精简/部分的自回归解码"></a>3. 精简/部分的自回归解码</h3><p>先前的工作还提出了将轻度或部分自回归模块整合到NAT模型中的方法。 <a href="https://arxiv.org/pdf/1803.03382.pdf" target="_blank" rel="noopener">Kaiser et al. 2018</a> 生成了较短序列的潜在变量，并在顶部进行了并行单词预测。Blockwise decoding和Insertion Transformer产生的局部自回归方式一个句子 (<a href="https://arxiv.org/abs/1811.03115" target="_blank" rel="noopener">Stern et al. 2018</a>, <a href="https://arxiv.org/abs/1902.03249" target="_blank" rel="noopener">2019</a>).  <a href="https://arxiv.org/abs/1910.11555" target="_blank" rel="noopener">Sun et al. 2019</a> 在变压器输出向量之上引入了factorized CRF层，并通过波束近似(beam approximation)进行了快速自回归解码。 <a href="https://arxiv.org/abs/1911.02215" target="_blank" rel="noopener">Ran et al. 2019</a> 引入了精简自回归源端重排序模块，以促进并行目标解码。请注意，他们还使用非自回归重排序模块显示了结果，但是性能却差得多。</p><h3 id="4-用潜在变量建模"><a href="#4-用潜在变量建模" class="headerlink" title="4. 用潜在变量建模"></a>4. 用潜在变量建模</h3><p>我们可以在此框架中解释许多模型。例如，可以将所有以预测长度(predicted length)为条件的NAT模型视为具有潜在变量的建模。但尤其是 <a href="https://arxiv.org/abs/1909.02480" target="_blank" rel="noopener">Ma et al. 2019</a>  使用生成流技术对目标句子的复杂分布进行建模。 <a href="https://arxiv.org/abs/1908.07181" target="_blank" rel="noopener">Shu et al. 2020</a> 开发出了具有确定性推论(deterministic inference)的连续潜在变量NAT模型。</p><h3 id="5-从自回归模型中蒸馏"><a href="#5-从自回归模型中蒸馏" class="headerlink" title="5. 从自回归模型中蒸馏"></a>5. 从自回归模型中蒸馏</h3><p>据我所知，几乎所有表现好的NAT模型都经过自回归模型 (e.g. <a href="https://arxiv.org/abs/1711.02281" target="_blank" rel="noopener">Gu et al. 2018</a>) 的序列级知识蒸馏(<a href="https://arxiv.org/abs/1606.07947" target="_blank" rel="noopener">Kim &amp; Rush 2016</a>）训练而成。虽然较大Transformer的蒸馏也有助于自回归机器翻译，尤其是在贪婪解码的情况下，但它的作用是是较大程度上简化NAT模型 (<a href="https://arxiv.org/pdf/2001.05136.pdf" target="_blank" rel="noopener">Kasai et al. 2020</a>)。 <a href="https://arxiv.org/abs/1911.02727" target="_blank" rel="noopener">Zhou et al. 2019</a> 研究了模型容量与蒸馏数据之间的关系，表明模型容量与蒸馏数据复杂性之间存在相关性。这表明知识蒸馏可以杀死原始数据中的某些模式，从而可以更好地训练NAT模型。</p><h2 id="悬而未决的问题和未来目标"><a href="#悬而未决的问题和未来目标" class="headerlink" title="悬而未决的问题和未来目标"></a>悬而未决的问题和未来目标</h2><p>在这里，我重点介绍了我个人好奇的非自回归机器翻译中的开放性问题。</p><ul><li><strong>我们需要蒸馏吗？</strong>蒸馏肯定是一次性的训练成本，但是如果每次更改训练数据或语言对时都必须这样做，则蒸馏成本可能会很高。我们是否可以利用原始数据获得合理的性能？</li><li><strong>我们需要预测目标长度吗？</strong>我仍然发现目标长度预测很奇怪。当前的许多NAT方法都要求目标长度预测并且以这个预测的长度作为条件。虽然长度预测为我们提供了在潜在变量空间中进行搜索的机会，但长度预测会破坏生成的灵活性。</li><li><strong>NAT可以胜过AT吗？</strong>我们已经看到，在相同的配置下，AT的性能通常优于NAT。但是，NAT可以做得更好吗？或者更实际的说，在相同的延迟预算下，NAT是否能明显胜过AT？NAT可以使用更大的配置。</li><li><strong>预训练和NAT。</strong>在非自回归机器翻译中使用大规模预训练的掩蔽语言模型MLM可能比在自回归翻译中使用更容易。NAT中的解码器（例如条件屏蔽语言模型）看起来更像BERT。</li><li><strong>训练和推理中的隔阂(bridge)。</strong>在迭代NAT框架中，<strong><strong style="color:red;">训练和推理之间经常会出现差距</strong></strong>。For example, a conditional language model (CMLM) is trained to predict masked tokens given the other <strong>gold</strong> observed tokens. 最近一项成功的尝试是对CMLM进行SMART训练 (<a href="https://arxiv.org/abs/2001.08785" target="_blank" rel="noopener">Ghazvininejad et al. 2020</a>) ，他们训练模型以从先前的预测误差中恢复。这种方法可普及到基于迭代的NAT。</li><li><strong>向结构化预测学习。</strong>NLP中已经在结构化预测（例如语法和语义解析）方面投入了很多精力。我们可以从结构化预测的方法中学习以更好地处理生成中的条件依赖性吗？训练和推理之间的上述差距是句法分析中研究的一个问题 (e.g. dynamic oracle, <a href="https://www.aclweb.org/anthology/C12-1059/" target="_blank" rel="noopener">Goldberg &amp; Nivre 2012</a>)。我怀疑从结构化预测中还会吸取更多教训。</li></ul><h2 id="ACL-2021"><a href="#ACL-2021" class="headerlink" title="ACL 2021"></a>ACL 2021</h2><p>【ACL findings】Progressive Multi-Granularity Training for Non-Autoregressive  Translation<br><strong>标题</strong>：非自回归翻译的渐进式多粒度训练</p><h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://zhuanlan.zhihu.com/p/110794460" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/110794460</a></p><p><a href="https://homes.cs.washington.edu/~jkasai/2020-01-28/nat/" target="_blank" rel="noopener">https://homes.cs.washington.edu/~jkasai/2020-01-28/nat/</a></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;来源&quot;&gt;&lt;a href=&quot;#来源&quot; class=&quot;headerlink&quot; title=&quot;来源&quot;&gt;&lt;/a&gt;来源&lt;/h2&gt;&lt;p&gt; &lt;a href=&quot;https://homes.cs.washington.edu/~jkasai/2020-01-28/nat/&quot; tar
-      
-    
-    </summary>
-    
-      <category term="NLP" scheme="http://yoursite.com/categories/NLP/"/>
-    
-    
-      <category term="NLP" scheme="http://yoursite.com/tags/NLP/"/>
     
   </entry>
   
